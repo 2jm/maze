@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
-// Filename: main.cpp
+// Filename: Command.cpp
 //
-// Description: TODO
+// Description: Class representing a general command
 //
 // Authors: Jonas Juffinger 1531253
 //          Matthias Klotz  1530653
@@ -14,19 +14,21 @@
 // Last change: 18.03.2016
 //------------------------------------------------------------------------------
 
-#include <stdlib.h>
-#include <iostream>
+#include "Command.h"
+
 
 //------------------------------------------------------------------------------
-// main function
-// entry point for execution
-// @param argc argument count
-// @param **argv argument values
-// @return return value for the OS
-//
-int main(int argc, char **argv)
+Command::Command(std::string name) : command_name_(name)
 {
-  std::cout << "Hallo Welt" << std::endl;
+}
 
-  return EXIT_SUCCESS;
+//------------------------------------------------------------------------------
+Command::~Command()
+{
+}
+
+//------------------------------------------------------------------------------
+const std::string &Command::getName() const
+{
+  return command_name_;
 }
