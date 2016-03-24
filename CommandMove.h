@@ -11,7 +11,7 @@
 class CommandMove : public Command
 {
   public:
-    CommandMove() : Command("Move"){}
+    CommandMove() : Command("move"){}
     virtual ~CommandMove();
 
     //--------------------------------------------------------------------------

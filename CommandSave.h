@@ -11,6 +11,9 @@
 class CommandSave : public Command
 {
   public:
+    CommandSave() : Command("save"){}
+    virtual ~CommandSave();
+
     //--------------------------------------------------------------------------
     // Executes the command.
     // @param board The board where action should be performed on

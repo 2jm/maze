@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "CommandMove.h"
+#include "CommandQuit.h"
 
 using namespace std;
 
@@ -39,22 +40,28 @@ int main(int argc, char **argv)
 //    }
   }
 
+  CommandQuit cmdQuit;
+  CommandMove cmdMove;
+
   string line;
   while(true)
   {
     cout << "sep> "; //endl
     cin >> line;
     for (auto & c: line) c = tolower(c);
-    if(line == "quit")
+    if(line == cmdQuit.getName())
     {
-      break;
-    }
-    else if(line == "move")
-    {
-      CommandMove commandMove;
+      //break;
       Game game;
       vector<string> params;
-      int res = commandMove.execute(game, params);
+      int res = cmdQuit.execute(game, params);
+      break;
+    }
+    else if(line == cmdMove.getName())
+    {
+      Game game;
+      vector<string> params;
+      int res = cmdMove.execute(game, params);
     }
   }
 
