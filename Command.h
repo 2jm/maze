@@ -20,7 +20,17 @@
 #include <string>
 #include <vector>
 
-class Game;
+enum Direction{UP, RIGHT, DOWN, LEFT};
+
+class Game
+{
+  public:
+//    Map map;
+//Player player;
+int stepsLeft;
+//    GameState gameState;
+  void movePlayer(Direction direction);
+};
 
 class Command
 {

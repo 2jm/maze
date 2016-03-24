@@ -16,6 +16,9 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include "CommandMove.h"
+
+using namespace std;
 
 //------------------------------------------------------------------------------
 // main function
@@ -26,7 +29,34 @@
 //
 int main(int argc, char **argv)
 {
-  std::cout << "Hallo Welt" << std::endl;
+  //TODO: wichtig!!! Die Eingabe der Befehle (Commands) erfolgt case insensitive, Parameter (argv) sind case sensitive.
+
+  for(int i = 1; i < argc; i++)
+  {
+    cout << "Argv " << to_string(i) << ":" << string(argv[i]) << endl;
+//    if (string(argv[i]) == "-m") {
+//      break;
+//    }
+  }
+
+  string line;
+  while(true)
+  {
+    cout << "sep> "; //endl
+    cin >> line;
+    for (auto & c: line) c = tolower(c);
+    if(line == "quit")
+    {
+      break;
+    }
+    else if(line == "move")
+    {
+      CommandMove commandMove;
+      Game game;
+      vector<string> params;
+      int res = commandMove.execute(game, params);
+    }
+  }
 
   return EXIT_SUCCESS;
 }
