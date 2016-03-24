@@ -1,3 +1,6 @@
+# CLion settings
+.idea/maze.iml
+
 # Compiled Object files
 *.slo
 *.lo
