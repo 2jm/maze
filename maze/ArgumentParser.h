@@ -6,12 +6,14 @@
 #define MAZE_ARGUMENTPARSER_H
 
 
+#include "InvalidCommandLineArgumentException.h"
+
 class ArgumentParser
 {
   private:
 
   public:
-    void parse(int argc, char **argv);
+    void parse(int argc, const char **argv);
 };
 
 

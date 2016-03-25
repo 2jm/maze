@@ -4,7 +4,7 @@
 
 #include "ArgumentParser.h"
 
-void ArgumentParser::parse(int argc, char **argv)
+void ArgumentParser::parse(int argc, const char **argv)
 {
 /*  if (argc >= 2)
   {
