@@ -6,6 +6,7 @@
 #define MAZE_TILE_H
 
 #include "Vector2d.h"
+#include "Game.h"
 
 enum TileType
 {
@@ -34,7 +35,7 @@ class Tile
 
   public:
     Tile(TileType tiletype);
-    bool enter(Vector2d sourcePosition, Vector2d newPosition);
+    bool enter(Vector2d sourcePosition, Vector2d newPosition, Game &game);
 };
 
 
