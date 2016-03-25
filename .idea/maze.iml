@@ -2,24 +2,32 @@
 <module version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Command.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Command.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Vector2d.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Vector2d.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CommandSave.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CommandSave.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CommandMove.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CommandQuit.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CommandQuit.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CommandMove.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Command.cpp" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
-          <root url="file:///usr/include" />
-          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
           <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/include" />
           <root url="file:///usr/local/include" />
         </CLASSES>
         <SOURCES>
-          <root url="file:///usr/include" />
-          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
           <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/include" />
           <root url="file:///usr/local/include" />
         </SOURCES>
       </library>

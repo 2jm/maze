@@ -1,0 +1,12 @@
+1) Command Line Argumente, Error Handling, "Fastmove" Befehl, "Reset" Befehl
+---------------------
+2) Input/Befehle parsen, "load" Befehl + Validierung, "show" Befehl
+---------------------
+3) "move" Befehl, Spiellogik alle Felder, "save" Befehl
+
+
+1) Argument Parser, Maze, Game
+
+2) CommandLineInterface, Matrix, Map
+
+3) Player, Tile..., 
