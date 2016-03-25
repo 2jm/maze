@@ -6,7 +6,7 @@
 #include <ArgumentParser.h>
 #include "gtest/gtest.h"
 
-TEST(ArgumentParserTest, test_correct1)
+TEST(ArgumentParserTest, test_valid_1)
 {
   Game game;
   ArgumentParser a(game);
@@ -19,7 +19,7 @@ TEST(ArgumentParserTest, test_correct1)
 }
 
 
-TEST(ArgumentParserTest, test_correct2)
+TEST(ArgumentParserTest, test_valid_2)
 {
   Game game;
   ArgumentParser a(game);
@@ -36,7 +36,7 @@ TEST(ArgumentParserTest, test_correct2)
 }
 
 
-TEST(ArgumentParserTest, unknow_argument1)
+TEST(ArgumentParserTest, unknow_argument_1)
 {
   Game game;
   ArgumentParser a(game);
@@ -51,7 +51,7 @@ TEST(ArgumentParserTest, unknow_argument1)
 }
 
 
-TEST(ArgumentParserTest, unknow_argument2)
+TEST(ArgumentParserTest, unknow_argument_2)
 {
   Game game;
   ArgumentParser a(game);
@@ -67,7 +67,7 @@ TEST(ArgumentParserTest, unknow_argument2)
 }
 
 
-TEST(ArgumentParserTest, unknow_argument3)
+TEST(ArgumentParserTest, unknow_argument_3)
 {
   Game game;
   ArgumentParser a(game);
@@ -84,7 +84,7 @@ TEST(ArgumentParserTest, unknow_argument3)
 }
 
 
-TEST(ArgumentParserTest, not_enough_arguments1)
+TEST(ArgumentParserTest, not_enough_arguments_1)
 {
   Game game;
   ArgumentParser a(game);
@@ -99,7 +99,7 @@ TEST(ArgumentParserTest, not_enough_arguments1)
 }
 
 
-TEST(ArgumentParserTest, not_enough_arguments2)
+TEST(ArgumentParserTest, not_enough_arguments_2)
 {
   Game game;
   ArgumentParser a(game);
@@ -116,7 +116,7 @@ TEST(ArgumentParserTest, not_enough_arguments2)
 }
 
 
-TEST(ArgumentParserTest, not_enough_arguments3)
+TEST(ArgumentParserTest, not_enough_arguments_3)
 {
   Game game;
   ArgumentParser a(game);
@@ -133,7 +133,7 @@ TEST(ArgumentParserTest, not_enough_arguments3)
 }
 
 
-TEST(ArgumentParserTest, invalid_argument)
+TEST(ArgumentParserTest, invalid_argument_1)
 {
   Game game;
   ArgumentParser a(game);
@@ -149,7 +149,7 @@ TEST(ArgumentParserTest, invalid_argument)
 }
 
 
-TEST(ArgumentParserTest, invalid_argument2)
+TEST(ArgumentParserTest, invalid_argument_2)
 {
   Game game;
   ArgumentParser a(game);

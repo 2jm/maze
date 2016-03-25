@@ -2,7 +2,7 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES CommandLineInterpreterTests.cpp ArgumentParserTests.cpp)
+set(SOURCE_FILES CommandLineInterpreterTests.cpp ArgumentParserTests.cpp GameTests.cpp)
 
 add_executable(runMazeTests ${SOURCE_FILES})
 

@@ -3,6 +3,7 @@
 //
 
 #include "Game.h"
+#include "FileLoadException.h"
 #include <iostream>
 #include <fstream>
 
@@ -26,18 +27,40 @@ void Game::loadFile(std::string file_name)
 
   if(input_file.fail())
   {
-    // todo throw exception
-    std::cout << "[ERR] File could not be opened.\n" << std::endl;
+    throw FileLoadException(FileLoadException::COULD_NOT_BE_OPENED);
   }
 
   std::getline(input_file, saved_moves);
+
+
   std::getline(input_file, available_steps);
+  if(available_steps == "")
+    throw FileLoadException(FileLoadException::INVALID_FILE);
+
+  try //convert available_steps
+  {
+    steps_left_ = std::stoi(available_steps);
+
+    if(steps_left_ < 0)
+      throw std::exception();
+  }
+  catch(const std::exception &e)
+  {
+    throw FileLoadException(FileLoadException::INVALID_FILE);
+  }
+
 
   // read the map
   // calculate the size of the map in bytes
   long map_start = input_file.tellg();
   input_file.seekg(0, std::ios::end);
   long map_size = input_file.tellg() - map_start;
+
+  if(map_size == 0)
+  {
+    throw FileLoadException(FileLoadException::INVALID_FILE);
+  }
+
   // resize the map_string to this size
   map_string.resize(map_size);
   // read the map into the string, starting from where the map starts
