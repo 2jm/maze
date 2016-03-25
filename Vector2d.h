@@ -9,11 +9,16 @@
 class Vector2d
 {
   private:
-    int x;
-    int y;
+    int x_;
+    int y_;
   public:
-    int getX();
-    int getY();
+    Vector2d();
+
+    Vector2d(int x, int y);
+
+    const int getX();
+
+    const int getY();
     void setX(int x);
     void setY(int y);
 

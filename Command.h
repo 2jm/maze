@@ -19,18 +19,9 @@
 
 #include <string>
 #include <vector>
+#include "Direction.h"
 
-enum Direction{UP, RIGHT, DOWN, LEFT};
-
-class Game
-{
-  public:
-//    Map map;
-//Player player;
-int stepsLeft;
-//    GameState gameState;
-  void movePlayer(Direction direction);
-};
+class Game;
 
 class Command
 {

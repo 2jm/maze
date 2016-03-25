@@ -14,12 +14,7 @@
 // Last change: 18.03.2016
 //------------------------------------------------------------------------------
 
-#include <stdlib.h>
-#include <iostream>
-#include "CommandMove.h"
-#include "CommandQuit.h"
-
-using namespace std;
+#include "Maze.h"
 
 //------------------------------------------------------------------------------
 // main function
@@ -30,7 +25,13 @@ using namespace std;
 //
 int main(int argc, char **argv)
 {
-  //TODO: wichtig!!! Die Eingabe der Befehle (Commands) erfolgt case insensitive, Parameter (argv) sind case sensitive.
+  Maze maze;
+  maze.init(argc, argv);
+  return maze.run();
+}
+
+
+/*  //TODO: wichtig!!! Die Eingabe der Befehle (Commands) erfolgt case insensitive, Parameter (argv) sind case sensitive.
 
   for(int i = 1; i < argc; i++)
   {
@@ -66,4 +67,4 @@ int main(int argc, char **argv)
   }
 
   return EXIT_SUCCESS;
-}
+}*/
