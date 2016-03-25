@@ -15,12 +15,12 @@ class ArgumentParser
   private:
     Game &game_;
 
-    const char *getArgumentFileName(int argc, const char **argv, int &argument);
+    const char *getArgumentFileName(int argc, char **argv, int &argument);
 
   public:
     ArgumentParser(Game &game);
 
-    void parse(int argc, const char **argv);
+    void parse(int argc, char **argv);
 };
 
 

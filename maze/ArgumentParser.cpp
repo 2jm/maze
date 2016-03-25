@@ -12,7 +12,7 @@ ArgumentParser::ArgumentParser(Game &game) : game_(game)
 }
 
 
-void ArgumentParser::parse(int argc, const char **argv)
+void ArgumentParser::parse(int argc, char **argv)
 {
   if(argc >= 2)
   {
@@ -37,7 +37,7 @@ void ArgumentParser::parse(int argc, const char **argv)
   }
 }
 
-const char *ArgumentParser::getArgumentFileName(int argc, const char **argv,
+const char *ArgumentParser::getArgumentFileName(int argc, char **argv,
                                                 int &argument)
 {
   if(argc >= argument + 2)

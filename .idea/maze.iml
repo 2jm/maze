@@ -23,7 +23,7 @@
       <sourceFolder url="file://$MODULE_DIR$/maze/Tile.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/CommandSave.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/CommandMove.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/ArgumentParser.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterface.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/CommandQuit.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Vector2d.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Map.cpp" isTestSource="false" />
@@ -34,17 +34,17 @@
       <sourceFolder url="file://$MODULE_DIR$/maze/Matrix.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Map.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Vector2d.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Player.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Game.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Player.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Command.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Command.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterface.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/GameState.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Maze.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/CommandQuit.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterpreter.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterpreter.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Player.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Maze.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/InvalidCommandLineArgumentException.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/ArgumentParser.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Game.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

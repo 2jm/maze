@@ -6,19 +6,18 @@
 
 Maze::Maze() :
         game_(),
-        command_line_interpreter_(game_),
+        command_line_interface_(game_),
         argument_parser_(game_)
 {
 
 }
 
-void Maze::init(int argc, char **argv)
+int Maze::run(int argc, char **argv)
 {
+  argument_parser_.parse(argc, argv);
 
-}
+  while(command_line_interface_.update());
 
-int Maze::run()
-{
   return 0;
 }
 

@@ -26,8 +26,7 @@
 int main(int argc, char **argv)
 {
   Maze maze;
-  maze.init(argc, argv);
-  return maze.run();
+  return maze.run(argc, argv);
 }
 
 

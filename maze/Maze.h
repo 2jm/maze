@@ -6,22 +6,20 @@
 #define MAZE_MAZE_H
 
 #include "Game.h"
-#include "CommandLineInterpreter.h"
+#include "CommandLineInterface.h"
 #include "ArgumentParser.h"
 
 class Maze
 {
   private:
     Game game_;
-    CommandLineInterpreter command_line_interpreter_;
+    CommandLineInterface command_line_interface_;
     ArgumentParser argument_parser_;
 
   public:
     Maze();
 
-    void init(int argc, char **argv);
-
-    int run();
+    int run(int argc, char **argv);
 };
 
 

@@ -15,7 +15,7 @@ TEST(ArgumentParserTest, test_correct1)
           "path/to/executable"
   };
 
-  EXPECT_NO_THROW(a.parse(argc, argv));
+  EXPECT_NO_THROW(a.parse(argc, const_cast<char **>(argv)));
 }
 
 
@@ -32,7 +32,7 @@ TEST(ArgumentParserTest, test_correct2)
           "filename"
   };
 
-  EXPECT_NO_THROW(a.parse(argc, argv));
+  EXPECT_NO_THROW(a.parse(argc, const_cast<char **>(argv)));
 }
 
 
@@ -46,7 +46,8 @@ TEST(ArgumentParserTest, unknow_argument1)
           "-x"
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }
 
 
@@ -61,7 +62,8 @@ TEST(ArgumentParserTest, unknow_argument2)
           "filename"
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }
 
 
@@ -77,7 +79,8 @@ TEST(ArgumentParserTest, unknow_argument3)
           "filename"
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }
 
 
@@ -91,7 +94,8 @@ TEST(ArgumentParserTest, not_enough_arguments1)
           "-m",
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }
 
 
@@ -107,7 +111,8 @@ TEST(ArgumentParserTest, not_enough_arguments2)
           "-s"
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }
 
 
@@ -123,7 +128,8 @@ TEST(ArgumentParserTest, not_enough_arguments3)
           "filename"
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }
 
 
@@ -138,7 +144,8 @@ TEST(ArgumentParserTest, invalid_argument)
           "-m"
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }
 
 
@@ -154,5 +161,6 @@ TEST(ArgumentParserTest, invalid_argument2)
           "filename"
   };
 
-  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
+  EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
+               InvalidCommandLineArgumentException);
 }

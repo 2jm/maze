@@ -5,20 +5,14 @@
 #ifndef MAZE_DIRECTION_H
 #define MAZE_DIRECTION_H
 
-#include "Vector2d.h"
-
-class Direction
+enum class Direction : char
 {
-  private:
-    Direction()
-    {
-    }
-
-  public:
-    const static Vector2d UP;
-    const static Vector2d RIGHT;
-    const static Vector2d DOWN;
-    const static Vector2d LEFT;
+    UP = 'u',
+    RIGHT = 'r',
+    DOWN = 'd',
+    LEFT = 'l',
+    OTHER = 0
 };
+
 
 #endif //MAZE_DIRECTION_H
