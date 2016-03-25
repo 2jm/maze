@@ -2,46 +2,56 @@
 // Created by jonas on 3/25/16.
 //
 
+#include <string>
 #include "ArgumentParser.h"
+#include "Game.h"
+
+ArgumentParser::ArgumentParser(Game &game) : game_(game)
+{
+
+}
+
 
 void ArgumentParser::parse(int argc, const char **argv)
 {
-/*  if (argc >= 2)
+  if(argc >= 2)
   {
     int argument;
     for (argument = 1; argument < argc; argument++)
     {
-      if (strcmp(argv[argument], "-b") == 0)
+      if(std::string(argv[argument]).compare("-m") == 0)
       {
-        command_line_arguments->b_ = 1;
+        const char *file_name = getArgumentFileName(argc, argv, argument);
+        game_.loadFile(file_name);
       }
-      else if (strcmp(argv[argument], "-e") == 0)
+      else if(std::string(argv[argument]).compare("-s") == 0)
       {
-        if (argc >= argument + 2)
-        {
-          command_line_arguments->e_ = 1;
-          argument++;
-          command_line_arguments->path = argv[argument];
-        }
-        else
-        {
-          exitWrongUsage();
-        }
-      }
-      else if (strcmp(argv[argument], "-r") == 0)
-      {
-        command_line_arguments->r_ = 1;
+        const char *file_name = getArgumentFileName(argc, argv, argument);
+        game_.setAutoSave(file_name);
       }
       else
       {
-        exitWrongUsage();
+        throw InvalidCommandLineArgumentException();
       }
     }
   }
-
-  if (command_line_arguments->r_ == 1 && command_line_arguments->b_ == 0)
-  {
-    command_line_arguments->r_ = 0;
-  }*/
 }
+
+const char *ArgumentParser::getArgumentFileName(int argc, const char **argv,
+                                                int &argument)
+{
+  if(argc >= argument + 2)
+  {
+    argument++;
+    return argv[argument];
+  }
+  else
+  {
+    throw InvalidCommandLineArgumentException();
+  }
+}
+
+
+
+
 

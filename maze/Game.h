@@ -20,6 +20,19 @@ class Game
 
   public:
     Game();
+
+    //--------------------------------------------------------------------------
+    // Set auto save method
+    // When this method is called the game should be saved after each step in
+    // file file_name
+    //
+    void setAutoSave(const char *file_name);
+
+    //--------------------------------------------------------------------------
+    // Load file method
+    // Loads the file file_name
+    //
+    void loadFile(const char *file_name);
 };
 
 

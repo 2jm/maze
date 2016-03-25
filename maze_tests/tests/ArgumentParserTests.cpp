@@ -2,36 +2,27 @@
 // Created by jonas on 3/25/16.
 //
 
-
+#include <Game.h>
 #include <ArgumentParser.h>
 #include "gtest/gtest.h"
 
 TEST(ArgumentParserTest, test_correct1)
 {
-  ArgumentParser a;
+  Game game;
+  ArgumentParser a(game);
   int argc = 1;
   const char *argv[] = {
           "path/to/executable"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-    FAIL();
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_NO_THROW(a.parse(argc, argv));
 }
 
 
 TEST(ArgumentParserTest, test_correct2)
 {
-  ArgumentParser a;
+  Game game;
+  ArgumentParser a(game);
   int argc = 5;
   const char *argv[] = {
           "path/to/executable",
@@ -41,124 +32,74 @@ TEST(ArgumentParserTest, test_correct2)
           "filename"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-    FAIL();
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_NO_THROW(a.parse(argc, argv));
 }
 
 
 TEST(ArgumentParserTest, unknow_argument1)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 2;
   const char *argv[] = {
           "path/to/executable",
           "-x"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }
 
 
 TEST(ArgumentParserTest, unknow_argument2)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 3;
   const char *argv[] = {
           "path/to/executable",
           "-x",
           "filename"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }
 
 
 TEST(ArgumentParserTest, unknow_argument3)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 4;
   const char *argv[] = {
           "path/to/executable",
           "-x",
-          "-m"
-                  "filename"
+          "-m",
+          "filename"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }
 
 
 TEST(ArgumentParserTest, not_enough_arguments1)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 2;
   const char *argv[] = {
           "path/to/executable",
           "-m",
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }
 
 
 TEST(ArgumentParserTest, not_enough_arguments2)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 4;
   const char *argv[] = {
           "path/to/executable",
           "-m",
@@ -166,25 +107,15 @@ TEST(ArgumentParserTest, not_enough_arguments2)
           "-s"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }
 
 
 TEST(ArgumentParserTest, not_enough_arguments3)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 4;
   const char *argv[] = {
           "path/to/executable",
           "-m",
@@ -192,50 +123,30 @@ TEST(ArgumentParserTest, not_enough_arguments3)
           "filename"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }
 
 
 TEST(ArgumentParserTest, invalid_argument)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 3;
   const char *argv[] = {
           "path/to/executable",
           "filename",
           "-m"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }
 
 
 TEST(ArgumentParserTest, invalid_argument2)
 {
-  ArgumentParser a;
-  int argc = 5;
+  Game game;
+  ArgumentParser a(game);
+  int argc = 4;
   const char *argv[] = {
           "path/to/executable",
           "filename",
@@ -243,16 +154,5 @@ TEST(ArgumentParserTest, invalid_argument2)
           "filename"
   };
 
-  try
-  {
-    a.parse(argc, argv);
-    FAIL();
-  }
-  catch(InvalidCommandLineArgumentException e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  EXPECT_THROW(a.parse(argc, argv), InvalidCommandLineArgumentException);
 }

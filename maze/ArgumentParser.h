@@ -8,11 +8,18 @@
 
 #include "InvalidCommandLineArgumentException.h"
 
+class Game;
+
 class ArgumentParser
 {
   private:
+    Game &game_;
+
+    const char *getArgumentFileName(int argc, const char **argv, int &argument);
 
   public:
+    ArgumentParser(Game &game);
+
     void parse(int argc, const char **argv);
 };
 

@@ -6,7 +6,8 @@
 
 Maze::Maze() :
         game_(),
-        command_line_interpreter_(game_)
+        command_line_interpreter_(game_),
+        argument_parser_(game_)
 {
 
 }
