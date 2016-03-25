@@ -35,7 +35,7 @@ class Tile
 
   public:
     Tile(TileType tiletype);
-    bool enter(Vector2d sourcePosition, Vector2d newPosition, Game &game);
+    bool enter(Vector2d sourcePosition, Vector2d newPosition);
 };
 
 
