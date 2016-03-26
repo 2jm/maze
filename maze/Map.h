@@ -7,6 +7,7 @@
 
 #include "Matrix.h"
 #include "Tile.h"
+#include <string>
 //#include <string>
 
 class Map : public Matrix<Tile>
@@ -19,6 +20,15 @@ class Map : public Matrix<Tile>
     Tile getEndTile();
     Tile getStartTile();
     Tile getTeleporterPair(char name);*/
+
+  public:
+    Map()
+    {
+    }
+
+    bool loadFromString(std::string map_string);
+
+    std::string saveToString();
 };
 
 

@@ -6,7 +6,6 @@
 #define MAZE_TILE_H
 
 #include "Vector2d.h"
-#include "Game.h"
 
 /*enum TileType
 {

@@ -5,6 +5,8 @@
 #ifndef MAZE_ALL_FILELOADEXCEPTION_H
 #define MAZE_ALL_FILELOADEXCEPTION_H
 
+#include <exception>
+#include <string>
 
 class FileLoadException : public std::exception
 {

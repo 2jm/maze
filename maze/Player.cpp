@@ -10,10 +10,24 @@ Player::Player(Map &map) :
 
 }
 
-void Player::move(Direction direction)
+bool Player::move(Direction direction)
 {
 
 }
+
+Vector2d Player::getPosition()
+{
+  return Vector2d();
+}
+
+void Player::setPosition(Vector2d)
+{
+
+}
+
+
+
+
 
 
 

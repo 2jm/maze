@@ -19,7 +19,11 @@ class Player
   public:
     Player(Map &map);
 
-    void move(Direction direction);
+    bool move(Direction direction);
+
+    Vector2d getPosition();
+
+    void setPosition(Vector2d);
 };
 
 

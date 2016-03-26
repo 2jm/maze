@@ -8,9 +8,22 @@
 
 #include "Command.h"
 
+enum class Direction : char;
+
 class CommandFastMove : public Command
 {
+  private:
+    Direction char_to_direction(char direction_char);
+
   public:
+    CommandFastMove() : Command("fastmove")
+    {
+    }
+
+    virtual ~CommandFastMove()
+    {
+    }
+
     //--------------------------------------------------------------------------
     // Executes the command.
     // @param board The board where action should be performed on

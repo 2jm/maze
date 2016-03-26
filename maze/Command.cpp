@@ -32,3 +32,16 @@ const std::string &Command::getName() const
 {
   return command_name_;
 }
+
+Command::Command(const Command &original)
+{
+
+}
+
+Command &Command::operator=(const Command &original)
+{
+  return *this;
+}
+
+
+

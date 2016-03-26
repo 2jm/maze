@@ -14,12 +14,13 @@
 class Game
 {
   private:
-    Map map_;
-    Player player_;
-    int steps_left_;
+    Map map_, fast_move_map_copy_;
+    bool fast_moving_;
+    Player player_, fast_move_player_copy_;
+    int steps_left_, fast_moving_steps_left_;
     GameState game_state_;
     std::string auto_save_filename_;
-    std::vector<Direction> move_history_;
+    std::vector<Direction> move_history_, fast_move_move_history;
 
   public:
     Game();
@@ -47,7 +48,13 @@ class Game
     // Move player method
     // move the player by direction
     //
-    void movePlayer(Direction direction);
+    bool movePlayer(Direction direction);
+
+    void startFastMove();
+
+    void completeFastMove();
+
+    void cancelFastMove();
 };
 
 
