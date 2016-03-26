@@ -8,10 +8,10 @@
 #include "Vector2d.h"
 #include "Game.h"
 
-enum TileType
+/*enum TileType
 {
   Wall, Path, Start, Finish, Ice, Teleport, OneWay, Bonus, Quicksand
-};
+};*/
 
 //enum class TileType : char
 //{
@@ -30,12 +30,12 @@ class Tile
 {
   private:
     Vector2d position_;
-    TileType tileType_;
-    int add_;
+    //TileType tileType_;
+    //int add_;
 
   public:
-    Tile(TileType tiletype);
-    bool enter(Vector2d sourcePosition, Vector2d newPosition);
+    //Tile(TileType tiletype);
+    virtual bool enter(Vector2d sourcePosition, Vector2d newPosition);
 };
 
 

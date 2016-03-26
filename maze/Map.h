@@ -7,10 +7,18 @@
 
 #include "Matrix.h"
 #include "Tile.h"
+//#include <string>
 
 class Map : public Matrix<Tile>
 {
+  //private:
 
+/*  public:
+    void loadFromString(std::string string);
+    void check();
+    Tile getEndTile();
+    Tile getStartTile();
+    Tile getTeleporterPair(char name);*/
 };
 
 
