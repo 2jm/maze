@@ -10,75 +10,81 @@
       <sourceFolder url="file://$MODULE_DIR$/maze_tests/lib/googletest/googletest/src/gtest-all.cc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze_tests/lib/googletest/googletest/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze_tests/lib/googletest/googletest/cmake/internal_utils.cmake" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze_tests/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze_tests/tests/ArgumentParserTests.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze_tests/tests/CommandLineInterpreterTests.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze_tests/tests/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze_tests/tests/GameTests.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze_tests/tests/CommandLineInterpreterTests.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze_tests/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Direction.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileFinish.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileStart.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandSave.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileOneWay.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Matrix.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Maze.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Message.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileWall.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Direction.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/FileLoadException.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandMove.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TilePath.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/TileQuicksand.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandFastMove.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/ArgumentParser.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileBonus.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandQuit.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileFinish.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Player.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterface.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/CommandSave.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/ArgumentParser.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileBonus.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileQuicksand.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandFastMove.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterface.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileWall.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileTeleport.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileStart.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileOneWay.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileIce.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Maze.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandQuit.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Vector2d.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Map.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandFastMove.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Tile.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/InvalidCommandLineArgumentException.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Map.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileFinish.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/GameState.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Vector2d.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandMove.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileWall.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileTeleport.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileTeleport.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandQuit.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileStart.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Game.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileWall.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileQuicksand.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CMakeLists.txt" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Player.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileBonus.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileIce.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Map.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileOneWay.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TilePath.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandMove.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileOneWay.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Command.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandFastMove.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Command.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/FileLoadException.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandSave.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileIce.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandException.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Game.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Vector2d.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterface.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/Tile.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/TileStart.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/maze/Maze.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/ArgumentParser.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/ArgumentParser.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Message.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileBonus.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Map.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/maze/TilePath.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Command.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Vector2d.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Game.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Player.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Command.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileIce.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileFinish.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandLineInterface.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/GameState.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/ResultCode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandQuit.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Player.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/CommandMove.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Maze.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/TileTeleport.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/maze/Game.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
-          <root url="file://C:/cygwin64/lib/gcc/x86_64-pc-cygwin/5.3.0/include" />
-          <root url="file://C:/cygwin64/usr/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/local/include" />
         </CLASSES>
         <SOURCES>
-          <root url="file://C:/cygwin64/lib/gcc/x86_64-pc-cygwin/5.3.0/include" />
-          <root url="file://C:/cygwin64/usr/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/local/include" />
         </SOURCES>
       </library>
     </orderEntry>

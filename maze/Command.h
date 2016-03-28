@@ -19,7 +19,7 @@
 
 #include <string>
 #include <vector>
-#include "Direction.h"
+#include "ResultCode.h"
 
 class Game;
 
@@ -52,7 +52,8 @@ class Command
     // @param board The board where action should be performed on
     // @param params Possible parameters neede for the execution
     // @return Integer representing the success of the action
-    virtual int execute(Game &board, std::vector<std::string> &params) = 0;
+    virtual RESULT_CODE execute(Game &board,
+                                std::vector<std::string> &params) = 0;
 
     //--------------------------------------------------------------------------
     // Getter Methods

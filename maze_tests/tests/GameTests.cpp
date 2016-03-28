@@ -20,9 +20,7 @@ TEST(GameTest, test_no_file)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::COULD_NOT_BE_OPENED)
-                         .what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::FILE_COULD_NOT_BE_OPENED);
   }
   catch(...)
   {
@@ -41,8 +39,7 @@ TEST(GameTest, test_empty)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_FILE);
   }
   catch(...)
   {
@@ -77,8 +74,7 @@ TEST(GameTest, test_no_available_steps)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_FILE);
   }
   catch(...)
   {
@@ -97,8 +93,7 @@ TEST(GameTest, test_invalid_available_steps_1)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_FILE);
   }
   catch(...)
   {
@@ -117,8 +112,7 @@ TEST(GameTest, test_invalid_available_steps_2)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_FILE);
   }
   catch(...)
   {
@@ -137,8 +131,7 @@ TEST(GameTest, test_no_map)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_FILE);
   }
   catch(...)
   {
@@ -157,8 +150,7 @@ TEST(GameTest, test_invalid_map)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_FILE);
   }
   catch(...)
   {
@@ -177,8 +169,7 @@ TEST(GameTest, test_invalid_moves)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_MOVE);
   }
   catch(...)
   {
@@ -197,8 +188,7 @@ TEST(GameTest, test_impossible_moves)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_MOVE);
   }
   catch(...)
   {
@@ -225,8 +215,7 @@ TEST(GameTest, test_incomplete_teleporter)
   }
   catch(const FileLoadException &e)
   {
-    EXPECT_STREQ(e.what(),
-                 FileLoadException(FileLoadException::INVALID_FILE).what());
+    EXPECT_EQ(e.getResultCode(), RESULT_CODE::INVALID_FILE);
   }
   catch(...)
   {

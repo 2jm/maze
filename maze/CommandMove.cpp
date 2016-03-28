@@ -8,7 +8,7 @@ using namespace std;
 
 CommandMove::~CommandMove(){}
 
-int CommandMove::execute(Game &board, std::vector<std::string> &params)
+RESULT_CODE CommandMove::execute(Game &board, std::vector<std::string> &params)
 {
   cout << "Move" << std::endl;
 

@@ -7,33 +7,26 @@
 
 #include <exception>
 #include <string>
+#include "Message.h"
 
 class FileLoadException : public std::exception
 {
-  public:
-    enum ERROR_CODES
-    {
-      COULD_NOT_BE_OPENED,
-      INVALID_FILE,
-      INVALID_PATH
-    };
-
   private:
-    ERROR_CODES error_code_;
-    const std::string error_strings_[3] = {
-            "[ERR] File could not be opened.\n",
-            "[ERR] Invalid file.\n",
-            "[ERR] Invalid path.\n"
-    };
+    RESULT_CODE result_code_;
 
   public:
-    FileLoadException(ERROR_CODES error_code) : error_code_(error_code)
+    FileLoadException(RESULT_CODE result_code) : result_code_(result_code)
     {
+    }
+
+    RESULT_CODE getResultCode() const
+    {
+      return result_code_;
     }
 
     virtual const char *what() const throw()
     {
-      return error_strings_[error_code_].c_str();
+      return Message::get(result_code_);
     }
 };
 

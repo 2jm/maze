@@ -4,14 +4,16 @@
 
 #include "CommandFastMove.h"
 #include "Game.h"
-#include "CommandException.h"
 #include "Direction.h"
 
 
-int CommandFastMove::execute(Game &board, std::vector<std::string> &params)
+RESULT_CODE CommandFastMove::execute(Game &board,
+                                     std::vector<std::string> &params)
 {
   if(params.size() != 1)
-    throw CommandException(CommandException::WRONG_PARAMETER_COUNT);
+  {
+    return RESULT_CODE::WRONG_PARAMETER_COUNT;
+  }
 
   std::string fast_move_string = params[0];
   int fast_move_string_index;
@@ -31,11 +33,13 @@ int CommandFastMove::execute(Game &board, std::vector<std::string> &params)
        !board.movePlayer(move_direction))
     {
       board.cancelFastMove();
-      throw CommandException(CommandException::WRONG_PARAMETER);
+      return RESULT_CODE::WRONG_PARAMETER;
     }
   }
 
   board.completeFastMove();
+
+  return RESULT_CODE::SUCCESS;
 }
 
 

@@ -6,13 +6,15 @@
 
 CommandSave::~CommandSave(){}
 
-int CommandSave::execute(Game &board, std::vector<std::string> &params)
+RESULT_CODE CommandSave::execute(Game &board, std::vector<std::string> &params)
 {
-  return 0;
+  return RESULT_CODE::SUCCESS;
 }
 
 /*
 save <filename>
+
+ Macht alles Game.saveToFile();
 
 Speichert den aktuellen Spielstand in eine Datei, die dem oben beschriebenen Dateiformat entspricht. Das Labyrinth selbst und die erlaubte Schrittanzahl bleiben unberührt (im Vergleich zum Ladezustand).
  Der zurückgelegte Pfad wird in der Kurznotation gespeichert, die auch bei fastmove zum Einsatz kommt.

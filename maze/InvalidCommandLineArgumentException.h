@@ -6,13 +6,14 @@
 #define MAZE_ALL_INVALIDCOMMANDLINEARGUMENTEXCEPTION_H
 
 #include <exception>
+#include "Message.h"
 
 class InvalidCommandLineArgumentException : public std::exception
 {
   public:
     virtual const char *what() const throw()
     {
-      return "[ERR] Wrong usage: ./basic [-s <filename1>] [-m <filename2>]\n";
+      return Message::get(RESULT_CODE::WRONG_USAGE);
     }
 };
 

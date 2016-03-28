@@ -7,7 +7,6 @@
 #include <iostream>
 #include <fstream>
 #include "CommandFastMove.h"
-#include "CommandException.h"
 
 Game::Game() : player_(map_), fast_move_player_copy_(fast_move_map_copy_)
 {
@@ -30,14 +29,14 @@ void Game::loadFile(std::string file_name)
   std::ifstream input_file(file_name, std::ifstream::binary);
 
   if(input_file.fail())
-    throw FileLoadException(FileLoadException::COULD_NOT_BE_OPENED);
+    throw FileLoadException(RESULT_CODE::FILE_COULD_NOT_BE_OPENED);
 
 
   std::getline(input_file, saved_moves);
 
   std::getline(input_file, available_steps);
   if(available_steps == "")
-    throw FileLoadException(FileLoadException::INVALID_FILE);
+    throw FileLoadException(RESULT_CODE::INVALID_FILE);
 
   try //convert available_steps
   {
@@ -48,7 +47,7 @@ void Game::loadFile(std::string file_name)
   }
   catch(const std::exception &e)
   {
-    throw FileLoadException(FileLoadException::INVALID_FILE);
+    throw FileLoadException(RESULT_CODE::INVALID_FILE);
   }
 
 
@@ -59,7 +58,7 @@ void Game::loadFile(std::string file_name)
   long map_size = input_file.tellg() - map_start;
 
   if(map_size == 0)
-    throw FileLoadException(FileLoadException::INVALID_FILE);
+    throw FileLoadException(RESULT_CODE::INVALID_FILE);
 
 
   // resize the map_string to this size
@@ -71,20 +70,14 @@ void Game::loadFile(std::string file_name)
   input_file.close();
 
   if(!map_.loadFromString(map_string))
-    throw FileLoadException(FileLoadException::INVALID_FILE);
+    throw FileLoadException(RESULT_CODE::INVALID_FILE);
 
   CommandFastMove fastMove;
   std::vector<std::string> fast_move_params;
   fast_move_params.push_back(saved_moves);
 
-  try
-  {
-    fastMove.execute(*this, fast_move_params);
-  }
-  catch(const CommandException &e)
-  {
-    throw FileLoadException(FileLoadException::INVALID_PATH);
-  }
+  if(fastMove.execute(*this, fast_move_params) != RESULT_CODE::SUCCESS)
+    throw FileLoadException(RESULT_CODE::INVALID_PATH);
 }
 
 
@@ -94,7 +87,7 @@ void Game::saveFile(std::string file_name)
           output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
 
   if(output_file.fail())
-    throw FileLoadException(FileLoadException::COULD_NOT_BE_OPENED);
+    throw FileLoadException(RESULT_CODE::FILE_COULD_NOT_BE_WRITTEN);
 
 
   int move_history_index;
