@@ -24,10 +24,31 @@ class Vector2d
 
     Vector2d(Direction direction);
 
-    const int getX();
-    const int getY();
-    void setX(int x);
-    void setY(int y);
+    int getX() const
+    {
+      return x_;
+    }
+    int getY() const
+    {
+      return y_;
+    }
+    int x() const
+    {
+      return getX();
+    }
+    int y() const
+    {
+      return getY();
+    }
+
+    void setX(int x)
+    {
+      x_ = x;
+    }
+    void setY(int y)
+    {
+      y_ = y;
+    }
 
     bool operator==(const Vector2d &other);
     Vector2d operator+(const Vector2d &other);

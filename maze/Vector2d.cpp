@@ -39,12 +39,12 @@ Vector2d::Vector2d(Direction direction)
 }
 
 
-const int Vector2d::getX()
+/*int Vector2d::getX() const
 {
   return x_;
 }
 
-const int Vector2d::getY()
+int Vector2d::getY() const
 {
   return y_;
 }
@@ -57,7 +57,7 @@ void Vector2d::setX(int x)
 void Vector2d::setY(int y)
 {
   y_ = y;
-}
+}*/
 
 
 bool Vector2d::operator==(const Vector2d &other)
