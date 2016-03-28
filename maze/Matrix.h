@@ -18,8 +18,6 @@ template<class T>
 class Matrix
 {
   public:
-    struct MatrixRowAllocator;
-
     // MatrixRow represents one row of the matrix, the matrix consists of
     // multiple matrix rows.
     // The elements of the MatrixRow can be accessed with the [] operator
@@ -124,7 +122,7 @@ void Matrix<T>::resize()
 
   for(row_index = 0; row_index < rows_.size(); row_index++)
   {
-    rows_[row_index].elements.resize(static_cast<unsigned int>(size_.y()));
+    rows_[row_index].elements_.resize(static_cast<unsigned int>(size_.y()));
   }
 }
 
