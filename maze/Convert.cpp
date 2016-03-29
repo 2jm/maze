@@ -3,6 +3,7 @@
 //
 
 #include <stdexcept>
+#include <limits>
 #include "Convert.h"
 
 namespace Convert
@@ -12,6 +13,10 @@ namespace Convert
     if(string.find_first_not_of("0123456789") != std::string::npos)
       throw std::invalid_argument(string);
 
+    // there is no std::stoui function.
     unsigned long number = std::stoul(string);
+
+    if(number > std::numeric_limits<unsigned int>::max())
+      throw std::out_of_range(string);
   }
 }
