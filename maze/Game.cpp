@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include "CommandFastMove.h"
+#include "Convert.h"
 
 Game::Game() : player_(map_), fast_move_player_copy_(fast_move_map_copy_)
 {
@@ -40,16 +41,12 @@ void Game::loadFile(std::string file_name)
 
   try //convert available_steps
   {
-    steps_left_ = std::stoi(available_steps);
-
-    if(steps_left_ < 0)
-      throw std::exception();
+    Convert::toUInt(available_steps);
   }
   catch(const std::exception &e)
   {
     throw FileLoadException(RESULT_CODE::INVALID_FILE);
   }
-
 
   // read the map
   // calculate the size of the map in bytes
@@ -59,7 +56,6 @@ void Game::loadFile(std::string file_name)
 
   if(map_size == 0)
     throw FileLoadException(RESULT_CODE::INVALID_FILE);
-
 
   // resize the map_string to this size
   map_string.resize(map_size);

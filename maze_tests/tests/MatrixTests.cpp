@@ -11,7 +11,7 @@ TEST(MatrixTest, assignment)
 
   matrix[0][0] = 7;
 
-  EXPECT_EQ(matrix[0][0], 7);   //that works :D
+  EXPECT_EQ(matrix[0][0], 7);   //that works \o/
 }
 
 TEST(MatrixTest, boundaries_check)
