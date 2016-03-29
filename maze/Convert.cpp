@@ -14,9 +14,12 @@ namespace Convert
       throw std::invalid_argument(string);
 
     // there is no std::stoui function.
+    // convert to unsigned long and check if it is to big
     unsigned long number = std::stoul(string);
 
     if(number > std::numeric_limits<unsigned int>::max())
       throw std::out_of_range(string);
+
+    return static_cast<unsigned int>(number);
   }
 }
