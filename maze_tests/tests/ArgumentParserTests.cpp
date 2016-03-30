@@ -10,7 +10,7 @@ TEST(ArgumentParserTest, test_valid_1)
 {
   Game game;
   ArgumentParser a(game);
-  RESULT_CODE result;
+  ResultCode result;
   int argc = 1;
   const char *argv[] = {
           "path/to/executable"

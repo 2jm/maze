@@ -12,14 +12,14 @@
 class FileLoadException : public std::exception
 {
   private:
-    RESULT_CODE result_code_;
+    ResultCode result_code_;
 
   public:
-    FileLoadException(RESULT_CODE result_code) : result_code_(result_code)
+    FileLoadException(ResultCode result_code) : result_code_(result_code)
     {
     }
 
-    RESULT_CODE getResultCode() const
+    ResultCode getResultCode() const
     {
       return result_code_;
     }

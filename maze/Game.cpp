@@ -9,7 +9,8 @@
 #include "CommandFastMove.h"
 #include "Convert.h"
 
-Game::Game() : player_(map_), fast_move_player_copy_(fast_move_map_copy_)
+Game::Game() : player_(map_), fast_move_player_copy_(fast_move_map_copy_),
+               game_state_(GameState::NO_MAZE_LOADED)
 {
 
 }
@@ -21,7 +22,7 @@ void Game::setAutoSave(std::string file_name)
 }
 
 
-RESULT_CODE Game::loadFile(std::string file_name)
+ResultCode Game::loadFile(std::string file_name)
 {
   std::string saved_moves;
   std::string available_steps;
@@ -30,14 +31,14 @@ RESULT_CODE Game::loadFile(std::string file_name)
   std::ifstream input_file(file_name, std::ifstream::binary);
 
   if(input_file.fail())
-    return Message::print(RESULT_CODE::FILE_COULD_NOT_BE_OPENED);
+    return Message::print(ResultCode::FILE_COULD_NOT_BE_OPENED);
 
 
   std::getline(input_file, saved_moves);
 
   std::getline(input_file, available_steps);
   if(available_steps == "")
-    return Message::print(RESULT_CODE::INVALID_FILE);
+    return Message::print(ResultCode::INVALID_FILE);
 
   try //convert available_steps
   {
@@ -45,7 +46,7 @@ RESULT_CODE Game::loadFile(std::string file_name)
   }
   catch(const std::exception &e)
   {
-    return Message::print(RESULT_CODE::INVALID_FILE);
+    return Message::print(ResultCode::INVALID_FILE);
   }
 
   // read the map
@@ -55,7 +56,7 @@ RESULT_CODE Game::loadFile(std::string file_name)
   long map_size = input_file.tellg() - map_start;
 
   if(map_size == 0)
-    return Message::print(RESULT_CODE::INVALID_FILE);
+    return Message::print(ResultCode::INVALID_FILE);
 
   // resize the map_string to this size
   map_string.resize(map_size);
@@ -66,26 +67,28 @@ RESULT_CODE Game::loadFile(std::string file_name)
   input_file.close();
 
   if(!map_.loadFromString(map_string))
-    return Message::print(RESULT_CODE::INVALID_FILE);
+    return Message::print(ResultCode::INVALID_FILE);
 
   CommandFastMove fastMove;
   std::vector<std::string> fast_move_params;
   fast_move_params.push_back(saved_moves);
 
-  if(fastMove.execute(*this, fast_move_params) != RESULT_CODE::SUCCESS)
-    return Message::print(RESULT_CODE::INVALID_PATH);
+  if(fastMove.execute(*this, fast_move_params) != ResultCode::SUCCESS)
+    return Message::print(ResultCode::INVALID_PATH);
 
-  return RESULT_CODE::SUCCESS;
+  game_state_ = GameState::PLAYING;
+
+  return ResultCode::SUCCESS;
 }
 
 
-RESULT_CODE Game::saveFile(std::string file_name)
+ResultCode Game::saveFile(std::string file_name)
 {
   std::ofstream
           output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
 
   if(output_file.fail())
-    return Message::print(RESULT_CODE::FILE_COULD_NOT_BE_WRITTEN);
+    return Message::print(ResultCode::FILE_COULD_NOT_BE_WRITTEN);
 
 
   int move_history_index;
@@ -98,7 +101,7 @@ RESULT_CODE Game::saveFile(std::string file_name)
 
   output_file << map_.saveToString();
 
-  return RESULT_CODE::SUCCESS;
+  return ResultCode::SUCCESS;
 }
 
 
@@ -152,6 +155,7 @@ void Game::cancelFastMove()
 void Game::reset()
 {
   map_.clear();
+  game_state_ = GameState::NO_MAZE_LOADED;
 }
 
 

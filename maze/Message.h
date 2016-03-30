@@ -9,9 +9,9 @@
 
 namespace Message
 {
-  RESULT_CODE print(RESULT_CODE result_code);
+  ResultCode print(ResultCode result_code);
 
-  const char *get(RESULT_CODE result_code);
+  const char *get(ResultCode result_code);
 };
 
 

@@ -13,7 +13,7 @@ class InvalidCommandLineArgumentException : public std::exception
   public:
     virtual const char *what() const throw()
     {
-      return Message::get(RESULT_CODE::WRONG_USAGE);
+      return Message::get(ResultCode::WRONG_USAGE);
     }
 };
 

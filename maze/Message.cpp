@@ -25,13 +25,13 @@ namespace Message
           "[ERR] No maze loaded.\n"
   };
 
-  RESULT_CODE print(RESULT_CODE code)
+  ResultCode print(ResultCode code)
   {
     std::cout << strings[code];
     return code;
   }
 
-  const char *get(RESULT_CODE result_code)
+  const char *get(ResultCode result_code)
   {
     return strings[result_code].c_str();
   }

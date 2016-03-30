@@ -7,14 +7,14 @@
 #include "Direction.h"
 
 
-RESULT_CODE CommandFastMove::execute(Game &board,
+ResultCode CommandFastMove::execute(Game &board,
                                      std::vector<std::string> &params)
 {
   if(params.size() != 1)
-    return RESULT_CODE::WRONG_PARAMETER_COUNT;
+    return ResultCode::WRONG_PARAMETER_COUNT;
 
-  if(!board.isFileLoaded())
-    return RESULT_CODE::NO_MAZE_LOADED;
+  if(board.getState() == GameState::NO_MAZE_LOADED)
+    return ResultCode::NO_MAZE_LOADED;
 
   std::string fast_move_string = params[0];
   int fast_move_string_index;
@@ -34,13 +34,13 @@ RESULT_CODE CommandFastMove::execute(Game &board,
        !board.movePlayer(move_direction))
     {
       board.cancelFastMove();
-      return RESULT_CODE::INVALID_MOVE;
+      return ResultCode::INVALID_MOVE;
     }
   }
 
   board.completeFastMove();
 
-  return RESULT_CODE::SUCCESS;
+  return ResultCode::SUCCESS;
 }
 
 

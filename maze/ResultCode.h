@@ -5,7 +5,7 @@
 #ifndef MAZE_ALL_ERRORCODE_H
 #define MAZE_ALL_ERRORCODE_H
 
-enum RESULT_CODE
+enum ResultCode
 {
   SUCCESS = 0,
   OUT_OF_MEMORY = 1,    // These numbers are important

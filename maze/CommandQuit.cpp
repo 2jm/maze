@@ -8,10 +8,10 @@ using namespace std;
 
 CommandQuit::~CommandQuit(){}
 
-RESULT_CODE CommandQuit::execute(Game &board, std::vector<std::string> &params)
+ResultCode CommandQuit::execute(Game &board, std::vector<std::string> &params)
 {
   cout << "Bye!\n";
-  return RESULT_CODE::SUCCESS;
+  return ResultCode::SUCCESS;
 }
 
 /*

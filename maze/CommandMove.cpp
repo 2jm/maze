@@ -9,10 +9,10 @@ using namespace std;
 
 CommandMove::~CommandMove(){}
 
-RESULT_CODE CommandMove::execute(Game &board, std::vector<std::string> &params)
+ResultCode CommandMove::execute(Game &board, std::vector<std::string> &params)
 {
-  if(!board.isFileLoaded())
-    return RESULT_CODE::NO_MAZE_LOADED;
+  if(board.getState() == GameState::NO_MAZE_LOADED)
+    return ResultCode::NO_MAZE_LOADED;
 
   cout << "Move" << std::endl;
 

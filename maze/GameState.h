@@ -5,11 +5,12 @@
 #ifndef MAZE_GAMESTATE_H
 #define MAZE_GAMESTATE_H
 
-enum GameState
+enum class GameState
 {
-  playing,
-  won,
-  noMovesLeft
+  NO_MAZE_LOADED,
+  PLAYING,
+  WON,
+  NO_MOVES_LEFT
 };
 
 #endif //MAZE_GAMESTATE_H

@@ -37,13 +37,13 @@ class Game
     // Load file method
     // Loads the file file_name
     //
-    RESULT_CODE loadFile(std::string file_name);
+    ResultCode loadFile(std::string file_name);
 
     //--------------------------------------------------------------------------
     // Load file method
     // Loads the file file_name
     //
-    RESULT_CODE saveFile(std::string file_name);
+    ResultCode saveFile(std::string file_name);
 
     //--------------------------------------------------------------------------
     // Move player method
@@ -59,9 +59,9 @@ class Game
 
     void reset();
 
-    bool isFileLoaded()
+    GameState getState()
     {
-      return map_.isLoaded();
+      return game_state_;
     }
 };
 

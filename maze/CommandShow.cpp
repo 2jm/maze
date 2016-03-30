@@ -7,7 +7,7 @@
 
 RESULT_CODE CommandShow::execute(Game &board, std::vector<std::string> &params)
 {
-  if(!board.isFileLoaded())
+  if(board.getState() == GameState::NO_MAZE_LOADED)
     return RESULT_CODE::NO_MAZE_LOADED;
 
 }
