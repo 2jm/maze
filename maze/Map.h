@@ -21,14 +21,24 @@ class Map : public Matrix<Tile>
     Tile getStartTile();
     Tile getTeleporterPair(char name);*/
 
+  private:
+    bool is_loaded_;
+
   public:
-    Map()
+    Map() : is_loaded_(false)
     {
     }
 
     bool loadFromString(std::string map_string);
 
     std::string saveToString();
+
+    void clear();
+
+    bool isLoaded()
+    {
+      return is_loaded_;
+    }
 };
 
 

@@ -4,7 +4,7 @@
 
 #include "CommandShow.h"
 
-int CommandShow::execute(Game &board, std::vector<std::string> &params)
+RESULT_CODE CommandShow::execute(Game &board, std::vector<std::string> &params)
 {
 
 }

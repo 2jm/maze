@@ -56,6 +56,13 @@ class Game
     void completeFastMove();
 
     void cancelFastMove();
+
+    void reset();
+
+    bool isFileLoaded()
+    {
+      return map_.isLoaded();
+    }
 };
 
 

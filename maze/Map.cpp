@@ -6,6 +6,7 @@
 
 bool Map::loadFromString(std::string map_string)
 {
+  is_loaded_ = true;
   return true;
 }
 
@@ -13,6 +14,14 @@ std::string Map::saveToString()
 {
   return "";
 }
+
+void Map::clear()
+{
+  // remove the map
+  is_loaded_ = false;
+}
+
+
 
 
 

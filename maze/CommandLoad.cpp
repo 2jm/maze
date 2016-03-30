@@ -5,8 +5,10 @@
 #include "CommandLoad.h"
 #include <fstream>
 
-int CommandLoad::execute(Game &board, std::vector<std::string> &params)
+RESULT_CODE CommandLoad::execute(Game &board, std::vector<std::string> &params)
 {
+  //TODO Game.loadFile() does all this stuff
+
   // Read the content of level1.txt
   ifstream input("..\\Level\\level1.txt", ios::in | ios::binary);
   if(!input.is_open())

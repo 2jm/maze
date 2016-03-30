@@ -113,6 +113,8 @@ bool Game::movePlayer(Direction direction)
   {
     move_history_.push_back(direction);
 
+    std::cout << map_.saveToString() << std::endl;
+
     if(auto_save_filename_ != "")
       saveFile(auto_save_filename_);
 
@@ -137,6 +139,8 @@ void Game::completeFastMove()
   map_ = fast_move_map_copy_;
   player_.setPosition(fast_move_player_copy_.getPosition());
   steps_left_ = fast_moving_steps_left_;
+
+  std::cout << map_.saveToString() << std::endl;
 }
 
 
@@ -144,6 +148,13 @@ void Game::cancelFastMove()
 {
   fast_moving_ = false;
 }
+
+void Game::reset()
+{
+  map_.clear();
+}
+
+
 
 
 
