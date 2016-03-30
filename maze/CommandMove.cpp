@@ -4,12 +4,16 @@
 
 #include <iostream>
 #include "CommandMove.h"
+#include "Game.h"
 using namespace std;
 
 CommandMove::~CommandMove(){}
 
 RESULT_CODE CommandMove::execute(Game &board, std::vector<std::string> &params)
 {
+  if(!board.isFileLoaded())
+    return RESULT_CODE::NO_MAZE_LOADED;
+
   cout << "Move" << std::endl;
 
 //  for(auto const &value: params)

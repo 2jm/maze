@@ -3,11 +3,15 @@
 //
 
 #include "CommandSave.h"
+#include "Game.h"
 
 CommandSave::~CommandSave(){}
 
 RESULT_CODE CommandSave::execute(Game &board, std::vector<std::string> &params)
 {
+  if(!board.isFileLoaded())
+    return RESULT_CODE::NO_MAZE_LOADED;
+
   return RESULT_CODE::SUCCESS;
 }
 
