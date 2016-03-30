@@ -9,7 +9,7 @@
 
 namespace Message
 {
-  void print(RESULT_CODE result_code);
+  RESULT_CODE print(RESULT_CODE result_code);
 
   const char *get(RESULT_CODE result_code);
 };

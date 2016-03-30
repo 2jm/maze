@@ -4,33 +4,19 @@
 
 #include <Game.h>
 #include <ArgumentParser.h>
-#include <FileLoadException.h>
 #include "gtest/gtest.h"
 
 TEST(ArgumentParserTest, test_valid_1)
 {
   Game game;
   ArgumentParser a(game);
+  RESULT_CODE result;
   int argc = 1;
   const char *argv[] = {
           "path/to/executable"
   };
 
-  try
-  {
-    a.parse(argc, const_cast<char **>(argv));
-  }
-  catch(const InvalidCommandLineArgumentException &e)
-  {
-    FAIL();
-  }
-  catch(const FileLoadException &e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  ASSERT_NO_THROW(a.parse(argc, const_cast<char **>(argv)));
 }
 
 
@@ -47,21 +33,7 @@ TEST(ArgumentParserTest, test_valid_2)
           "filename"
   };
 
-  try
-  {
-    a.parse(argc, const_cast<char **>(argv));
-  }
-  catch(const InvalidCommandLineArgumentException &e)
-  {
-    FAIL();
-  }
-  catch(const FileLoadException &e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  ASSERT_NO_THROW(a.parse(argc, const_cast<char **>(argv)));
 }
 
 
@@ -123,21 +95,7 @@ TEST(ArgumentParserTest, not_enough_arguments_1)
           "-m",
   };
 
-  try
-  {
-    a.parse(argc, const_cast<char **>(argv));
-    FAIL();
-  }
-  catch(const InvalidCommandLineArgumentException &e)
-  {
-  }
-  catch(const FileLoadException &e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  ASSERT_THROW(a.parse(argc, const_cast<char **>(argv)), InvalidCommandLineArgumentException);
 }
 
 
@@ -153,21 +111,7 @@ TEST(ArgumentParserTest, not_enough_arguments_2)
           "-s"
   };
 
-  try
-  {
-    a.parse(argc, const_cast<char **>(argv));
-    FAIL();
-  }
-  catch(const InvalidCommandLineArgumentException &e)
-  {
-  }
-  catch(const FileLoadException &e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  ASSERT_THROW(a.parse(argc, const_cast<char **>(argv)), InvalidCommandLineArgumentException);
 }
 
 
@@ -183,21 +127,7 @@ TEST(ArgumentParserTest, not_enough_arguments_3)
           "filename"
   };
 
-  try
-  {
-    a.parse(argc, const_cast<char **>(argv));
-    FAIL();
-  }
-  catch(const InvalidCommandLineArgumentException &e)
-  {
-  }
-  catch(const FileLoadException &e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  ASSERT_THROW(a.parse(argc, const_cast<char **>(argv)), InvalidCommandLineArgumentException);
 }
 
 
@@ -212,21 +142,7 @@ TEST(ArgumentParserTest, invalid_argument_1)
           "-m"
   };
 
-  try
-  {
-    a.parse(argc, const_cast<char **>(argv));
-    FAIL();
-  }
-  catch(const InvalidCommandLineArgumentException &e)
-  {
-  }
-  catch(const FileLoadException &e)
-  {
-  }
-  catch(...)
-  {
-    FAIL();
-  }
+  ASSERT_THROW(a.parse(argc, const_cast<char **>(argv)), InvalidCommandLineArgumentException);
 }
 
 

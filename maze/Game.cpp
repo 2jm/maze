@@ -3,9 +3,9 @@
 //
 
 #include "Game.h"
-#include "FileLoadException.h"
 #include <iostream>
 #include <fstream>
+#include "Message.h"
 #include "CommandFastMove.h"
 #include "Convert.h"
 
@@ -21,7 +21,7 @@ void Game::setAutoSave(std::string file_name)
 }
 
 
-void Game::loadFile(std::string file_name)
+RESULT_CODE Game::loadFile(std::string file_name)
 {
   std::string saved_moves;
   std::string available_steps;
@@ -30,14 +30,14 @@ void Game::loadFile(std::string file_name)
   std::ifstream input_file(file_name, std::ifstream::binary);
 
   if(input_file.fail())
-    throw FileLoadException(RESULT_CODE::FILE_COULD_NOT_BE_OPENED);
+    return Message::print(RESULT_CODE::FILE_COULD_NOT_BE_OPENED);
 
 
   std::getline(input_file, saved_moves);
 
   std::getline(input_file, available_steps);
   if(available_steps == "")
-    throw FileLoadException(RESULT_CODE::INVALID_FILE);
+    return Message::print(RESULT_CODE::INVALID_FILE);
 
   try //convert available_steps
   {
@@ -45,7 +45,7 @@ void Game::loadFile(std::string file_name)
   }
   catch(const std::exception &e)
   {
-    throw FileLoadException(RESULT_CODE::INVALID_FILE);
+    return Message::print(RESULT_CODE::INVALID_FILE);
   }
 
   // read the map
@@ -55,7 +55,7 @@ void Game::loadFile(std::string file_name)
   long map_size = input_file.tellg() - map_start;
 
   if(map_size == 0)
-    throw FileLoadException(RESULT_CODE::INVALID_FILE);
+    return Message::print(RESULT_CODE::INVALID_FILE);
 
   // resize the map_string to this size
   map_string.resize(map_size);
@@ -66,24 +66,26 @@ void Game::loadFile(std::string file_name)
   input_file.close();
 
   if(!map_.loadFromString(map_string))
-    throw FileLoadException(RESULT_CODE::INVALID_FILE);
+    return Message::print(RESULT_CODE::INVALID_FILE);
 
   CommandFastMove fastMove;
   std::vector<std::string> fast_move_params;
   fast_move_params.push_back(saved_moves);
 
   if(fastMove.execute(*this, fast_move_params) != RESULT_CODE::SUCCESS)
-    throw FileLoadException(RESULT_CODE::INVALID_PATH);
+    return Message::print(RESULT_CODE::INVALID_PATH);
+
+  return RESULT_CODE::SUCCESS;
 }
 
 
-void Game::saveFile(std::string file_name)
+RESULT_CODE Game::saveFile(std::string file_name)
 {
   std::ofstream
           output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
 
   if(output_file.fail())
-    throw FileLoadException(RESULT_CODE::FILE_COULD_NOT_BE_WRITTEN);
+    return Message::print(RESULT_CODE::FILE_COULD_NOT_BE_WRITTEN);
 
 
   int move_history_index;
@@ -95,6 +97,8 @@ void Game::saveFile(std::string file_name)
   output_file << steps_left_ << '\n';
 
   output_file << map_.saveToString();
+
+  return RESULT_CODE::SUCCESS;
 }
 
 

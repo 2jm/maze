@@ -25,8 +25,16 @@
 //
 int main(int argc, char **argv)
 {
-  Maze maze;
-  return maze.run(argc, argv);
+  try
+  {
+    Maze maze;
+    return maze.run(argc, argv);
+  }
+  catch(const std::bad_alloc &e)
+  {
+    Message::print(RESULT_CODE::OUT_OF_MEMORY);
+    return RESULT_CODE::OUT_OF_MEMORY;
+  }
 }
 
 

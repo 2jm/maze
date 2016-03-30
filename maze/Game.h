@@ -10,6 +10,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "GameState.h"
+#include "ResultCode.h"
 
 class Game
 {
@@ -36,13 +37,13 @@ class Game
     // Load file method
     // Loads the file file_name
     //
-    void loadFile(std::string file_name);
+    RESULT_CODE loadFile(std::string file_name);
 
     //--------------------------------------------------------------------------
     // Load file method
     // Loads the file file_name
     //
-    void saveFile(std::string file_name);
+    RESULT_CODE saveFile(std::string file_name);
 
     //--------------------------------------------------------------------------
     // Move player method

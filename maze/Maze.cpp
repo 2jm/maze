@@ -3,6 +3,7 @@
 //
 
 #include "Maze.h"
+#include <iostream>
 
 Maze::Maze() :
         game_(),
@@ -14,13 +15,20 @@ Maze::Maze() :
 
 int Maze::run(int argc, char **argv)
 {
-  argument_parser_.parse(argc, argv);
+  try
+  {
+    argument_parser_.parse(argc, argv);
+  }
+  catch(const InvalidCommandLineArgumentException &e)
+  {
+    std::cout << e.what();
+    return RESULT_CODE::WRONG_USAGE;
+  }
 
   while(command_line_interface_.update());
 
-  return 0;
+  return RESULT_CODE::SUCCESS;
 }
-
 
 
 
