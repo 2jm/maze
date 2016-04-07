@@ -5,6 +5,7 @@
 #ifndef MAZE_COMMANDLINEINTERFACE_H
 #define MAZE_COMMANDLINEINTERFACE_H
 
+#include <vector>
 
 class Game;
 
@@ -12,6 +13,11 @@ class CommandLineInterface
 {
   private:
     Game &game_;
+    std::string input_string_;
+    std::string cmd;
+    std::string param;
+    std::string overflow;
+    bool checkLine();
 
   public:
     CommandLineInterface(Game &game);
