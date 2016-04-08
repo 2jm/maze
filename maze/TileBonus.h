@@ -10,9 +10,12 @@
 
 class TileBonus : public Tile
 {
+  private:
+    int steps_;
+    bool used_;
   public:
     TileBonus(int steps);
-    int steps_;
+    bool enter(Vector2d source_position, Vector2d new_position) override;
 };
 
 

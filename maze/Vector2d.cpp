@@ -38,6 +38,21 @@ Vector2d::Vector2d(Direction direction)
     *this = LEFT;
 }
 
+Vector2d::Vector2d(char sign)
+{
+  if(sign == '^')
+    *this = UP;
+
+  if(sign == '>')
+    *this = RIGHT;
+
+  if(sign == 'v')
+    *this = DOWN;
+
+  if(sign == '<')
+    *this = LEFT;
+}
+
 
 bool Vector2d::operator==(const Vector2d &other)
 {
@@ -47,6 +62,11 @@ bool Vector2d::operator==(const Vector2d &other)
 Vector2d Vector2d::operator+(const Vector2d &other)
 {
   return Vector2d(other.x_ + x_, other.y_ + y_);
+}
+
+Vector2d Vector2d::operator-(const Vector2d &other)
+{
+  return Vector2d(other.x_ - x_, other.y_ - y_);
 }
 
 
