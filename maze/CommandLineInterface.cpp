@@ -67,6 +67,12 @@ bool CommandLineInterface::checkLine()
   //-----check load parameter------
   if(!cmd.compare("load"))
   {
+    if(param.empty())
+    {
+      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      return false;
+    }
+
     for (iterator = 0; iterator < param.length() ; ++iterator)
     {
       if (param[iterator] < 'A' && param[iterator] > 'Z' &&
@@ -84,6 +90,12 @@ bool CommandLineInterface::checkLine()
   //-----check save parameter------
   if(!cmd.compare("save"))
   {
+    if(param.empty())
+    {
+      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      return false;
+    }
+
     for (iterator = 0; iterator < param.length() ; ++iterator)
     {
       if(param[iterator] < 'A' && param[iterator] > 'Z' &&
@@ -101,6 +113,12 @@ bool CommandLineInterface::checkLine()
   //-----check fastmove parameter------
   if(!cmd.compare("fastmove"))
   {
+    if(param.empty())
+    {
+      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      return false;
+    }
+
     for (iterator = 0; iterator < param.length() ; ++iterator)
     {
       if(param[iterator] != 'u' && param[iterator] != 'd' &&
@@ -116,6 +134,12 @@ bool CommandLineInterface::checkLine()
   //-----check move parameter------
   if(!cmd.compare("move"))
   {
+    if(param.empty())
+    {
+      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      return false;
+    }
+
     if(param != "up" && param != "down" &&
        param != "left" && param != "right")
     {
