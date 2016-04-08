@@ -9,7 +9,7 @@ TileBonus::TileBonus(int steps)
   steps_ = steps;
 }
 
-bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
+bool Tile::enter(Vector2d source_position, Vector2d new_position)
 {
   /*
        Für die Darstellung der Bonusfelder werden die Kleinbuchstaben 'a' bis 'e' verwendet, welche den Zahlenwerten 1 (=a) bis 5 (=e) entsprechen.
@@ -19,5 +19,12 @@ bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
 
         Achtung: Betreten und Verlassen des Bonusfeldes wird den üblichen Regeln entsprechend auch als jeweils 1 Schritt gewertet!
        */
+
+  new_position = position_;
+  // game_.steps_left_ += steps_;
+
+  // TODO: Nach Verlassen des Feldes wird das Bonusfeld zu einem normalen Wegfeld umgewandelt.
+  // maybe in player.cpp? accessed_tile = TilePath();
+
   return false;
 }

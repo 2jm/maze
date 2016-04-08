@@ -31,7 +31,7 @@ class Tile
     //Tile(TileType tiletype);
 
     // return value tells, if on the new tile enter should be called again (needed for the ice tile, if the player should move from tile to tile without having a chance to interact (move) again
-    virtual bool enter(Vector2d sourcePosition, Vector2d newPosition);
+    virtual bool enter(Vector2d source_position, Vector2d new_position);
 };
 
 

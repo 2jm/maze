@@ -19,17 +19,17 @@ bool Player::move(Direction direction)
   Vector2d move_vector = Vector2d(direction);
 
   // store initial position
-  Vector2d source_position_ = position_;
+  Vector2d source_position = position_;
 
   // TODO: maybe implement "+=" operator in Vector2d, so that "position_ += move_vector;" is possible
   // set new position
   position_ = position_ + move_vector;
 
-  Tile accessed_tile_ = map_.at(position_.x(), position_.y());
+  Tile accessed_tile = map_.at(position_.x(), position_.y());
   bool move_again;
   do
   {
-    move_again = accessed_tile_.enter(position_, source_position_);
+    move_again = accessed_tile.enter(position_, source_position);
   }
   while(move_again == true);
   // short form
@@ -39,6 +39,12 @@ bool Player::move(Direction direction)
   //map_.at(5, 6) = Tile();
   //map_[1][1] = Tile();
 
+  // lower remaining steps
+  // game_.steps_left_ -= 1;
+  // if(GAME_STATE != GAME_WON && game_.steps_left_ <= 0) // game_.stes_left_ könnte auch -1 sein, wenn Quicksand den step left counter bereits auf 0 setzt
+  //  GAME_STATE = LOST -> game lost!
+
+  // TODO: what does this return value mean? moving was successful?
   return false;
 }
 

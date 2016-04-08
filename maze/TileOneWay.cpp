@@ -4,7 +4,7 @@
 
 #include "TileOneWay.h"
 
-bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
+bool TileOneWay::enter(Vector2d source_position, Vector2d new_position)
 {
   /*
        Dieses Feld beschränkt den Spieler in seiner Bewegungsrichtung wie folgt:
@@ -12,5 +12,20 @@ bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
         Das Zirkumflex ('^', Asciiwert: 0x5E) bedeutet, dass das Feld nur nach oben verlassen werden kann.
         Der Kleinbuchstabe v bedeutet, dass das Feld nur nach unten verlassen werden kann.
        */
+  //if(new_position - source_position == Direction::UP && tile_direction_ == Direction::UP)
+  if((new_position - source_position) == tile_direction_)
+  {
+    // new position = position of the one way tile
+    //new_position = position_;
+  }
+  else
+  {
+    // prohibit moving against tile direction
+    new_position = source_position;
+  }
   return false;
+}
+
+TileOneWay::TileOneWay(char sign) : tile_direction_(Vector2d(sign))
+{
 }

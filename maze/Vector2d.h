@@ -23,6 +23,7 @@ class Vector2d
     Vector2d(int x, int y);
 
     Vector2d(Direction direction);
+    Vector2d(char sign);
 
     int getX() const
     {
@@ -52,6 +53,7 @@ class Vector2d
 
     bool operator==(const Vector2d &other);
     Vector2d operator+(const Vector2d &other);
+    Vector2d operator-(const Vector2d &other);
 
     operator Direction() const;
 
