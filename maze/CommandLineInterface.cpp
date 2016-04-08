@@ -54,13 +54,13 @@ bool CommandLineInterface::checkLine()
       cmd.compare("quit") &&
       !cmd.empty()) //cmd.empty() because no input is not invalid
   {
-    std::cout << "[ERR] Unknown command." << std::endl;
+    Message::print(ResultCode::UNKNOWN_COMMAND);
     return false;
   }
 
   if(!overflow.empty()) //check if there are to much params
   {
-    std::cout << "[ERR] Wrong parameter count." << std::endl;
+    Message::print(ResultCode::WRONG_PARAMETER_COUNT);
     return false;
   }
 
@@ -74,7 +74,7 @@ bool CommandLineInterface::checkLine()
           param[iterator] < '0' && param[iterator] > '9' &&
           param[iterator] != '.' && param[iterator] != '/')
       {
-        std::cout << "[ERR] Wrong parameter." << std::endl;
+        Message::print(ResultCode::WRONG_PARAMETER);
         return false;
       }
 
@@ -91,7 +91,7 @@ bool CommandLineInterface::checkLine()
          param[iterator] < '0' && param[iterator] > '9' &&
          param[iterator] != '.' && param[iterator] != '/')
       {
-        std::cout << "[ERR] Wrong parameter." << std::endl;
+        Message::print(ResultCode::WRONG_PARAMETER);
         return false;
       }
 
@@ -106,7 +106,7 @@ bool CommandLineInterface::checkLine()
       if(param[iterator] != 'u' && param[iterator] != 'd' &&
               param[iterator] != 'l' && param[iterator] != 'r')
       {
-        std::cout << "[ERR] Wrong parameter." << std::endl;
+        Message::print(ResultCode::WRONG_PARAMETER);
         return false;
       }
 
@@ -119,7 +119,7 @@ bool CommandLineInterface::checkLine()
     if(param != "up" && param != "down" &&
        param != "left" && param != "right")
     {
-      std::cout << "[ERR] Wrong parameter." << std::endl;
+      Message::print(ResultCode::WRONG_PARAMETER);
       return false;
     }
   }
@@ -129,7 +129,7 @@ bool CommandLineInterface::checkLine()
   {
     if(!param.empty() && param != "more")
     {
-      std::cout << "[ERR] Wrong parameter." << std::endl;
+      Message::print(ResultCode::WRONG_PARAMETER);
       return false;
     }
   }
@@ -139,7 +139,7 @@ bool CommandLineInterface::checkLine()
   {
     if(!param.empty())
     {
-      std::cout << "[ERR] Wrong parameter count." << std::endl;
+      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
       return false;
     }
   }
@@ -188,7 +188,7 @@ bool CommandLineInterface::execute()
   //-----quit------
   if(!cmd.compare("quit"))
   {
-    std::cout << "Bye!" << std::endl;
+    sMessage::print(ResultCode::BYE);
     return false;
   }
 }
