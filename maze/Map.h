@@ -23,6 +23,8 @@ class Map : public Matrix<Tile>
 
   private:
     bool is_loaded_;
+    Tile start_tile_;
+    Tile end_tile_;
 
   public:
     Map() : is_loaded_(false)
@@ -38,6 +40,18 @@ class Map : public Matrix<Tile>
     bool isLoaded()
     {
       return is_loaded_;
+    }
+
+    void check();
+
+    Tile getEndTile()
+    {
+        return end_tile_;
+    }
+
+    Tile getStartTile()
+    {
+        return start_tile_;
     }
 };
 

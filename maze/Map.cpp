@@ -21,6 +21,10 @@ void Map::clear()
   is_loaded_ = false;
 }
 
+void Map::check()
+{
+
+}
 
 
 
