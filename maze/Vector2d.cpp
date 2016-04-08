@@ -39,27 +39,6 @@ Vector2d::Vector2d(Direction direction)
 }
 
 
-/*int Vector2d::getX() const
-{
-  return x_;
-}
-
-int Vector2d::getY() const
-{
-  return y_;
-}
-
-void Vector2d::setX(int x)
-{
-  x_ = x;
-}
-
-void Vector2d::setY(int y)
-{
-  y_ = y;
-}*/
-
-
 bool Vector2d::operator==(const Vector2d &other)
 {
   return (x_ == other.x_ && y_ == other.y_);
