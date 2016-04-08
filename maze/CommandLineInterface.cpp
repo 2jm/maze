@@ -188,7 +188,7 @@ bool CommandLineInterface::execute()
   //-----quit------
   if(!cmd.compare("quit"))
   {
-    sMessage::print(ResultCode::BYE);
+    Message::print(ResultCode::BYE);
     return false;
   }
 }

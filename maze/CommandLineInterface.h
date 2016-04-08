@@ -6,6 +6,7 @@
 #define MAZE_COMMANDLINEINTERFACE_H
 
 #include <vector>
+#include "Message.h"
 
 class Game;
 
