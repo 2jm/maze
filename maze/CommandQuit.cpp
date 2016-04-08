@@ -4,7 +4,7 @@
 
 #include "CommandQuit.h"
 #include <iostream>
-using namespace std;
+using std::cout;
 
 CommandQuit::~CommandQuit(){}
 

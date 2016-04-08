@@ -5,7 +5,7 @@
 #include <iostream>
 #include "CommandMove.h"
 #include "Game.h"
-using namespace std;
+using std::cout;
 
 CommandMove::~CommandMove(){}
 
