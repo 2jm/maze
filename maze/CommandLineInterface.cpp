@@ -32,8 +32,13 @@ bool CommandLineInterface::update()
   //Transform the command into all LowerCase because its case insensitive
   std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
-  return checkLine();
+  if(checkLine())
+  {
+    return execute();
+  }
 
+
+  return true;
 }
 
 
@@ -43,20 +48,20 @@ bool CommandLineInterface::checkLine()
   //check if its a correct command
   if(cmd.compare("load") &&
       cmd.compare("save") &&
-      cmd.compare("fasmove") &&
+      cmd.compare("fastmove") &&
       cmd.compare("move") &&
       cmd.compare("show") &&
       cmd.compare("quit") &&
       !cmd.empty()) //cmd.empty() because no input is not invalid
   {
-    std::cout << "[ERR] Unknown command.\\n";
-    return true;
+    std::cout << "[ERR] Unknown command." << std::endl;
+    return false;
   }
 
   if(!overflow.empty()) //check if there are to much params
   {
-    std::cout << "[ERR] Wrong parameter count.\\n";
-    return true;
+    std::cout << "[ERR] Wrong parameter count." << std::endl;
+    return false;
   }
 
   //-----check load parameter------
@@ -67,8 +72,10 @@ bool CommandLineInterface::checkLine()
       if (param[iterator] < 'A' && param[iterator] > 'Z' &&
           param[iterator] < 'a' && param[iterator] > 'z' &&
           param[iterator] < '0' && param[iterator] > '9' &&
-          param[iterator] != '.' && param[iterator] != '/') {
-        std::cout << "[ERR] Wrong parameter.\\n";
+          param[iterator] != '.' && param[iterator] != '/')
+      {
+        std::cout << "[ERR] Wrong parameter." << std::endl;
+        return false;
       }
 
     }
@@ -84,7 +91,8 @@ bool CommandLineInterface::checkLine()
          param[iterator] < '0' && param[iterator] > '9' &&
          param[iterator] != '.' && param[iterator] != '/')
       {
-        std::cout << "[ERR] Wrong parameter.\\n";
+        std::cout << "[ERR] Wrong parameter." << std::endl;
+        return false;
       }
 
     }//check if param is correct (A-Z, a-z, 0-9, ., /)
@@ -98,7 +106,8 @@ bool CommandLineInterface::checkLine()
       if(param[iterator] != 'u' && param[iterator] != 'd' &&
               param[iterator] != 'l' && param[iterator] != 'r')
       {
-        std::cout << "[ERR] Wrong parameter.\\n";
+        std::cout << "[ERR] Wrong parameter." << std::endl;
+        return false;
       }
 
     }
@@ -110,7 +119,8 @@ bool CommandLineInterface::checkLine()
     if(param != "up" && param != "down" &&
        param != "left" && param != "right")
     {
-      std::cout << "[ERR] Wrong parameter.\\n";
+      std::cout << "[ERR] Wrong parameter." << std::endl;
+      return false;
     }
   }
 
@@ -119,7 +129,8 @@ bool CommandLineInterface::checkLine()
   {
     if(!param.empty() && param != "more")
     {
-      std::cout << "[ERR] Wrong parameter.\\n";
+      std::cout << "[ERR] Wrong parameter." << std::endl;
+      return false;
     }
   }
 
@@ -128,7 +139,8 @@ bool CommandLineInterface::checkLine()
   {
     if(!param.empty())
     {
-      std::cout << "[ERR] Wrong parameter count.\\n";
+      std::cout << "[ERR] Wrong parameter count." << std::endl;
+      return false;
     }
   }
 
@@ -136,4 +148,47 @@ bool CommandLineInterface::checkLine()
   return true;
 }
 
+bool CommandLineInterface::execute()
+{
+  //-----load------
+  if(!cmd.compare("load"))
+  {
+    //load from file
+    return true;
+  }
 
+  //-----save------
+  if(!cmd.compare("save"))
+  {
+    //save in file
+    return true;
+  }
+
+  //-----fastmove------
+  if(!cmd.compare("fastmove"))
+  {
+    //execute fastmove
+    return true;
+  }
+
+  //-----move------
+  if(!cmd.compare("move"))
+  {
+    //execute move
+    return true;
+  }
+
+  //-----show------
+  if(!cmd.compare("show"))
+  {
+    //execute show
+    return true;
+  }
+
+  //-----quit------
+  if(!cmd.compare("quit"))
+  {
+    std::cout << "Bye!" << std::endl;
+    return false;
+  }
+}

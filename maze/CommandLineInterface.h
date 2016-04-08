@@ -18,6 +18,7 @@ class CommandLineInterface
     std::string param;
     std::string overflow;
     bool checkLine();
+    bool execute();
 
   public:
     CommandLineInterface(Game &game);
