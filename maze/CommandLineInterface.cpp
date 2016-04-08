@@ -44,7 +44,7 @@ bool CommandLineInterface::update()
 
 bool CommandLineInterface::checkLine()
 {
-  int iterator;
+  int loop_counter;
   //check if its a correct command
   if(cmd.compare("load") &&
       cmd.compare("save") &&
@@ -73,12 +73,12 @@ bool CommandLineInterface::checkLine()
       return false;
     }
 
-    for (iterator = 0; iterator < param.length() ; ++iterator)
+    for (loop_counter = 0; loop_counter < param.length() ; ++loop_counter)
     {
-      if (param[iterator] < 'A' && param[iterator] > 'Z' &&
-          param[iterator] < 'a' && param[iterator] > 'z' &&
-          param[iterator] < '0' && param[iterator] > '9' &&
-          param[iterator] != '.' && param[iterator] != '/')
+      if (param[loop_counter] < 'A' && param[loop_counter] > 'Z' &&
+          param[loop_counter] < 'a' && param[loop_counter] > 'z' &&
+          param[loop_counter] < '0' && param[loop_counter] > '9' &&
+          param[loop_counter] != '.' && param[loop_counter] != '/')
       {
         Message::print(ResultCode::WRONG_PARAMETER);
         return false;
@@ -96,12 +96,12 @@ bool CommandLineInterface::checkLine()
       return false;
     }
 
-    for (iterator = 0; iterator < param.length() ; ++iterator)
+    for (loop_counter = 0; loop_counter < param.length() ; ++loop_counter)
     {
-      if(param[iterator] < 'A' && param[iterator] > 'Z' &&
-         param[iterator] < 'a' && param[iterator] > 'z' &&
-         param[iterator] < '0' && param[iterator] > '9' &&
-         param[iterator] != '.' && param[iterator] != '/')
+      if(param[loop_counter] < 'A' && param[loop_counter] > 'Z' &&
+         param[loop_counter] < 'a' && param[loop_counter] > 'z' &&
+         param[loop_counter] < '0' && param[loop_counter] > '9' &&
+         param[loop_counter] != '.' && param[loop_counter] != '/')
       {
         Message::print(ResultCode::WRONG_PARAMETER);
         return false;
@@ -119,10 +119,10 @@ bool CommandLineInterface::checkLine()
       return false;
     }
 
-    for (iterator = 0; iterator < param.length() ; ++iterator)
+    for (loop_counter = 0; loop_counter < param.length() ; ++loop_counter)
     {
-      if(param[iterator] != 'u' && param[iterator] != 'd' &&
-              param[iterator] != 'l' && param[iterator] != 'r')
+      if(param[loop_counter] != 'u' && param[loop_counter] != 'd' &&
+              param[loop_counter] != 'l' && param[loop_counter] != 'r')
       {
         Message::print(ResultCode::WRONG_PARAMETER);
         return false;
