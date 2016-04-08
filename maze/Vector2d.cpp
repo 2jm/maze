@@ -25,32 +25,39 @@ Vector2d::Vector2d(int x, int y) :
 
 Vector2d::Vector2d(Direction direction)
 {
-  if(direction == Direction::UP)
-    *this = UP;
-
-  if(direction == Direction::RIGHT)
-    *this = RIGHT;
-
-  if(direction == Direction::DOWN)
-    *this = DOWN;
-
-  if(direction == Direction::LEFT)
-    *this = LEFT;
+  switch(direction)
+  {
+    case Direction::UP:
+      *this = UP;
+    case Direction::RIGHT:
+      *this = RIGHT;
+    case Direction::DOWN:
+      *this = DOWN;
+    case Direction::LEFT:
+      *this = LEFT;
+    //case Direction::OTHER:
+      // TODO: what do here?
+      //*this = OTHER;
+      //*this = nullptr;
+  }
 }
 
 Vector2d::Vector2d(char sign)
 {
-  if(sign == '^')
-    *this = UP;
-
-  if(sign == '>')
-    *this = RIGHT;
-
-  if(sign == 'v')
-    *this = DOWN;
-
-  if(sign == '<')
-    *this = LEFT;
+  switch(sign)
+  {
+    case '^':
+      *this = UP;
+    case '>':
+      *this = RIGHT;
+    case 'v':
+      *this = DOWN;
+    case '<':
+      *this = LEFT;
+    //default:
+      // TODO: what to do when sign is something else?
+      //this = OTHER;
+  }
 }
 
 
@@ -72,7 +79,20 @@ Vector2d Vector2d::operator-(const Vector2d &other)
 
 Vector2d::operator Direction() const
 {
-  if(*this == UP)
+  switch((Direction)*this)
+  {
+    case Direction::UP:
+      return UP;
+    case Direction::RIGHT:
+      return RIGHT;
+    case Direction::DOWN:
+      return DOWN;
+    case Direction::LEFT:
+      return LEFT;
+    default:
+      return Direction::OTHER;
+  }
+/*  if(*this == UP)
     return Direction::UP;
 
   if(*this == RIGHT)
@@ -84,7 +104,7 @@ Vector2d::operator Direction() const
   if(*this == LEFT)
     return Direction::LEFT;
 
-  return Direction::OTHER;
+  return Direction::OTHER;*/
 }
 
 
