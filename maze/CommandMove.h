@@ -7,9 +7,12 @@
 
 
 #include "Command.h"
+#include "Direction.h"
 
 class CommandMove : public Command
 {
+  private:
+    Direction string_to_direction(std::string direction_string);
   public:
     CommandMove() : Command("move"){}
     virtual ~CommandMove();
