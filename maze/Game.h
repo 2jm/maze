@@ -71,7 +71,7 @@ class Game
 
     void lostGame()
     {
-      //game_state_ = GameState::LOST;
+      game_state_ = GameState::NO_MOVES_LEFT;
     }
 
     int getStepsLeft()
