@@ -80,7 +80,6 @@ TEST(GameTest, test_impossible_moves)
 TEST(GameTest, test_complete_teleporter)
 {
   Game game;
-
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"complete_teleporter.txt"), ResultCode::SUCCESS);
 }
 
