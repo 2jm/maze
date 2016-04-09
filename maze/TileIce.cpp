@@ -6,6 +6,5 @@
 
 bool Tile::enter(Vector2d source_position, Vector2d new_position)
 {
-  new_position = position_;
   return true;
 }

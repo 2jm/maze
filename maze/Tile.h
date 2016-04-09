@@ -22,11 +22,10 @@
 
 class Tile
 {
-  private:
+  protected:
     Vector2d position_;
     //TileType tileType_;
     //int add_;
-
   public:
     //Tile(TileType tiletype);
 

@@ -4,7 +4,7 @@
 
 #include "TileBonus.h"
 
-TileBonus::TileBonus(int steps) : steps_(steps), used_(false)
+TileBonus::TileBonus(int steps_add, Game &board) : steps_add_(steps_add), used_(false), board_(&board)
 {
 }
 
@@ -19,15 +19,13 @@ bool TileBonus::enter(Vector2d source_position, Vector2d new_position)
         Achtung: Betreten und Verlassen des Bonusfeldes wird den üblichen Regeln entsprechend auch als jeweils 1 Schritt gewertet!
        */
 
-  //new_position = position_;
+  // new position = position of the path tile
+  source_position = new_position;
 
   if(!used_)
   {
-    // TODO: Nach Verlassen des Feldes wird das Bonusfeld zu einem normalen Wegfeld umgewandelt.
-    // old: maybe in player.cpp? accessed_tile = TilePath();
-    // current: check with bool variable used_
-
-    // game_.steps_left_ += steps_;
+    int steps_left = board_->getStepsLeft() + steps_add_;
+    board_->setStepsLeft(steps_left);
     used_ = true;
   }
 

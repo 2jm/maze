@@ -107,6 +107,8 @@ ResultCode Game::saveFile(std::string file_name)
 
 bool Game::movePlayer(Direction direction)
 {
+  // TODO: only move, when Game hasn't been already won!
+
   if(fast_moving_ && fast_move_player_copy_.move(direction))
   {
     fast_move_move_history.push_back(direction);
@@ -117,8 +119,9 @@ bool Game::movePlayer(Direction direction)
     // decrement 1 step for a single move
     steps_left_--;
 
-    // TODO: if(GAME_STATE != GAME_WON && game_.steps_left_ <= 0) // game_.stes_left_ könnte auch -1 sein, wenn Quicksand den step left counter bereits auf 0 setzt
-    //  GAME_STATE = LOST -> game lost!
+    //TODO: game lost when no steps are left and game hasn't been won
+    if(game_state_ != GameState::WON && steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
+      lostGame();
 
     move_history_.push_back(direction);
 

@@ -4,9 +4,13 @@
 
 #include "TileFinish.h"
 
-bool Tile::enter(Vector2d source_position, Vector2d new_position)
+TileFinish::TileFinish(Game &board) : board_(&board)
+{
+}
+
+bool TileFinish::enter(Vector2d source_position, Vector2d new_position)
 {
   // won the game
-  // TODO
+  board_->wonGame();
   return false;
 }

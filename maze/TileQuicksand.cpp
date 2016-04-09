@@ -4,12 +4,11 @@
 
 #include "TileQuicksand.h"
 
-TileQuicksand::TileQuicksand(int steps)
+TileQuicksand::TileQuicksand(Game &board, int steps) : board_(&board), remove_steps_(steps)
 {
-  steps_ = steps;
 }
 
-bool Tile::enter(Vector2d source_position, Vector2d new_position)
+bool TileQuicksand::enter(Vector2d source_position, Vector2d new_position)
 {
   /*
        Für die Darstellung der Treibsandfelder werden die Kleinbuchstaben 'f' bis 'j' verwendet, welche den Zahlenwerten 1 (=f) bis 5 (=j) entsprechen.
@@ -19,11 +18,11 @@ bool Tile::enter(Vector2d source_position, Vector2d new_position)
 
         Achtung: Betreten und Verlassen des Treibsandfeldes wird den üblichen Regeln entsprechend auch als jeweils 1 Schritt gewertet!
        */
-  new_position = position_;
-  // game_.steps_left_ += steps_;
-  // if(game_.steps_left_ < 0)
-  //    game_steps_left_ = 0;
 
-  // TODO: what is if int overflow occures in steps_left_? check that?
+  // position_ = position of the tile
+  source_position = new_position;
+  int steps_left = board_->getStepsLeft() - remove_steps_;
+  board_->setStepsLeft(steps_left);
+
   return false;
 }

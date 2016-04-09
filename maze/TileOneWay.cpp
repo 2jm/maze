@@ -13,16 +13,18 @@ bool TileOneWay::enter(Vector2d source_position, Vector2d new_position)
         Der Kleinbuchstabe v bedeutet, dass das Feld nur nach unten verlassen werden kann.
        */
   //if(new_position - source_position == Direction::UP && tile_direction_ == Direction::UP)
-  if((new_position - source_position) == tile_direction_)
+  if((new_position - source_position) == tile_direction_) // TODO: check if new_position and source_position should be changed (UP and DOWN would then be reversed, ditto LEFT and RIGHT
   {
-    // new position = position of the one way tile
-    //new_position = position_;
+    // position_ = position of the tile
+    source_position = new_position;
   }
-  else
-  {
-    // prohibit moving against tile direction
-    new_position = source_position;
-  }
+
+  // prohibit moving against tile direction -> do nothing
+  //else
+  //{
+    //new_position = source_position;
+  //}
+
   return false;
 }
 
