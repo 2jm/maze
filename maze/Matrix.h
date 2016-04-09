@@ -91,6 +91,11 @@ class Matrix
     {
       return rows_.at(row_index).at(element_index);
     }
+
+    T& operator[](Vector2d position)
+    {
+      return rows_[position.x()][position.y()];
+    }
 };
 
 

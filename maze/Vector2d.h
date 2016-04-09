@@ -54,6 +54,7 @@ class Vector2d
     bool operator==(const Vector2d &other);
     Vector2d operator+(const Vector2d &other);
     Vector2d operator-(const Vector2d &other);
+    Vector2d operator+=(const Vector2d &other);
 
     operator Direction() const;
 

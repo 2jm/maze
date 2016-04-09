@@ -76,6 +76,11 @@ Vector2d Vector2d::operator-(const Vector2d &other)
   return Vector2d(other.x_ - x_, other.y_ - y_);
 }
 
+Vector2d Vector2d::operator+=(const Vector2d &other)
+{
+  return Vector2d(other.x_ + x_, other.y_ + y_);
+}
+
 
 Vector2d::operator Direction() const
 {

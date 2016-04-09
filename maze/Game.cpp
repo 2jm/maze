@@ -114,6 +114,12 @@ bool Game::movePlayer(Direction direction)
   }
   else if(!fast_moving_ && player_.move(direction))
   {
+    // decrement 1 step for a single move
+    steps_left_--;
+
+    // TODO: if(GAME_STATE != GAME_WON && game_.steps_left_ <= 0) // game_.stes_left_ könnte auch -1 sein, wenn Quicksand den step left counter bereits auf 0 setzt
+    //  GAME_STATE = LOST -> game lost!
+
     move_history_.push_back(direction);
 
     std::cout << map_.saveToString() << std::endl;
