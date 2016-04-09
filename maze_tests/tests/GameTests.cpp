@@ -91,3 +91,21 @@ TEST(GameTest, test_incomplete_teleporter)
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"incomplete_teleporter.txt"), ResultCode::INVALID_FILE);
 }
 
+TEST(GameTest, test_game_won)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid.txt"), ResultCode::SUCCESS);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::PLAYING);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::WON);
+}
+
+TEST(GameTest, test_game_lost)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_inusfficient_steps.txt"), ResultCode::SUCCESS);
+  game.movePlayer(Direction::RIGHT);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::NO_MOVES_LEFT);
+}
