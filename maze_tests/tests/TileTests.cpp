@@ -15,6 +15,7 @@ TEST(TileTest, test_bonus)
   {
     game.movePlayer(Direction::RIGHT);
   }
+  EXPECT_EQ(game.getStepsLeft(), 0);
   EXPECT_EQ(game.getState(), GameState::WON);
 }
 
