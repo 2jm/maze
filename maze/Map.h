@@ -7,6 +7,7 @@
 
 #include "Matrix.h"
 #include "Tile.h"
+#include "Message.h"
 #include <string>
 //#include <string>
 
@@ -23,8 +24,10 @@ class Map : public Matrix<Tile>
 
   private:
     bool is_loaded_;
-    Tile start_tile_;
-    Tile end_tile_;
+    Tile start_tile_, end_tile_;
+    int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
+    bool wall_only_;                //0 if only '#' in this line
+    int teleporter_pair_[26];       //-1 --> doesn't exist; 0 --> exists once; 1 --> exists twice
 
   public:
     Map() : is_loaded_(false)
@@ -42,7 +45,7 @@ class Map : public Matrix<Tile>
       return is_loaded_;
     }
 
-    void check();
+    void check(std::string map_string);
 
     Tile getEndTile()
     {
