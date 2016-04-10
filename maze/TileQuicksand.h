@@ -7,12 +7,16 @@
 
 
 #include "Tile.h"
+#include "Game.h"
 
 class TileQuicksand : public Tile
 {
+  private:
+    int remove_steps_;
+    Game *board_;
   public:
-    TileQuicksand(int steps);
-    int steps_;
+    TileQuicksand(Game &board, int remove_steps);
+    bool enter(Vector2d source_position, Vector2d new_position) override;
 };
 
 

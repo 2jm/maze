@@ -4,9 +4,9 @@
 
 #include "TileWall.h"
 
-bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
+bool Tile::enter(Vector2d source_position, Vector2d new_position)
 {
   // don't move into the wall
-  newPosition = sourcePosition;
+  new_position = source_position;
   return false;
 }

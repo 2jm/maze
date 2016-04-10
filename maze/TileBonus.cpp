@@ -4,12 +4,11 @@
 
 #include "TileBonus.h"
 
-TileBonus::TileBonus(int steps)
+TileBonus::TileBonus(int steps_add, Game &board) : steps_add_(steps_add), used_(false), board_(&board)
 {
-  steps_ = steps;
 }
 
-bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
+bool TileBonus::enter(Vector2d source_position, Vector2d new_position)
 {
   /*
        Für die Darstellung der Bonusfelder werden die Kleinbuchstaben 'a' bis 'e' verwendet, welche den Zahlenwerten 1 (=a) bis 5 (=e) entsprechen.
@@ -19,5 +18,16 @@ bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
 
         Achtung: Betreten und Verlassen des Bonusfeldes wird den üblichen Regeln entsprechend auch als jeweils 1 Schritt gewertet!
        */
+
+  // new position = position of the path tile
+  source_position = new_position;
+
+  if(!used_)
+  {
+    int steps_left = board_->getStepsLeft() + steps_add_;
+    board_->setStepsLeft(steps_left);
+    used_ = true;
+  }
+
   return false;
 }

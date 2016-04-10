@@ -4,9 +4,9 @@
 
 #include "TilePath.h"
 
-bool Tile::enter(Vector2d sourcePosition, Vector2d newPosition)
+bool Tile::enter(Vector2d source_position, Vector2d new_position)
 {
-  // new position = position of the path tile
-  newPosition = position_;
+  // position_ = position of the tile
+  source_position = new_position;
   return false;
 }

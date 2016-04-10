@@ -63,6 +63,29 @@ class Game
     {
       return game_state_;
     }
+
+    void wonGame()
+    {
+      game_state_ = GameState::WON;
+    }
+
+    void lostGame()
+    {
+      game_state_ = GameState::NO_MOVES_LEFT;
+    }
+
+    int getStepsLeft()
+    {
+      return steps_left_;
+    }
+
+    void setStepsLeft(int steps_left)
+    {
+      // TODO: what is if int overflow occures? check that?
+      if(steps_left < 0)
+        steps_left = 0;
+      steps_left_ = steps_left;
+    }
 };
 
 

@@ -80,7 +80,6 @@ TEST(GameTest, test_impossible_moves)
 TEST(GameTest, test_complete_teleporter)
 {
   Game game;
-
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"complete_teleporter.txt"), ResultCode::SUCCESS);
 }
 
@@ -91,3 +90,46 @@ TEST(GameTest, test_incomplete_teleporter)
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"incomplete_teleporter.txt"), ResultCode::INVALID_FILE);
 }
 
+TEST(GameTest, test_game_won)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid.txt"), ResultCode::SUCCESS);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::PLAYING);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::WON);
+}
+
+TEST(GameTest, test_move_after_game_won)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid.txt"), ResultCode::SUCCESS);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::PLAYING);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::WON);
+  game.movePlayer(Direction::LEFT);
+  // TODO: expect throw here?
+}
+
+
+TEST(GameTest, test_game_lost)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_inusfficient_steps.txt"), ResultCode::SUCCESS);
+  game.movePlayer(Direction::RIGHT);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::NO_MOVES_LEFT);
+}
+
+TEST(GameTest, test_move_after_game_lost)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_inusfficient_steps.txt"), ResultCode::SUCCESS);
+  game.movePlayer(Direction::RIGHT);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), GameState::NO_MOVES_LEFT);
+  game.movePlayer(Direction::LEFT);
+  // TODO: expect throw here?
+  EXPECT_EQ(game.getState(), GameState::NO_MOVES_LEFT);
+}

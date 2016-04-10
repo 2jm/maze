@@ -7,10 +7,15 @@
 
 
 #include "Tile.h"
+#include "Game.h"
 
 class TileFinish : public Tile
 {
-
+  private:
+    Game *board_;
+  public:
+    TileFinish(Game &board);
+    bool enter(Vector2d source_position, Vector2d new_position) override;
 };
 
 

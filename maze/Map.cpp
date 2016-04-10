@@ -4,14 +4,18 @@
 
 #include "Map.h"
 
-bool Map::loadFromString(std::string map_string)
+using std::string;
+
+bool Map::loadFromString(string map_string)
 {
+  //jede Zeile des Spielfelds muss mit # aufhören.
   is_loaded_ = true;
   return true;
 }
 
-std::string Map::saveToString()
+string Map::saveToString()
 {
+  string res;
   return "";
 }
 

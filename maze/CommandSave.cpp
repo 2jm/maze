@@ -12,7 +12,7 @@ ResultCode CommandSave::execute(Game &board, std::vector<std::string> &params)
   if(board.getState() == GameState::NO_MAZE_LOADED)
     return ResultCode::NO_MAZE_LOADED;
 
-  return ResultCode::SUCCESS;
+  return board.saveFile(params[0]);
 }
 
 /*

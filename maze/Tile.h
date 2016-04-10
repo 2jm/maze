@@ -7,11 +7,6 @@
 
 #include "Vector2d.h"
 
-/*enum TileType
-{
-  Wall, Path, Start, Finish, Ice, Teleport, OneWay, Bonus, Quicksand
-};*/
-
 //enum class TileType : char
 //{
 //    Wall = '',
@@ -27,14 +22,15 @@
 
 class Tile
 {
-  private:
+  protected:
     Vector2d position_;
     //TileType tileType_;
     //int add_;
-
   public:
     //Tile(TileType tiletype);
-    virtual bool enter(Vector2d sourcePosition, Vector2d newPosition);
+
+    // return value tells, if on the new tile enter should be called again (needed for the ice tile, if the player should move from tile to tile without having a chance to interact (move) again
+    virtual bool enter(Vector2d source_position, Vector2d new_position);
 };
 
 
