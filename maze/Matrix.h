@@ -68,7 +68,6 @@ class Matrix
 
     void resize();
 
-
   public:
     Matrix();
     Matrix(unsigned int width, unsigned int height);
@@ -95,6 +94,12 @@ class Matrix
     T& operator[](Vector2d position)
     {
       return rows_[position.x()][position.y()];
+    }
+
+  protected:
+    Vector2d getSize()
+    {
+      return size_;
     }
 };
 
