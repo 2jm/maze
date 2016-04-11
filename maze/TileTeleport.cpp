@@ -4,7 +4,11 @@
 
 #include "TileTeleport.h"
 
-bool Tile::enter(Vector2d source_position, Vector2d new_position)
+TileTeleport::TileTeleport(Game &board) : board_(&board)
+{
+}
+
+bool TileTeleport::enter(Vector2d source_position, Vector2d new_position)
 {
   /*
   Ein Teleportfeld ist durch Großbuchstaben gekennzeichnet. Jeweils zwei Teleportfelder, die den gleichen Großbuchstaben haben, gehören zusammen.
@@ -13,5 +17,8 @@ bool Tile::enter(Vector2d source_position, Vector2d new_position)
   Die Teleportfunktion kann in beide Richtungen genutzt werden.
   Die Teleportation selbst verringert die verbleibende Schrittanzahl nicht. Nur das Betreten und Verlassen des Teleportfeldes zählen jeweils als 1 Schritt.
   */
+
+  //board_->map_.getTeleporterPair('');
+
   return false;
 }

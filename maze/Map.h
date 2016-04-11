@@ -49,29 +49,7 @@ class Map : public Matrix<Tile>
         return start_tile_;
     }
 
-    Tile getTeleporterPair(char name) // returns the corresponding second match of the teleporter tile with the given name
-    {
-      int pair_count = name - 65; // 'A' = 65, 'B' = 66, ..
-      if(teleporter_pair_[pair_count] == 1) // exsits twice
-      {
-        std::map<int, int>::iterator pair_iterator = teleporter_pair_map_.find(pair_count);
-        if(pair_iterator != teleporter_pair_map_.end()) // found value by key
-        {
-          int matching_teleporter = pair_iterator->second;
-          int row = matching_teleporter / this->getSize().x();
-          int col = matching_teleporter % this->getSize().x();
-          return this->at(row, col);
-        }
-      }
-      else if(teleporter_pair_[pair_count] == 0) // exists once
-      {
-
-      }
-      else if(teleporter_pair_[pair_count] == -1) // doesn't exist
-      {
-
-      }
-    }
+    Tile getTeleporterPair(char name);
 };
 
 
