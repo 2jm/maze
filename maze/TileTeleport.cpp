@@ -4,9 +4,9 @@
 
 #include "TileTeleport.h"
 
-TileTeleport::TileTeleport(Game &board) : board_(&board)
+/*TileTeleport::TileTeleport(Game &board) : board_(&board)
 {
-}
+}*/
 
 bool TileTeleport::enter(Vector2d source_position, Vector2d new_position)
 {
@@ -19,6 +19,8 @@ bool TileTeleport::enter(Vector2d source_position, Vector2d new_position)
   */
 
   //board_->map_.getTeleporterPair('');
+
+  source_position = corr_teleport_->position_;
 
   return false;
 }

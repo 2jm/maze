@@ -12,10 +12,12 @@
 class TileTeleport : public Tile
 {
   private:
-    Game *board_;
+    //Game *board_;
+    TileTeleport *corr_teleport_;
   public:
-    TileTeleport(Game &board);
+    TileTeleport();//Game &board);
     bool enter(Vector2d source_position, Vector2d new_position) override;
+    //setCorrespondingTeleport(TileTeleport teleport_);
 };
 
 
