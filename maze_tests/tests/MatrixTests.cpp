@@ -35,3 +35,14 @@ TEST(MatrixTest, resize)
 
   EXPECT_THROW(matrix.at(5, 5) = 7, std::out_of_range);
 }
+
+TEST(MatrixTest, put)
+{
+  Matrix<int> matrix(3, 3);
+
+  EXPECT_THROW(matrix.at(5, 5) = 7, std::out_of_range);
+
+  EXPECT_NO_THROW(matrix.put(7, 5, 5));
+
+  EXPECT_NO_THROW(matrix.at(5, 5) = 7);
+}

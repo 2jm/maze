@@ -73,8 +73,16 @@ class Matrix
     Matrix(unsigned int width, unsigned int height);
     Matrix(Vector2d size);
 
-    void resize(unsigned int width, unsigned int height);
+    void resize(unsigned int width, unsigned int height)
+    {
+      resize(Vector2d(width, height));
+    }
     void resize(Vector2d new_size);
+
+    Vector2d getSize()
+    {
+      return size_;
+    }
 
     MatrixRow& operator[](unsigned int row_index)
     {
@@ -96,10 +104,10 @@ class Matrix
       return rows_[position.x()][position.y()];
     }
 
-  protected:
-    Vector2d getSize()
+    void put(T element, Vector2d position);
+    void put(T element, int position_x, int position_y)
     {
-      return size_;
+      put(element, Vector2d(position_x, position_y));
     }
 };
 
@@ -136,17 +144,28 @@ void Matrix<T>::resize()
   }
 }
 
-template<class T>
-void Matrix<T>::resize(unsigned int width, unsigned int height)
-{
-  resize(Vector2d(width, height));
-}
 
 template<class T>
 void Matrix<T>::resize(Vector2d new_size)
 {
   size_ = new_size;
   resize();
+}
+
+template<class T>
+void Matrix<T>::put(T element, Vector2d position)
+{
+  Vector2d new_size = size_;
+
+  if(position.x() >= size_.x())
+    new_size.setX(position.x() + 1);
+
+  if(position.y() >= size_.y())
+    new_size.setY(position.y() + 1);
+
+  resize(new_size);
+
+  (*this)[position] = element;
 }
 
 #endif //MAZE_MATRIX_H
