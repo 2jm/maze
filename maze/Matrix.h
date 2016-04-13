@@ -36,6 +36,17 @@ class Matrix
         MatrixRow()
         {}
 
+        ~MatrixRow() {
+          if(std::is_pointer<T>::value)
+          {
+            while(elements_.size() > 0)
+            {
+              delete (elements_.back());
+              elements_.pop_back();
+            }
+          }
+        }
+
       public:
         T& operator[](unsigned int element_index)
         {
@@ -56,6 +67,11 @@ class Matrix
         void construct( U* p, Args&&... args )
         {
           ::new((void *)p) U(std::forward<Args>(args)...);
+        }
+
+        template<class U>
+        void destroy(U *p) {
+
         }
 
         template< class U > struct rebind { typedef MatrixRowAllocator other; };
@@ -151,6 +167,7 @@ void Matrix<T>::resize(Vector2d new_size)
   size_ = new_size;
   resize();
 }
+
 
 template<class T>
 void Matrix<T>::put(T element, Vector2d position)

@@ -37,28 +37,26 @@ bool CommandLineInterface::update()
 
   std::istringstream iss(input_string_);
   cmd.clear();
-  param.clear();
-  overflow.clear();
 
-  //Split the input into command, parameter, and the rest
+  //Split the input into command and parameter
   iss >> cmd;
-  iss >> param;
-  iss >> overflow;
+
+  std::string param;
+  while(iss >> param)
+    params.push_back(param);
 
   //Transform the command into all LowerCase because its case insensitive
   std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
-
-  if(checkLine())
-  {
-    return execute();
-  }
-
+  //if(checkLine())
+  //{
+  return execute();
+  //}
 
   return true;
 }
 
-
+/*
 bool CommandLineInterface::checkLine()
 {
   int loop_counter;
@@ -187,7 +185,7 @@ bool CommandLineInterface::checkLine()
 
 
   return true;
-}
+}*/
 
 bool CommandLineInterface::execute()
 {

@@ -13,25 +13,23 @@ ResultCode CommandFastMove::execute(Game &board,
   if(params.size() != 1)
     return ResultCode::WRONG_PARAMETER_COUNT;
 
-  if(board.getState() == GameState::NO_MAZE_LOADED)
+  std::string fast_move_string = params[0];
+
+  if(!isValidFastMoveString(fast_move_string))
+    return ResultCode::WRONG_PARAMETER;
+
+  if(!board.startFastMove())
     return ResultCode::NO_MAZE_LOADED;
 
-  std::string fast_move_string = params[0];
   int fast_move_string_index;
-
-  board.startFastMove();
-
   for(fast_move_string_index = 0;
       fast_move_string_index < fast_move_string.length();
       fast_move_string_index++)
   {
     Direction move_direction =
-            char_to_direction(fast_move_string[fast_move_string_index]);
+            charToDirection(fast_move_string[fast_move_string_index]);
 
-    // This works because board.movePlayer is not called when
-    // move_direction = Direction::OTHER
-    if(move_direction == Direction::OTHER ||
-       !board.movePlayer(move_direction))
+    if(!board.movePlayer(move_direction))
     {
       board.cancelFastMove();
       return ResultCode::INVALID_MOVE;
@@ -43,8 +41,24 @@ ResultCode CommandFastMove::execute(Game &board,
   return ResultCode::SUCCESS;
 }
 
+bool CommandFastMove::isValidFastMoveString(std::string fast_move_string)
+{
+  int fast_move_string_index;
+  for(fast_move_string_index = 0;
+      fast_move_string_index < fast_move_string.length();
+      fast_move_string_index++)
+  {
+    if(charToDirection(fast_move_string[fast_move_string_index])
+        == Direction::OTHER)
+    {
+      return false;
+    }
+  }
 
-Direction CommandFastMove::char_to_direction(char direction_char)
+  return true;
+}
+
+Direction CommandFastMove::charToDirection(char direction_char)
 {
   switch(direction_char)
   {

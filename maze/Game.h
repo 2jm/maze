@@ -51,7 +51,7 @@ class Game
     //
     bool movePlayer(Direction direction);
 
-    void startFastMove();
+    bool startFastMove();
 
     void completeFastMove();
 

@@ -137,8 +137,11 @@ bool Game::movePlayer(Direction direction)
 }
 
 
-void Game::startFastMove()
+bool Game::startFastMove()
 {
+  if(game_state_ == GameState::NO_MAZE_LOADED)
+    return false;
+
   fast_moving_ = true;
   fast_move_map_copy_ = map_;
   fast_move_player_copy_.setPosition(player_.getPosition());
