@@ -97,20 +97,14 @@ Vector2d::operator Direction() const
     default:
       return Direction::OTHER;
   }
-/*  if(*this == UP)
-    return Direction::UP;
-
-  if(*this == RIGHT)
-    return Direction::RIGHT;
-
-  if(*this == DOWN)
-    return Direction::DOWN;
-
-  if(*this == LEFT)
-    return Direction::LEFT;
-
-  return Direction::OTHER;*/
 }
+
+
+
+
+
+
+
 
 
 
