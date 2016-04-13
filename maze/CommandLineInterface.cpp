@@ -7,6 +7,12 @@
 #include <string.h>
 #include <algorithm>
 #include "CommandLineInterface.h"
+#include "CommandLoad.h"
+#include "CommandSave.h"
+#include "CommandFastMove.h"
+#include "CommandMove.h"
+#include "CommandShow.h"
+#include "CommandQuit.h"
 
 CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 {
@@ -31,6 +37,7 @@ bool CommandLineInterface::update()
 
   //Transform the command into all LowerCase because its case insensitive
   std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
+
 
   if(checkLine())
   {
@@ -177,42 +184,48 @@ bool CommandLineInterface::execute()
   //-----load------
   if(!cmd.compare("load"))
   {
-    //load from file
+    CommandLoad command_load;
+    command_load.execute(game_, params);
     return true;
   }
 
   //-----save------
   if(!cmd.compare("save"))
   {
-    //save in file
+    CommandSave command_save;
+    command_save.execute(game_, params);
     return true;
   }
 
   //-----fastmove------
   if(!cmd.compare("fastmove"))
   {
-    //execute fastmove
+    CommandFastMove command_fast_move;
+    command_fast_move.execute(game_, params);
     return true;
   }
 
   //-----move------
   if(!cmd.compare("move"))
   {
-    //execute move
+    CommandMove command_move;
+    command_move.execute(game_, params);
     return true;
   }
 
   //-----show------
   if(!cmd.compare("show"))
   {
-    //execute show
+    CommandShow command_show;
+    command_show.execute(game_, params);
     return true;
   }
 
   //-----quit------
   if(!cmd.compare("quit"))
   {
-    Message::print(ResultCode::BYE);
+    CommandQuit command_quit;
+    command_quit.execute(game_, params);
     return false;
   }
 }
