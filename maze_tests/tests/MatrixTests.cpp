@@ -46,3 +46,16 @@ TEST(MatrixTest, put)
 
   EXPECT_NO_THROW(matrix.at(5, 5) = 7);
 }
+
+TEST(MatrixTest, toString)
+{
+  Matrix<char> matrix(3, 3);
+
+  char i, j, n = 0;
+
+  for(i=0; i<3; i++)
+    for(j=0; j<3; j++, n++)
+      matrix[i][j] = '1' + n;
+
+  EXPECT_EQ("123\n456\n789\n", static_cast<std::string>(matrix));
+}

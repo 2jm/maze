@@ -215,9 +215,9 @@ Matrix<T>::operator std::string() const
   for(auto &row : rows_)
   {
     for(auto &element : row)
-    {
       matrix_string += element;
-    }
+
+    matrix_string += '\n';
   }
 
   return matrix_string;
