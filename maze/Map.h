@@ -11,9 +11,12 @@
 #include <string>
 #include <map>
 
+class Game;
+
 class Map : public Matrix<Tile*>
 {
   private:
+    Game &game_;
     bool is_loaded_;
     Tile *start_tile_, *end_tile_;
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
@@ -21,10 +24,10 @@ class Map : public Matrix<Tile*>
     int teleporter_pair_[26];       //-1 --> doesn't exist; 0 --> exists once; 1 --> exists twice, size is 26 -> every char of the alphabet
     std::map<int, int> teleporter_pair_map_; // stores the corresponding teleporter pairs
 
+
   public:
-    Map() : is_loaded_(false)
-    {
-    }
+    Map(Game &game) : game_(game), is_loaded_(false)
+    {}
 
     bool loadFromString(std::string map_string);
 
