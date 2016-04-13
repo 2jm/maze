@@ -14,22 +14,16 @@ ResultCode CommandMove::execute(Game &board, std::vector<std::string> &params)
   if(params.size() != 1)
     return ResultCode::WRONG_PARAMETER_COUNT;
 
+  Direction move_direction = string_to_direction(params[0]);
+
+  if(move_direction == Direction::OTHER)
+    return ResultCode::WRONG_PARAMETER;
+
   if(board.getState() == GameState::NO_MAZE_LOADED)
     return ResultCode::NO_MAZE_LOADED;
 
-  std::string move_string = params[0];
-  Direction move_direction = string_to_direction(move_string);
-
-  if(move_direction == Direction::OTHER || !board.movePlayer(move_direction))
-  {
+  if(!board.movePlayer(move_direction))
     return ResultCode::INVALID_MOVE;
-  }
-
-//  for(auto const &value: params)
-//  {
-//    /* std::cout << value; ... */
-//    std::cout << value << std::endl;
-//  }
 
   return ResultCode::SUCCESS;
 }
@@ -57,16 +51,3 @@ Direction CommandMove::string_to_direction(std::string direction_string)
     return Direction::OTHER;
   }
 }
-
-/*
-Der move-Befehl bewegt den Spieler in die in <direction> angegebene Richtung, wenn der Schritt gültig ist.
-Der Parameter <direction> ist genau dann valide wenn er einer der folgenden 4 Bewegungsrichtungen entspricht (case sensitive):
-up
-(Bewegung nach oben)
-down
-left
-right
-Zu behandelnde Fehlermeldungen (move und fastmove)
-[ERR] Invalid move.\n
-Sollte der angegebene Schritt/Schrittfolge ungültig sein, obwohl der Parameter gültig ist.
- */

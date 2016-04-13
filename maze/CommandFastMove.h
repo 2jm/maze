@@ -13,7 +13,8 @@ enum class Direction : char;
 class CommandFastMove : public Command
 {
   private:
-    Direction char_to_direction(char direction_char);
+    Direction charToDirection(char direction_char);
+    bool isValidFastMoveString(std::string fast_move_string);
 
   public:
     CommandFastMove() : Command("fastmove")

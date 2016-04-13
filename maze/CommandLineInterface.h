@@ -16,7 +16,7 @@ class CommandLineInterface
     Game &game_;
     std::string input_string_;
     std::string cmd;
-    std::string param;
+    std::vector<std::string> params;
     std::string overflow;
     bool checkLine();
     bool execute();
