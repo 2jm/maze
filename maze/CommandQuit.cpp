@@ -6,7 +6,6 @@
 #include <iostream>
 using std::cout;
 
-CommandQuit::~CommandQuit(){}
 
 ResultCode CommandQuit::execute(Game &board, std::vector<std::string> &params)
 {

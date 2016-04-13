@@ -17,8 +17,8 @@ class CommandLineInterface
     std::string input_string_;
     std::string cmd;
     std::vector<std::string> params;
-    std::string overflow;
-    bool checkLine();
+    //std::string overflow;
+    //bool checkLine();
     bool execute();
 
   public:
