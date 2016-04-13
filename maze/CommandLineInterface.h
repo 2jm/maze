@@ -27,5 +27,15 @@ class CommandLineInterface
     bool update();
 };
 
+enum CommandName
+{
+  LOAD,
+  SAVE,
+  FASTMOVE,
+  MOVE,
+  SHOW,
+  QUIT
+};
+
 
 #endif //MAZE_COMMANDLINEINTERFACE_H

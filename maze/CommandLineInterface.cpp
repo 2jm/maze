@@ -19,6 +19,16 @@ CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 
 }
 
+const std::string commands[]
+        {
+          "load",
+          "save",
+          "fastmove",
+          "move",
+          "show",
+          "quit"
+        };
+
 bool CommandLineInterface::update()
 {
 
@@ -53,12 +63,12 @@ bool CommandLineInterface::checkLine()
 {
   int loop_counter;
   //check if its a correct command
-  if(cmd.compare("load") &&
-      cmd.compare("save") &&
-      cmd.compare("fastmove") &&
-      cmd.compare("move") &&
-      cmd.compare("show") &&
-      cmd.compare("quit") &&
+  if(cmd != commands[CommandName::LOAD] &&
+      cmd != commands[CommandName::SAVE] &&
+      cmd != commands[CommandName::FASTMOVE] &&
+      cmd != commands[CommandName::MOVE] &&
+      cmd != commands[CommandName::SHOW] &&
+      cmd != commands[CommandName::QUIT] &&
       !cmd.empty()) //cmd.empty() because no input is not invalid
   {
     Message::print(ResultCode::UNKNOWN_COMMAND);
@@ -182,7 +192,7 @@ bool CommandLineInterface::checkLine()
 bool CommandLineInterface::execute()
 {
   //-----load------
-  if(!cmd.compare("load"))
+  if(cmd == commands[CommandName::LOAD])
   {
     CommandLoad command_load;
     command_load.execute(game_, params);
@@ -190,7 +200,7 @@ bool CommandLineInterface::execute()
   }
 
   //-----save------
-  if(!cmd.compare("save"))
+  if(cmd == commands[CommandName::SAVE])
   {
     CommandSave command_save;
     command_save.execute(game_, params);
@@ -198,7 +208,7 @@ bool CommandLineInterface::execute()
   }
 
   //-----fastmove------
-  if(!cmd.compare("fastmove"))
+  if(cmd == commands[CommandName::FASTMOVE])
   {
     CommandFastMove command_fast_move;
     command_fast_move.execute(game_, params);
@@ -206,7 +216,7 @@ bool CommandLineInterface::execute()
   }
 
   //-----move------
-  if(!cmd.compare("move"))
+  if(cmd == commands[CommandName::MOVE])
   {
     CommandMove command_move;
     command_move.execute(game_, params);
@@ -214,7 +224,7 @@ bool CommandLineInterface::execute()
   }
 
   //-----show------
-  if(!cmd.compare("show"))
+  if(cmd == commands[CommandName::SHOW])
   {
     CommandShow command_show;
     command_show.execute(game_, params);
@@ -222,7 +232,7 @@ bool CommandLineInterface::execute()
   }
 
   //-----quit------
-  if(!cmd.compare("quit"))
+  if(cmd == commands[CommandName::QUIT])
   {
     CommandQuit command_quit;
     command_quit.execute(game_, params);
