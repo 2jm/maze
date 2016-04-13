@@ -13,11 +13,16 @@ class TileTeleport : public Tile
 {
   private:
     //Game *board_;
-    TileTeleport *corr_teleport_;
+    TileTeleport *corresponding_teleport_;
+    char character_;
+
   public:
-    TileTeleport();//Game &board);
-    bool enter(Vector2d source_position, Vector2d new_position) override;
-    //setCorrespondingTeleport(TileTeleport teleport_);
+    TileTeleport(Vector2d position, char character) : Tile(position, character)
+    {}
+
+    bool enter(Vector2d source_position, Vector2d &new_position);
+
+    void setCorrespondingTeleport(TileTeleport *teleport);
 };
 
 

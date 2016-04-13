@@ -11,11 +11,11 @@
 #include <string>
 #include <map>
 
-class Map : public Matrix<Tile>
+class Map : public Matrix<Tile*>
 {
   private:
     bool is_loaded_;
-    Tile start_tile_, end_tile_;
+    Tile *start_tile_, *end_tile_;
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
     bool wall_only_;                //0 if only '#' in this line
     int teleporter_pair_[26];       //-1 --> doesn't exist; 0 --> exists once; 1 --> exists twice, size is 26 -> every char of the alphabet
@@ -39,17 +39,17 @@ class Map : public Matrix<Tile>
 
     void check(std::string map_string);
 
-    Tile getEndTile()
+    Tile* getEndTile()
     {
         return end_tile_;
     }
 
-    Tile getStartTile()
+    Tile* getStartTile()
     {
         return start_tile_;
     }
 
-    Tile getTeleporterPair(char name);
+    Tile* getTeleporterPair(char name);
 };
 
 

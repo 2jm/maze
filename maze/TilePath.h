@@ -10,7 +10,10 @@
 
 class TilePath : public Tile
 {
+    TilePath(Vector2d position) : Tile(position, ' ')
+    {}
 
+    bool enter(Vector2d source_position, Vector2d &new_position);
 };
 
 

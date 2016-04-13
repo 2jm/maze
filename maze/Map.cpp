@@ -117,7 +117,7 @@ void Map::check(std::string map_string)
     Message::print(ResultCode::INVALID_FILE);
 }
 
-Tile Map::getTeleporterPair(char name) // returns the corresponding second match of the teleporter tile with the given name
+Tile *Map::getTeleporterPair(char name) // returns the corresponding second match of the teleporter tile with the given name
 {
 /*  int pair_count = name - 65; // 'A' = 65, 'B' = 66, ..
   if(teleporter_pair_[pair_count] == 1) // exsits twice

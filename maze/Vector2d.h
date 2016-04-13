@@ -18,6 +18,7 @@ class Vector2d
     const static Vector2d RIGHT;
     const static Vector2d DOWN;
     const static Vector2d LEFT;
+    const static Vector2d OTHER;
 
     Vector2d();
     Vector2d(int x, int y);
@@ -57,11 +58,6 @@ class Vector2d
     Vector2d operator+=(const Vector2d &other);
 
     operator Direction() const;
-
-//    Vector2d operator+(Vector2d lhs, const Vector2d& rhs)
-//    {
-//      return lhs *= rhs;
-//    }
 };
 
 

@@ -10,7 +10,10 @@
 
 class TileStart : public Tile
 {
+    TileStart(Vector2d position) : Tile(position, 'o')
+    {}
 
+    bool enter(Vector2d source_position, Vector2d &new_position);
 };
 
 

@@ -12,10 +12,15 @@
 class TileFinish : public Tile
 {
   private:
-    Game *board_;
+    Game &board_;
+
   public:
-    TileFinish(Game &board);
-    bool enter(Vector2d source_position, Vector2d new_position) override;
+    TileFinish(Vector2d position, Game &board) :
+            Tile(position, 'x'),
+            board_(board)
+    {}
+
+    bool enter(Vector2d source_position, Vector2d &new_position);
 };
 
 

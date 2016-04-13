@@ -5,6 +5,7 @@
 #ifndef MAZE_TILE_H
 #define MAZE_TILE_H
 
+#include <string>
 #include "Vector2d.h"
 
 //enum class TileType : char
@@ -24,13 +25,26 @@ class Tile
 {
   protected:
     Vector2d position_;
-    //TileType tileType_;
-    //int add_;
+    char character_;
+
   public:
-    //Tile(TileType tiletype);
+    Tile(Vector2d position, char character) :
+            position_(position),
+            character_(character)
+    {}
 
     // return value tells, if on the new tile enter should be called again (needed for the ice tile, if the player should move from tile to tile without having a chance to interact (move) again
-    virtual bool enter(Vector2d source_position, Vector2d new_position);
+    virtual bool enter(Vector2d source_position, Vector2d &new_position) = 0;
+
+    Vector2d getPosition()
+    {
+      return position_;
+    }
+
+    virtual operator char() const
+    {
+      return character_;
+    }
 };
 
 

@@ -9,6 +9,7 @@ const Vector2d Vector2d::UP(Vector2d(0, -1));
 const Vector2d Vector2d::RIGHT(Vector2d(1, 0));
 const Vector2d Vector2d::DOWN(Vector2d(0, 1));
 const Vector2d Vector2d::LEFT(Vector2d(-1, 0));
+const Vector2d Vector2d::OTHER(Vector2d(0, 0));
 
 
 Vector2d::Vector2d()
@@ -35,10 +36,8 @@ Vector2d::Vector2d(Direction direction)
       *this = DOWN;
     case Direction::LEFT:
       *this = LEFT;
-    //case Direction::OTHER:
-      // TODO: what do here?
-      //*this = OTHER;
-      //*this = nullptr;
+    case Direction::OTHER:
+      *this = OTHER;
   }
 }
 
@@ -54,9 +53,8 @@ Vector2d::Vector2d(char sign)
       *this = DOWN;
     case '<':
       *this = LEFT;
-    //default:
-      // TODO: what to do when sign is something else?
-      //this = OTHER;
+    default:
+      *this = OTHER;
   }
 }
 

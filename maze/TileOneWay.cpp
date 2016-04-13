@@ -13,7 +13,7 @@ bool TileOneWay::enter(Vector2d source_position, Vector2d new_position)
         Der Kleinbuchstabe v bedeutet, dass das Feld nur nach unten verlassen werden kann.
        */
   //if(new_position - source_position == Direction::UP && tile_direction_ == Direction::UP)
-  if((new_position - source_position) == tile_direction_) // TODO: check if new_position and source_position should be changed (UP and DOWN would then be reversed, ditto LEFT and RIGHT
+  if((new_position - source_position) == Vector2d(character_)) // TODO: check if new_position and source_position should be changed (UP and DOWN would then be reversed, ditto LEFT and RIGHT
   {
     // position_ = position of the tile
     source_position = new_position;
@@ -26,8 +26,4 @@ bool TileOneWay::enter(Vector2d source_position, Vector2d new_position)
   //}
 
   return false;
-}
-
-TileOneWay::TileOneWay(char sign) : tile_direction_(Vector2d(sign))
-{
 }

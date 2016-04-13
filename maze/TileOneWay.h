@@ -10,11 +10,10 @@
 
 class TileOneWay : public Tile
 {
-  private:
-    Vector2d tile_direction_;
-  public:
-    TileOneWay(char);
-    bool enter(Vector2d source_position, Vector2d new_position) override;
+    TileOneWay(Vector2d position, char character) : Tile(position, character)
+    {}
+
+    bool enter(Vector2d source_position, Vector2d new_position);
 };
 
 

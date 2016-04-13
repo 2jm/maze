@@ -4,9 +4,9 @@
 
 #include "TileStart.h"
 
-bool Tile::enter(Vector2d source_position, Vector2d new_position)
+bool TileStart::enter(Vector2d source_position, Vector2d &new_position)
 {
-  // position_ = position of the tile, if it has already been visited
-  source_position = new_position;
+  // return false does not mean the tile can not be entered.
+  // the tile can be entered without problem because new_position is not changed
   return false;
 }

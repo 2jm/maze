@@ -4,9 +4,10 @@
 
 #include "TilePath.h"
 
-bool Tile::enter(Vector2d source_position, Vector2d new_position)
+bool TilePath::enter(Vector2d source_position, Vector2d &new_position)
 {
-  // position_ = position of the tile
-  source_position = new_position;
+  // return false does not mean the tile can not be entered.
+  // the tile can be entered without problem because new_position is not changed
   return false;
 }
+

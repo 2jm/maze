@@ -4,7 +4,8 @@
 
 #include "TileIce.h"
 
-bool Tile::enter(Vector2d source_position, Vector2d new_position)
+bool TileIce::enter(Vector2d source_position, Vector2d &new_position)
 {
   return true;
 }
+

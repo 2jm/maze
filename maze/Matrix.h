@@ -57,6 +57,26 @@ class Matrix
         {
           return elements_.at(element_index);
         }
+
+        typename std::vector<T>::const_iterator begin() const
+        {
+          return elements_.begin();
+        };
+
+        typename std::vector<T>::iterator begin()
+        {
+          return elements_.begin();
+        };
+
+        typename std::vector<T>::const_iterator end() const
+        {
+          return elements_.end();
+        };
+
+        typename std::vector<T>::iterator end()
+        {
+          return elements_.end();
+        };
     };
 
     // This is the allocator for the std::vector rows, it is allowed to create
@@ -125,6 +145,8 @@ class Matrix
     {
       put(element, Vector2d(position_x, position_y));
     }
+
+    operator std::string() const;
 };
 
 
@@ -184,5 +206,22 @@ void Matrix<T>::put(T element, Vector2d position)
 
   (*this)[position] = element;
 }
+
+template<class T>
+Matrix<T>::operator std::string() const
+{
+  std::string matrix_string;
+
+  for(auto &row : rows_)
+  {
+    for(auto &element : row)
+    {
+      matrix_string += element;
+    }
+  }
+
+  return matrix_string;
+}
+
 
 #endif //MAZE_MATRIX_H

@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "FileHandler.h"
 
-RESULT_CODE CommandLoad::execute(Game &board, std::vector<std::string> &params)
+ResultCode CommandLoad::execute(Game &board, std::vector<std::string> &params)
 {
   if(params.size() != 1)
     return ResultCode::WRONG_PARAMETER_COUNT;

@@ -20,7 +20,7 @@ bool Player::move(Direction direction)
   // calculate new position
   Vector2d new_position = position_ + direction;
 
-  while(map_[new_position].enter(position_, new_position))
+  while(map_[new_position]->enter(position_, new_position))
   {
     position_ = new_position;
     new_position += direction;

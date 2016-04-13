@@ -12,11 +12,15 @@
 class TileQuicksand : public Tile
 {
   private:
-    int remove_steps_;
-    Game *board_;
+    Game &board_;
+
   public:
-    TileQuicksand(Game &board, int remove_steps);
-    bool enter(Vector2d source_position, Vector2d new_position) override;
+    TileQuicksand(Vector2d position, char character, Game &board) :
+            Tile(position, character),
+            board_(board)
+    {}
+
+    bool enter(Vector2d source_position, Vector2d &new_position);
 };
 
 
