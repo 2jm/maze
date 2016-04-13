@@ -10,6 +10,7 @@
 
 class TileStart : public Tile
 {
+  public:
     TileStart(Vector2d position) : Tile(position, 'o')
     {}
 

@@ -10,6 +10,7 @@
 
 class TilePath : public Tile
 {
+  public:
     TilePath(Vector2d position) : Tile(position, ' ')
     {}
 

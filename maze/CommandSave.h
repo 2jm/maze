@@ -12,7 +12,7 @@ class CommandSave : public Command
 {
   public:
     CommandSave() : Command("save"){}
-    virtual ~CommandSave();
+    virtual ~CommandSave() {};
 
     //--------------------------------------------------------------------------
     // Executes the command.

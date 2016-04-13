@@ -9,7 +9,8 @@
 #include "CommandFastMove.h"
 #include "Convert.h"
 
-Game::Game() : player_(map_), fast_move_player_copy_(fast_move_map_copy_),
+Game::Game() : player_(map_),
+               fast_move_player_copy_(fast_move_map_copy_),
                game_state_(GameState::NO_MAZE_LOADED)
 {
 
@@ -66,7 +67,7 @@ ResultCode Game::loadFile(std::string file_name)
   // close the file
   input_file.close();
 
-  if(!map_.loadFromString(map_string))
+  if(!map_.loadFromString(map_string, *this))
     return Message::print(ResultCode::INVALID_FILE);
 
   CommandFastMove fastMove;
@@ -99,7 +100,7 @@ ResultCode Game::saveFile(std::string file_name)
 
   output_file << steps_left_ << '\n';
 
-  output_file << map_.saveToString();
+  output_file << static_cast<std::string>(map_);
 
   return ResultCode::SUCCESS;
 }
@@ -125,7 +126,7 @@ bool Game::movePlayer(Direction direction)
 
     move_history_.push_back(direction);
 
-    std::cout << map_.saveToString() << std::endl;
+    std::cout << static_cast<std::string>(map_) << std::endl;
 
     if(auto_save_filename_ != "")
       saveFile(auto_save_filename_);
@@ -155,7 +156,7 @@ void Game::completeFastMove()
   player_.setPosition(fast_move_player_copy_.getPosition());
   steps_left_ = fast_moving_steps_left_;
 
-  std::cout << map_.saveToString() << std::endl;
+  std::cout << static_cast<std::string>(map_) << std::endl;
 }
 
 

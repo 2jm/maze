@@ -10,6 +10,7 @@
 
 class TileOneWay : public Tile
 {
+  public:
     TileOneWay(Vector2d position, char character) : Tile(position, character)
     {}
 

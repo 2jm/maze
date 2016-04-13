@@ -10,6 +10,7 @@
 
 class TileIce : public Tile
 {
+  public:
     TileIce(Vector2d position) : Tile(position, '+')
     {}
 

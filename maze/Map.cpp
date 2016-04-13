@@ -6,17 +6,12 @@
 
 using std::string;
 
-bool Map::loadFromString(string map_string)
+bool Map::loadFromString(string map_string, Game &game)
 {
   //jede Zeile des Spielfelds muss mit # aufhören.
+
   is_loaded_ = true;
   return true;
-}
-
-string Map::saveToString()
-{
-  string res;
-  return "";
 }
 
 void Map::clear()

@@ -5,8 +5,6 @@
 #include "CommandSave.h"
 #include "Game.h"
 
-CommandSave::~CommandSave(){}
-
 ResultCode CommandSave::execute(Game &board, std::vector<std::string> &params)
 {
   if(board.getState() == GameState::NO_MAZE_LOADED)

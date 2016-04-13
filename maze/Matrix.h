@@ -39,11 +39,11 @@ class Matrix
         ~MatrixRow() {
           if(std::is_pointer<T>::value)
           {
-            while(elements_.size() > 0)
+            /*while(elements_.size() > 0)
             {
               delete (elements_.back());
               elements_.pop_back();
-            }
+            }*/
           }
         }
 
@@ -103,6 +103,20 @@ class Matrix
     std::vector<MatrixRow, MatrixRowAllocator> rows_;
 
     void resize();
+
+    template<typename U = T,
+            typename std::enable_if< std::is_pointer<U>::value, int >::type = 0>
+    char getCharacterOfElement(U &element) const
+    {
+      return static_cast<char>(*element);
+    };
+
+    template<typename U = T,
+            typename std::enable_if< !std::is_pointer<U>::value, int >::type = 0>
+    char getCharacterOfElement(U &element) const
+    {
+      return static_cast<char>(element);
+    };
 
   public:
     Matrix();
@@ -215,13 +229,14 @@ Matrix<T>::operator std::string() const
   for(auto &row : rows_)
   {
     for(auto &element : row)
-      matrix_string += element;
+    {
+      matrix_string += getCharacterOfElement(element);
+    }
 
     matrix_string += '\n';
   }
 
   return matrix_string;
 }
-
 
 #endif //MAZE_MATRIX_H
