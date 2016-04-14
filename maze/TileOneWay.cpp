@@ -4,7 +4,7 @@
 
 #include "TileOneWay.h"
 
-bool TileOneWay::enter(Vector2d source_position, Vector2d new_position)
+bool TileOneWay::enter(Vector2d source_position, Vector2d &new_position)
 {
   /*
        Dieses Feld beschränkt den Spieler in seiner Bewegungsrichtung wie folgt:
