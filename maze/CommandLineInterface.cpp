@@ -13,6 +13,7 @@
 #include "CommandMove.h"
 #include "CommandShow.h"
 #include "CommandQuit.h"
+#include "CommandReset.h"
 
 CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 {
@@ -26,6 +27,7 @@ const std::string commands[]
           "fastmove",
           "move",
           "show",
+          "reset",
           "quit"
         };
 
