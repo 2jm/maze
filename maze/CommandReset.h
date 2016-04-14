@@ -21,7 +21,7 @@ class CommandReset : public Command
     // @param board The board where action should be performed on
     // @param params Possible parameters neede for the execution
     // @return Integer representing the success of the action
-    RESULT_CODE execute(Game &board, std::vector<std::string> &params);
+    ResultCode execute(Game &board, std::vector<std::string> &params);
 };
 
 

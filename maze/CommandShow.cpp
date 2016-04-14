@@ -7,12 +7,14 @@
 
 ResultCode CommandShow::execute(Game &board, std::vector<std::string> &params)
 {
-  // check params count
+  if(params.size() > 1)
+    return ResultCode::WRONG_PARAMETER_COUNT;
+
+  if(params.size() == 1 && params[0] != "more")
+    return ResultCode::WRONG_PARAMETER;
 
   if(board.getState() == GameState::NO_MAZE_LOADED)
     return ResultCode::NO_MAZE_LOADED;
 
-  board.show();
-
-  // check params
+  board.show(params.size() == 1);
 }

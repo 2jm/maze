@@ -59,7 +59,7 @@ class Game
 
     void reset();
 
-    void show();
+    void show(bool show_more = false);
 
     GameState getState()
     {

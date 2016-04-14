@@ -44,7 +44,7 @@ ResultCode Game::loadFile(std::string file_name)
 
   try //convert available_steps
   {
-    Convert::toUInt(available_steps);
+    steps_left_ = Convert::toUInt(available_steps);
   }
   catch(const std::exception &e)
   {
@@ -96,12 +96,9 @@ ResultCode Game::saveFile(std::string file_name)
 
   if(output_file.fail())
     return Message::print(ResultCode::FILE_COULD_NOT_BE_WRITTEN);
-
-
-  int move_history_index;
-  for(move_history_index = 0; move_history_index < move_history_.size();
-      move_history_index++)
-    output_file << static_cast<char>(move_history_[move_history_index]);
+  
+  for(auto move : move_history_)
+    output_file << static_cast<char>(move);
   output_file << '\n';
 
   output_file << steps_left_ << '\n';
@@ -177,10 +174,18 @@ void Game::reset()
   game_state_ = GameState::NO_MAZE_LOADED;
 }
 
-void Game::show()
+void Game::show(bool show_more)
 {
-  std::cout << player_.getPosition().x() << " " << player_.getPosition().y() << std::endl;
-  std::cout << map_.toStringWithPlayer(player_.getPosition()) << std::endl;
+  if(show_more)
+  {
+    std::cout << "Remaining Steps: " << steps_left_ << '\n';
+    std::cout << "Moved Steps: ";
+    for(auto move : move_history_)
+      std::cout << static_cast<char>(move);
+    std::cout << '\n';
+  }
+  //std::cout << player_.getPosition().x() << " " << player_.getPosition().y() << std::endl;
+  std::cout << map_.toStringWithPlayer(player_.getPosition());
 }
 
 
