@@ -106,10 +106,11 @@ bool Map::loadFromString(string map_string, Game &game)
 
       //put(a , tile_position);
       x++;
-      string_position++;
     }
     y++;
     string_position++;
+
+
   }
 
   is_loaded_ = true;
@@ -128,16 +129,23 @@ void Map::check(std::string map_string)
   int line_length;
   int column_height;
 
-/******checking the border****
+
   vector = getSize();
   line_length = vector.x();
   column_height = vector.y();
 
   for (int j = 0; j < line_length; j++)
   {
-
+    if(matrix[0][j] != '#' || matrix[column_height - 1][j] != '#')
+      Message::print(ResultCode::INVALID_FILE);
   }
-  */
+
+  for (int j = 0; j < column_height; j++)
+  {
+    if(matrix[j][0] != '#' || matrix[j][line_length - 1] != '#')
+      Message::print(ResultCode::INVALID_FILE);
+  }
+
 
   //check if exact one start-tile
   if(start_once_ != 0)
