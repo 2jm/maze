@@ -165,7 +165,7 @@ class Matrix
 
 
 template<class T>
-Matrix<T>::Matrix() : size_(10, 10)
+Matrix<T>::Matrix() : size_(0, 0)
 {
   resize();
 }

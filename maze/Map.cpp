@@ -39,7 +39,7 @@ bool Map::loadFromString(string map_string, Game &game)
         pair_nr= map_string[string_position] - 65;  //character - ascii(A)
         teleporter_pair_[pair_nr]++;
 
-        put(new TileTeleport(tile_position, map_string[string_position]), string_position);
+        put(new TileTeleport(tile_position, map_string[string_position]), map_string[string_position]);
       }
       else if(map_string[string_position] == 'o')
       {
