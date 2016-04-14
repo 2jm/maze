@@ -34,6 +34,7 @@ enum CommandName
   FASTMOVE,
   MOVE,
   SHOW,
+  RESET,
   QUIT
 };
 

@@ -13,6 +13,7 @@
 #include "CommandMove.h"
 #include "CommandShow.h"
 #include "CommandQuit.h"
+#include "CommandReset.h"
 
 CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 {
@@ -26,6 +27,7 @@ const std::string commands[]
           "fastmove",
           "move",
           "show",
+          "reset",
           "quit"
         };
 
@@ -226,6 +228,14 @@ bool CommandLineInterface::execute()
   {
     CommandShow command_show;
     command_show.execute(game_, params);
+    return true;
+  }
+
+  //-----reset------
+  if(cmd == commands[CommandName::RESET])
+  {
+    CommandReset command_reset;
+    command_reset.execute(game_, params);
     return true;
   }
 
