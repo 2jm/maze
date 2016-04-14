@@ -16,7 +16,7 @@
 
 using std::string;
 
-Map::Map() : //matrix(*this),
+Map::Map() : matrix(*this),
         is_loaded_(false)
 {
   //
@@ -136,13 +136,13 @@ void Map::check(std::string map_string)
 
   for (int j = 0; j < line_length; j++)
   {
-    if(matrix[0][j] != '#' || matrix[column_height - 1][j] != '#')
+    if(*matrix[0][j] != '#' || *matrix[column_height - 1][j] != '#')
       Message::print(ResultCode::INVALID_FILE);
   }
 
   for (int j = 0; j < column_height; j++)
   {
-    if(matrix[j][0] != '#' || matrix[j][line_length - 1] != '#')
+    if(*matrix[j][0] != '#' || *matrix[j][line_length - 1] != '#')
       Message::print(ResultCode::INVALID_FILE);
   }
 
