@@ -11,7 +11,8 @@
 
 Game::Game() : player_(map_),
                fast_move_player_copy_(fast_move_map_copy_),
-               game_state_(GameState::NO_MAZE_LOADED)
+               game_state_(GameState::NO_MAZE_LOADED),
+               fast_moving_(false)
 {
 
 }
@@ -70,12 +71,17 @@ ResultCode Game::loadFile(std::string file_name)
   if(!map_.loadFromString(map_string, *this))
     return Message::print(ResultCode::INVALID_FILE);
 
-  CommandFastMove fastMove;
-  std::vector<std::string> fast_move_params;
-  fast_move_params.push_back(saved_moves);
+  player_.setPosition(map_.getStartTile()->getPosition());
 
-  if(fastMove.execute(*this, fast_move_params) != ResultCode::SUCCESS)
-    return Message::print(ResultCode::INVALID_PATH);
+  if(saved_moves != "")
+  {
+    CommandFastMove fastMove;
+    std::vector<std::string> fast_move_params;
+    fast_move_params.push_back(saved_moves);
+
+    if(fastMove.execute(*this, fast_move_params) != ResultCode::SUCCESS)
+      return Message::print(ResultCode::INVALID_PATH);
+  }
 
   game_state_ = GameState::PLAYING;
 
@@ -126,7 +132,7 @@ bool Game::movePlayer(Direction direction)
 
     move_history_.push_back(direction);
 
-    std::cout << static_cast<std::string>(map_) << std::endl;
+    show();
 
     if(auto_save_filename_ != "")
       saveFile(auto_save_filename_);
@@ -156,7 +162,7 @@ void Game::completeFastMove()
   player_.setPosition(fast_move_player_copy_.getPosition());
   steps_left_ = fast_moving_steps_left_;
 
-  std::cout << static_cast<std::string>(map_) << std::endl;
+
 }
 
 
@@ -171,7 +177,11 @@ void Game::reset()
   game_state_ = GameState::NO_MAZE_LOADED;
 }
 
-
+void Game::show()
+{
+  std::cout << player_.getPosition().x() << " " << player_.getPosition().y() << std::endl;
+  std::cout << map_.toStringWithPlayer(player_.getPosition()) << std::endl;
+}
 
 
 

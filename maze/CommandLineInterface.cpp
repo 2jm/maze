@@ -31,30 +31,82 @@ const std::string commands[]
 
 bool CommandLineInterface::update()
 {
-
   std::cout << "sep> ";
+
+  std::string input_string_;
   std::getline(std::cin, input_string_);
 
   std::istringstream iss(input_string_);
-  cmd.clear();
+
+  std::string command;
+  std::vector<std::string> params;
 
   //Split the input into command and parameter
-  iss >> cmd;
+  iss >> command;
 
   std::string param;
   while(iss >> param)
     params.push_back(param);
 
   //Transform the command into all LowerCase because its case insensitive
-  std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
+  std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 
-  //if(checkLine())
-  //{
-  return execute();
-  //}
-
-  return true;
+  return execute(command, params);
 }
+
+bool CommandLineInterface::execute(std::string command, std::vector<std::string> params)
+{
+  //-----load------
+  if(command == commands[CommandName::LOAD])
+  {
+    CommandLoad command_load;
+    command_load.execute(game_, params);
+    return true;
+  }
+
+  //-----save------
+  if(command == commands[CommandName::SAVE])
+  {
+    CommandSave command_save;
+    command_save.execute(game_, params);
+    return true;
+  }
+
+  //-----fastmove------
+  if(command == commands[CommandName::FASTMOVE])
+  {
+    CommandFastMove command_fast_move;
+    command_fast_move.execute(game_, params);
+    return true;
+  }
+
+  //-----move------
+  if(command == commands[CommandName::MOVE])
+  {
+    CommandMove command_move;
+    command_move.execute(game_, params);
+    return true;
+  }
+
+  //-----show------
+  if(command == commands[CommandName::SHOW])
+  {
+    CommandShow command_show;
+    command_show.execute(game_, params);
+    return true;
+  }
+
+  //-----quit------
+  if(command == commands[CommandName::QUIT])
+  {
+    CommandQuit command_quit;
+    command_quit.execute(game_, params);
+    return false;
+  }
+}
+
+
+
 
 /*
 bool CommandLineInterface::checkLine()
@@ -186,54 +238,3 @@ bool CommandLineInterface::checkLine()
 
   return true;
 }*/
-
-bool CommandLineInterface::execute()
-{
-  //-----load------
-  if(cmd == commands[CommandName::LOAD])
-  {
-    CommandLoad command_load;
-    command_load.execute(game_, params);
-    return true;
-  }
-
-  //-----save------
-  if(cmd == commands[CommandName::SAVE])
-  {
-    CommandSave command_save;
-    command_save.execute(game_, params);
-    return true;
-  }
-
-  //-----fastmove------
-  if(cmd == commands[CommandName::FASTMOVE])
-  {
-    CommandFastMove command_fast_move;
-    command_fast_move.execute(game_, params);
-    return true;
-  }
-
-  //-----move------
-  if(cmd == commands[CommandName::MOVE])
-  {
-    CommandMove command_move;
-    command_move.execute(game_, params);
-    return true;
-  }
-
-  //-----show------
-  if(cmd == commands[CommandName::SHOW])
-  {
-    CommandShow command_show;
-    command_show.execute(game_, params);
-    return true;
-  }
-
-  //-----quit------
-  if(cmd == commands[CommandName::QUIT])
-  {
-    CommandQuit command_quit;
-    command_quit.execute(game_, params);
-    return false;
-  }
-}

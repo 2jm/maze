@@ -16,12 +16,12 @@ class Game
 {
   private:
     Map map_, fast_move_map_copy_;
-    bool fast_moving_;
     Player player_, fast_move_player_copy_;
     int steps_left_, fast_moving_steps_left_;
     GameState game_state_;
     std::string auto_save_filename_;
     std::vector<Direction> move_history_, fast_move_move_history;
+    bool fast_moving_;
 
   public:
     Game();
@@ -58,6 +58,8 @@ class Game
     void cancelFastMove();
 
     void reset();
+
+    void show();
 
     GameState getState()
     {

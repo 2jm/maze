@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 #include "Vector2d.h"
+#include <iostream>
 
 // Matrix class
 //
@@ -49,6 +50,11 @@ class Matrix
 
       public:
         T& operator[](unsigned int element_index)
+        {
+          return elements_[element_index];
+        }
+
+        const T& operator[](unsigned int element_index) const
         {
           return elements_[element_index];
         }
@@ -104,6 +110,7 @@ class Matrix
 
     void resize();
 
+  protected:
     template<typename U = T,
             typename std::enable_if< std::is_pointer<U>::value, int >::type = 0>
     char getCharacterOfElement(U &element) const
@@ -188,7 +195,7 @@ void Matrix<T>::resize()
 {
   unsigned int row_index;
 
-  rows_.resize(static_cast<unsigned int>(size_.y()));
+  rows_.resize(static_cast<unsigned int>(size_.x()));
 
   for(row_index = 0; row_index < rows_.size(); row_index++)
   {
@@ -226,12 +233,12 @@ Matrix<T>::operator std::string() const
 {
   std::string matrix_string;
 
-  for(auto &row : rows_)
+  unsigned int row_number, column_number;
+
+  for(row_number = 0; row_number < size_.y(); row_number++)
   {
-    for(auto &element : row)
-    {
-      matrix_string += getCharacterOfElement(element);
-    }
+    for(column_number = 0; column_number < size_.x(); column_number++)
+      matrix_string += getCharacterOfElement(rows_[column_number][row_number]);
 
     matrix_string += '\n';
   }

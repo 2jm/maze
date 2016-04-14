@@ -16,16 +16,26 @@
 
 using std::string;
 
+Map::Map() : //matrix(*this),
+        is_loaded_(false)
+{
+  //
+}
+
 bool Map::loadFromString(string map_string, Game &game)
 {
   int x = 0;
   int y = 0;
   int string_position = 0;
   int pair_nr;
-  //jede Zeile des Spielfelds muss mit # aufhören.
+
+  TileTeleport **tiles_teleport = new TileTeleport*[26];
+  std::fill(tiles_teleport, tiles_teleport + 26, nullptr);  //TODO remove '26'
+
 
   while(map_string[string_position])
   {
+    x = 0;
     while(map_string[string_position] != '\n')
     {
       Vector2d tile_position(x, y);
@@ -36,27 +46,34 @@ bool Map::loadFromString(string map_string, Game &game)
       }
       else if(map_string[string_position] >= 'A' && map_string[string_position] <= 'Z')
       {
-        pair_nr= map_string[string_position] - 65;  //character - ascii(A)
-        teleporter_pair_[pair_nr]++;
+        TileTeleport *tile_teleport = new TileTeleport(tile_position, map_string[string_position]);
+        pair_nr = map_string[string_position] - 'A';  //character - ascii(A)
 
-        put(new TileTeleport(tile_position, map_string[string_position]), map_string[string_position]);
+        if(tiles_teleport[pair_nr] == nullptr)
+          tiles_teleport[pair_nr] = tile_teleport;
+        else
+        {
+          tiles_teleport[pair_nr]->setCorrespondingTeleport(tile_teleport);
+          tile_teleport->setCorrespondingTeleport(tiles_teleport[pair_nr]);
+        }
+
+        put(tile_teleport, tile_position);
       }
       else if(map_string[string_position] == 'o')
       {
         start_once_++;
 
-        put(new TileStart(tile_position), map_string[string_position]);
-        //set start_Tile_
         start_tile_ = new TileStart(tile_position);
 
+        put(start_tile_, tile_position);
       }
       else if(map_string[string_position] == 'x')
       {
         end_once_++;
 
-        put(new TileFinish(tile_position, game), tile_position);
-        //set end_Tile_
         end_tile_ = new TileFinish(tile_position, game);
+
+        put(end_tile_, tile_position);
       }
       else if(map_string[string_position] >= 'a' && map_string[string_position] <= 'e')
       {
@@ -89,8 +106,10 @@ bool Map::loadFromString(string map_string, Game &game)
 
       //put(a , tile_position);
       x++;
+      string_position++;
     }
     y++;
+    string_position++;
   }
 
   is_loaded_ = true;
@@ -136,9 +155,29 @@ void Map::check(std::string map_string)
     }
 
   }
-
-
 }
+
+
+std::string Map::toStringWithPlayer(Vector2d player_position)
+{
+  std::string map_string;
+  unsigned int row_number, column_number;
+
+  for(row_number = 0; row_number < getSize().y(); row_number++)
+  {
+    for(column_number = 0; column_number < getSize().x(); column_number++)
+    {
+      if(player_position == Vector2d(column_number, row_number))
+        map_string += '*';
+      else
+        map_string += getCharacterOfElement((*this)[column_number][row_number]);
+    }
+    map_string += '\n';
+  }
+
+  return map_string;
+}
+
 
 Tile *Map::getTeleporterPair(char name) // returns the corresponding second match of the teleporter tile with the given name
 {
@@ -163,5 +202,7 @@ Tile *Map::getTeleporterPair(char name) // returns the corresponding second matc
 
   }*/
 }
+
+
 
 

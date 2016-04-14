@@ -16,7 +16,7 @@ class Game;
 class Map : public Matrix<Tile*>
 {
   private:
-    Matrix &matrix;
+    //Matrix &matrix;
     bool is_loaded_;
     Tile *start_tile_, *end_tile_;
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
@@ -26,14 +26,12 @@ class Map : public Matrix<Tile*>
 
 
   public:
-    Map() : matrix(*this),
-            is_loaded_(false)
-    {}
+    Map();
 
     bool loadFromString(std::string map_string, Game &game);
 
     // use static_cast<std::string>(matrix) instead
-    //std::string saveToString();
+    std::string toStringWithPlayer(Vector2d player_position);
 
     void clear();
 

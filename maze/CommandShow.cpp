@@ -12,5 +12,7 @@ ResultCode CommandShow::execute(Game &board, std::vector<std::string> &params)
   if(board.getState() == GameState::NO_MAZE_LOADED)
     return ResultCode::NO_MAZE_LOADED;
 
+  board.show();
+
   // check params
 }

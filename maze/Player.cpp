@@ -18,6 +18,7 @@ bool Player::move(Direction direction)
   //Vector2d move_vector = Vector2d(direction);
 
   // calculate new position
+  Vector2d old_position = position_;
   Vector2d new_position = position_ + direction;
 
   while(map_[new_position]->enter(position_, new_position))
@@ -25,8 +26,9 @@ bool Player::move(Direction direction)
     position_ = new_position;
     new_position += direction;
   }
+  position_ = new_position;
 
-  return !(position_ == new_position);
+  return !(position_ == old_position);
 }
 
 Vector2d Player::getPosition()

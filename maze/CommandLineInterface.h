@@ -14,16 +14,10 @@ class CommandLineInterface
 {
   private:
     Game &game_;
-    std::string input_string_;
-    std::string cmd;
-    std::vector<std::string> params;
-    //std::string overflow;
-    //bool checkLine();
-    bool execute();
+    bool execute(std::string command, std::vector<std::string> params);
 
   public:
     CommandLineInterface(Game &game);
-
     bool update();
 };
 

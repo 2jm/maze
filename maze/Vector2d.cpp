@@ -30,12 +30,20 @@ Vector2d::Vector2d(Direction direction)
   {
     case Direction::UP:
       *this = UP;
+      break;
+
     case Direction::RIGHT:
       *this = RIGHT;
+      break;
+
     case Direction::DOWN:
       *this = DOWN;
+      break;
+
     case Direction::LEFT:
       *this = LEFT;
+      break;
+
     case Direction::OTHER:
       *this = OTHER;
   }
@@ -47,12 +55,20 @@ Vector2d::Vector2d(char sign)
   {
     case '^':
       *this = UP;
+      break;
+
     case '>':
       *this = RIGHT;
+      break;
+
     case 'v':
       *this = DOWN;
+      break;
+
     case '<':
       *this = LEFT;
+      break;
+
     default:
       *this = OTHER;
   }
@@ -76,7 +92,8 @@ Vector2d Vector2d::operator-(const Vector2d &other)
 
 Vector2d Vector2d::operator+=(const Vector2d &other)
 {
-  return Vector2d(other.x_ + x_, other.y_ + y_);
+  x_ += other.x_;
+  y_ += other.y_;
 }
 
 
