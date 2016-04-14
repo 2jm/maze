@@ -158,9 +158,7 @@ void Game::completeFastMove()
   map_ = fast_move_map_copy_;
   player_.setPosition(fast_move_player_copy_.getPosition());
   steps_left_ = fast_moving_steps_left_;
-
-
-}
+  }
 
 
 void Game::cancelFastMove()
