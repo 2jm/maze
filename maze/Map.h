@@ -35,6 +35,8 @@ class Map : public Matrix<Tile*>
 
     void clear();
 
+    void reset();
+
     bool isLoaded()
     {
       return is_loaded_;

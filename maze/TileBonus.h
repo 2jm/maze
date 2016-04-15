@@ -27,6 +27,9 @@ class TileBonus : public Tile
     {
       return (used_) ? ' ' : character_;
     }
+
+    void setUsed(bool used);
+
 };
 
 

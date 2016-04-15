@@ -26,6 +26,10 @@ bool TileBonus::enter(Vector2d source_position, Vector2d &new_position)
   return false;
 }
 
+void TileBonus::setUsed(bool used)
+{
+  used_ = used;
+}
 
 
 

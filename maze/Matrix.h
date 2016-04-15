@@ -34,6 +34,8 @@ class Matrix
       private:
         std::vector<T> elements_;
 
+
+
         MatrixRow()
         {}
 
@@ -47,8 +49,8 @@ class Matrix
             }*/
           }
         }
-
       public:
+
         T& operator[](unsigned int element_index)
         {
           return elements_[element_index];
@@ -103,14 +105,12 @@ class Matrix
         template< class U > struct rebind { typedef MatrixRowAllocator other; };
     };
 
-
-  private:
+  protected:
     Vector2d size_;
     std::vector<MatrixRow, MatrixRowAllocator> rows_;
 
     void resize();
 
-  protected:
     template<typename U = T,
             typename std::enable_if< std::is_pointer<U>::value, int >::type = 0>
     char getCharacterOfElement(U &element) const

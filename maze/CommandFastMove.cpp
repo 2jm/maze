@@ -36,7 +36,7 @@ ResultCode CommandFastMove::execute(Game &board,
     }
   }
 
-  board.completeFastMove();
+  //board.completeFastMove();
 
   return ResultCode::SUCCESS;
 }

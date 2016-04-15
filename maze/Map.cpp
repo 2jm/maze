@@ -165,6 +165,17 @@ void Map::check(std::string map_string)
   }
 }
 
+void Map::reset()
+{
+  for (auto &row : rows_)
+  {
+    for (auto &element : row)
+    {
+      if(typeid(element).name() == "TileBonus")
+        dynamic_cast<TileBonus*>(element)->setUsed(false);
+    }
+  }
+}
 
 std::string Map::toStringWithPlayer(Vector2d player_position)
 {

@@ -5,6 +5,7 @@
 #include "Game.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "Message.h"
 #include "CommandFastMove.h"
 #include "Convert.h"
@@ -148,7 +149,7 @@ bool Game::startFastMove()
 
   fast_moving_ = true;
   //fast_move_map_copy_ = map_;
-  fast_move_player_copy_.setPosition(player_.getPosition());
+  //fast_move_player_copy_.setPosition(player_.getPosition());
 }
 
 
@@ -163,12 +164,20 @@ void Game::completeFastMove()
 
 void Game::cancelFastMove()
 {
+  //redo all moves
+  int move_history_index;
+  for(move_history_index = 0;
+      move_history_index < move_history_.size();
+      move_history_index++)
+  {
+    movePlayer(move_history_[move_history_index]);
+  }
   fast_moving_ = false;
 }
 
 void Game::reset()
 {
-  map_.clear();
+  map_.reset();
   game_state_ = GameState::NO_MAZE_LOADED;
 }
 
