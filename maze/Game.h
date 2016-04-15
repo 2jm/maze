@@ -88,6 +88,12 @@ class Game
         steps_left = 0;
       steps_left_ = steps_left;
     }
+
+    // TODO: only needed for test cases!
+    Player getPlayer()
+    {
+        return player_;
+    }
 };
 
 

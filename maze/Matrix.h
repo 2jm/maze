@@ -34,23 +34,14 @@ class Matrix
       private:
         std::vector<T> elements_;
 
-
-
         MatrixRow()
         {}
 
-        ~MatrixRow() {
-          if(std::is_pointer<T>::value)
-          {
-            /*while(elements_.size() > 0)
-            {
-              delete (elements_.back());
-              elements_.pop_back();
-            }*/
-          }
-        }
-      public:
+        ~MatrixRow()
+        {}
 
+
+      public:
         T& operator[](unsigned int element_index)
         {
           return elements_[element_index];
