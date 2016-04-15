@@ -16,7 +16,7 @@ class Game;
 class Map : public Matrix<Tile*>
 {
   private:
-    //Matrix &matrix;
+    Matrix &matrix;
     bool is_loaded_;
     Tile *start_tile_, *end_tile_;
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once

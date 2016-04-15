@@ -150,7 +150,7 @@ bool Game::startFastMove()
     return false;
 
   fast_moving_ = true;
-  fast_move_map_copy_ = map_;
+  //fast_move_map_copy_ = map_;
   fast_move_player_copy_.setPosition(player_.getPosition());
 }
 
@@ -158,12 +158,10 @@ bool Game::startFastMove()
 void Game::completeFastMove()
 {
   fast_moving_ = false;
-  map_ = fast_move_map_copy_;
+  //map_ = fast_move_map_copy_;
   player_.setPosition(fast_move_player_copy_.getPosition());
   steps_left_ = fast_moving_steps_left_;
-
-
-}
+  }
 
 
 void Game::cancelFastMove()
