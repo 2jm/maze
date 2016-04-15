@@ -36,7 +36,7 @@ bool Map::loadFromString(string map_string, Game &game)
   while(map_string[string_position])
   {
     x = 0;
-    while(map_string[string_position] != '\n' && map_string[string_position])
+    while(map_string[string_position] != '\n')
     {
       Vector2d tile_position(x, y);
 
@@ -109,8 +109,7 @@ bool Map::loadFromString(string map_string, Game &game)
       string_position++;
     }
     y++;
-    if(map_string[string_position] == '\n')
-      string_position++;
+    string_position++;
   }
 
   is_loaded_ = true;

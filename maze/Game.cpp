@@ -55,7 +55,7 @@ ResultCode Game::loadFile(std::string file_name)
   // calculate the size of the map in bytes
   long map_start = input_file.tellg();
   input_file.seekg(0, std::ios::end);
-  long map_size = input_file.tellg() - map_start;
+  unsigned long map_size = static_cast<unsigned long>(input_file.tellg() - map_start);
 
   if(map_size == 0)
     return Message::print(ResultCode::INVALID_FILE);
@@ -67,6 +67,9 @@ ResultCode Game::loadFile(std::string file_name)
   input_file.read(&map_string[0], map_size);
   // close the file
   input_file.close();
+
+  if(map_string.back() != '\n')
+    return Message::print(ResultCode::INVALID_FILE);
 
   if(!map_.loadFromString(map_string, *this))
     return Message::print(ResultCode::INVALID_FILE);
@@ -96,7 +99,7 @@ ResultCode Game::saveFile(std::string file_name)
 
   if(output_file.fail())
     return Message::print(ResultCode::FILE_COULD_NOT_BE_WRITTEN);
-  
+
   for(auto move : move_history_)
     output_file << static_cast<char>(move);
   output_file << '\n';
