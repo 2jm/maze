@@ -16,7 +16,7 @@ class Game;
 class Map : public Matrix<Tile*>
 {
   private:
-    Matrix &matrix;
+    Matrix &matrix_;
     bool is_loaded_;
     Tile *start_tile_, *end_tile_;
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
@@ -42,7 +42,7 @@ class Map : public Matrix<Tile*>
       return is_loaded_;
     }
 
-    void check(std::string map_string);
+    bool check();
 
     Tile* getEndTile()
     {

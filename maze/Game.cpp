@@ -62,10 +62,14 @@ Message::Code Game::loadFile(std::string file_name)
 
   player_ = &load_test_player_;
 
+  State previous_game_state = game_state_;
+  game_state_ = State::LOADING;
+
   if((return_code = doInitialFastMove(saved_moves)) != Message::SUCCESS)
   {
     map_ = &play_map_;
     player_ = &play_player_;
+    game_state_ = previous_game_state;
     return Message::print(return_code);
   }
 
@@ -76,6 +80,8 @@ Message::Code Game::loadFile(std::string file_name)
   *steps_left_ = steps_left;
   map_->loadFromString(map_string, *this);
   doInitialFastMove(saved_moves);
+
+  game_state_ = State::PLAYING;
 
   return Message::SUCCESS;
 }
@@ -104,22 +110,30 @@ Message::Code Game::saveFile(std::string file_name)
 bool Game::movePlayer(Direction direction)
 {
   // TODO: only move, when Game hasn't been already won!
+  if(game_state_ == Game::NO_MORE_STEPS)
+  {
+    Message::print(Message::NO_MORE_STEPS);
+    reset();
+    return true;
+  }
 
   if(fast_moving_ && player_->move(direction))
   {
-    *steps_left_--;
+    (*steps_left_)--;
     fast_move_move_history.push_back(direction);
     return true;
   }
   else if(!fast_moving_ && player_->move(direction))
   {
     // decrement 1 step for a single move
-    *steps_left_--;
+    (*steps_left_)--;
 
     //TODO: game lost when no steps are left and game hasn't been won
     if(game_state_ != Game::WON && *steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
+    {
       lostGame();
-
+      return true;
+    }
     move_history_.push_back(direction);
 
     show();

@@ -20,7 +20,7 @@ class Game
       LOADING,
       PLAYING,
       WON,
-      NO_MOVES_LEFT
+      NO_MORE_STEPS
     };
 
   private:
@@ -86,7 +86,7 @@ class Game
 
     void lostGame()
     {
-      game_state_ = State::NO_MOVES_LEFT;
+      game_state_ = State::NO_MORE_STEPS;
     }
 
     int getStepsLeft()

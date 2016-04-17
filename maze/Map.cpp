@@ -16,7 +16,7 @@
 
 using std::string;
 
-Map::Map() : matrix(*this),
+Map::Map() : matrix_(*this),
         is_loaded_(false)
 {
   //
@@ -29,9 +29,13 @@ bool Map::loadFromString(string map_string, Game &game)
   int string_position = 0;
   int pair_nr;
 
+  start_once_ = -1;
+  end_once_ = -1;
+
   TileTeleport **tiles_teleport = new TileTeleport*[26];
   std::fill(tiles_teleport, tiles_teleport + 26, nullptr);  //TODO remove '26'
 
+  std::fill(teleporter_pair_, teleporter_pair_ + 26, -1);  //TODO remove '26'
 
   while(map_string[string_position])
   {
@@ -48,6 +52,7 @@ bool Map::loadFromString(string map_string, Game &game)
       {
         TileTeleport *tile_teleport = new TileTeleport(tile_position, map_string[string_position]);
         pair_nr = map_string[string_position] - 'A';  //character - ascii(A)
+        teleporter_pair_[pair_nr]++;
 
         if(tiles_teleport[pair_nr] == nullptr)
           tiles_teleport[pair_nr] = tile_teleport;
@@ -112,50 +117,52 @@ bool Map::loadFromString(string map_string, Game &game)
     string_position++;
   }
 
-  is_loaded_ = true;
-  return true;
+  if(check())
+  {
+    is_loaded_ = true;
+    return true;
+  }
+
+  return false;
 }
 
-void Map::check(std::string map_string)
+bool Map::check()
 {
-  Vector2d vector;
   int line_length;
   int column_height;
 
-
-  vector = getSize();
-  line_length = vector.x();
-  column_height = vector.y();
-
-  for (int j = 0; j < line_length; j++)
-  {
-    if(*matrix[0][j] != '#' || *matrix[column_height - 1][j] != '#')
-      Message::print(Message::INVALID_FILE);
-  }
+  line_length = getSize().x();
+  column_height = getSize().y();
 
   for (int j = 0; j < column_height; j++)
   {
-    if(*matrix[j][0] != '#' || *matrix[j][line_length - 1] != '#')
-      Message::print(Message::INVALID_FILE);
+    if(matrix_[0][j] == nullptr || matrix_[line_length - 1][j] == nullptr ||
+            *(matrix_[0][j]) != '#' || *(matrix_[line_length - 1][j]) != '#')
+      return false;
+  }
+
+  for (int j = 0; j < line_length; j++)
+  {
+    if(matrix_[j][0] == nullptr || matrix_[j][column_height - 1] == nullptr ||
+            *(matrix_[j][0]) != '#' || *(matrix_[j][column_height - 1]) != '#')
+      return false;
   }
 
 
   //check if exact one start-tile
   if(start_once_ != 0)
-    Message::print(Message::INVALID_FILE);
+    return false;
   //check if exact one end-tile
   if(end_once_ != 0)
-    Message::print(Message::INVALID_FILE);
+    return false;
   //check if if teleporter_pairs are correct
   for(int i = 0; i < 26; i++)
   {
     if(teleporter_pair_[i] != -1 && teleporter_pair_[i] != 1)
-    {
-      Message::print(Message::INVALID_FILE);
-      break;
-    }
-
+      return false;
   }
+
+  return true;
 }
 
 void Map::clear()

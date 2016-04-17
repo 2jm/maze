@@ -67,14 +67,14 @@ TEST(GameTest, test_invalid_map)
 TEST(GameTest, test_invalid_moves)
 {
   Game game;
-  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"invalid_moves.txt"), Message::INVALID_MOVE);
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"invalid_moves.txt"), Message::INVALID_PATH);
 }
 
 //TODO fails
 TEST(GameTest, test_impossible_moves)
 {
   Game game;
-  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"impossible_moves.txt"), Message::INVALID_MOVE);
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"impossible_moves.txt"), Message::INVALID_PATH);
 }
 
 TEST(GameTest, test_complete_teleporter)
@@ -118,18 +118,7 @@ TEST(GameTest, test_game_lost)
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_inusfficient_steps.txt"), Message::SUCCESS);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::NO_MORE_STEPS);
   game.movePlayer(Direction::RIGHT);
-  EXPECT_EQ(game.getState(), Game::NO_MOVES_LEFT);
-}
-
-TEST(GameTest, test_move_after_game_lost)
-{
-  Game game;
-  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_inusfficient_steps.txt"), Message::SUCCESS);
-  game.movePlayer(Direction::RIGHT);
-  game.movePlayer(Direction::RIGHT);
-  EXPECT_EQ(game.getState(), Game::NO_MOVES_LEFT);
-  game.movePlayer(Direction::LEFT);
-  // TODO: expect throw here?
-  EXPECT_EQ(game.getState(), Game::NO_MOVES_LEFT);
+  EXPECT_EQ(game.getState(), Game::NO_MAZE_LOADED);
 }
