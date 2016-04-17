@@ -77,7 +77,7 @@ Vector2d::Vector2d(char sign)
 
 bool Vector2d::operator==(const Vector2d &other)
 {
-  return (x_ == other.x_ && y_ == other.y_);
+  return x_ == other.x_ && y_ == other.y_;
 }
 
 Vector2d Vector2d::operator+(const Vector2d &other)
@@ -96,22 +96,37 @@ Vector2d Vector2d::operator+=(const Vector2d &other)
   y_ += other.y_;
 }
 
+bool operator==(const Vector2d& lhs, const Vector2d& rhs)
+{
+  return lhs.x() == rhs.x() && lhs.y() == rhs.y();
+}
 
 Vector2d::operator Direction() const
 {
-  switch((Direction)*this)
+  if(*this == Vector2d::UP)
+    return Direction::UP;
+  else if(*this == Vector2d::RIGHT)
+    return  Direction::RIGHT;
+  else if(*this == Vector2d::DOWN)
+    return  Direction::DOWN;
+  else if(*this == Vector2d::LEFT)
+    return  Direction::LEFT;
+  else
+    return Direction::OTHER;
+  /*
+  switch(*this) //switch((Direction) *this) -> would call the operator again
   {
     case Direction::UP:
-      return UP;
+      return Direction::UP;
     case Direction::RIGHT:
-      return RIGHT;
+      return Direction::RIGHT;
     case Direction::DOWN:
-      return DOWN;
+      return Direction::DOWN;
     case Direction::LEFT:
-      return LEFT;
+      return Direction::LEFT;
     default:
       return Direction::OTHER;
-  }
+  }*/
 }
 
 

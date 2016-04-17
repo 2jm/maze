@@ -3,3 +3,8 @@
 //
 
 #include "Tile.h"
+
+bool Tile::leave(Direction move_direction)
+{
+    return true;
+}

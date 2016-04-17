@@ -53,6 +53,7 @@ class Vector2d
     }
 
     bool operator==(const Vector2d &other);
+    //bool operator==(const Vector2d& lhs, const Vector2d& rhs);
     Vector2d operator+(const Vector2d &other);
     Vector2d operator-(const Vector2d &other);
     Vector2d operator+=(const Vector2d &other);

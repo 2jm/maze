@@ -26,7 +26,8 @@ bool Player::move(Direction direction)
     position_ = new_position;
     new_position += direction;
   }
-  position_ = new_position;
+  if(map_[old_position]->leave(direction))
+    position_ = new_position;
 
   return !(position_ == old_position);
 }
