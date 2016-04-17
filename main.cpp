@@ -32,8 +32,8 @@ int main(int argc, char **argv)
   }
   catch(const std::bad_alloc &e)
   {
-    Message::print(ResultCode::OUT_OF_MEMORY);
-    return ResultCode::OUT_OF_MEMORY;
+    Message::print(Message::OUT_OF_MEMORY);
+    return Message::OUT_OF_MEMORY;
   }
 }
 

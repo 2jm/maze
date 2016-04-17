@@ -9,23 +9,23 @@ using std::cout;
 
 CommandMove::~CommandMove(){}
 
-ResultCode CommandMove::execute(Game &board, std::vector<std::string> &params)
+Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params)
 {
   if(params.size() != 1)
-    return ResultCode::WRONG_PARAMETER_COUNT;
+    return Message::WRONG_PARAMETER_COUNT;
 
   Direction move_direction = string_to_direction(params[0]);
 
   if(move_direction == Direction::OTHER)
-    return ResultCode::WRONG_PARAMETER;
+    return Message::WRONG_PARAMETER;
 
-  if(board.getState() == GameState::NO_MAZE_LOADED)
-    return ResultCode::NO_MAZE_LOADED;
+  if(board.getState() == Game::NO_MAZE_LOADED)
+    return Message::NO_MAZE_LOADED;
 
   if(!board.movePlayer(move_direction))
-    return ResultCode::INVALID_MOVE;
+    return Message::INVALID_MOVE;
 
-  return ResultCode::SUCCESS;
+  return Message::SUCCESS;
 }
 
 Direction CommandMove::string_to_direction(std::string direction_string)

@@ -9,19 +9,32 @@
 #include <string>
 #include "Map.h"
 #include "Player.h"
-#include "GameState.h"
-#include "ResultCode.h"
+#include "Message.h"
 
 class Game
 {
+  public:
+    enum State
+    {
+      NO_MAZE_LOADED,
+      LOADING,
+      PLAYING,
+      WON,
+      NO_MOVES_LEFT
+    };
+
   private:
-    Map map_, fast_move_map_copy_;
-    Player player_, fast_move_player_copy_;
-    int steps_left_, fast_moving_steps_left_;
-    GameState game_state_;
+    Map play_map_, load_test_map_, *map_;
+    Player play_player_, load_test_player_, *player_;
+    int play_steps_left_, load_test_steps_left, *steps_left_, initial_steps_left_;
+    State game_state_;
     std::string auto_save_filename_;
     std::vector<Direction> move_history_, fast_move_move_history;
     bool fast_moving_;
+
+    int loadAvailableSteps(std::ifstream &input_file);
+    std::string loadMapString(std::ifstream &input_file);
+    Message::Code doInitialFastMove(std::string &saved_moves);
 
   public:
     Game();
@@ -37,13 +50,13 @@ class Game
     // Load file method
     // Loads the file file_name
     //
-    ResultCode loadFile(std::string file_name);
+    Message::Code loadFile(std::string file_name);
 
     //--------------------------------------------------------------------------
     // Load file method
     // Loads the file file_name
     //
-    ResultCode saveFile(std::string file_name);
+    Message::Code saveFile(std::string file_name);
 
     //--------------------------------------------------------------------------
     // Move player method
@@ -61,24 +74,24 @@ class Game
 
     void show(bool show_more = false);
 
-    GameState getState()
+    State getState()
     {
       return game_state_;
     }
 
     void wonGame()
     {
-      game_state_ = GameState::WON;
+      game_state_ = State::WON;
     }
 
     void lostGame()
     {
-      game_state_ = GameState::NO_MOVES_LEFT;
+      game_state_ = State::NO_MOVES_LEFT;
     }
 
     int getStepsLeft()
     {
-      return steps_left_;
+      return *steps_left_;
     }
 
     void setStepsLeft(int steps_left)
@@ -86,13 +99,13 @@ class Game
       // TODO: what is if int overflow occures? check that?
       if(steps_left < 0)
         steps_left = 0;
-      steps_left_ = steps_left;
+      *steps_left_ = steps_left;
     }
 
     // TODO: only needed for test cases!
-    Player getPlayer()
+    Player &getPlayer()
     {
-        return player_;
+        return *player_;
     }
 };
 

@@ -20,16 +20,15 @@ CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 
 }
 
-const std::string commands[]
-        {
-          "load",
-          "save",
-          "fastmove",
-          "move",
-          "show",
-          "reset",
-          "quit"
-        };
+const std::string name_strings_[] = {
+        "load",
+        "save",
+        "fastmove",
+        "move",
+        "show",
+        "reset",
+        "quit"
+};
 
 bool CommandLineInterface::update()
 {
@@ -59,55 +58,68 @@ bool CommandLineInterface::update()
 bool CommandLineInterface::execute(std::string command, std::vector<std::string> params)
 {
   //-----load------
-  if(command == commands[CommandName::LOAD])
+  if(command == ::name_strings_[Name::LOAD])
   {
     CommandLoad command_load;
-    command_load.execute(game_, params);
+    Message::print(command_load.execute(game_, params));
     return true;
   }
 
   //-----save------
-  if(command == commands[CommandName::SAVE])
+  else if(command == ::name_strings_[Name::SAVE])
   {
     CommandSave command_save;
-    command_save.execute(game_, params);
+    Message::print(command_save.execute(game_, params));
     return true;
   }
 
   //-----fastmove------
-  if(command == commands[CommandName::FASTMOVE])
+  else if(command == ::name_strings_[Name::FASTMOVE])
   {
     CommandFastMove command_fast_move;
-    command_fast_move.execute(game_, params);
+    Message::print(command_fast_move.execute(game_, params));
     return true;
   }
 
   //-----move------
-  if(command == commands[CommandName::MOVE])
+  else if(command == ::name_strings_[Name::MOVE])
   {
     CommandMove command_move;
-    command_move.execute(game_, params);
+    Message::print(command_move.execute(game_, params));
     return true;
   }
 
   //-----show------
-  if(command == commands[CommandName::SHOW])
+  else if(command == ::name_strings_[Name::SHOW])
   {
     CommandShow command_show;
-    command_show.execute(game_, params);
+    Message::print(command_show.execute(game_, params));
+    return true;
+  }
+
+  //-----reset------
+  else if(command == ::name_strings_[Name::RESET])
+  {
+    CommandReset command_reset;
+    Message::print(command_reset.execute(game_, params));
     return true;
   }
 
   //-----quit------
-  if(command == commands[CommandName::QUIT])
+  else if(command == ::name_strings_[Name::QUIT])
   {
     CommandQuit command_quit;
-    command_quit.execute(game_, params);
+    Message::print(command_quit.execute(game_, params));
     return false;
   }
+
+  //-----unknown command-----
+  else
+  {
+    Message::print(Message::UNKNOWN_COMMAND);
+    return true;
+  }
 }
-
-
 
 
 /*
@@ -115,21 +127,21 @@ bool CommandLineInterface::checkLine()
 {
   int loop_counter;
   //check if its a correct command
-  if(cmd != commands[CommandName::LOAD] &&
-      cmd != commands[CommandName::SAVE] &&
-      cmd != commands[CommandName::FASTMOVE] &&
-      cmd != commands[CommandName::MOVE] &&
-      cmd != commands[CommandName::SHOW] &&
-      cmd != commands[CommandName::QUIT] &&
+  if(cmd != name_strings_[Name::LOAD] &&
+      cmd != name_strings_[Name::SAVE] &&
+      cmd != name_strings_[Name::FASTMOVE] &&
+      cmd != name_strings_[Name::MOVE] &&
+      cmd != name_strings_[Name::SHOW] &&
+      cmd != name_strings_[Name::QUIT] &&
       !cmd.empty()) //cmd.empty() because no input is not invalid
   {
-    Message::print(ResultCode::UNKNOWN_COMMAND);
+    Message::print(Message::UNKNOWN_COMMAND);
     return false;
   }
 
   if(!overflow.empty()) //check if there are to much params
   {
-    Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+    Message::print(Message::WRONG_PARAMETER_COUNT);
     return false;
   }
 
@@ -138,7 +150,7 @@ bool CommandLineInterface::checkLine()
   {
     if(param.empty())
     {
-      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      Message::print(Message::WRONG_PARAMETER_COUNT);
       return false;
     }
 
@@ -149,7 +161,7 @@ bool CommandLineInterface::checkLine()
           param[loop_counter] < '0' && param[loop_counter] > '9' &&
           param[loop_counter] != '.' && param[loop_counter] != '/')
       {
-        Message::print(ResultCode::WRONG_PARAMETER);
+        Message::print(Message::WRONG_PARAMETER);
         return false;
       }
 
@@ -161,7 +173,7 @@ bool CommandLineInterface::checkLine()
   {
     if(param.empty())
     {
-      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      Message::print(Message::WRONG_PARAMETER_COUNT);
       return false;
     }
 
@@ -172,7 +184,7 @@ bool CommandLineInterface::checkLine()
          param[loop_counter] < '0' && param[loop_counter] > '9' &&
          param[loop_counter] != '.' && param[loop_counter] != '/')
       {
-        Message::print(ResultCode::WRONG_PARAMETER);
+        Message::print(Message::WRONG_PARAMETER);
         return false;
       }
 
@@ -184,7 +196,7 @@ bool CommandLineInterface::checkLine()
   {
     if(param.empty())
     {
-      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      Message::print(Message::WRONG_PARAMETER_COUNT);
       return false;
     }
 
@@ -193,7 +205,7 @@ bool CommandLineInterface::checkLine()
       if(param[loop_counter] != 'u' && param[loop_counter] != 'd' &&
               param[loop_counter] != 'l' && param[loop_counter] != 'r')
       {
-        Message::print(ResultCode::WRONG_PARAMETER);
+        Message::print(Message::WRONG_PARAMETER);
         return false;
       }
 
@@ -205,14 +217,14 @@ bool CommandLineInterface::checkLine()
   {
     if(param.empty())
     {
-      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      Message::print(Message::WRONG_PARAMETER_COUNT);
       return false;
     }
 
     if(param != "up" && param != "down" &&
        param != "left" && param != "right")
     {
-      Message::print(ResultCode::WRONG_PARAMETER);
+      Message::print(Message::WRONG_PARAMETER);
       return false;
     }
   }
@@ -222,7 +234,7 @@ bool CommandLineInterface::checkLine()
   {
     if(!param.empty() && param != "more")
     {
-      Message::print(ResultCode::WRONG_PARAMETER);
+      Message::print(Message::WRONG_PARAMETER);
       return false;
     }
   }
@@ -232,7 +244,7 @@ bool CommandLineInterface::checkLine()
   {
     if(!param.empty())
     {
-      Message::print(ResultCode::WRONG_PARAMETER_COUNT);
+      Message::print(Message::WRONG_PARAMETER_COUNT);
       return false;
     }
   }

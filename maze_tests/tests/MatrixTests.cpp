@@ -57,5 +57,5 @@ TEST(MatrixTest, toString)
     for(j=0; j<3; j++, n++)
       matrix[i][j] = '1' + n;
 
-  EXPECT_EQ("123\n456\n789\n", static_cast<std::string>(matrix));
+  EXPECT_EQ("147\n258\n369\n", static_cast<std::string>(matrix));
 }

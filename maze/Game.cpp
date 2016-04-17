@@ -10,9 +10,11 @@
 #include "CommandFastMove.h"
 #include "Convert.h"
 
-Game::Game() : player_(map_),
-               fast_move_player_copy_(fast_move_map_copy_),
-               game_state_(GameState::NO_MAZE_LOADED),
+Game::Game() : map_(&play_map_),
+               play_player_(play_map_),
+               load_test_player_(load_test_map_),
+               player_(&play_player_),
+               game_state_(Game::NO_MAZE_LOADED),
                fast_moving_(false)
 {
 
@@ -25,91 +27,77 @@ void Game::setAutoSave(std::string file_name)
 }
 
 
-ResultCode Game::loadFile(std::string file_name)
+//TODO Sollte bereits ein Spiel geladen sein, wird dieses verworfen und mit der angegebenen Datei ein
+//neues Spiel gestartet, sofern dieses fehlerfrei geladen werden kann. Sollte beim Laden ein
+//Fehler auftreten, bleibt das alte Spiel erhalten.
+Message::Code Game::loadFile(std::string file_name)
 {
   std::string saved_moves;
-  std::string available_steps;
+  Message::Code return_code;
+  int steps_left;
   std::string map_string;
 
   std::ifstream input_file(file_name, std::ifstream::binary);
 
   if(input_file.fail())
-    return Message::print(ResultCode::FILE_COULD_NOT_BE_OPENED);
-
+    return Message::print(Message::FILE_COULD_NOT_BE_OPENED);
 
   std::getline(input_file, saved_moves);
 
-  std::getline(input_file, available_steps);
-  if(available_steps == "")
-    return Message::print(ResultCode::INVALID_FILE);
+  if((steps_left = loadAvailableSteps(input_file)) == -1)
+    return Message::print(Message::INVALID_FILE);
 
-  try //convert available_steps
+  if((map_string = loadMapString(input_file)) == "")
+    return Message::print(Message::INVALID_FILE);
+
+  steps_left_ = &load_test_steps_left;
+  *steps_left_ = steps_left;
+  map_ = &load_test_map_;
+
+  if(!map_->loadFromString(map_string, *this))
   {
-    steps_left_ = Convert::toUInt(available_steps);
-  }
-  catch(const std::exception &e)
-  {
-    return Message::print(ResultCode::INVALID_FILE);
-  }
-
-  // read the map
-  // calculate the size of the map in bytes
-  long map_start = input_file.tellg();
-  input_file.seekg(0, std::ios::end);
-  unsigned long map_size = static_cast<unsigned long>(input_file.tellg() - map_start);
-
-  if(map_size == 0)
-    return Message::print(ResultCode::INVALID_FILE);
-
-  // resize the map_string to this size
-  map_string.resize(map_size);
-  // read the map into the string, starting from where the map starts
-  input_file.seekg(map_start);
-  input_file.read(&map_string[0], map_size);
-  // close the file
-  input_file.close();
-
-  if(map_string.back() != '\n')
-    return Message::print(ResultCode::INVALID_FILE);
-
-  if(!map_.loadFromString(map_string, *this))
-    return Message::print(ResultCode::INVALID_FILE);
-
-  player_.setPosition(map_.getStartTile()->getPosition());
-
-  if(saved_moves != "")
-  {
-    CommandFastMove fastMove;
-    std::vector<std::string> fast_move_params;
-    fast_move_params.push_back(saved_moves);
-
-    if(fastMove.execute(*this, fast_move_params) != ResultCode::SUCCESS)
-      return Message::print(ResultCode::INVALID_PATH);
+    map_ = &play_map_;
+    return Message::print(Message::INVALID_FILE);
   }
 
-  game_state_ = GameState::PLAYING;
+  player_ = &load_test_player_;
 
-  return ResultCode::SUCCESS;
+  if((return_code = doInitialFastMove(saved_moves)) != Message::SUCCESS)
+  {
+    map_ = &play_map_;
+    player_ = &play_player_;
+    return Message::print(return_code);
+  }
+
+  steps_left_ = &play_steps_left_;
+  map_ = &play_map_;
+  player_ = &play_player_;
+
+  *steps_left_ = steps_left;
+  map_->loadFromString(map_string, *this);
+  doInitialFastMove(saved_moves);
+
+  return Message::SUCCESS;
 }
 
 
-ResultCode Game::saveFile(std::string file_name)
+Message::Code Game::saveFile(std::string file_name)
 {
   std::ofstream
           output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
 
   if(output_file.fail())
-    return Message::print(ResultCode::FILE_COULD_NOT_BE_WRITTEN);
+    return Message::print(Message::FILE_COULD_NOT_BE_WRITTEN);
 
   for(auto move : move_history_)
     output_file << static_cast<char>(move);
   output_file << '\n';
 
-  output_file << steps_left_ << '\n';
+  output_file << *steps_left_ << '\n';
 
-  output_file << static_cast<std::string>(map_);
+  output_file << static_cast<std::string>(play_map_);
 
-  return ResultCode::SUCCESS;
+  return Message::SUCCESS;
 }
 
 
@@ -117,18 +105,19 @@ bool Game::movePlayer(Direction direction)
 {
   // TODO: only move, when Game hasn't been already won!
 
-  if(fast_moving_ && fast_move_player_copy_.move(direction))
+  if(fast_moving_ && player_->move(direction))
   {
+    *steps_left_--;
     fast_move_move_history.push_back(direction);
     return true;
   }
-  else if(!fast_moving_ && player_.move(direction))
+  else if(!fast_moving_ && player_->move(direction))
   {
     // decrement 1 step for a single move
-    steps_left_--;
+    *steps_left_--;
 
     //TODO: game lost when no steps are left and game hasn't been won
-    if(game_state_ != GameState::WON && steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
+    if(game_state_ != Game::WON && *steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
       lostGame();
 
     move_history_.push_back(direction);
@@ -147,56 +136,132 @@ bool Game::movePlayer(Direction direction)
 
 bool Game::startFastMove()
 {
-  if(game_state_ == GameState::NO_MAZE_LOADED)
+  if(game_state_ == Game::NO_MAZE_LOADED)
     return false;
 
   fast_moving_ = true;
-  //fast_move_map_copy_ = map_;
-  //fast_move_player_copy_.setPosition(player_.getPosition());
+
+  return true;
 }
 
 
 void Game::completeFastMove()
 {
   fast_moving_ = false;
-  //map_ = fast_move_map_copy_;
-  player_.setPosition(fast_move_player_copy_.getPosition());
-  steps_left_ = fast_moving_steps_left_;
-  }
+  for(auto move : fast_move_move_history)
+    move_history_.push_back(move);
+
+  if(game_state_ != Game::LOADING)
+    show();
+}
 
 
 void Game::cancelFastMove()
 {
+  //reset the game
+  *steps_left_ = initial_steps_left_;
+  map_->reset();
+  player_->setPosition(play_map_.getStartTile()->getPosition());
+
   //redo all moves
-  int move_history_index;
-  for(move_history_index = 0;
-      move_history_index < move_history_.size();
-      move_history_index++)
-  {
-    movePlayer(move_history_[move_history_index]);
-  }
+  for(auto direction : move_history_)
+    movePlayer(direction);
+
   fast_moving_ = false;
 }
 
 void Game::reset()
 {
-  map_.reset();
-  game_state_ = GameState::NO_MAZE_LOADED;
+  map_->clear();
+  game_state_ = Game::NO_MAZE_LOADED;
 }
 
 void Game::show(bool show_more)
 {
   if(show_more)
   {
-    std::cout << "Remaining Steps: " << steps_left_ << '\n';
+    std::cout << "Remaining Steps: " << *steps_left_ << '\n';
     std::cout << "Moved Steps: ";
     for(auto move : move_history_)
       std::cout << static_cast<char>(move);
     std::cout << '\n';
   }
   //std::cout << player_.getPosition().x() << " " << player_.getPosition().y() << std::endl;
-  std::cout << map_.toStringWithPlayer(player_.getPosition());
+  std::cout << map_->toStringWithPlayer(player_->getPosition());
 }
+
+
+int Game::loadAvailableSteps(std::ifstream &input_file)
+{
+  std::string available_steps_string;
+
+  std::getline(input_file, available_steps_string);
+  if(available_steps_string == "")
+    return -1;  // TODO konstante einführen
+
+  try //convert available_steps
+  {
+    int available_steps;
+    available_steps = Convert::toUInt(available_steps_string);
+    return available_steps;
+  }
+  catch(const std::exception &e)
+  {
+    return -1;
+  }
+}
+
+std::string Game::loadMapString(std::ifstream &input_file)
+{
+  std::string map_string;
+  // read the map
+  // calculate the size of the map in bytes
+  long map_start = input_file.tellg();
+  input_file.seekg(0, std::ios::end);
+  unsigned long map_size = static_cast<unsigned long>(input_file.tellg() - map_start);
+
+  if(map_size == 0)
+    return "";
+
+  // resize the map_string to this size
+  map_string.resize(map_size);
+  // read the map into the string, starting from where the map starts
+  input_file.seekg(map_start);
+  input_file.read(&map_string[0], map_size);
+  // close the file
+  input_file.close();
+
+  if(map_string.back() != '\n')
+    return "";
+
+  return map_string;
+}
+
+Message::Code Game::doInitialFastMove(std::string &saved_moves)
+{
+  player_->setPosition(map_->getStartTile()->getPosition());
+
+  State previous_game_state = game_state_;
+  game_state_ = Game::LOADING;
+
+  if(saved_moves != "")
+  {
+    CommandFastMove fastMove;
+    std::vector<std::string> fast_move_params;
+    fast_move_params.push_back(saved_moves);
+
+    if(fastMove.execute(*this, fast_move_params) != Message::SUCCESS)
+    {
+      game_state_ = previous_game_state;
+      return Message::print(Message::INVALID_PATH);
+    }
+  }
+}
+
+
+
+
+
 
 
 

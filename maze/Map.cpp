@@ -106,21 +106,14 @@ bool Map::loadFromString(string map_string, Game &game)
 
       //put(a , tile_position);
       x++;
+      string_position++;
     }
     y++;
     string_position++;
-
-
   }
 
   is_loaded_ = true;
   return true;
-}
-
-void Map::clear()
-{
-  // remove the map
-  is_loaded_ = false;
 }
 
 void Map::check(std::string map_string)
@@ -137,32 +130,45 @@ void Map::check(std::string map_string)
   for (int j = 0; j < line_length; j++)
   {
     if(*matrix[0][j] != '#' || *matrix[column_height - 1][j] != '#')
-      Message::print(ResultCode::INVALID_FILE);
+      Message::print(Message::INVALID_FILE);
   }
 
   for (int j = 0; j < column_height; j++)
   {
     if(*matrix[j][0] != '#' || *matrix[j][line_length - 1] != '#')
-      Message::print(ResultCode::INVALID_FILE);
+      Message::print(Message::INVALID_FILE);
   }
 
 
   //check if exact one start-tile
   if(start_once_ != 0)
-    Message::print(ResultCode::INVALID_FILE);
+    Message::print(Message::INVALID_FILE);
   //check if exact one end-tile
   if(end_once_ != 0)
-    Message::print(ResultCode::INVALID_FILE);
+    Message::print(Message::INVALID_FILE);
   //check if if teleporter_pairs are correct
   for(int i = 0; i < 26; i++)
   {
     if(teleporter_pair_[i] != -1 && teleporter_pair_[i] != 1)
     {
-      Message::print(ResultCode::INVALID_FILE);
+      Message::print(Message::INVALID_FILE);
       break;
     }
 
   }
+}
+
+void Map::clear()
+{
+  for (auto &row : rows_)
+  {
+    for (auto &element : row)
+      delete element;
+  }
+
+  resize(0, 0);
+
+  is_loaded_ = false;
 }
 
 void Map::reset()

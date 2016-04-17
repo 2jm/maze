@@ -168,11 +168,13 @@ Matrix<T>::Matrix() : size_(0, 0)
   resize();
 }
 
+
 template<class T>
 Matrix<T>::Matrix(unsigned int width, unsigned int height) : size_(width, height)
 {
   resize();
 }
+
 
 template<class T>
 Matrix<T>::Matrix(Vector2d size) : size_(size)
@@ -218,6 +220,7 @@ void Matrix<T>::put(T element, Vector2d position)
 
   (*this)[position] = element;
 }
+
 
 template<class T>
 Matrix<T>::operator std::string() const

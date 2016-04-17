@@ -13,6 +13,18 @@ class Game;
 class CommandLineInterface
 {
   private:
+    enum Name
+    {
+      LOAD,
+      SAVE,
+      FASTMOVE,
+      MOVE,
+      SHOW,
+      RESET,
+      QUIT
+    };
+    const static std::string name_strings_[];
+
     Game &game_;
     bool execute(std::string command, std::vector<std::string> params);
 
@@ -21,16 +33,6 @@ class CommandLineInterface
     bool update();
 };
 
-enum CommandName
-{
-  LOAD,
-  SAVE,
-  FASTMOVE,
-  MOVE,
-  SHOW,
-  RESET,
-  QUIT
-};
 
 
 #endif //MAZE_COMMANDLINEINTERFACE_H

@@ -6,13 +6,13 @@
 #include "Game.h"
 #include "FileHandler.h"
 
-ResultCode CommandLoad::execute(Game &board, std::vector<std::string> &params)
+Message::Code CommandLoad::execute(Game &board, std::vector<std::string> &params)
 {
   if(params.size() != 1)
-    return ResultCode::WRONG_PARAMETER_COUNT;
+    return Message::WRONG_PARAMETER_COUNT;
 
   if(!FileHandler::isValidFileName(params[0]))
-    return ResultCode::WRONG_PARAMETER;
+    return Message::WRONG_PARAMETER;
 
   return board.loadFile(params[0]);
 }

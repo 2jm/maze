@@ -4,13 +4,10 @@
 
 #include "CommandQuit.h"
 #include <iostream>
-using std::cout;
 
-
-ResultCode CommandQuit::execute(Game &board, std::vector<std::string> &params)
+Message::Code CommandQuit::execute(Game &board, std::vector<std::string> &params)
 {
-  cout << "Bye!\n";
-  return ResultCode::SUCCESS;
+  return Message::BYE;
 }
 
 /*

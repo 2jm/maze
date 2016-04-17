@@ -22,12 +22,12 @@ int Maze::run(int argc, char **argv)
   catch(const InvalidCommandLineArgumentException &e)
   {
     std::cout << e.what();
-    return ResultCode::WRONG_USAGE;
+    return Message::WRONG_USAGE;
   }
 
   while(command_line_interface_.update());
 
-  return ResultCode::SUCCESS;
+  return Message::SUCCESS;
 }
 
 
