@@ -19,9 +19,6 @@ Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params
   if(move_direction == Direction::OTHER)
     return Message::WRONG_PARAMETER;
 
-  if(board.getState() == Game::NO_MAZE_LOADED)
-    return Message::NO_MAZE_LOADED;
-
   if(!board.movePlayer(move_direction))
     return Message::INVALID_MOVE;
 

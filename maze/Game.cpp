@@ -117,6 +117,12 @@ bool Game::movePlayer(Direction direction)
     return true;
   }
 
+  if(game_state_ == Game::NO_MAZE_LOADED)
+  {
+    Message::print(Message::NO_MAZE_LOADED);
+    return true;
+  }
+
   if(fast_moving_ && player_->move(direction))
   {
     (*steps_left_)--;
