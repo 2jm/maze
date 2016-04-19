@@ -21,7 +21,7 @@ class Player
 
     bool move(Direction direction);
 
-    Vector2d getPosition();
+    Vector2d getPosition() const;
 
     void setPosition(Vector2d);
 };

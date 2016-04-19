@@ -133,8 +133,8 @@ bool Map::check()
   int line_length;
   int column_height;
 
-  line_length = getSize().x();
-  column_height = getSize().y();
+  line_length = size_.x();
+  column_height = size_.y();
 
   for (int j = 0; j < column_height; j++)
   {
@@ -197,7 +197,7 @@ std::string Map::toStringWithPlayer(Vector2d player_position)
   std::string map_string;
   unsigned int row_number, column_number;
 
-  for(row_number = 0; row_number < getSize().y(); row_number++)
+  for(row_number = 0; row_number < size_.y(); row_number++)
   {
     for(column_number = 0; column_number < getSize().x(); column_number++)
     {
@@ -211,32 +211,5 @@ std::string Map::toStringWithPlayer(Vector2d player_position)
 
   return map_string;
 }
-
-
-Tile *Map::getTeleporterPair(char name) // returns the corresponding second match of the teleporter tile with the given name
-{
-/*  int pair_count = name - 65; // 'A' = 65, 'B' = 66, ..
-  if(teleporter_pair_[pair_count] == 1) // exsits twice
-  {
-    std::map<int, int>::iterator pair_iterator = teleporter_pair_map_.find(pair_count);
-    if(pair_iterator != teleporter_pair_map_.end()) // found value by key
-    {
-      int matching_teleporter = pair_iterator->second;
-      int row = matching_teleporter / this->getSize().x();
-      int col = matching_teleporter % this->getSize().x();
-      return this->at(row, col);
-    }
-  }
-  else if(teleporter_pair_[pair_count] == 0) // exists once
-  {
-
-  }
-  else if(teleporter_pair_[pair_count] == -1) // doesn't exist
-  {
-
-  }*/
-}
-
-
 
 

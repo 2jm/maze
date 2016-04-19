@@ -85,7 +85,7 @@ class Game
     void setStepsLeft(int steps_left);
 
     // TODO: only needed for test cases!
-    Player &getPlayer();
+    Player &getPlayer() const;
 };
 
 

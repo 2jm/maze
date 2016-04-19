@@ -42,17 +42,15 @@ class Map : public Matrix<Tile*>
 
     bool check();
 
-    Tile* getEndTile()
+    Tile* getEndTile() const
     {
         return end_tile_;
     }
 
-    Tile* getStartTile()
+    Tile* getStartTile() const
     {
         return start_tile_;
     }
-
-    Tile* getTeleporterPair(char name);
 };
 
 

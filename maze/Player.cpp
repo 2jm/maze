@@ -32,7 +32,7 @@ bool Player::move(Direction direction)
   return !(position_ == old_position);
 }
 
-Vector2d Player::getPosition()
+Vector2d Player::getPosition() const
 {
   return position_;
 }

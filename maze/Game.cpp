@@ -3,10 +3,7 @@
 //
 
 #include "Game.h"
-#include <iostream>
 #include <fstream>
-#include <string>
-#include "Message.h"
 #include "CommandFastMove.h"
 #include "Convert.h"
 
@@ -243,7 +240,7 @@ void Game::setStepsLeft(int steps_left)
 }
 
 // TODO: only needed for test cases!
-Player& Game::getPlayer()
+Player& Game::getPlayer() const
 {
   return *player_;
 }
@@ -315,6 +312,8 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
       return Message::print(Message::INVALID_PATH);
     }
   }
+  // TODO: return something!!
+  // @jonas: das hier? return Message::SUCCESS;
 }
 
 

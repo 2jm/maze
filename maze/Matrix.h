@@ -127,7 +127,7 @@ class Matrix
     }
     void resize(Vector2d new_size);
 
-    Vector2d getSize()
+    Vector2d getSize() const
     {
       return size_;
     }
