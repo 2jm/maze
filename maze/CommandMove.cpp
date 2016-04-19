@@ -25,7 +25,7 @@ Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params
   return Message::SUCCESS;
 }
 
-Direction CommandMove::string_to_direction(std::string direction_string)
+Direction CommandMove::string_to_direction(const std::string direction_string) const
 {
   if(direction_string == UP)
   {

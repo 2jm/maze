@@ -17,7 +17,7 @@ class CommandMove : public Command
     const std::string DOWN  = "down";
     const std::string LEFT = "left";
 
-    Direction string_to_direction(std::string direction_string);
+    Direction string_to_direction(const std::string direction_string) const;
 
   public:
     CommandMove() : Command("move"){}
