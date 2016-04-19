@@ -29,7 +29,7 @@ class Game
     int play_steps_left_, load_test_steps_left, *steps_left_, initial_steps_left_;
     State game_state_;
     std::string auto_save_filename_;
-    std::vector<Direction> move_history_, fast_move_move_history;
+    std::vector<Direction> move_history_, fast_move_move_history_;
     bool fast_moving_;
 
     int loadAvailableSteps(std::ifstream &input_file);

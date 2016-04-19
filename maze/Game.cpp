@@ -126,7 +126,7 @@ bool Game::movePlayer(Direction direction)
   if(fast_moving_ && player_->move(direction))
   {
     (*steps_left_)--;
-    fast_move_move_history.push_back(direction);
+    fast_move_move_history_.push_back(direction);
     return true;
   }
   else if(!fast_moving_ && player_->move(direction))
@@ -168,7 +168,7 @@ bool Game::startFastMove()
 void Game::completeFastMove()
 {
   fast_moving_ = false;
-  for(auto move : fast_move_move_history)
+  for(auto move : fast_move_move_history_)
     move_history_.push_back(move);
 
   if(game_state_ != Game::LOADING)
