@@ -37,6 +37,8 @@ bool Map::loadFromString(string map_string, Game &game)
 
   std::fill(teleporter_pair_, teleporter_pair_ + 26, -1);  //TODO remove '26'
 
+  clear();
+
   while(map_string[string_position])
   {
     x = 0;

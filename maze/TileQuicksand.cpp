@@ -16,7 +16,8 @@ bool TileQuicksand::enter(Vector2d source_position, Vector2d &new_position)
        */
 
   // position_ = position of the tile
-  int steps_left = board_.getStepsLeft() - character_ - 'f' + 1;
+  int steps_remove = character_ - 'f' + 1;
+  int steps_left = board_.getStepsLeft() - steps_remove;
   board_.setStepsLeft(steps_left);
 
   return false;

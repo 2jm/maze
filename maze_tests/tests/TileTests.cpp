@@ -11,19 +11,39 @@ TEST(TileTest, test_bonus)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_bonus.txt"), Message::SUCCESS);
-  for(int rightMoves = 0; rightMoves < 17; rightMoves++) // TODO: check if the correct amount of rightmoves is made
+  EXPECT_EQ(game.getState(), Game::PLAYING);
+  for(int rightMoves = 0; rightMoves < 17; rightMoves++)
   {
+    EXPECT_EQ(game.getState(), Game::PLAYING);
     game.movePlayer(Direction::RIGHT);
   }
   EXPECT_EQ(game.getStepsLeft(), 0);
   EXPECT_EQ(game.getState(), Game::WON);
 }
 
+TEST(TileTest, test_bonus_too_few_steps)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"invalid_bonus.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
+  for(int rightMoves = 0; rightMoves < 17; rightMoves++)
+  {
+    EXPECT_EQ(game.getState(), Game::PLAYING);
+    game.movePlayer(Direction::RIGHT);
+  }
+  EXPECT_EQ(game.getStepsLeft(), 0);
+  EXPECT_EQ(game.getState(), Game::NO_MORE_STEPS);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::NO_MAZE_LOADED);
+}
+
 TEST(TileTest, test_finish)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
   EXPECT_EQ(game.getState(), Game::WON);
 }
@@ -32,6 +52,7 @@ TEST(TileTest, test_ice)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_ice.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
   EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::DOWN);
@@ -42,6 +63,7 @@ TEST(TileTest, test_ice_repeat_access)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_ice.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
   EXPECT_EQ(game.getState(), Game::PLAYING);
   for(int repeat_access = 0; repeat_access < 50; repeat_access++)
@@ -57,7 +79,7 @@ TEST(TileTest, test_one_way)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_one_way.txt"), Message::SUCCESS);
-
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
   Vector2d tile_pos = game.getPlayer().getPosition();
 
@@ -126,13 +148,21 @@ TEST(TileTest, test_path)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_big.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::DOWN);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::DOWN);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::LEFT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::DOWN);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::DOWN);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
   game.movePlayer(Direction::UP);
   EXPECT_EQ(game.getState(), Game::WON);
@@ -142,8 +172,9 @@ TEST(TileTest, test_quicksand)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_quicksand.txt"), Message::SUCCESS);
-  for(int rightMoves = 0; rightMoves < 17; rightMoves++) // TODO: check if the correct amount of rightmoves is made
+  for(int rightMoves = 0; rightMoves < 17; rightMoves++)
   {
+    EXPECT_EQ(game.getState(), Game::PLAYING);
     game.movePlayer(Direction::RIGHT);
   }
   EXPECT_EQ(game.getState(), Game::WON);
@@ -153,11 +184,14 @@ TEST(TileTest, test_start)
 {
   // start should be a normal path after first visit
   Game game;
-  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_start.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::LEFT);
   EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
   EXPECT_EQ(game.getState(), Game::WON);
 }
@@ -166,7 +200,9 @@ TEST(TileTest, test_teleporter)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"complete_teleporter.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::DOWN);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::UP);
   EXPECT_EQ(game.getState(), Game::WON);
 }
@@ -175,6 +211,7 @@ TEST(TileTest, test_wall)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::DOWN);
   EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::UP);

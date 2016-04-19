@@ -1,5 +1,6 @@
 # CLion settings
 .idea/*
+!.idea/codeStyleSettings.xml
 
 bin/*
 

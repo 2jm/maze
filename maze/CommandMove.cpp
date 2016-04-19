@@ -27,19 +27,19 @@ Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params
 
 Direction CommandMove::string_to_direction(std::string direction_string)
 {
-  if(direction_string == "up")
+  if(direction_string == UP)
   {
     return Direction::UP;
   }
-  else if(direction_string == "right")
+  else if(direction_string == RIGHT)
   {
     return Direction::RIGHT;
   }
-  else if(direction_string == "down")
+  else if(direction_string == DOWN)
   {
     return Direction::DOWN;
   }
-  else if(direction_string == "left")
+  else if(direction_string == LEFT)
   {
     return Direction::LEFT;
   }
