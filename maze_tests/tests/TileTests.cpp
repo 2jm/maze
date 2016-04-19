@@ -25,6 +25,7 @@ TEST(TileTest, test_bonus_too_few_steps)
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"invalid_bonus.txt"), Message::SUCCESS);
   for(int rightMoves = 0; rightMoves < 17; rightMoves++)
   {
+    EXPECT_EQ(game.getState(), Game::PLAYING);
     game.movePlayer(Direction::RIGHT);
   }
   EXPECT_EQ(game.getStepsLeft(), 0);
