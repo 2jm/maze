@@ -8,7 +8,7 @@
 
 namespace Convert
 {
-  unsigned int toUInt(std::string string)
+  unsigned int toUnsignedInt(std::string string)
   {
     if(string.find_first_not_of("0123456789") != std::string::npos)
       throw std::invalid_argument(string);

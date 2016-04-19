@@ -14,20 +14,20 @@ Game::Game() : map_(&play_map_),
                play_player_(play_map_),
                load_test_player_(load_test_map_),
                player_(&play_player_),
-               game_state_(Game::NO_MAZE_LOADED),
+               game_state_(NO_MAZE_LOADED),
                fast_moving_(false)
 {
 
 }
 
 
-void Game::setAutoSave(std::string file_name)
+void Game::setAutoSave(const std::string file_name)
 {
   auto_save_filename_ = file_name;
 }
 
 
-Message::Code Game::loadFile(std::string file_name)
+Message::Code Game::loadFile(const std::string file_name)
 {
   std::string saved_moves;
   Message::Code return_code;
@@ -84,7 +84,7 @@ Message::Code Game::loadFile(std::string file_name)
 }
 
 
-Message::Code Game::saveFile(std::string file_name)
+Message::Code Game::saveFile(const std::string file_name)
 {
   std::ofstream
           output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
@@ -104,17 +104,20 @@ Message::Code Game::saveFile(std::string file_name)
 }
 
 
-bool Game::movePlayer(Direction direction)
+bool Game::movePlayer(const Direction direction)
 {
   // TODO: only move, when Game hasn't been already won!
-  if(game_state_ == Game::NO_MORE_STEPS)
+  if(game_state_ == WON)
+    return false;
+
+  if(game_state_ == NO_MORE_STEPS)
   {
     Message::print(Message::NO_MORE_STEPS);
     reset();
     return true;
   }
 
-  if(game_state_ == Game::NO_MAZE_LOADED)
+  if(game_state_ == NO_MAZE_LOADED)
   {
     Message::print(Message::NO_MAZE_LOADED);
     return true;
@@ -132,7 +135,7 @@ bool Game::movePlayer(Direction direction)
     (*steps_left_)--;
 
     //TODO: game lost when no steps are left and game hasn't been won
-    if(game_state_ != Game::WON && *steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
+    if(game_state_ != WON && *steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
     {
       lostGame();
       return true;
@@ -153,7 +156,7 @@ bool Game::movePlayer(Direction direction)
 
 bool Game::startFastMove()
 {
-  if(game_state_ == Game::NO_MAZE_LOADED)
+  if(game_state_ == NO_MAZE_LOADED)
     return false;
 
   fast_moving_ = true;
@@ -168,7 +171,7 @@ void Game::completeFastMove()
   for(auto move : fast_move_move_history_)
     move_history_.push_back(move);
 
-  if(game_state_ != Game::LOADING)
+  if(game_state_ != LOADING)
     show();
 }
 
@@ -190,13 +193,14 @@ void Game::cancelFastMove()
 void Game::reset()
 {
   map_->clear();
-  game_state_ = Game::NO_MAZE_LOADED;
+  game_state_ = NO_MAZE_LOADED;
 }
 
-void Game::show(bool show_more)
+void Game::show(const bool show_more)
 {
   if(show_more)
   {
+    // TODO make constants for strings
     std::cout << "Remaining Steps: " << *steps_left_ << '\n';
     std::cout << "Moved Steps: ";
     for(auto move : move_history_)
@@ -209,22 +213,23 @@ void Game::show(bool show_more)
 
 
 
-Game::State Game::getState()
+Game::State Game::getState() const
 {
   return game_state_;
 }
 
 void Game::wonGame()
 {
-  game_state_ = State::WON;
+  Message::print(Message::WON);
+  game_state_ = WON;
 }
 
 void Game::lostGame()
 {
-  game_state_ = State::NO_MORE_STEPS;
+  game_state_ = NO_MORE_STEPS;
 }
 
-int Game::getStepsLeft()
+int Game::getStepsLeft() const
 {
   return *steps_left_;
 }
@@ -256,7 +261,7 @@ int Game::loadAvailableSteps(std::ifstream &input_file)
   try //convert available_steps
   {
     int available_steps;
-    available_steps = Convert::toUInt(available_steps_string);
+    available_steps = Convert::toUnsignedInt(available_steps_string);
     return available_steps;
   }
   catch(const std::exception &e)
@@ -296,7 +301,7 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
   player_->setPosition(map_->getStartTile()->getPosition());
 
   State previous_game_state = game_state_;
-  game_state_ = Game::LOADING;
+  game_state_ = LOADING;
 
   if(saved_moves != "")
   {

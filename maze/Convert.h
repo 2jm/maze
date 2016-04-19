@@ -11,7 +11,7 @@ namespace Convert
 {
   // Feel free to add your functions
 
-  unsigned int toUInt(std::string string);
+  unsigned int toUnsignedInt(std::string string);
 }
 
 #endif //MAZE_ALL_CONVERT_H

@@ -44,25 +44,25 @@ class Game
     // When this method is called the game should be saved after each step in
     // file file_name
     //
-    void setAutoSave(std::string file_name);
+    void setAutoSave(const std::string file_name);
 
     //--------------------------------------------------------------------------
     // Load file method
     // Loads the file file_name
     //
-    Message::Code loadFile(std::string file_name);
+    Message::Code loadFile(const std::string file_name);
 
     //--------------------------------------------------------------------------
     // Load file method
     // Loads the file file_name
     //
-    Message::Code saveFile(std::string file_name);
+    Message::Code saveFile(const std::string file_name);
 
     //--------------------------------------------------------------------------
     // Move player method
     // move the player by direction
     //
-    bool movePlayer(Direction direction);
+    bool movePlayer(const Direction direction);
 
     bool startFastMove();
 
@@ -72,15 +72,15 @@ class Game
 
     void reset();
 
-    void show(bool show_more = false);
+    void show(const bool show_more = false);
 
-    State getState();
+    State getState() const;
 
     void wonGame();
 
     void lostGame();
 
-    int getStepsLeft();
+    int getStepsLeft() const;
 
     void setStepsLeft(int steps_left);
 

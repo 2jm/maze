@@ -68,6 +68,18 @@ TEST(GameTest, test_invalid_moves)
   ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_moves.txt"), Message::INVALID_PATH);
 }
 
+TEST(GameTest, test_invalid_two_starts)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_two_starts.txt"), Message::INVALID_FILE);
+}
+
+TEST(GameTest, test_invalid_two_ends)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_two_ends.txt"), Message::INVALID_FILE);
+}
+
 TEST(GameTest, test_impossible_moves)
 {
   Game game;
