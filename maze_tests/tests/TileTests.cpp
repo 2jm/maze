@@ -11,12 +11,26 @@ TEST(TileTest, test_bonus)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_bonus.txt"), Message::SUCCESS);
-  for(int rightMoves = 0; rightMoves < 17; rightMoves++) // TODO: check if the correct amount of rightmoves is made
+  for(int rightMoves = 0; rightMoves < 17; rightMoves++)
   {
     game.movePlayer(Direction::RIGHT);
   }
   EXPECT_EQ(game.getStepsLeft(), 0);
   EXPECT_EQ(game.getState(), Game::WON);
+}
+
+TEST(TileTest, test_bonus_too_few_steps)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"invalid_bonus.txt"), Message::SUCCESS);
+  for(int rightMoves = 0; rightMoves < 17; rightMoves++)
+  {
+    game.movePlayer(Direction::RIGHT);
+  }
+  EXPECT_EQ(game.getStepsLeft(), 0);
+  EXPECT_EQ(game.getState(), Game::NO_MORE_STEPS);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::NO_MAZE_LOADED);
 }
 
 TEST(TileTest, test_finish)
@@ -142,7 +156,7 @@ TEST(TileTest, test_quicksand)
 {
   Game game;
   EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_quicksand.txt"), Message::SUCCESS);
-  for(int rightMoves = 0; rightMoves < 17; rightMoves++) // TODO: check if the correct amount of rightmoves is made
+  for(int rightMoves = 0; rightMoves < 17; rightMoves++)
   {
     game.movePlayer(Direction::RIGHT);
   }
