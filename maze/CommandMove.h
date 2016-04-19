@@ -12,7 +12,13 @@
 class CommandMove : public Command
 {
   private:
+    const std::string UP = "up";
+    const std::string RIGHT = "right";
+    const std::string DOWN  = "down";
+    const std::string LEFT = "left";
+
     Direction string_to_direction(std::string direction_string);
+
   public:
     CommandMove() : Command("move"){}
     virtual ~CommandMove();
