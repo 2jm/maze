@@ -22,7 +22,6 @@ class Map : public Matrix<Tile*>
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
     int teleporter_pair_[26];       //-1 --> doesn't exist; 0 --> exists once; 1 --> exists twice, size is 26 -> every char of the alphabet
 
-
   public:
     Map();
 
@@ -35,7 +34,7 @@ class Map : public Matrix<Tile*>
 
     void reset();
 
-    bool isLoaded()
+    bool isLoaded() const
     {
       return is_loaded_;
     }
