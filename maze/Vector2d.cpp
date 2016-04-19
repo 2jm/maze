@@ -102,7 +102,7 @@ Vector2d::Vector2d(char sign)
 }
 
 
-bool Vector2d::operator==(const Vector2d &other)
+bool Vector2d::operator==(const Vector2d &other) const
 {
   return x_ == other.x_ && y_ == other.y_;
 }

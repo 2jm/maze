@@ -34,7 +34,7 @@ class Vector2d
     void setX(int x);
     void setY(int y);
 
-    bool operator==(const Vector2d &other);
+    bool operator==(const Vector2d &other) const;
     Vector2d operator+(const Vector2d &other);
     Vector2d operator-(const Vector2d &other);
     Vector2d operator+=(const Vector2d &other);
