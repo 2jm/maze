@@ -27,9 +27,6 @@ void Game::setAutoSave(std::string file_name)
 }
 
 
-//TODO Sollte bereits ein Spiel geladen sein, wird dieses verworfen und mit der angegebenen Datei ein
-//neues Spiel gestartet, sofern dieses fehlerfrei geladen werden kann. Sollte beim Laden ein
-//Fehler auftreten, bleibt das alte Spiel erhalten.
 Message::Code Game::loadFile(std::string file_name)
 {
   std::string saved_moves;
