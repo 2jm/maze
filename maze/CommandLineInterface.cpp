@@ -20,7 +20,7 @@ CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 
 }
 
-const std::string name_strings_[] = {
+const std::string CommandLineInterface::name_strings_[] = {
         "load",
         "save",
         "fastmove",

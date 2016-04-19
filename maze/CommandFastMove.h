@@ -16,7 +16,9 @@ class CommandFastMove : public Command
     bool isValidFastMoveString(std::string fast_move_string);
 
   public:
-    CommandFastMove() : Command("fastmove") { }
+    CommandFastMove() : Command("fastmove")
+    {
+    }
 
     virtual ~CommandFastMove()
     {

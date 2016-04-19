@@ -12,7 +12,6 @@
 class TileTeleport : public Tile
 {
   private:
-    //Game *board_;
     TileTeleport *corresponding_teleport_;
     char character_;
 

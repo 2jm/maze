@@ -7,6 +7,20 @@
 
 #define TEST_FILES_PATH "../maze_tests/tests/test_files/"
 
+TEST(TileTest, test_ice_then_teleporter)
+{
+  Game game;
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"ice_then_teleporter.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
+  EXPECT_EQ(game.getStepsLeft(), 2);
+  game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
+  EXPECT_EQ(game.getStepsLeft(), 1);
+  game.movePlayer(Direction::LEFT);
+  EXPECT_EQ(game.getStepsLeft(), 0);
+  EXPECT_EQ(game.getState(), Game::WON);
+}
+
 TEST(TileTest, test_bonus)
 {
   Game game;

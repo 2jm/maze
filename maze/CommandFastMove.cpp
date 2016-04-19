@@ -4,7 +4,6 @@
 
 #include "CommandFastMove.h"
 #include "Game.h"
-#include "Direction.h"
 
 
 Message::Code CommandFastMove::execute(Game &board,

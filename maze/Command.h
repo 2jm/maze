@@ -53,7 +53,7 @@ class Command
     // @param params Possible parameters neede for the execution
     // @return Integer representing the success of the action
     virtual Message::Code execute(Game &board,
-                                std::vector<std::string> &params) = 0;
+                                  std::vector<std::string> &params) = 0;
 
     //--------------------------------------------------------------------------
     // Getter Methods

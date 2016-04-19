@@ -18,7 +18,8 @@ class TileFinish : public Tile
     TileFinish(Vector2d position, Game &board) :
             Tile(position, 'x'),
             board_(board)
-    {}
+    {
+    }
 
     bool enter(Vector2d source_position, Vector2d &new_position);
 };
