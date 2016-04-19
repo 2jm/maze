@@ -14,5 +14,4 @@ enum class Direction : char
     OTHER = 0
 };
 
-
 #endif //MAZE_DIRECTION_H

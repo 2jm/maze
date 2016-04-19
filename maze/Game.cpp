@@ -47,7 +47,7 @@ Message::Code Game::loadFile(std::string file_name)
   if((map_string = loadMapString(input_file)) == "")
     return Message::print(Message::INVALID_FILE);
 
-  steps_left_ = &load_test_steps_left;
+  steps_left_ = &load_test_steps_left_;
   *steps_left_ = steps_left;
   map_ = &load_test_map_;
 

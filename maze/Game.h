@@ -26,7 +26,7 @@ class Game
   private:
     Map play_map_, load_test_map_, *map_;
     Player play_player_, load_test_player_, *player_;
-    int play_steps_left_, load_test_steps_left, *steps_left_, initial_steps_left_;
+    int play_steps_left_, load_test_steps_left_, *steps_left_, initial_steps_left_;
     State game_state_;
     std::string auto_save_filename_;
     std::vector<Direction> move_history_, fast_move_move_history_;
