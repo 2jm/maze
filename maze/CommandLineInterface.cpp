@@ -58,7 +58,7 @@ bool CommandLineInterface::update()
 bool CommandLineInterface::execute(std::string command, std::vector<std::string> params)
 {
   //-----load------
-  if(command == ::name_strings_[Name::LOAD])
+  if(command == name_strings_[Name::LOAD])
   {
     CommandLoad command_load;
     Message::print(command_load.execute(game_, params));
@@ -66,7 +66,7 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
   }
 
   //-----save------
-  else if(command == ::name_strings_[Name::SAVE])
+  else if(command == name_strings_[Name::SAVE])
   {
     CommandSave command_save;
     Message::print(command_save.execute(game_, params));
@@ -74,7 +74,7 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
   }
 
   //-----fastmove------
-  else if(command == ::name_strings_[Name::FASTMOVE])
+  else if(command == name_strings_[Name::FASTMOVE])
   {
     CommandFastMove command_fast_move;
     Message::print(command_fast_move.execute(game_, params));
@@ -82,7 +82,7 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
   }
 
   //-----move------
-  else if(command == ::name_strings_[Name::MOVE])
+  else if(command == name_strings_[Name::MOVE])
   {
     CommandMove command_move;
     Message::print(command_move.execute(game_, params));
@@ -90,7 +90,7 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
   }
 
   //-----show------
-  else if(command == ::name_strings_[Name::SHOW])
+  else if(command == name_strings_[Name::SHOW])
   {
     CommandShow command_show;
     Message::print(command_show.execute(game_, params));
@@ -98,7 +98,7 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
   }
 
   //-----reset------
-  else if(command == ::name_strings_[Name::RESET])
+  else if(command == name_strings_[Name::RESET])
   {
     CommandReset command_reset;
     Message::print(command_reset.execute(game_, params));
@@ -106,7 +106,7 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
   }
 
   //-----quit------
-  else if(command == ::name_strings_[Name::QUIT])
+  else if(command == name_strings_[Name::QUIT])
   {
     CommandQuit command_quit;
     Message::print(command_quit.execute(game_, params));
