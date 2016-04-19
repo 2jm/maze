@@ -211,6 +211,43 @@ void Game::show(bool show_more)
 }
 
 
+
+Game::State Game::getState()
+{
+  return game_state_;
+}
+
+void Game::wonGame()
+{
+  game_state_ = State::WON;
+}
+
+void Game::lostGame()
+{
+  game_state_ = State::NO_MORE_STEPS;
+}
+
+int Game::getStepsLeft()
+{
+  return *steps_left_;
+}
+
+void Game::setStepsLeft(int steps_left)
+{
+  // TODO: what is if int overflow occures? check that?
+  if(steps_left < 0)
+    steps_left = 0;
+  *steps_left_ = steps_left;
+}
+
+// TODO: only needed for test cases!
+Player& Game::getPlayer()
+{
+  return *player_;
+}
+
+
+
 int Game::loadAvailableSteps(std::ifstream &input_file)
 {
   std::string available_steps_string;

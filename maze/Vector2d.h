@@ -26,34 +26,15 @@ class Vector2d
     Vector2d(Direction direction);
     Vector2d(char sign);
 
-    int getX() const
-    {
-      return x_;
-    }
-    int getY() const
-    {
-      return y_;
-    }
-    int x() const
-    {
-      return getX();
-    }
-    int y() const
-    {
-      return getY();
-    }
+    int getX() const;
+    int getY() const;
+    int x() const;
+    int y() const;
 
-    void setX(int x)
-    {
-      x_ = x;
-    }
-    void setY(int y)
-    {
-      y_ = y;
-    }
+    void setX(int x);
+    void setY(int y);
 
     bool operator==(const Vector2d &other);
-    //bool operator==(const Vector2d& lhs, const Vector2d& rhs);
     Vector2d operator+(const Vector2d &other);
     Vector2d operator-(const Vector2d &other);
     Vector2d operator+=(const Vector2d &other);

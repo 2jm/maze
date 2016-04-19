@@ -74,39 +74,18 @@ class Game
 
     void show(bool show_more = false);
 
-    State getState()
-    {
-      return game_state_;
-    }
+    State getState();
 
-    void wonGame()
-    {
-      game_state_ = State::WON;
-    }
+    void wonGame();
 
-    void lostGame()
-    {
-      game_state_ = State::NO_MORE_STEPS;
-    }
+    void lostGame();
 
-    int getStepsLeft()
-    {
-      return *steps_left_;
-    }
+    int getStepsLeft();
 
-    void setStepsLeft(int steps_left)
-    {
-      // TODO: what is if int overflow occures? check that?
-      if(steps_left < 0)
-        steps_left = 0;
-      *steps_left_ = steps_left;
-    }
+    void setStepsLeft(int steps_left);
 
     // TODO: only needed for test cases!
-    Player &getPlayer()
-    {
-        return *player_;
-    }
+    Player &getPlayer();
 };
 
 
