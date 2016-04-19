@@ -153,11 +153,13 @@ TEST(TileTest, test_start)
 {
   // start should be a normal path after first visit
   Game game;
-  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid.txt"), Message::SUCCESS);
+  EXPECT_EQ(game.loadFile(TEST_FILES_PATH"valid_start.txt"), Message::SUCCESS);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::LEFT);
   EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
+  EXPECT_EQ(game.getState(), Game::PLAYING);
   game.movePlayer(Direction::RIGHT);
   EXPECT_EQ(game.getState(), Game::WON);
 }
