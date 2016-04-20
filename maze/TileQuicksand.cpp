@@ -11,7 +11,7 @@ TileQuicksand::TileQuicksand(Vector2d position, char character, Game &board) :
 
 }
 
-bool TileQuicksand::enter(Vector2d source_position, Vector2d &new_position)
+bool TileQuicksand::enter(Vector2d &source_position)
 {
   /*
        Für die Darstellung der Treibsandfelder werden die Kleinbuchstaben 'f' bis 'j' verwendet, welche den Zahlenwerten 1 (=f) bis 5 (=j) entsprechen.
@@ -26,6 +26,8 @@ bool TileQuicksand::enter(Vector2d source_position, Vector2d &new_position)
   int steps_remove = character_ - 'f' + 1;
   int steps_left = board_.getStepsLeft() - steps_remove;
   board_.setStepsLeft(steps_left);
+
+  source_position = position_;
 
   return false;
 }

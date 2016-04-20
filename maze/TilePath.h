@@ -13,7 +13,7 @@ class TilePath : public Tile
   public:
     TilePath(Vector2d position);
 
-    bool enter(Vector2d source_position, Vector2d &new_position);
+    bool enter(Vector2d &source_position);
 };
 
 

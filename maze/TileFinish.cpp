@@ -10,8 +10,9 @@ TileFinish::TileFinish(Vector2d position, Game &board) : Tile(position, 'x'),
 
 }
 
-bool TileFinish::enter(Vector2d source_position, Vector2d &new_position)
+bool TileFinish::enter(Vector2d &source_position)
 {
+  source_position = position_;
   board_.wonGame();
   return false;
 }

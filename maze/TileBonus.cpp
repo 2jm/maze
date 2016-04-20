@@ -12,7 +12,7 @@ TileBonus::TileBonus(Vector2d position, char character, Game &board) :
 }
 
 
-bool TileBonus::enter(Vector2d source_position, Vector2d &new_position)
+bool TileBonus::enter(Vector2d &source_position)
 {
   /*
        Für die Darstellung der Bonusfelder werden die Kleinbuchstaben 'a' bis 'e' verwendet, welche den Zahlenwerten 1 (=a) bis 5 (=e) entsprechen.
@@ -29,6 +29,8 @@ bool TileBonus::enter(Vector2d source_position, Vector2d &new_position)
     board_.setStepsLeft(steps_left);
     used_ = true;
   }
+
+  source_position = position_;
 
   return false;
 }

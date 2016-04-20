@@ -18,7 +18,7 @@ class TileBonus : public Tile
   public:
     TileBonus(Vector2d position, char character, Game &board);
 
-    bool enter(Vector2d source_position, Vector2d &new_position);
+    bool enter(Vector2d &source_position);
 
     operator char() const;
 

@@ -17,7 +17,7 @@ class TileFinish : public Tile
   public:
     TileFinish(Vector2d position, Game &board);
 
-    bool enter(Vector2d source_position, Vector2d &new_position);
+    bool enter(Vector2d &source_position);
 };
 
 

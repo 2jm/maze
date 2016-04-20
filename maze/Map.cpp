@@ -60,8 +60,9 @@ bool Map::loadFromString(string map_string, Game &game)
           tiles_teleport[pair_nr] = tile_teleport;
         else
         {
+          // This muss be called for only one teleporter because it automatically
+          // sets it for the other one
           tiles_teleport[pair_nr]->setCorrespondingTeleport(tile_teleport);
-          tile_teleport->setCorrespondingTeleport(tiles_teleport[pair_nr]);
         }
 
         put(tile_teleport, tile_position);

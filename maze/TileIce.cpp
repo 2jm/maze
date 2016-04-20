@@ -9,8 +9,9 @@ TileIce::TileIce(Vector2d position) : Tile(position, '+')
 
 }
 
-bool TileIce::enter(Vector2d source_position, Vector2d &new_position)
+bool TileIce::enter(Vector2d &source_position)
 {
+  source_position = position_;
   return true;
 }
 

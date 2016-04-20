@@ -9,10 +9,9 @@ TilePath::TilePath(Vector2d position) : Tile(position, ' ')
 
 }
 
-bool TilePath::enter(Vector2d source_position, Vector2d &new_position)
+bool TilePath::enter(Vector2d &source_position)
 {
-  // return false does not mean the tile can not be entered.
-  // the tile can be entered without problem because new_position is not changed
+  source_position = position_;
   return false;
 }
 

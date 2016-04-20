@@ -17,7 +17,7 @@ class TileQuicksand : public Tile
   public:
     TileQuicksand(Vector2d position, char character, Game &board);
 
-    bool enter(Vector2d source_position, Vector2d &new_position);
+    bool enter(Vector2d &source_position);
 };
 
 

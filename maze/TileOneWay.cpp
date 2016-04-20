@@ -10,7 +10,7 @@ TileOneWay::TileOneWay(Vector2d position, char character) :
 
 }
 
-bool TileOneWay::enter(Vector2d source_position, Vector2d &new_position)
+bool TileOneWay::enter(Vector2d &source_position)
 {
   /*
        Dieses Feld beschränkt den Spieler in seiner Bewegungsrichtung wie folgt:
@@ -18,6 +18,7 @@ bool TileOneWay::enter(Vector2d source_position, Vector2d &new_position)
         Das Zirkumflex ('^', Asciiwert: 0x5E) bedeutet, dass das Feld nur nach oben verlassen werden kann.
         Der Kleinbuchstabe v bedeutet, dass das Feld nur nach unten verlassen werden kann.
        */
+  source_position = position_;
 
   return false;
 }

@@ -17,16 +17,16 @@ Wenn der Spieler eines der Felder betritt transportiert es ihn zum zugehörigen 
 Die Teleportfunktion kann in beide Richtungen genutzt werden.
 Die Teleportation selbst verringert die verbleibende Schrittanzahl nicht. Nur das Betreten und Verlassen des Teleportfeldes zählen jeweils als 1 Schritt.
 */
-bool TileTeleport::enter(Vector2d source_position, Vector2d &new_position)
+bool TileTeleport::enter(Vector2d &source_position)
 {
-  new_position = corresponding_teleport_->getPosition();
+  source_position = corresponding_teleport_->getPosition();
   return false;
 }
 
 void TileTeleport::setCorrespondingTeleport(TileTeleport *teleport)
 {
-  // TODO hier gleich für den anderen setzen
   corresponding_teleport_ = teleport;
+  teleport->corresponding_teleport_ = this; // important! don't call the method
 }
 
 

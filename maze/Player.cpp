@@ -13,21 +13,13 @@ Player::Player(Map &map) :
 
 bool Player::move(Direction direction)
 {
-  // convert direction into the corresponding Vector2d (UP=(0,-1), RIGHT=(1,0), DOWN=(0,1), LEFT=(-1,0))
-  // not needed, as compiler does this automatically when doing this: "position_ + direction;"
-  //Vector2d move_vector = Vector2d(direction);
+  // check if the player is allowed to leave the tile
+  if(!map_[position_]->leave(direction))
+    return false;
 
-  // calculate new position
   Vector2d old_position = position_;
-  Vector2d new_position = position_ + direction;
 
-  while(map_[new_position]->enter(position_, new_position))
-  {
-    position_ = new_position;
-    new_position += direction;
-  }
-  if(map_[old_position]->leave(direction))
-    position_ = new_position;
+  while(map_[position_ + direction]->enter(position_));
 
   return !(position_ == old_position);
 }
