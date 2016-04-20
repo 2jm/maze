@@ -32,7 +32,7 @@ Message::Code CommandFastMove::execute(Game &board,
   {
     Direction move_direction = Convert::toDirection(move_direction_character);
 
-    if(!board.movePlayer(move_direction))
+    if(board.movePlayer(move_direction) != Message::SUCCESS)
     {
       board.cancelFastMove();
       return Message::INVALID_MOVE;

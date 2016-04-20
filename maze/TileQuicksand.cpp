@@ -18,7 +18,7 @@ TileQuicksand::TileQuicksand(Vector2d position, char character, Game &board) :
 
 }
 
-bool TileQuicksand::enter(Vector2d &source_position)
+Tile::EnterResult TileQuicksand::enter(Vector2d &source_position)
 {
   /*
        Für die Darstellung der Treibsandfelder werden die Kleinbuchstaben 'f' bis 'j' verwendet, welche den Zahlenwerten 1 (=f) bis 5 (=j) entsprechen.
@@ -36,5 +36,5 @@ bool TileQuicksand::enter(Vector2d &source_position)
 
   source_position = position_;
 
-  return false;
+  return VALID_MOVE;
 }

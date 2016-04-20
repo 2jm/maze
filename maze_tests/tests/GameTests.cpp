@@ -160,3 +160,15 @@ TEST(GameTest, test_game_reload_invalid_file)
   ASSERT_EQ(2, game.getPlayer().getPosition().x());
   ASSERT_EQ(1, game.getPlayer().getPosition().y());
 }
+
+
+TEST(GameTest, test_valid_two_teleporters_valid_move)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"valid_two_teleporters_valid_move.txt"), Message::SUCCESS);
+  ASSERT_EQ(Message::SUCCESS, game.movePlayer(Direction::RIGHT));
+  ASSERT_EQ(Message::SUCCESS, game.movePlayer(Direction::LEFT));
+  ASSERT_EQ(Message::INVALID_MOVE, game.movePlayer(Direction::UP));
+  ASSERT_EQ(Message::SUCCESS, game.movePlayer(Direction::RIGHT));
+  ASSERT_EQ( Game::WON, game.getState());
+}

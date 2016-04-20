@@ -69,7 +69,7 @@ class Game
     // Move player method
     // move the player by direction
     //
-    bool movePlayer(const Direction direction);
+    Message::Code movePlayer(const Direction direction);
 
     bool startFastMove();
 

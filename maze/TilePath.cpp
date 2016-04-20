@@ -16,9 +16,9 @@ TilePath::TilePath(Vector2d position) : Tile(position, ' ')
 
 }
 
-bool TilePath::enter(Vector2d &source_position)
+Tile::EnterResult TilePath::enter(Vector2d &source_position)
 {
   source_position = position_;
-  return false;
+  return VALID_MOVE;
 }
 

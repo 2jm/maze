@@ -34,10 +34,18 @@ class Tile
     char character_;
 
   public:
+    // TODO find better name
+    enum EnterResult
+    {
+      INVALID_MOVE,
+      VALID_MOVE,
+      MOVE_AGAIN
+    };
+
     Tile(Vector2d position, char character);
 
     // return value tells, if on the new tile enter should be called again (needed for the ice tile, if the player should move from tile to tile without having a chance to interact (move) again
-    virtual bool enter(Vector2d &source_position) = 0;
+    virtual EnterResult enter(Vector2d &source_position) = 0;
 
     // return value tells, if the player is allowed to move away from this tile
     virtual bool leave(const Direction move_direction) const;

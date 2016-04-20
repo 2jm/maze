@@ -26,10 +26,7 @@ Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params
   if(move_direction == Direction::OTHER)
     return Message::WRONG_PARAMETER;
 
-  if(!board.movePlayer(move_direction))
-    return Message::INVALID_MOVE;
-
-  return Message::SUCCESS;
+  return board.movePlayer(move_direction);
 }
 
 Direction CommandMove::string_to_direction(const std::string direction_string) const

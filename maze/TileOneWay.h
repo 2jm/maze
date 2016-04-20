@@ -20,7 +20,7 @@ class TileOneWay : public Tile
   public:
     TileOneWay(Vector2d position, char character);
 
-    bool enter(Vector2d &source_position);
+    EnterResult enter(Vector2d &source_position);
 
     bool leave(const Direction move_direction) const override;
 };

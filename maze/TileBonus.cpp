@@ -20,7 +20,7 @@ TileBonus::TileBonus(Vector2d position, char character, Game &board) :
 }
 
 
-bool TileBonus::enter(Vector2d &source_position)
+Tile::EnterResult TileBonus::enter(Vector2d &source_position)
 {
   /*
        Für die Darstellung der Bonusfelder werden die Kleinbuchstaben 'a' bis 'e' verwendet, welche den Zahlenwerten 1 (=a) bis 5 (=e) entsprechen.
@@ -40,7 +40,7 @@ bool TileBonus::enter(Vector2d &source_position)
 
   source_position = position_;
 
-  return false;
+  return VALID_MOVE;
 }
 
 TileBonus::operator char() const

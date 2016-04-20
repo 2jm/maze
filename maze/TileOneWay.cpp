@@ -17,7 +17,7 @@ TileOneWay::TileOneWay(Vector2d position, char character) :
 
 }
 
-bool TileOneWay::enter(Vector2d &source_position)
+Tile::EnterResult TileOneWay::enter(Vector2d &source_position)
 {
   /*
        Dieses Feld beschränkt den Spieler in seiner Bewegungsrichtung wie folgt:
@@ -27,7 +27,7 @@ bool TileOneWay::enter(Vector2d &source_position)
        */
   source_position = position_;
 
-  return false;
+  return VALID_MOVE;
 }
 
 bool TileOneWay::leave(const Direction move_direction) const

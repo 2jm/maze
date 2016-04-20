@@ -108,41 +108,37 @@ Message::Code Game::saveFile(const std::string file_name)
 }
 
 
-bool Game::movePlayer(const Direction direction)
+Message::Code Game::movePlayer(const Direction direction)
 {
-  // TODO: only move, when Game hasn't been already won!
+  // TODO reihenfolge der fehler
   if(game_state_ == WON)
-    return false;
+    return Message::INVALID_MOVE;
 
   if(game_state_ == NO_MORE_STEPS)
   {
-    Message::print(Message::NO_MORE_STEPS);
     reset();
-    return true;
+    return Message::NO_MORE_STEPS;
   }
 
   if(game_state_ == NO_MAZE_LOADED)
-  {
-    Message::print(Message::NO_MAZE_LOADED);
-    return true;
-  }
+    return Message::NO_MAZE_LOADED;
+
 
   if(fast_moving_ && player_->move(direction))
   {
     (*steps_left_)--;
     fast_move_move_history_.push_back(direction);
-    return true;
+    return Message::SUCCESS;
   }
   else if(!fast_moving_ && player_->move(direction))
   {
     // decrement 1 step for a single move
     (*steps_left_)--;
 
-    //TODO: game lost when no steps are left and game hasn't been won
     if(game_state_ != WON && *steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
     {
       lostGame();
-      return true;
+      return Message::SUCCESS;
     }
     move_history_.push_back(direction);
 
@@ -151,10 +147,10 @@ bool Game::movePlayer(const Direction direction)
     if(auto_save_filename_ != "")
       saveFile(auto_save_filename_);
 
-    return true;
+    return Message::SUCCESS;
   }
 
-  return false;
+  return Message::INVALID_MOVE;
 }
 
 

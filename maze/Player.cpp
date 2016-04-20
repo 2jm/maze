@@ -24,12 +24,19 @@ bool Player::move(Direction direction)
   if(!map_[position_]->leave(direction))
     return false;
 
-  Vector2d old_position = position_;
+  bool valid_move = false;
+  Tile::EnterResult enter_result;
 
-  while(map_[position_ + direction]->enter(position_) &&
-          map_[position_]->leave(direction));
+  while((enter_result = map_[position_ + direction]->enter(position_)) == Tile::MOVE_AGAIN &&
+          map_[position_]->leave(direction))
+  {
+    if(enter_result != Tile::INVALID_MOVE)
+      valid_move = true;
+  }
+  if(enter_result != Tile::INVALID_MOVE)
+    valid_move = true;
 
-  return !(position_ == old_position);
+  return valid_move;
 }
 
 Vector2d Player::getPosition() const

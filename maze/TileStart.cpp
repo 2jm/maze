@@ -16,8 +16,8 @@ TileStart::TileStart(Vector2d position) : Tile(position, 'o')
 
 }
 
-bool TileStart::enter(Vector2d &source_position)
+Tile::EnterResult TileStart::enter(Vector2d &source_position)
 {
   source_position = position_;
-  return false;
+  return VALID_MOVE;
 }
