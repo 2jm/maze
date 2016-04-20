@@ -1,5 +1,12 @@
+//------------------------------------------------------------------------------
+// <Filename>.cpp
 //
-// Created by jonas on 3/25/16.
+// Group: Group 13624, study assistant Angela Promitzer
+//
+// Authors: Jonas Juffinger (1531253)
+// Matthias Klotz (1530653)
+// Johannes Kopf (1431505)
+//------------------------------------------------------------------------------
 //
 
 #ifndef MAZE_MAZE_H
