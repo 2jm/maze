@@ -19,7 +19,8 @@ bool Player::move(Direction direction)
 
   Vector2d old_position = position_;
 
-  while(map_[position_ + direction]->enter(position_));
+  while(map_[position_ + direction]->enter(position_) &&
+          map_[position_]->leave(direction));
 
   return !(position_ == old_position);
 }
