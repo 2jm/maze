@@ -272,7 +272,7 @@ std::string Game::loadMapString(std::ifstream &input_file)
   std::string map_string;
   // read the map
   // calculate the size of the map in bytes
-  long map_start = input_file.tellg();
+  std::streampos map_start = input_file.tellg();
   input_file.seekg(0, std::ios::end);
   unsigned long map_size = static_cast<unsigned long>(input_file.tellg() - map_start);
 
@@ -312,8 +312,8 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
       return Message::print(Message::INVALID_PATH);
     }
   }
-  // TODO: return something!!
-  // @jonas: das hier? return Message::SUCCESS;
+
+  return Message::SUCCESS;
 }
 
 

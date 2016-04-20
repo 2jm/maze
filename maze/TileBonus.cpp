@@ -6,7 +6,8 @@
 
 TileBonus::TileBonus(Vector2d position, char character, Game &board) :
         Tile(position, character),
-        board_(board)
+        board_(board),
+        used_(false)
 {
 
 }

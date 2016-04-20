@@ -117,7 +117,7 @@ Vector2d Vector2d::operator-(const Vector2d &other)
   return Vector2d(other.x_ - x_, other.y_ - y_);
 }
 
-Vector2d Vector2d::operator+=(const Vector2d &other)
+void Vector2d::operator+=(const Vector2d &other)
 {
   x_ += other.x_;
   y_ += other.y_;

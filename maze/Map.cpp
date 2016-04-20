@@ -168,7 +168,7 @@ Map::operator std::string() const
 {
   std::string matrix_string;
 
-  unsigned int row_number, column_number;
+  int row_number, column_number;
 
   for(row_number = 0; row_number < size_.y(); row_number++)
   {
@@ -184,7 +184,7 @@ Map::operator std::string() const
 std::string Map::toStringWithPlayer(Vector2d player_position)
 {
   std::string map_string;
-  unsigned int row_number, column_number;
+  int row_number, column_number;
 
   for(row_number = 0; row_number < size_.y(); row_number++)
   {
@@ -221,7 +221,7 @@ void Map::reset()
   {
     for (auto &element : row)
     {
-      if(typeid(element).name() == "TileBonus")
+      if(typeid(element).name() == std::string("TileBonus"))
         std::dynamic_pointer_cast<TileBonus>(element)->setUsed(false);
     }
   }

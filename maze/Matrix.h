@@ -170,14 +170,10 @@ Matrix<T>::Matrix(Vector2d size) : size_(size)
 template<class T>
 void Matrix<T>::resize()
 {
-  unsigned int row_index;
-
   rows_.resize(static_cast<unsigned int>(size_.x()));
 
-  for(row_index = 0; row_index < rows_.size(); row_index++)
-  {
-    rows_[row_index].elements_.resize(static_cast<unsigned int>(size_.y()));
-  }
+  for(auto row : rows_)
+    row.elements_.resize(static_cast<unsigned int>(size_.y()));
 }
 
 
