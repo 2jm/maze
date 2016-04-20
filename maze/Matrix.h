@@ -41,14 +41,13 @@ class Matrix
       private:
         std::vector<T> elements_;
 
+      public:
         MatrixRow()
         {}
 
         ~MatrixRow()
         {}
 
-
-      public:
         T& operator[](unsigned int element_index)
         {
           return elements_[element_index];
@@ -85,27 +84,9 @@ class Matrix
         };
     };
 
-    // This is the allocator for the std::vector rows, it is allowed to create
-    // MatrixRows
-    struct MatrixRowAllocator : public std::allocator<MatrixRow>
-    {
-        template< class U, class... Args >
-        void construct( U* p, Args&&... args )
-        {
-          ::new((void *)p) U(std::forward<Args>(args)...);
-        }
-
-        template<class U>
-        void destroy(U *p) {
-
-        }
-
-        template< class U > struct rebind { typedef MatrixRowAllocator other; };
-    };
-
   protected:
     Vector2d size_;
-    std::vector<MatrixRow, MatrixRowAllocator> rows_;
+    std::vector<MatrixRow> rows_;
 
     void resize();
 
@@ -179,7 +160,7 @@ void Matrix<T>::resize()
 {
   rows_.resize(static_cast<unsigned int>(size_.x()));
 
-  for(auto row : rows_)
+  for(auto &row : rows_)
     row.elements_.resize(static_cast<unsigned int>(size_.y()));
 }
 

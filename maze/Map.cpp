@@ -58,7 +58,7 @@ bool Map::loadFromString(string map_string, Game &game)
       }
       else if(map_string[string_position] >= 'A' && map_string[string_position] <= 'Z')
       {
-        auto tile_teleport = std::make_shared<TileTeleport>(tile_position, map_string[string_position]);
+        std::shared_ptr<TileTeleport> tile_teleport = std::make_shared<TileTeleport>(tile_position, map_string[string_position]);
         pair_nr = map_string[string_position] - 'A';  //character - ascii(A)
         teleporter_pair_[pair_nr]++;
 
@@ -66,10 +66,8 @@ bool Map::loadFromString(string map_string, Game &game)
           tiles_teleport[pair_nr] = tile_teleport;
         else
         {
-          // This muss be called for only one teleporter because it automatically
-          // sets it for the other one
-          tiles_teleport[pair_nr]->setCorrespondingTeleport(tile_teleport);
-          tile_teleport->setCorrespondingTeleport(tiles_teleport[pair_nr]);
+          tiles_teleport[pair_nr]->setCorrespondingTeleport(tile_teleport.get());
+          tile_teleport->setCorrespondingTeleport(tiles_teleport[pair_nr].get());
         }
 
         put(tile_teleport, tile_position);

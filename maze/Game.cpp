@@ -281,7 +281,8 @@ std::string Game::loadMapString(std::ifstream &input_file)
   // calculate the size of the map in bytes
   std::streampos map_start = input_file.tellg();
   input_file.seekg(0, std::ios::end);
-  unsigned long map_size = static_cast<unsigned long>(input_file.tellg() - map_start);
+  unsigned long map_size =
+          static_cast<unsigned long>(input_file.tellg() - map_start);
 
   if(map_size == 0)
     return "";
