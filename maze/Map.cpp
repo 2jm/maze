@@ -167,6 +167,26 @@ bool Map::check()
   return true;
 }
 
+std::string Map::toStringWithPlayer(Vector2d player_position)
+{
+  std::string map_string;
+  unsigned int row_number, column_number;
+
+  for(row_number = 0; row_number < size_.y(); row_number++)
+  {
+    for(column_number = 0; column_number < getSize().x(); column_number++)
+    {
+      if(player_position == Vector2d(column_number, row_number))
+        map_string += '*';
+      else
+        map_string += getCharacterOfElement((*this)[column_number][row_number]);
+    }
+    map_string += '\n';
+  }
+
+  return map_string;
+}
+
 void Map::clear()
 {
   for (auto &row : rows_)
@@ -192,24 +212,19 @@ void Map::reset()
   }
 }
 
-std::string Map::toStringWithPlayer(Vector2d player_position)
+bool Map::isLoaded() const
 {
-  std::string map_string;
-  unsigned int row_number, column_number;
-
-  for(row_number = 0; row_number < size_.y(); row_number++)
-  {
-    for(column_number = 0; column_number < getSize().x(); column_number++)
-    {
-      if(player_position == Vector2d(column_number, row_number))
-        map_string += '*';
-      else
-        map_string += getCharacterOfElement((*this)[column_number][row_number]);
-    }
-    map_string += '\n';
-  }
-
-  return map_string;
+  return is_loaded_;
 }
 
+Tile* Map::getEndTile() const
+{
+  return end_tile_;
+}
+
+
+Tile* Map::getStartTile() const
+{
+  return start_tile_;
+}
 

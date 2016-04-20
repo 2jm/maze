@@ -16,7 +16,7 @@ bool TileOneWay::enter(Vector2d source_position, Vector2d &new_position)
   return false;
 }
 
-bool TileOneWay::leave(Direction move_direction)
+bool TileOneWay::leave(Direction move_direction) const
 {
   /*Vector2d move_direction = source_position - new_position;
   if(move_direction.x() != 0)

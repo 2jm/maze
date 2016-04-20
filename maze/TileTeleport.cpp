@@ -19,6 +19,7 @@ bool TileTeleport::enter(Vector2d source_position, Vector2d &new_position)
 
 void TileTeleport::setCorrespondingTeleport(TileTeleport *teleport)
 {
+  // TODO hier gleich für den anderen setzen
   corresponding_teleport_ = teleport;
 }
 

@@ -19,17 +19,14 @@ class TileBonus : public Tile
     TileBonus(Vector2d position, char character, Game &board) :
             Tile(position, character),
             board_(board)
-    {}
+    {
+    }
 
     bool enter(Vector2d source_position, Vector2d &new_position);
 
-    operator char() const
-    {
-      return (used_) ? ' ' : character_;
-    }
+    operator char() const;
 
     void setUsed(bool used);
-
 };
 
 

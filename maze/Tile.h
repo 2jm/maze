@@ -37,7 +37,7 @@ class Tile
     virtual bool enter(Vector2d source_position, Vector2d &new_position) = 0;
 
     // return value tells, if the player is allowed to move away from this tile
-    virtual bool leave(Direction move_direction);
+    virtual bool leave(Direction move_direction) const;
 
     Vector2d getPosition() const
     {

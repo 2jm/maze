@@ -26,6 +26,11 @@ bool TileBonus::enter(Vector2d source_position, Vector2d &new_position)
   return false;
 }
 
+TileBonus::operator char() const
+{
+  return (used_) ? ' ' : character_;
+}
+
 void TileBonus::setUsed(bool used)
 {
   used_ = used;

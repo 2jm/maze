@@ -4,7 +4,7 @@
 
 #include "Tile.h"
 
-bool Tile::leave(Direction move_direction)
+bool Tile::leave(Direction move_direction) const
 {
     return true;
 }

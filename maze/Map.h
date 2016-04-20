@@ -22,34 +22,24 @@ class Map : public Matrix<Tile*>
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
     int teleporter_pair_[26];       //-1 --> doesn't exist; 0 --> exists once; 1 --> exists twice, size is 26 -> every char of the alphabet
 
+    bool check();
+
   public:
     Map();
 
     bool loadFromString(std::string map_string, Game &game);
 
-    // use static_cast<std::string>(matrix) instead
     std::string toStringWithPlayer(Vector2d player_position);
 
     void clear();
 
     void reset();
 
-    bool isLoaded() const
-    {
-      return is_loaded_;
-    }
+    bool isLoaded() const;
 
-    bool check();
+    Tile* getEndTile() const;
 
-    Tile* getEndTile() const
-    {
-        return end_tile_;
-    }
-
-    Tile* getStartTile() const
-    {
-        return start_tile_;
-    }
+    Tile* getStartTile() const;
 };
 
 
