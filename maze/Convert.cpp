@@ -22,4 +22,27 @@ namespace Convert
 
     return static_cast<unsigned int>(number);
   }
+
+  Direction toDirection(const char direction_char)
+  {
+    switch(direction_char)
+    {
+      case 'u':
+        return Direction::UP;
+
+      case 'r':
+        return Direction::RIGHT;
+
+      case 'd':
+        return Direction::DOWN;
+
+      case 'l':
+        return Direction::LEFT;
+
+      default:
+        return Direction::OTHER;
+    }
+  }
+
+
 }

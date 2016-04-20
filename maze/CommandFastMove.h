@@ -30,8 +30,6 @@ class CommandFastMove : public Command
     // @param params Possible parameters neede for the execution
     // @return Integer representing the success of the action
     Message::Code execute(Game &board, std::vector<std::string> &params);
-
-    static Direction charToDirection(char direction_char);
 };
 
 
