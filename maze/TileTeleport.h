@@ -13,15 +13,14 @@
 class TileTeleport : public Tile
 {
   private:
-    std::shared_ptr<TileTeleport> corresponding_teleport_;
-    char character_;
+    TileTeleport* corresponding_teleport_;
 
   public:
     TileTeleport(Vector2d position, char character);
 
     bool enter(Vector2d &source_position);
 
-    void setCorrespondingTeleport(std::shared_ptr<TileTeleport> teleport);
+    void setCorrespondingTeleport(TileTeleport* teleport);
 };
 
 
