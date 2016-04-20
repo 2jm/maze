@@ -5,7 +5,6 @@
 #ifndef MAZE_TILE_H
 #define MAZE_TILE_H
 
-#include <string>
 #include "Vector2d.h"
 
 //enum class TileType : char
@@ -34,7 +33,7 @@ class Tile
     virtual bool enter(Vector2d &source_position) = 0;
 
     // return value tells, if the player is allowed to move away from this tile
-    virtual bool leave(Direction move_direction) const;
+    virtual bool leave(const Direction move_direction) const;
 
     Vector2d getPosition() const;
 

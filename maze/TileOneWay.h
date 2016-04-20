@@ -15,7 +15,7 @@ class TileOneWay : public Tile
 
     bool enter(Vector2d &source_position);
 
-    bool leave(Direction move_direction) const override;
+    bool leave(const Direction move_direction) const override;
 };
 
 
