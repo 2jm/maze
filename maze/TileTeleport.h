@@ -16,8 +16,7 @@ class TileTeleport : public Tile
     char character_;
 
   public:
-    TileTeleport(Vector2d position, char character) : Tile(position, character)
-    {}
+    TileTeleport(Vector2d position, char character);
 
     bool enter(Vector2d source_position, Vector2d &new_position);
 

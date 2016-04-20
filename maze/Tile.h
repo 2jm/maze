@@ -28,10 +28,7 @@ class Tile
     char character_;
 
   public:
-    Tile(Vector2d position, char character) :
-            position_(position),
-            character_(character)
-    {}
+    Tile(Vector2d position, char character);
 
     // return value tells, if on the new tile enter should be called again (needed for the ice tile, if the player should move from tile to tile without having a chance to interact (move) again
     virtual bool enter(Vector2d source_position, Vector2d &new_position) = 0;
@@ -39,15 +36,9 @@ class Tile
     // return value tells, if the player is allowed to move away from this tile
     virtual bool leave(Direction move_direction) const;
 
-    Vector2d getPosition() const
-    {
-      return position_;
-    }
+    Vector2d getPosition() const;
 
-    virtual operator char() const
-    {
-      return character_;
-    }
+    virtual operator char() const;
 };
 
 

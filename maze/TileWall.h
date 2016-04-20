@@ -11,8 +11,7 @@
 class TileWall : public Tile
 {
   public:
-    TileWall(Vector2d position) : Tile(position, '#')
-    {}
+    TileWall(Vector2d position);
 
     bool enter(Vector2d source_position, Vector2d &new_position);
 };

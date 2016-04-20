@@ -4,6 +4,13 @@
 
 #include "TileBonus.h"
 
+TileBonus::TileBonus(Vector2d position, char character, Game &board) :
+        Tile(position, character),
+        board_(board)
+{
+
+}
+
 
 bool TileBonus::enter(Vector2d source_position, Vector2d &new_position)
 {

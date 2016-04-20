@@ -4,6 +4,11 @@
 
 #include "TileStart.h"
 
+TileStart::TileStart(Vector2d position) : Tile(position, 'o')
+{
+
+}
+
 bool TileStart::enter(Vector2d source_position, Vector2d &new_position)
 {
   // return false does not mean the tile can not be entered.

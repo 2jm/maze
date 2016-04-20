@@ -4,6 +4,10 @@
 
 #include "TileWall.h"
 
+TileWall::TileWall(Vector2d position) : Tile(position, '#')
+{
+
+}
 
 bool TileWall::enter(Vector2d source_position, Vector2d &new_position)
 {

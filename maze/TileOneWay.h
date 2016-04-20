@@ -11,10 +11,10 @@
 class TileOneWay : public Tile
 {
   public:
-    TileOneWay(Vector2d position, char character) : Tile(position, character)
-    {}
+    TileOneWay(Vector2d position, char character);
 
     bool enter(Vector2d source_position, Vector2d &new_position);
+
     bool leave(Direction move_direction) const override;
 };
 

@@ -16,11 +16,7 @@ class TileBonus : public Tile
     bool used_;
 
   public:
-    TileBonus(Vector2d position, char character, Game &board) :
-            Tile(position, character),
-            board_(board)
-    {
-    }
+    TileBonus(Vector2d position, char character, Game &board);
 
     bool enter(Vector2d source_position, Vector2d &new_position);
 

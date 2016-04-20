@@ -4,6 +4,13 @@
 
 #include "TileQuicksand.h"
 
+TileQuicksand::TileQuicksand(Vector2d position, char character, Game &board) :
+        Tile(position, character),
+        board_(board)
+{
+
+}
+
 bool TileQuicksand::enter(Vector2d source_position, Vector2d &new_position)
 {
   /*
