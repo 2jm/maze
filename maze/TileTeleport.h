@@ -6,13 +6,14 @@
 #define MAZE_ALL_TILETELEPORT_H
 
 
+#include <memory>
 #include "Tile.h"
 #include "Game.h"
 
 class TileTeleport : public Tile
 {
   private:
-    TileTeleport *corresponding_teleport_;
+    std::shared_ptr<TileTeleport> corresponding_teleport_;
     char character_;
 
   public:
@@ -20,7 +21,7 @@ class TileTeleport : public Tile
 
     bool enter(Vector2d &source_position);
 
-    void setCorrespondingTeleport(TileTeleport *teleport);
+    void setCorrespondingTeleport(std::shared_ptr<TileTeleport> teleport);
 };
 
 

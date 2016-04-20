@@ -178,7 +178,7 @@ void Game::cancelFastMove()
   //reset the game
   *steps_left_ = initial_steps_left_;
   map_->reset();
-  player_->setPosition(play_map_.getStartTile()->getPosition());
+  player_->setPosition(map_->getStartTile()->getPosition());
 
   //redo all moves
   for(auto direction : move_history_)

@@ -23,10 +23,9 @@ bool TileTeleport::enter(Vector2d &source_position)
   return false;
 }
 
-void TileTeleport::setCorrespondingTeleport(TileTeleport *teleport)
+void TileTeleport::setCorrespondingTeleport(std::shared_ptr<TileTeleport> teleport)
 {
   corresponding_teleport_ = teleport;
-  teleport->corresponding_teleport_ = this; // important! don't call the method
 }
 
 

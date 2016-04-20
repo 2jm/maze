@@ -17,9 +17,9 @@
 using std::string;
 
 Map::Map() : matrix_(*this),
-        is_loaded_(false)
+             is_loaded_(false)
 {
-  //
+
 }
 
 bool Map::loadFromString(string map_string, Game &game)
@@ -32,8 +32,7 @@ bool Map::loadFromString(string map_string, Game &game)
   start_once_ = -1;
   end_once_ = -1;
 
-  TileTeleport **tiles_teleport = new TileTeleport*[26];
-  std::fill(tiles_teleport, tiles_teleport + 26, nullptr);  //TODO remove '26'
+  std::vector<std::shared_ptr<TileTeleport>> tiles_teleport(26);   //TODO remove '26'
 
   std::fill(teleporter_pair_, teleporter_pair_ + 26, -1);  //TODO remove '26'
 
@@ -48,11 +47,11 @@ bool Map::loadFromString(string map_string, Game &game)
 
       if(map_string[string_position] == '#')
       {
-        put(new TileWall(tile_position), tile_position);
+        put(std::make_shared<TileWall>(tile_position), tile_position);
       }
       else if(map_string[string_position] >= 'A' && map_string[string_position] <= 'Z')
       {
-        TileTeleport *tile_teleport = new TileTeleport(tile_position, map_string[string_position]);
+        auto tile_teleport = std::make_shared<TileTeleport>(tile_position, map_string[string_position]);
         pair_nr = map_string[string_position] - 'A';  //character - ascii(A)
         teleporter_pair_[pair_nr]++;
 
@@ -63,6 +62,7 @@ bool Map::loadFromString(string map_string, Game &game)
           // This muss be called for only one teleporter because it automatically
           // sets it for the other one
           tiles_teleport[pair_nr]->setCorrespondingTeleport(tile_teleport);
+          tile_teleport->setCorrespondingTeleport(tiles_teleport[pair_nr]);
         }
 
         put(tile_teleport, tile_position);
@@ -71,7 +71,7 @@ bool Map::loadFromString(string map_string, Game &game)
       {
         start_once_++;
 
-        start_tile_ = new TileStart(tile_position);
+        start_tile_ = std::make_shared<TileStart>(tile_position);
 
         put(start_tile_, tile_position);
       }
@@ -79,40 +79,36 @@ bool Map::loadFromString(string map_string, Game &game)
       {
         end_once_++;
 
-        end_tile_ = new TileFinish(tile_position, game);
+        end_tile_ = std::make_shared<TileFinish>(tile_position, game);
 
         put(end_tile_, tile_position);
       }
       else if(map_string[string_position] >= 'a' && map_string[string_position] <= 'e')
       {
-        put(new TileBonus(tile_position, map_string[string_position], game), tile_position);
+        put(std::make_shared<TileBonus>(tile_position, map_string[string_position], game), tile_position);
       }
       else if(map_string[string_position] >= 'f' && map_string[string_position] <= 'j')
       {
-        put(new TileQuicksand(tile_position, map_string[string_position], game), tile_position);
+        put(std::make_shared<TileQuicksand>(tile_position, map_string[string_position], game), tile_position);
       }
       else if(map_string[string_position] == ' ')
       {
-        put(new TilePath(tile_position), tile_position);
+        put(std::make_shared<TilePath>(tile_position), tile_position);
       }
       else if(map_string[string_position] == '+')
       {
-        put(new TileIce(tile_position), tile_position);
+        put(std::make_shared<TileIce>(tile_position), tile_position);
       }
       else if(map_string[string_position] == '<' || map_string[string_position] == '>' ||
               map_string[string_position] == 'v' || map_string[string_position] == '^')
       {
-        put(new TileOneWay(tile_position, map_string[string_position]), tile_position);
+        put(std::make_shared<TileOneWay>(tile_position, map_string[string_position]), tile_position);
       }
       else
       {
         return false;
       }
 
-
-      //Tile *tile = new Tile(tile_position, map_string[string_position]);
-
-      //put(a , tile_position);
       x++;
       string_position++;
     }
@@ -168,6 +164,23 @@ bool Map::check()
   return true;
 }
 
+Map::operator std::string() const
+{
+  std::string matrix_string;
+
+  unsigned int row_number, column_number;
+
+  for(row_number = 0; row_number < size_.y(); row_number++)
+  {
+    for(column_number = 0; column_number < size_.x(); column_number++)
+      matrix_string += static_cast<char>(*(rows_[column_number][row_number]));
+
+    matrix_string += '\n';
+  }
+
+  return matrix_string;
+}
+
 std::string Map::toStringWithPlayer(Vector2d player_position)
 {
   std::string map_string;
@@ -180,7 +193,7 @@ std::string Map::toStringWithPlayer(Vector2d player_position)
       if(player_position == Vector2d(column_number, row_number))
         map_string += '*';
       else
-        map_string += getCharacterOfElement((*this)[column_number][row_number]);
+        map_string += static_cast<char>(*(rows_[column_number][row_number]));
     }
     map_string += '\n';
   }
@@ -190,11 +203,12 @@ std::string Map::toStringWithPlayer(Vector2d player_position)
 
 void Map::clear()
 {
+  /* we have shared pointers now \o/
   for (auto &row : rows_)
   {
     for (auto &element : row)
       delete element;
-  }
+  }*/
 
   resize(0, 0);
 
@@ -208,7 +222,7 @@ void Map::reset()
     for (auto &element : row)
     {
       if(typeid(element).name() == "TileBonus")
-        dynamic_cast<TileBonus*>(element)->setUsed(false);
+        std::dynamic_pointer_cast<TileBonus>(element)->setUsed(false);
     }
   }
 }
@@ -218,13 +232,13 @@ bool Map::isLoaded() const
   return is_loaded_;
 }
 
-Tile* Map::getEndTile() const
+std::shared_ptr<Tile> Map::getEndTile() const
 {
   return end_tile_;
 }
 
 
-Tile* Map::getStartTile() const
+std::shared_ptr<Tile> Map::getStartTile() const
 {
   return start_tile_;
 }

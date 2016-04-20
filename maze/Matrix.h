@@ -102,20 +102,6 @@ class Matrix
 
     void resize();
 
-    template<typename U = T,
-            typename std::enable_if< std::is_pointer<U>::value, int >::type = 0>
-    char getCharacterOfElement(U &element) const
-    {
-      return static_cast<char>(*element);
-    };
-
-    template<typename U = T,
-            typename std::enable_if< !std::is_pointer<U>::value, int >::type = 0>
-    char getCharacterOfElement(U &element) const
-    {
-      return static_cast<char>(element);
-    };
-
   public:
     Matrix();
     Matrix(unsigned int width, unsigned int height);
@@ -157,8 +143,6 @@ class Matrix
     {
       put(element, Vector2d(position_x, position_y));
     }
-
-    operator std::string() const;
 };
 
 
@@ -219,25 +203,6 @@ void Matrix<T>::put(T element, Vector2d position)
   resize(new_size);
 
   (*this)[position] = element;
-}
-
-
-template<class T>
-Matrix<T>::operator std::string() const
-{
-  std::string matrix_string;
-
-  unsigned int row_number, column_number;
-
-  for(row_number = 0; row_number < size_.y(); row_number++)
-  {
-    for(column_number = 0; column_number < size_.x(); column_number++)
-      matrix_string += getCharacterOfElement(rows_[column_number][row_number]);
-
-    matrix_string += '\n';
-  }
-
-  return matrix_string;
 }
 
 #endif //MAZE_MATRIX_H
