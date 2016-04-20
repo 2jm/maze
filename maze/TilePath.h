@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// <Filename>.cpp
+// TilePath.h
 //
 // Group: Group 13624, study assistant Angela Promitzer
 //

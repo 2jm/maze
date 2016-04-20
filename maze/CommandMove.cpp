@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// <Filename>.cpp
+// CommandMove.cpp
 //
 // Group: Group 13624, study assistant Angela Promitzer
 //

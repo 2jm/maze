@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// <Filename>.cpp
+// CommandLoad.cpp
 //
 // Group: Group 13624, study assistant Angela Promitzer
 //
