@@ -13,6 +13,16 @@
 #include "Game.h"
 #include "FileHandler.h"
 
+CommandLoad::CommandLoad() : Command("load")
+{
+
+}
+
+CommandLoad::~CommandLoad()
+{
+
+}
+
 Message::Code CommandLoad::execute(Game &board, std::vector<std::string> &params)
 {
   if(params.size() != 1)

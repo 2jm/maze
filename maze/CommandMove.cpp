@@ -14,7 +14,15 @@
 #include "Game.h"
 using std::cout;
 
-CommandMove::~CommandMove(){}
+CommandMove::CommandMove() : Command("move")
+{
+
+}
+
+CommandMove::~CommandMove()
+{
+
+}
 
 Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params)
 {

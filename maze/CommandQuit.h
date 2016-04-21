@@ -18,8 +18,8 @@
 class CommandQuit : public Command
 {
   public:
-    CommandQuit() : Command("quit"){}
-    virtual ~CommandQuit() {};
+    CommandQuit();
+    virtual ~CommandQuit();
 
     //--------------------------------------------------------------------------
     // Executes the command.

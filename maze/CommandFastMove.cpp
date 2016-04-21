@@ -13,6 +13,15 @@
 #include "Game.h"
 #include "Convert.h"
 
+CommandFastMove::CommandFastMove() : Command("fastmove")
+{
+
+}
+
+CommandFastMove::~CommandFastMove()
+{
+
+}
 
 Message::Code CommandFastMove::execute(Game &board,
                                      std::vector<std::string> &params)

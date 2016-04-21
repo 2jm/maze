@@ -12,6 +12,16 @@
 #include "CommandQuit.h"
 #include <iostream>
 
+CommandQuit::CommandQuit() : Command("quit")
+{
+
+}
+
+CommandQuit::~CommandQuit()
+{
+
+}
+
 Message::Code CommandQuit::execute(Game &board, std::vector<std::string> &params)
 {
   return Message::BYE;

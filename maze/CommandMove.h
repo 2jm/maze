@@ -27,7 +27,7 @@ class CommandMove : public Command
     Direction string_to_direction(const std::string direction_string) const;
 
   public:
-    CommandMove() : Command("move"){}
+    CommandMove();
     virtual ~CommandMove();
 
     //--------------------------------------------------------------------------

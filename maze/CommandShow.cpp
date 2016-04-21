@@ -12,6 +12,16 @@
 #include "CommandShow.h"
 #include "Game.h"
 
+CommandShow::CommandShow() : Command("show")
+{
+
+}
+
+CommandShow::~CommandShow()
+{
+
+}
+
 Message::Code CommandShow::execute(Game &board, std::vector<std::string> &params)
 {
   if(params.size() > 1)

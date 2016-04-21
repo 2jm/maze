@@ -18,10 +18,7 @@
 class CommandReset : public Command
 {
   public:
-    CommandReset() : Command("reset")
-    {
-
-    }
+    CommandReset();
     virtual ~CommandReset() {}
     //--------------------------------------------------------------------------
     // Executes the command.

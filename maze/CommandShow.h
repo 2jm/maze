@@ -18,8 +18,8 @@
 class CommandShow : public Command
 {
   public:
-    CommandShow() : Command("show"){}
-    virtual ~CommandShow() {};
+    CommandShow();
+    virtual ~CommandShow();
 
     //--------------------------------------------------------------------------
     // Executes the command.
