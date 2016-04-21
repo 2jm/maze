@@ -269,7 +269,6 @@ int Game::getStepsLeft() const
 
 void Game::setStepsLeft(int steps_left)
 {
-  // TODO: what is if int overflow occures? check that?
   if(steps_left < 0)
     steps_left = 0;
   *steps_left_ = steps_left;
@@ -282,7 +281,7 @@ Player& Game::getPlayer() const
 }
 
 
-
+//TODO check methodnames AvailableSteps vs leftSteps
 int Game::loadAvailableSteps(std::ifstream &input_file)
 {
   std::string available_steps_string;

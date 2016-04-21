@@ -47,7 +47,19 @@ class Game
     std::vector<Direction> move_history_, fast_move_move_history_;
     bool fast_moving_;
 
+    //TODO check methodnames AvailableSteps vs leftSteps
+    //--------------------------------------------------------------------------
+    // Loads number of available steps out of a file
+    //
+    // @param input_file string of the input file
+    //
     int loadAvailableSteps(std::ifstream &input_file);
+
+    //--------------------------------------------------------------------------
+    // Loads number of available steps out of a file
+    //
+    // @param input_file string of the input file
+    //
     std::string loadMapString(std::ifstream &input_file);
     Message::Code doInitialFastMove(std::string &saved_moves);
 
@@ -120,21 +132,53 @@ class Game
     //
     void cancelFastMove();
 
-
+    //--------------------------------------------------------------------------
+    // Resets the Map to start status
+    //
     void reset();
 
+    //--------------------------------------------------------------------------
+    // Resets the Map to start status and clears the move_history
+    //
     void fullReset();
 
+    //--------------------------------------------------------------------------
+    // Prints the complete map with the actual player position
+    //
+    // @param show_more set to false that no additional information is printed
+    //                  out
+    //
     void show(const bool show_more = false);
 
+    //--------------------------------------------------------------------------
+    // Returns the game state
+    //
+    // @return Game::State
+    //
     State getState() const;
 
+    //--------------------------------------------------------------------------
+    // Sets the game state to WON if it is allowed
+    //
     void wonGame();
 
+    //--------------------------------------------------------------------------
+    // Sets the game state to NO_MORE_STEPS
+    //
     void lostGame();
 
+    //--------------------------------------------------------------------------
+    // Returns the left steps
+    //
+    // @return left steps
+    //
     int getStepsLeft() const;
 
+    //--------------------------------------------------------------------------
+    // Sets number of left steps
+    //
+    // @param steps_left number of steps left
+    //
     void setStepsLeft(int steps_left);
 
     // TODO: only needed for test cases!
