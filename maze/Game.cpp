@@ -4,13 +4,14 @@
 // Group: Group 13624, study assistant Angela Promitzer
 //
 // Authors: Jonas Juffinger (1531253)
-// Matthias Klotz (1530653)
-// Johannes Kopf (1431505)
+//          Matthias Klotz (1530653)
+//          Johannes Kopf (1431505)
 //------------------------------------------------------------------------------
 //
 
-#include "Game.h"
 #include <fstream>
+#include <iostream>
+#include "Game.h"
 #include "CommandFastMove.h"
 #include "Convert.h"
 

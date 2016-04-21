@@ -4,8 +4,8 @@
 // Group: Group 13624, study assistant Angela Promitzer
 //
 // Authors: Jonas Juffinger (1531253)
-// Matthias Klotz (1530653)
-// Johannes Kopf (1431505)
+//          Matthias Klotz (1530653)
+//          Johannes Kopf (1431505)
 //------------------------------------------------------------------------------
 //
 
@@ -178,7 +178,7 @@ Map::operator std::string() const
   for(row_number = 0; row_number < size_.y(); row_number++)
   {
     for(column_number = 0; column_number < size_.x(); column_number++)
-      matrix_string += static_cast<char>(*(rows_[column_number][row_number]));
+      matrix_string += static_cast<char>(*(columns_[column_number][row_number]));
 
     matrix_string += '\n';
   }
@@ -198,7 +198,7 @@ std::string Map::toStringWithPlayer(Vector2d player_position)
       if(player_position == Vector2d(column_number, row_number))
         map_string += '*';
       else
-        map_string += static_cast<char>(*(rows_[column_number][row_number]));
+        map_string += static_cast<char>(*(columns_[column_number][row_number]));
     }
     map_string += '\n';
   }
@@ -209,7 +209,7 @@ std::string Map::toStringWithPlayer(Vector2d player_position)
 void Map::clear()
 {
   /* we have shared pointers now \o/
-  for (auto &row : rows_)
+  for (auto &row : columns_)
   {
     for (auto &element : row)
       delete element;
@@ -223,7 +223,7 @@ void Map::clear()
 void Map::reset()
 {
   // reset all tiles
-  for (auto &row : rows_)
+  for (auto &row : columns_)
   {
     for (auto &element : row)
       element->reset();
