@@ -222,13 +222,11 @@ void Map::clear()
 
 void Map::reset()
 {
+  // reset all tiles
   for (auto &row : rows_)
   {
     for (auto &element : row)
-    {
-      if(typeid(element).name() == std::string("TileBonus"))
-        std::dynamic_pointer_cast<TileBonus>(element)->setUsed(false);
-    }
+      element->reset();
   }
 }
 

@@ -29,7 +29,7 @@ class TileBonus : public Tile
 
     operator char() const;
 
-    void setUsed(bool used);
+    void reset();
 };
 
 

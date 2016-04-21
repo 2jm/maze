@@ -19,7 +19,7 @@ class CommandReset : public Command
 {
   public:
     CommandReset();
-    virtual ~CommandReset() {}
+    virtual ~CommandReset();
     //--------------------------------------------------------------------------
     // Executes the command.
     // @param board The board where action should be performed on
