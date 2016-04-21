@@ -12,6 +12,7 @@
 #include <string>
 #include "ArgumentParser.h"
 #include "Game.h"
+#include "FileHandler.h"
 
 ArgumentParser::ArgumentParser(Game &game) : game_(game)
 {
@@ -57,6 +58,10 @@ const char *ArgumentParser::getArgumentFileName(int argc, char **argv,
   if(argc >= argument_index + 2)
   {
     argument_index++;
+
+    if(!FileHandler::isValidFileName(argv[argument_index]))
+      throw InvalidCommandLineArgumentException();
+
     return argv[argument_index];
   }
   else

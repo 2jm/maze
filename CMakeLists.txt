@@ -11,5 +11,6 @@ include_directories(maze)
 
 add_subdirectory(maze)
 add_subdirectory(maze_tests)
+add_subdirectory(map_creator)
 
 target_link_libraries(maze mazeLib)

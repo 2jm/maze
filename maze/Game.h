@@ -30,6 +30,7 @@ class Game
     enum State
     {
       NO_MAZE_LOADED,
+      TESTING_MAP,
       LOADING,
       PLAYING,
       WON,

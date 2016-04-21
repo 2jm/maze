@@ -15,6 +15,7 @@
 #include "CommandFastMove.h"
 #include "Convert.h"
 
+
 Game::Game() : map_(&play_map_),
                play_player_(play_map_),
                load_test_player_(load_test_map_),
@@ -24,13 +25,6 @@ Game::Game() : map_(&play_map_),
 {
 
 }
-
-
-void Game::setAutoSave(const std::string file_name)
-{
-  auto_save_filename_ = file_name;
-}
-
 
 Message::Code Game::loadFile(const std::string file_name)
 {
@@ -42,38 +36,42 @@ Message::Code Game::loadFile(const std::string file_name)
   std::ifstream input_file(file_name, std::ifstream::binary);
 
   if(input_file.fail())
-    return Message::print(Message::FILE_COULD_NOT_BE_OPENED);
+    return Message::FILE_COULD_NOT_BE_OPENED;
 
   std::getline(input_file, saved_moves);
 
   if((steps_left = loadAvailableSteps(input_file)) == -1)
-    return Message::print(Message::INVALID_FILE);
+    return Message::INVALID_FILE;
 
   if((map_string = loadMapString(input_file)) == "")
-    return Message::print(Message::INVALID_FILE);
+    return Message::INVALID_FILE;
 
   steps_left_ = &load_test_steps_left_;
   *steps_left_ = steps_left;
   map_ = &load_test_map_;
 
+  State previous_game_state = game_state_;
+
+  game_state_ = State::TESTING_MAP;
+
   if(!map_->loadFromString(map_string, *this))
   {
     map_ = &play_map_;
-    return Message::print(Message::INVALID_FILE);
+    game_state_ = previous_game_state;
+    return Message::INVALID_FILE;
   }
 
   player_ = &load_test_player_;
-
-  State previous_game_state = game_state_;
-  game_state_ = State::LOADING;
 
   if((return_code = doInitialFastMove(saved_moves)) != Message::SUCCESS)
   {
     map_ = &play_map_;
     player_ = &play_player_;
     game_state_ = previous_game_state;
-    return Message::print(return_code);
+    return return_code;
   }
+
+  game_state_ = State::LOADING;
 
   steps_left_ = &play_steps_left_;
   map_ = &play_map_;
@@ -86,6 +84,7 @@ Message::Code Game::loadFile(const std::string file_name)
 
   game_state_ = State::PLAYING;
 
+  autoSave();
   show();
 
   return Message::SUCCESS;
@@ -98,7 +97,7 @@ Message::Code Game::saveFile(const std::string file_name)
           output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
 
   if(output_file.fail())
-    return Message::print(Message::FILE_COULD_NOT_BE_WRITTEN);
+    return Message::FILE_COULD_NOT_BE_WRITTEN;
 
   for(auto move : move_history_)
     output_file << static_cast<char>(move);
@@ -147,8 +146,8 @@ Message::Code Game::movePlayer(const Direction direction)
       lostGame();
 
     move_history_.push_back(direction);
-    show();
     autoSave();
+    show();
 
     if(game_state_ == WON)
       Message::print(Message::WON);
@@ -175,14 +174,17 @@ bool Game::startFastMove()
 void Game::completeFastMove()
 {
   fast_moving_ = false;
-  for(auto move : fast_move_move_history_)
-    move_history_.push_back(move);
 
-
-  if(game_state_ != LOADING)
+  if(game_state_ != TESTING_MAP)
   {
-    show();
+    for(auto move : fast_move_move_history_)
+      move_history_.push_back(move);
+  }
+
+  if(game_state_ != LOADING && game_state_ != TESTING_MAP)
+  {
     autoSave();
+    show();
   }
 
   if(player_->getPosition() == map_->getEndTile()->getPosition())
@@ -217,6 +219,14 @@ void Game::fullReset()
   move_history_.clear();
   autoSave();
   game_state_ = PLAYING;
+}
+
+void Game::setAutoSave(const std::string file_name)
+{
+  auto_save_filename_ = file_name;
+
+  if(game_state_ == PLAYING)
+    autoSave();
 }
 
 void Game::show(const bool show_more)
@@ -324,9 +334,6 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
 {
   player_->setPosition(map_->getStartTile()->getPosition());
 
-  State previous_game_state = game_state_;
-  game_state_ = LOADING;
-
   if(saved_moves != "")
   {
     CommandFastMove fastMove;
@@ -334,10 +341,7 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
     fast_move_params.push_back(saved_moves);
 
     if(fastMove.execute(*this, fast_move_params) != Message::SUCCESS)
-    {
-      game_state_ = previous_game_state;
       return Message::print(Message::INVALID_PATH);
-    }
   }
 
   return Message::SUCCESS;
@@ -346,7 +350,7 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
 void Game::autoSave()
 {
   if(auto_save_filename_ != "")
-    saveFile(auto_save_filename_);
+    Message::print(saveFile(auto_save_filename_));
 }
 
 

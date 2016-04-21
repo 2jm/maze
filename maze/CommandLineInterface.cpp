@@ -123,6 +123,7 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
   else if(command.empty())
   {
     // do nothing
+    return true;
   }
 
   //-----unknown command-----
