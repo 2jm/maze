@@ -16,6 +16,11 @@
 #include "CommandLineInterface.h"
 #include "ArgumentParser.h"
 
+//------------------------------------------------------------------------------
+// Maze class
+//
+// This is the main class of the whole program.
+//
 class Maze
 {
   private:
@@ -24,8 +29,21 @@ class Maze
     ArgumentParser argument_parser_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
     Maze();
 
+    //--------------------------------------------------------------------------
+    // run
+    //
+    // This method runs the program.
+    //
+    // @param argc The argument count
+    // @param argv The arguments
+    //
+    // @return The return code of the program.
+    //
     int run(int argc, char **argv);
 };
 

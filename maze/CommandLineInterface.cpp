@@ -120,6 +120,11 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
     return false;
   }
 
+  else if(command.empty())
+  {
+    // do nothing
+  }
+
   //-----unknown command-----
   else
   {

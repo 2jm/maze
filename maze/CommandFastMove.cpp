@@ -40,11 +40,12 @@ Message::Code CommandFastMove::execute(Game &board,
   for(auto move_direction_character : fast_move_string)
   {
     Direction move_direction = Convert::toDirection(move_direction_character);
+    Message::Code move_result;
 
-    if(board.movePlayer(move_direction) != Message::SUCCESS)
+    if((move_result = board.movePlayer(move_direction)) != Message::SUCCESS)
     {
       board.cancelFastMove();
-      return Message::INVALID_MOVE;
+      return move_result;
     }
   }
 

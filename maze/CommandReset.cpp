@@ -30,7 +30,7 @@ Message::Code CommandReset::execute(Game &board, std::vector<std::string> &param
   if(board.getState() == Game::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  board.reset();
+  board.fullReset();
 
   return Message::SUCCESS;
 }

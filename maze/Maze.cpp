@@ -32,6 +32,7 @@ int Maze::run(int argc, char **argv)
     return Message::WRONG_USAGE;
   }
 
+  // The program runs until CommandLineInterface::update() returns false.
   while(command_line_interface_.update());
 
   return Message::SUCCESS;

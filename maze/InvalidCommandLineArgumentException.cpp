@@ -9,16 +9,10 @@
 //------------------------------------------------------------------------------
 //
 
-#ifndef MAZE_ALL_INVALIDCOMMANDLINEARGUMENTEXCEPTION_H
-#define MAZE_ALL_INVALIDCOMMANDLINEARGUMENTEXCEPTION_H
+#include "InvalidCommandLineArgumentException.h"
+#include "Message.h"
 
-#include <exception>
-
-class InvalidCommandLineArgumentException : public std::exception
+const char *InvalidCommandLineArgumentException::what() const throw()
 {
-  public:
-    virtual const char *what() const throw();
-};
-
-
-#endif //MAZE_ALL_INVALIDCOMMANDLINEARGUMENTEXCEPTION_H
+  return Message::get(Message::WRONG_USAGE);
+}

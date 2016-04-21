@@ -80,10 +80,13 @@ Message::Code Game::loadFile(const std::string file_name)
   player_ = &play_player_;
 
   *steps_left_ = steps_left;
+  initial_steps_left_ = steps_left;
   map_->loadFromString(map_string, *this);
   doInitialFastMove(saved_moves);
 
   game_state_ = State::PLAYING;
+
+  show();
 
   return Message::SUCCESS;
 }
@@ -101,7 +104,7 @@ Message::Code Game::saveFile(const std::string file_name)
     output_file << static_cast<char>(move);
   output_file << '\n';
 
-  output_file << *steps_left_ << '\n';
+  output_file << initial_steps_left_ << '\n';
 
   output_file << static_cast<std::string>(play_map_);
 
@@ -117,7 +120,7 @@ Message::Code Game::movePlayer(const Direction direction)
 
   if(game_state_ == NO_MORE_STEPS)
   {
-    reset();
+    fullReset();
     return Message::NO_MORE_STEPS;
   }
 
@@ -128,6 +131,10 @@ Message::Code Game::movePlayer(const Direction direction)
   if(fast_moving_ && player_->move(direction))
   {
     (*steps_left_)--;
+
+    if(*steps_left_ < 0)
+      return Message::INVALID_MOVE;
+
     fast_move_move_history_.push_back(direction);
     return Message::SUCCESS;
   }
@@ -137,16 +144,14 @@ Message::Code Game::movePlayer(const Direction direction)
     (*steps_left_)--;
 
     if(game_state_ != WON && *steps_left_ <= 0) // steps_left_ could be -1, if Quicksand has already set the step left counter to 0
-    {
       lostGame();
-      return Message::SUCCESS;
-    }
+
     move_history_.push_back(direction);
-
     show();
+    autoSave();
 
-    if(auto_save_filename_ != "")
-      saveFile(auto_save_filename_);
+    if(game_state_ == WON)
+      Message::print(Message::WON);
 
     return Message::SUCCESS;
   }
@@ -161,6 +166,7 @@ bool Game::startFastMove()
     return false;
 
   fast_moving_ = true;
+  fast_move_move_history_.clear();
 
   return true;
 }
@@ -172,17 +178,24 @@ void Game::completeFastMove()
   for(auto move : fast_move_move_history_)
     move_history_.push_back(move);
 
+
   if(game_state_ != LOADING)
+  {
     show();
+    autoSave();
+  }
+
+  if(player_->getPosition() == map_->getEndTile()->getPosition())
+    Message::print(Message::WON);
+
+  else if(*steps_left_ <= 0)
+    lostGame();
 }
 
 
 void Game::cancelFastMove()
 {
-  //reset the game
-  *steps_left_ = initial_steps_left_;
-  map_->reset();
-  player_->setPosition(map_->getStartTile()->getPosition());
+  reset();
 
   //redo all moves
   for(auto direction : move_history_)
@@ -193,8 +206,17 @@ void Game::cancelFastMove()
 
 void Game::reset()
 {
-  map_->clear();
-  game_state_ = NO_MAZE_LOADED;
+  *steps_left_ = initial_steps_left_;
+  map_->reset();
+  player_->setPosition(map_->getStartTile()->getPosition());
+}
+
+void Game::fullReset()
+{
+  reset();
+  move_history_.clear();
+  autoSave();
+  game_state_ = PLAYING;
 }
 
 void Game::show(const bool show_more)
@@ -221,8 +243,8 @@ Game::State Game::getState() const
 
 void Game::wonGame()
 {
-  Message::print(Message::WON);
-  game_state_ = WON;
+  if(!fast_moving_)
+    game_state_ = WON;
 }
 
 void Game::lostGame()
@@ -320,6 +342,14 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
 
   return Message::SUCCESS;
 }
+
+void Game::autoSave()
+{
+  if(auto_save_filename_ != "")
+    saveFile(auto_save_filename_);
+}
+
+
 
 
 
