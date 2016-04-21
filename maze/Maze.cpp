@@ -4,8 +4,8 @@
 // Group: Group 13624, study assistant Angela Promitzer
 //
 // Authors: Jonas Juffinger (1531253)
-// Matthias Klotz (1530653)
-// Johannes Kopf (1431505)
+//          Matthias Klotz (1530653)
+//          Johannes Kopf (1431505)
 //------------------------------------------------------------------------------
 //
 
@@ -32,6 +32,7 @@ int Maze::run(int argc, char **argv)
     return Message::WRONG_USAGE;
   }
 
+  // The program runs until CommandLineInterface::update() returns false.
   while(command_line_interface_.update());
 
   return Message::SUCCESS;

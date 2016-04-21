@@ -2,6 +2,7 @@
 .idea/*
 !.idea/codeStyleSettings.xml
 
+Abgabe/*
 bin/*
 
 # Compiled Object files

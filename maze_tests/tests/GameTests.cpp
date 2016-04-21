@@ -128,7 +128,7 @@ TEST(GameTest, test_game_lost)
   game.movePlayer(Direction::RIGHT);
   ASSERT_EQ(game.getState(), Game::NO_MORE_STEPS);
   game.movePlayer(Direction::RIGHT);
-  ASSERT_EQ(game.getState(), Game::NO_MAZE_LOADED);
+  ASSERT_EQ(game.getState(), Game::PLAYING);
 }
 
 

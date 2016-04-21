@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// TileStart.h
+// InvalidCommandLineArgumentException.h
 //
 // Group: Group 13624, study assistant Angela Promitzer
 //
@@ -9,19 +9,10 @@
 //------------------------------------------------------------------------------
 //
 
-#ifndef MAZE_ALL_TILESTART_H
-#define MAZE_ALL_TILESTART_H
+#include "InvalidCommandLineArgumentException.h"
+#include "Message.h"
 
-
-#include "Tile.h"
-
-class TileStart : public Tile
+const char *InvalidCommandLineArgumentException::what() const throw()
 {
-  public:
-    TileStart(Vector2d position);
-
-    EnterResult enter(Vector2d &source_position);
-};
-
-
-#endif //MAZE_ALL_TILESTART_H
+  return Message::get(Message::WRONG_USAGE);
+}

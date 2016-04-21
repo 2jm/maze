@@ -4,8 +4,8 @@
 // Group: Group 13624, study assistant Angela Promitzer
 //
 // Authors: Jonas Juffinger (1531253)
-// Matthias Klotz (1530653)
-// Johannes Kopf (1431505)
+//          Matthias Klotz (1530653)
+//          Johannes Kopf (1431505)
 //------------------------------------------------------------------------------
 //
 
@@ -40,11 +40,12 @@ Message::Code CommandFastMove::execute(Game &board,
   for(auto move_direction_character : fast_move_string)
   {
     Direction move_direction = Convert::toDirection(move_direction_character);
+    Message::Code move_result;
 
-    if(board.movePlayer(move_direction) != Message::SUCCESS)
+    if((move_result = board.movePlayer(move_direction)) != Message::SUCCESS)
     {
       board.cancelFastMove();
-      return Message::INVALID_MOVE;
+      return move_result;
     }
   }
 

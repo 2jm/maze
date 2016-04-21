@@ -4,8 +4,8 @@
 // Group: Group 13624, study assistant Angela Promitzer
 //
 // Authors: Jonas Juffinger (1531253)
-// Matthias Klotz (1530653)
-// Johannes Kopf (1431505)
+//          Matthias Klotz (1530653)
+//          Johannes Kopf (1431505)
 //------------------------------------------------------------------------------
 //
 
@@ -16,152 +16,296 @@
 #include <vector>
 #include <memory>
 #include "Vector2d.h"
-#include <iostream>
 
+//------------------------------------------------------------------------------
 // Matrix class
 //
-// Set size on construction or with resize()
-// Access members with [x][y] or at(x, y)
-template<class T>
+// This class implements a two dimensional matrix. It can store any type and
+// have any size.
+//
+// -Matrix Size
+// The matrix can be constructed with a specific size. Afterwards the size can
+// be changed with the resize method.
+// When using the put method to fill the matrix with elements it is
+// automatically resized to the needed dimensions.
+//
+// -Element Access
+// Elements are accessed with [column][row], [Vector2d(column, row)],
+// .at(column).at(row) or at(Vector2d(column, row).
+// The at method does bounds checking.
+//
+template <class T>
 class Matrix
 {
   public:
-    // MatrixRow represents one row of the matrix, the matrix consists of
-    // multiple matrix rows.
-    // The elements of the MatrixRow can be accessed with the [] operator
-    // or the at() method, the later one does boundaries checking.
-    // The constructor of the MatrixRow is private so only itself or the Matrix
-    // class, which is a friend, can create a row.
-    // Because of that the Matrix class needs an own allocator that is allowed
-    // to construct a MatrixRow.
-    class MatrixRow
+    //--------------------------------------------------------------------------
+    // Column class
+    //
+    // This class represents one column of the matrix, the matrix consists of
+    // multiple matrix columns.
+    //
+    class Column
     {
+      // This is needed in order that the matrix can resize the elements_.
+      // An public resize() method in would be worse because than everybody
+      // would be able to resize a single column of the matrix and this would
+      // hurt the integrity of the matrix.
       friend class Matrix;
 
       private:
         std::vector<T> elements_;
 
       public:
-        MatrixRow()
-        {}
+        //----------------------------------------------------------------------
+        // Constructor
+        //
+        Column();
 
-        ~MatrixRow()
-        {}
+        //----------------------------------------------------------------------
+        // Constructor
+        //
+        Column(unsigned int size);
 
-        T& operator[](unsigned int element_index)
-        {
-          return elements_[element_index];
-        }
+        //----------------------------------------------------------------------
+        // Copy Constructor
+        //
+        // @param original The original Column to copy
+        //
+        Column(const Column &original);
 
-        const T& operator[](unsigned int element_index) const
-        {
-          return elements_[element_index];
-        }
+        //----------------------------------------------------------------------
+        // Destructor
+        //
+        ~Column();
 
-        T& at(unsigned int element_index)
-        {
-          return elements_.at(element_index);
-        }
+        //----------------------------------------------------------------------
+        // operator[]
+        // Uses the std::vector::operator[] internally.
+        //
+        // @param element_index index of the element
+        //
+        // @return Returns the element with index element_index from the
+        //         std::vector<T> elements_.
+        //
+        T& operator[](unsigned int element_index);
+        const T& operator[](unsigned int element_index) const;
 
-        typename std::vector<T>::const_iterator begin() const
-        {
-          return elements_.begin();
-        };
+        //----------------------------------------------------------------------
+        // at
+        // Same as operator[] but does bounds checking and throws a
+        // std::out_of_range if element_index is out of range.
+        // Uses the std::vector::at(size_type n) internally.
+        //
+        // @param element_index index of the element
+        //
+        // @return Returns the element with index element_index from the
+        //         std::vector<T> elements_.
+        //
+        T& at(unsigned int element_index);
+        const T& at(unsigned int element_index) const;
 
-        typename std::vector<T>::iterator begin()
-        {
-          return elements_.begin();
-        };
-
-        typename std::vector<T>::const_iterator end() const
-        {
-          return elements_.end();
-        };
-
-        typename std::vector<T>::iterator end()
-        {
-          return elements_.end();
-        };
+        //----------------------------------------------------------------------
+        // begin and end iterators
+        //
+        // @return Returns the begin and end iterators of the
+        //         std::vector<T> elements_.
+        //
+        typename std::vector<T>::const_iterator begin() const;
+        typename std::vector<T>::iterator begin();
+        typename std::vector<T>::const_iterator end() const;
+        typename std::vector<T>::iterator end();
     };
 
   protected:
     Vector2d size_;
-    std::vector<MatrixRow> rows_;
-
+    std::vector<Column> columns_;
     void resize();
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
+    // Constructs the matrix with a size of 0/0.
+    //
     Matrix();
+
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
+    // @param width  The width the matrix should be constructed with
+    // @param height The height the matrix should be constructed with
+    //
     Matrix(unsigned int width, unsigned int height);
+
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
+    // @param size A 2D vector containing the size the matrix should be
+    //             constructed with
+    //
     Matrix(Vector2d size);
 
-    void resize(unsigned int width, unsigned int height)
-    {
-      resize(Vector2d(width, height));
-    }
+    //--------------------------------------------------------------------------
+    // Copy Constructor
+    //
+    Matrix(const Matrix &original);
+
+    //--------------------------------------------------------------------------
+    // Resize
+    //
+    // @param width  The width the matrix should be resized to
+    // @param height The height the matrix should be resized to
+    //
+    void resize(unsigned int width, unsigned int height);
+
+    //--------------------------------------------------------------------------
+    // Resize
+    //
+    // @param new_size A 2D vector containing the size the matrix should be
+    //                 resized to
+    //
     void resize(Vector2d new_size);
 
-    Vector2d getSize() const
-    {
-      return size_;
-    }
+    //--------------------------------------------------------------------------
+    // Get Size
+    //
+    // @return Returns the size of the matrix.
+    //
+    Vector2d getSize() const;
 
-    MatrixRow& operator[](unsigned int row_index)
-    {
-      return rows_[row_index];
-    }
+    //--------------------------------------------------------------------------
+    // operator[unsigned int]
+    //
+    // @param column_index The index of the column
+    //
+    // @return Returns the column with index column_index.
+    //
+    Column& operator[](unsigned int column_index);
+    const Column& operator[](unsigned int column_index) const;
 
-    MatrixRow& at(unsigned int row_index)
-    {
-      return rows_.at(row_index);
-    }
+    //--------------------------------------------------------------------------
+    // operator[Vector2d]
+    //
+    // @param position The column and row of the accessing element.
+    //
+    // @return Returns the element on the position position.
+    //
+    T& operator[](Vector2d position);
+    const T& operator[](Vector2d position) const;
 
-    T& at(unsigned int row_index, unsigned int element_index)
-    {
-      return rows_.at(row_index).at(element_index);
-    }
+    //--------------------------------------------------------------------------
+    // at(unsigned int)
+    //
+    // Same as operator[unsigned int] but does bounds checking and throws a
+    // std::out_of_range if element_index is out of range.
+    // Uses the std::vector::at(size_type n) internally.
+    //
+    // @param column_index The index of the column
+    //
+    // @return Returns the column with index column_index.
+    //
+    Column& at(unsigned int column_index);
+    const Column& at(unsigned int column_index) const;
 
-    T& operator[](Vector2d position)
-    {
-      return rows_[position.x()][position.y()];
-    }
+    //--------------------------------------------------------------------------
+    // at(Vector2d)
+    //
+    // Same as operator[Vector2d] but does bounds checking and throws a
+    // std::out_of_range if Vector2d is out of range.
+    // Uses the std::vector::at(size_type n) internally.
+    //
+    // @param position The column and row of the accessing element.
+    //
+    // @return Returns the element on the position position.
+    //
+    T& at(unsigned int row_index, unsigned int element_index);
+    const T& at(unsigned int row_index, unsigned int element_index) const;
 
+    //--------------------------------------------------------------------------
+    // Put method
+    //
+    // This method puts the element on the position. If the matrix is to small
+    // it is automatically grown.
+    //
+    // @param element  The element to push
+    // @param position The column and row the element should be put to.
+    //
     void put(T element, Vector2d position);
-    void put(T element, int position_x, int position_y)
-    {
-      put(element, Vector2d(position_x, position_y));
-    }
+
+    //--------------------------------------------------------------------------
+    // Put method
+    //
+    // This method puts the element on the position. If the matrix is to small
+    // it is automatically grown.
+    //
+    // @param element The element to push
+    // @param column  The column the element should be put to.
+    // @param row     The row the element should be put to.
+    //
+    void put(T element, unsigned int column, unsigned int row);
 };
 
 
+
+
+//------------------------------------------------------------------------------
+//
+// The Matrix method implementations
+//
+
 template<class T>
-Matrix<T>::Matrix() : size_(0, 0)
+Matrix<T>::Matrix() :
+        size_(0, 0),
+        columns_(static_cast<unsigned int>(size_.getX()),
+                 Column(static_cast<unsigned int>(size_.getY())))
 {
-  resize();
+
 }
 
 
 template<class T>
-Matrix<T>::Matrix(unsigned int width, unsigned int height) : size_(width, height)
+Matrix<T>::Matrix(unsigned int width, unsigned int height) :
+        size_(width, height),
+        columns_(static_cast<unsigned int>(size_.getX()),
+                 Column(static_cast<unsigned int>(size_.getY())))
 {
-  resize();
+
 }
 
 
 template<class T>
-Matrix<T>::Matrix(Vector2d size) : size_(size)
+Matrix<T>::Matrix(Vector2d size) :
+        size_(size),
+        columns_(static_cast<unsigned int>(size_.getX()),
+                 Column(static_cast<unsigned int>(size_.getY())))
 {
-  resize();
+
+}
+
+
+template<class T>
+Matrix<T>::Matrix(const Matrix &original) :
+        size_(original.size_),
+        columns_(original.columns_)
+{
+
 }
 
 
 template<class T>
 void Matrix<T>::resize()
 {
-  rows_.resize(static_cast<unsigned int>(size_.x()));
+  columns_.resize(static_cast<unsigned int>(size_.x()));
 
-  for(auto &row : rows_)
+  for(auto &row : columns_)
     row.elements_.resize(static_cast<unsigned int>(size_.y()));
+}
+
+
+template<class T>
+void Matrix<T>::resize(unsigned int width, unsigned int height)
+{
+  resize(Vector2d(width, height));
 }
 
 
@@ -170,6 +314,71 @@ void Matrix<T>::resize(Vector2d new_size)
 {
   size_ = new_size;
   resize();
+}
+
+
+template<class T>
+Vector2d Matrix<T>::getSize() const
+{
+  return size_;
+}
+
+
+template<class T>
+typename Matrix<T>::Column& Matrix<T>::operator[](unsigned int column_index)
+{
+  return columns_[column_index];
+}
+
+
+template<class T>
+const typename
+Matrix<T>::Column& Matrix<T>::operator[](unsigned int column_index) const
+{
+  return columns_[column_index];
+}
+
+
+template<class T>
+T& Matrix<T>::operator[](Vector2d position)
+{
+  return columns_[position.x()][position.y()];
+}
+
+
+template<class T>
+const T& Matrix<T>::operator[](Vector2d position) const
+{
+  return columns_[position.x()][position.y()];
+}
+
+
+template<class T>
+typename Matrix<T>::Column& Matrix<T>::at(unsigned int column_index)
+{
+  return columns_.at(column_index);
+}
+
+
+template<class T>
+const
+typename Matrix<T>::Column& Matrix<T>::at(unsigned int column_index) const
+{
+  return columns_.at(column_index);
+}
+
+
+template<class T>
+T& Matrix<T>::at(unsigned int row_index, unsigned int element_index)
+{
+  return columns_.at(row_index).at(element_index);
+}
+
+
+template<class T>
+const T& Matrix<T>::at(unsigned int row_index, unsigned int element_index) const
+{
+  return columns_.at(row_index).at(element_index);
 }
 
 
@@ -187,6 +396,104 @@ void Matrix<T>::put(T element, Vector2d position)
   resize(new_size);
 
   (*this)[position] = element;
+}
+
+
+template<class T>
+void Matrix<T>::put(T element, unsigned int column, unsigned int row)
+{
+  put(element, Vector2d(column, row));
+}
+
+
+
+//------------------------------------------------------------------------------
+//
+// The Matrix::Column method implementations
+//
+
+template<class T>
+Matrix<T>::Column::Column()
+{
+
+}
+
+
+template<class T>
+Matrix<T>::Column::Column(unsigned int size) : elements_(size)
+{
+
+}
+
+
+template<class T>
+Matrix<T>::Column::Column(const Column &original) :
+        elements_(original.elements_)
+{
+
+};
+
+
+template<class T>
+Matrix<T>::Column::~Column()
+{
+
+}
+
+
+template<class T>
+T& Matrix<T>::Column::operator[](unsigned int element_index)
+{
+  return elements_[element_index];
+}
+
+
+template<class T>
+const T& Matrix<T>::Column::operator[](unsigned int element_index) const
+{
+  return elements_[element_index];
+}
+
+
+template<class T>
+T& Matrix<T>::Column::at(unsigned int element_index)
+{
+  return elements_.at(element_index);
+}
+
+
+template<class T>
+const T& Matrix<T>::Column::at(unsigned int element_index) const
+{
+  return elements_.at(element_index);
+}
+
+
+template<class T>
+typename std::vector<T>::const_iterator Matrix<T>::Column::begin() const
+{
+  return elements_.begin();
+};
+
+
+template<class T>
+typename std::vector<T>::iterator Matrix<T>::Column::begin()
+{
+  return elements_.begin();
+};
+
+
+template<class T>
+typename std::vector<T>::const_iterator Matrix<T>::Column::end() const
+{
+  return elements_.end();
+};
+
+
+template<class T>
+typename std::vector<T>::iterator Matrix<T>::Column::end()
+{
+  return elements_.end();
 }
 
 #endif //MAZE_MATRIX_H

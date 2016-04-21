@@ -4,8 +4,8 @@
 // Group: Group 13624, study assistant Angela Promitzer
 //
 // Authors: Jonas Juffinger (1531253)
-// Matthias Klotz (1530653)
-// Johannes Kopf (1431505)
+//          Matthias Klotz (1530653)
+//          Johannes Kopf (1431505)
 //------------------------------------------------------------------------------
 //
 
@@ -118,6 +118,12 @@ bool CommandLineInterface::execute(std::string command, std::vector<std::string>
     CommandQuit command_quit;
     Message::print(command_quit.execute(game_, params));
     return false;
+  }
+
+  else if(command.empty())
+  {
+    // do nothing
+    return true;
   }
 
   //-----unknown command-----

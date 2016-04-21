@@ -4,26 +4,33 @@
 // Group: Group 13624, study assistant Angela Promitzer
 //
 // Authors: Jonas Juffinger (1531253)
-// Matthias Klotz (1530653)
-// Johannes Kopf (1431505)
+//          Matthias Klotz (1530653)
+//          Johannes Kopf (1431505)
 //------------------------------------------------------------------------------
 //
 
 #ifndef MAZE_GAME_H
 #define MAZE_GAME_H
 
-
 #include <string>
 #include "Map.h"
 #include "Player.h"
 #include "Message.h"
 
+//------------------------------------------------------------------------------
+// Game class
+//
+//
+//
+//
+//
 class Game
 {
   public:
     enum State
     {
       NO_MAZE_LOADED,
+      TESTING_MAP,
       LOADING,
       PLAYING,
       WON,
@@ -33,7 +40,8 @@ class Game
   private:
     Map play_map_, load_test_map_, *map_;
     Player play_player_, load_test_player_, *player_;
-    int play_steps_left_, load_test_steps_left_, *steps_left_, initial_steps_left_;
+    int play_steps_left_, load_test_steps_left_, *steps_left_,
+            initial_steps_left_;
     State game_state_;
     std::string auto_save_filename_;
     std::vector<Direction> move_history_, fast_move_move_history_;
@@ -42,6 +50,8 @@ class Game
     int loadAvailableSteps(std::ifstream &input_file);
     std::string loadMapString(std::ifstream &input_file);
     Message::Code doInitialFastMove(std::string &saved_moves);
+
+    void autoSave();
 
   public:
     Game();
@@ -112,6 +122,8 @@ class Game
 
 
     void reset();
+
+    void fullReset();
 
     void show(const bool show_more = false);
 

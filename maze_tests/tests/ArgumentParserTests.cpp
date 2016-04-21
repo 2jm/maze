@@ -131,6 +131,23 @@ TEST(ArgumentParserTest, not_enough_arguments_3)
 }
 
 
+TEST(ArgumentParserTest, not_enough_arguments_4)
+{
+  Game game;
+  ArgumentParser a(game);
+  int argc = 5;
+  const char *argv[] = {
+          "path/to/executable",
+          "-m",
+          "-s",
+          "-s",
+          "filename"
+  };
+
+  ASSERT_NO_THROW(a.parse(argc, const_cast<char **>(argv)));
+}
+
+
 TEST(ArgumentParserTest, invalid_argument_1)
 {
   Game game;
@@ -160,4 +177,19 @@ TEST(ArgumentParserTest, invalid_argument_2)
 
   EXPECT_THROW(a.parse(argc, const_cast<char **>(argv)),
                InvalidCommandLineArgumentException);
+}
+
+
+TEST(ArgumentParserTest, invalid_argument_3)
+{
+  Game game;
+  ArgumentParser a(game);
+  int argc = 3;
+  const char *argv[] = {
+          "path/to/executable",
+          "-m",
+          "sadf-asdf"
+  };
+
+  ASSERT_THROW(a.parse(argc, const_cast<char **>(argv)), InvalidCommandLineArgumentException);
 }
