@@ -223,9 +223,9 @@ void Map::clear()
 void Map::reset()
 {
   // reset all tiles
-  for (auto &row : columns_)
+  for (auto &column : columns_)
   {
-    for (auto &element : row)
+    for (auto &element : column)
       element->reset();
   }
 }
