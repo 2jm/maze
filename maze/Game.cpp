@@ -297,6 +297,10 @@ int Game::loadAvailableSteps(std::ifstream &input_file)
   {
     int available_steps;
     available_steps = Convert::toUnsignedInt(available_steps_string);
+
+    if(available_steps == 0)
+      return -1;
+
     return available_steps;
   }
   catch(const std::exception &e)
