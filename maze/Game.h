@@ -51,11 +51,17 @@ class Game
     // When this method is called the game should be saved after each step in
     // file file_name
     //
+    // @param string with savingpath
+    //
     void setAutoSave(const std::string file_name);
 
     //--------------------------------------------------------------------------
     // Load file method
     // Loads the file file_name
+    //
+    // @param string with loadingpath
+    //
+    // @return Message if file loaded sucessfully
     //
     Message::Code loadFile(const std::string file_name);
 
@@ -63,11 +69,19 @@ class Game
     // Load file method
     // Loads the file file_name
     //
+    // @param string with savingpath
+    //
+    // @return Message if file saved successfully
+    //
     Message::Code saveFile(const std::string file_name);
 
     //--------------------------------------------------------------------------
     // Move player method
     // move the player by direction
+    //
+    // @param direction in which the player should be moved
+    //
+    // @return Messag if Move was successfully
     //
     Message::Code movePlayer(const Direction direction);
 

@@ -53,8 +53,6 @@ class CommandLineInterface
 //
 // @param game reference of the actual game object
 //
-// @return no return
-//
     CommandLineInterface(Game &game);
 
 //------------------------------------------------------------------------------
