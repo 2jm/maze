@@ -61,7 +61,10 @@ class Game
     //
     // @param string with loadingpath
     //
-    // @return Message if file loaded sucessfully
+    // @return MessageCode FILE_COULD_NOT_BE_OPENED,
+    //                     INVALID_FILE,
+    //                     INVALID_FILE,
+    //                     SUCCESS
     //
     Message::Code loadFile(const std::string file_name);
 
@@ -71,7 +74,8 @@ class Game
     //
     // @param string with savingpath
     //
-    // @return Message if file saved successfully
+    // @return MessageCode FILE_COULD_NOT_BE_WRITTEN,
+    //                     SUCCESS
     //
     Message::Code saveFile(const std::string file_name);
 
@@ -81,15 +85,31 @@ class Game
     //
     // @param direction in which the player should be moved
     //
-    // @return Messag if Move was successfully
+    // @return MessageCode INVALID_MOVE,
+    //                     NO_MORE_STEPS,
+    //                     NO_MAZE_LOADED,
+    //                     SUCCESS
     //
     Message::Code movePlayer(const Direction direction);
 
+    //--------------------------------------------------------------------------
+    // Sets fastmoving true if a maze is loaded
+    //
+    // @return MessageCode true if a maze is loaded
+    //                     false if no maze is loaded
+    //
     bool startFastMove();
 
+    //--------------------------------------------------------------------------
+    // Sets fastmoving false and writes fast_move_history into move_history
+    //
     void completeFastMove();
 
+    //--------------------------------------------------------------------------
+    // Resets the Map to start status and redos the move_history
+    //
     void cancelFastMove();
+
 
     void reset();
 
