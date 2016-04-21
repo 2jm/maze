@@ -31,3 +31,9 @@ Tile::operator char() const
 {
   return character_;
 }
+
+void Tile::reset()
+{
+  // does nothing
+}
+

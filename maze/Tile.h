@@ -50,6 +50,8 @@ class Tile
     // return value tells, if the player is allowed to move away from this tile
     virtual bool leave(const Direction move_direction) const;
 
+    virtual void reset();
+
     Vector2d getPosition() const;
 
     virtual operator char() const;

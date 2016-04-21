@@ -48,9 +48,9 @@ TileBonus::operator char() const
   return (used_) ? ' ' : character_;
 }
 
-void TileBonus::setUsed(bool used)
+void TileBonus::reset()
 {
-  used_ = used;
+  used_ = false;
 }
 
 
