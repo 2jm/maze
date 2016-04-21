@@ -68,7 +68,9 @@ Message::Code Game::loadFile(const std::string file_name)
     map_ = &play_map_;
     player_ = &play_player_;
     game_state_ = previous_game_state;
-    return return_code;
+
+    return (return_code == Message::WRONG_PARAMETER) ?
+                                      Message::INVALID_FILE : return_code;
   }
 
   game_state_ = State::LOADING;
@@ -294,6 +296,10 @@ int Game::loadAvailableSteps(std::ifstream &input_file)
   {
     int available_steps;
     available_steps = Convert::toUnsignedInt(available_steps_string);
+
+    if(available_steps == 0)
+      return -1;
+
     return available_steps;
   }
   catch(const std::exception &e)
@@ -339,8 +345,10 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
     std::vector<std::string> fast_move_params;
     fast_move_params.push_back(saved_moves);
 
-    if(fastMove.execute(*this, fast_move_params) != Message::SUCCESS)
-      return Message::print(Message::INVALID_PATH);
+    Message::Code return_code;
+
+    if((return_code = fastMove.execute(*this, fast_move_params)) != Message::SUCCESS)
+      return return_code;
   }
 
   return Message::SUCCESS;
