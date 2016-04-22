@@ -29,6 +29,8 @@ ArgumentParser::ArgumentParser(const ArgumentParser &original) :
 
 void ArgumentParser::parse(int argc, char **argv)
 {
+  std::string auto_save_file_name, load_file_name;
+
   if(argc >= 2)
   {
     int argument_index;
@@ -36,13 +38,17 @@ void ArgumentParser::parse(int argc, char **argv)
     {
       if(std::string(argv[argument_index]).compare("-m") == 0)
       {
-        const char *file_name = getArgumentFileName(argc, argv, argument_index);
-        Message::print(game_.loadFile(file_name));
+        if(load_file_name != "")
+          throw InvalidCommandLineArgumentException();
+
+        load_file_name = getArgumentFileName(argc, argv, argument_index);
       }
       else if(std::string(argv[argument_index]).compare("-s") == 0)
       {
-        const char *file_name = getArgumentFileName(argc, argv, argument_index);
-        game_.setAutoSave(file_name);
+        if(auto_save_file_name != "")
+          throw InvalidCommandLineArgumentException();
+
+        auto_save_file_name = getArgumentFileName(argc, argv, argument_index);
       }
       else
       {
@@ -50,6 +56,12 @@ void ArgumentParser::parse(int argc, char **argv)
       }
     }
   }
+
+  if(auto_save_file_name != "")
+    game_.setAutoSave(auto_save_file_name);
+
+  if(load_file_name != "")
+    Message::print(game_.loadFile(load_file_name));
 }
 
 const char *ArgumentParser::getArgumentFileName(int argc, char **argv,
