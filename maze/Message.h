@@ -12,14 +12,18 @@
 #ifndef MAZE_ALL_MESSAGE_H
 #define MAZE_ALL_MESSAGE_H
 
-#include "Message.h"
-
+//------------------------------------------------------------------------------
+// Message namespace
+//
+// This namespace holds all messages the program can print and a enum Code to
+// address these messages.
+//
 namespace Message
 {
   enum Code
   {
-    SUCCESS = 0,
-    OUT_OF_MEMORY = 1,    // These numbers are important
+    SUCCESS = 0,          // These three numbers are important because they are
+    OUT_OF_MEMORY = 1,    // also the return codes of the program
     WRONG_USAGE = 2,
     FILE_COULD_NOT_BE_OPENED,
     INVALID_FILE,
@@ -37,9 +41,21 @@ namespace Message
     MOVED_STEPS
   };
 
-  Code print(Code result_code);
+  //----------------------------------------------------------------------------
+  // Prints the message with the code message_code.
+  //
+  // @param message_code The code of the message
+  //
+  // @return returns the message_code to enable the code to bubble up
+  //
+  Code print(Code message_code);
 
-  const char *get(Code result_code);
+  //----------------------------------------------------------------------------
+  // Returns the message with the code message_code.
+  //
+  // @return The message
+  //
+  const char *get(Code message_code);
 };
 
 
