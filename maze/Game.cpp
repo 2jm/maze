@@ -140,11 +140,10 @@ Message::Code Game::movePlayer(const Direction direction)
 
     move_history_.push_back(direction);
     autoSave();
+    show();
 
     if(game_state_ == State::WON)
       Message::print(Message::WON);
-    else
-      show();
 
     return Message::SUCCESS;
   }
