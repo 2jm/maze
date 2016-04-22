@@ -29,9 +29,9 @@ class Vector2d
 
     Vector2d();
     Vector2d(int x, int y);
-
     Vector2d(Direction direction);
     Vector2d(char sign);
+    Vector2d(const Vector2d &original);
 
     int getX() const;
     int getY() const;

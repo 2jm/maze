@@ -19,7 +19,9 @@ const Vector2d Vector2d::LEFT(Vector2d(-1, 0));
 const Vector2d Vector2d::OTHER(Vector2d(0, 0));
 
 
-Vector2d::Vector2d()
+Vector2d::Vector2d() :
+        x_(0),
+        y_(0)
 {
 
 }
@@ -29,33 +31,6 @@ Vector2d::Vector2d(int x, int y) :
         y_(y)
 {
 
-}
-
-
-int Vector2d::getX() const
-{
-  return x_;
-}
-int Vector2d::getY() const
-{
-  return y_;
-}
-int Vector2d::x() const
-{
-  return getX();
-}
-int Vector2d::y() const
-{
-  return getY();
-}
-
-void Vector2d::setX(int x)
-{
-  x_ = x;
-}
-void Vector2d::setY(int y)
-{
-  y_ = y;
 }
 
 Vector2d::Vector2d(Direction direction)
@@ -108,27 +83,74 @@ Vector2d::Vector2d(char sign)
   }
 }
 
+Vector2d::Vector2d(const Vector2d &original) :
+        x_(original.x_),
+        y_(original.y_)
+{
+
+}
+
+
+int Vector2d::getX() const
+{
+  return x_;
+}
+
+
+int Vector2d::getY() const
+{
+  return y_;
+}
+
+
+int Vector2d::x() const
+{
+  return getX();
+}
+
+
+int Vector2d::y() const
+{
+  return getY();
+}
+
+
+void Vector2d::setX(int x)
+{
+  x_ = x;
+}
+
+
+void Vector2d::setY(int y)
+{
+  y_ = y;
+}
+
 
 bool Vector2d::operator==(const Vector2d &other) const
 {
   return x_ == other.x_ && y_ == other.y_;
 }
 
+
 Vector2d Vector2d::operator+(const Vector2d &other)
 {
   return Vector2d(other.x_ + x_, other.y_ + y_);
 }
+
 
 Vector2d Vector2d::operator-(const Vector2d &other)
 {
   return Vector2d(other.x_ - x_, other.y_ - y_);
 }
 
+
 void Vector2d::operator+=(const Vector2d &other)
 {
   x_ += other.x_;
   y_ += other.y_;
 }
+
 
 Vector2d::operator Direction() const
 {
@@ -143,6 +165,7 @@ Vector2d::operator Direction() const
   else
     return Direction::OTHER;
 }
+
 
 
 
