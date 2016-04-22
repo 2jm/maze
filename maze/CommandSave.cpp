@@ -24,9 +24,6 @@ CommandSave::~CommandSave()
 
 Message::Code CommandSave::execute(Game &board, std::vector<std::string> &params)
 {
-  if(board.getState() == Game::NO_MAZE_LOADED)
-    return Message::NO_MAZE_LOADED;
-
   return board.saveFile(params[0]);
 }
 

@@ -16,7 +16,11 @@
 
 namespace FileHandler
 {
-  bool isValidFileName(std::string filename);
+  bool isValidFileName(const std::string filename);
+
+  Message::Code getInputFile(const std::string file_name, std::ifstream &file);
+
+  Message::Code getOutputFile(const std::string file_name, std::ofstream &file);
 };
 
 

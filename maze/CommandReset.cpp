@@ -27,10 +27,5 @@ Message::Code CommandReset::execute(Game &board, std::vector<std::string> &param
   if(params.size() != 0)
     return Message::WRONG_PARAMETER_COUNT;
 
-  if(board.getState() == Game::NO_MAZE_LOADED)
-    return Message::NO_MAZE_LOADED;
-
-  board.fullReset();
-
-  return Message::SUCCESS;
+  return board.fullReset();
 }

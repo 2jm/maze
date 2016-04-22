@@ -9,7 +9,9 @@
 //------------------------------------------------------------------------------
 //
 
+#include <fstream>
 #include "FileHandler.h"
+#include "Message.h"
 
 namespace FileHandler
 {
@@ -26,6 +28,32 @@ namespace FileHandler
       }
     }
     return true;
+  }
+
+  Message::Code getInputFile(const std::string file_name, std::ifstream &file)
+  {
+    if(!FileHandler::isValidFileName(file_name))
+      return Message::WRONG_PARAMETER;
+
+    file.open(file_name, std::ifstream::binary);
+
+    if(file.fail())
+      return Message::FILE_COULD_NOT_BE_OPENED;
+
+    return Message::SUCCESS;
+  }
+
+  Message::Code getOutputFile(const std::string file_name, std::ofstream &file)
+  {
+    if(!FileHandler::isValidFileName(file_name))
+      return Message::WRONG_PARAMETER;
+
+    file.open(file_name, std::ifstream::binary | std::ofstream::trunc);
+
+    if(file.fail())
+      return Message::FILE_COULD_NOT_BE_WRITTEN;
+
+    return Message::SUCCESS;
   }
 
 }

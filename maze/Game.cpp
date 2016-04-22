@@ -21,7 +21,7 @@ Game::Game() : map_(&play_map_),
                play_player_(play_map_),
                load_test_player_(load_test_map_),
                player_(&play_player_),
-               game_state_(NO_MAZE_LOADED),
+               game_state_(State::NO_MAZE_LOADED),
                fast_moving_(false)
 {
 
@@ -34,13 +34,10 @@ Message::Code Game::loadFile(const std::string file_name)
   int steps_left;
   std::string map_string;
 
-  if(!FileHandler::isValidFileName(file_name))
-    return Message::WRONG_PARAMETER;
-
-  std::ifstream input_file(file_name, std::ifstream::binary);
-
-  if(input_file.fail())
-    return Message::FILE_COULD_NOT_BE_OPENED;
+  std::ifstream input_file;
+  if((return_code = FileHandler::getInputFile(file_name, input_file))
+      != Message::SUCCESS)
+    return return_code;
 
   std::getline(input_file, saved_moves);
 
@@ -50,50 +47,31 @@ Message::Code Game::loadFile(const std::string file_name)
   if((map_string = loadMapString(input_file)) == "")
     return Message::INVALID_FILE;
 
-  remaining_steps_ = &load_test_remaining_steps_;
+  switchState(State::TESTING_MAP);
   *remaining_steps_ = steps_left;
-  map_ = &load_test_map_;
-
-  State previous_game_state = game_state_;
-
-  game_state_ = State::TESTING_MAP;
 
   if(!map_->loadFromString(map_string, *this))
   {
-    map_ = &play_map_;
-    game_state_ = previous_game_state;
+    switchState(State::PREVIOUS);
     return Message::INVALID_FILE;
   }
 
-  player_ = &load_test_player_;
-
   if((return_code = doInitialFastMove(saved_moves)) != Message::SUCCESS)
   {
-    map_ = &play_map_;
-    player_ = &play_player_;
-    game_state_ = previous_game_state;
-
-    if(return_code == Message::WRONG_PARAMETER)
-      return_code = Message::INVALID_FILE;
-
-    if(return_code == Message::INVALID_MOVE)
-      return_code = Message::INVALID_PATH;
-
+    switchState(State::PREVIOUS);
     return return_code;
   }
 
-  game_state_ = State::LOADING;
-
-  remaining_steps_ = &play_remaining_steps_;
-  map_ = &play_map_;
-  player_ = &play_player_;
+  switchState(State::LOADING);
 
   *remaining_steps_ = steps_left;
   available_steps_ = steps_left;
+
+  // we already know that the file is valid
   map_->loadFromString(map_string, *this);
   doInitialFastMove(saved_moves);
 
-  game_state_ = State::PLAYING;
+  switchState(State::PLAYING);
 
   autoSave();
   show();
@@ -104,14 +82,15 @@ Message::Code Game::loadFile(const std::string file_name)
 
 Message::Code Game::saveFile(const std::string file_name)
 {
-  if(!FileHandler::isValidFileName(file_name))
-    return Message::WRONG_PARAMETER;
+  if(game_state_ == State::NO_MAZE_LOADED)
+    return Message::NO_MAZE_LOADED;
 
-  std::ofstream
-          output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
+  Message::Code return_code;
 
-  if(output_file.fail())
-    return Message::FILE_COULD_NOT_BE_WRITTEN;
+  std::ofstream output_file;
+  if((return_code = FileHandler::getOutputFile(file_name, output_file))
+     != Message::SUCCESS)
+    return return_code;
 
   for(auto move : move_history_)
     output_file << static_cast<char>(move);
@@ -128,16 +107,16 @@ Message::Code Game::saveFile(const std::string file_name)
 Message::Code Game::movePlayer(const Direction direction)
 {
   // TODO reihenfolge der fehler
-  if(game_state_ == WON)
+  if(game_state_ == State::WON)
     return Message::INVALID_MOVE;
 
-  if(game_state_ == NO_MORE_STEPS)
+  if(game_state_ == State::NO_MORE_STEPS)
   {
     fullReset();
     return Message::NO_MORE_STEPS;
   }
 
-  if(game_state_ == NO_MAZE_LOADED)
+  if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
 
@@ -156,14 +135,14 @@ Message::Code Game::movePlayer(const Direction direction)
     // decrement 1 step for a single move
     (*remaining_steps_)--;
 
-    if(game_state_ != WON && *remaining_steps_ <= 0) // remaining_steps_ could be -1, if Quicksand has already set the step left counter to 0
+    if(game_state_ != State::WON && *remaining_steps_ <= 0) // remaining_steps_ could be -1, if Quicksand has already set the step left counter to 0
       lostGame();
 
     move_history_.push_back(direction);
     autoSave();
     show();
 
-    if(game_state_ == WON)
+    if(game_state_ == State::WON)
       Message::print(Message::WON);
 
     return Message::SUCCESS;
@@ -175,7 +154,7 @@ Message::Code Game::movePlayer(const Direction direction)
 
 bool Game::startFastMove()
 {
-  if(game_state_ == NO_MAZE_LOADED)
+  if(game_state_ == State::NO_MAZE_LOADED)
     return false;
 
   fast_moving_ = true;
@@ -189,13 +168,13 @@ void Game::completeFastMove()
 {
   fast_moving_ = false;
 
-  if(game_state_ != TESTING_MAP)
+  if(game_state_ != State::TESTING_MAP)
   {
     for(auto move : fast_move_move_history_)
       move_history_.push_back(move);
   }
 
-  if(game_state_ != LOADING && game_state_ != TESTING_MAP)
+  if(game_state_ != State::LOADING && game_state_ != State::TESTING_MAP)
   {
     autoSave();
     show();
@@ -227,24 +206,32 @@ void Game::reset()
   player_->setPosition(map_->getStartTile()->getPosition());
 }
 
-void Game::fullReset()
+Message::Code Game::fullReset()
 {
+  if(game_state_ == State::NO_MAZE_LOADED)
+    return Message::NO_MAZE_LOADED;
+
   reset();
   move_history_.clear();
   autoSave();
-  game_state_ = PLAYING;
+  switchState(State::PLAYING);
+
+  return Message::SUCCESS;
 }
 
 void Game::setAutoSave(const std::string file_name)
 {
   auto_save_filename_ = file_name;
 
-  if(game_state_ == PLAYING)
+  if(game_state_ == State::PLAYING)
     autoSave();
 }
 
-void Game::show(const bool show_more)
+Message::Code Game::show(const bool show_more)
 {
+  if(game_state_ == State::NO_MAZE_LOADED)
+    return Message::NO_MAZE_LOADED;
+
   if(show_more)
   {
     // TODO make constants for strings
@@ -258,6 +245,8 @@ void Game::show(const bool show_more)
   }
 
   std::cout << map_->toStringWithPlayer(player_->getPosition());
+
+  return Message::SUCCESS;
 }
 
 
@@ -270,12 +259,13 @@ Game::State Game::getState() const
 void Game::wonGame()
 {
   if(!fast_moving_)
-    game_state_ = WON;
+    switchState(State::WON);
 }
 
 void Game::lostGame()
 {
-  game_state_ = NO_MORE_STEPS;
+  switchState(State::NO_MORE_STEPS);
+
 }
 
 int Game::getStepsLeft() const
@@ -361,10 +351,20 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
 
     Message::Code return_code;
 
-    if((return_code = fastMove.execute(*this, fast_move_params)) != Message::SUCCESS)
-      return return_code;
-  }
+    if((return_code = fastMove.execute(*this, fast_move_params))
+       != Message::SUCCESS)
+    {
+      if(game_state_ == State::TESTING_MAP)
+      {
+        if(return_code == Message::WRONG_PARAMETER)
+          return_code = Message::INVALID_FILE;
 
+        if(return_code == Message::INVALID_MOVE)
+          return_code = Message::INVALID_PATH;
+      }
+      return return_code;
+    }
+  }
   return Message::SUCCESS;
 }
 
@@ -373,6 +373,50 @@ void Game::autoSave()
   if(auto_save_filename_ != "")
     Message::print(saveFile(auto_save_filename_));
 }
+
+void Game::switchState(State new_state)
+{
+  if(new_state != State::PREVIOUS)
+    previous_game_state_ = game_state_;
+
+  switch(new_state)
+  {
+    case State::NO_MAZE_LOADED:
+      break;
+
+    case State::TESTING_MAP:
+      map_ = &load_test_map_;
+      player_ = &load_test_player_;
+      remaining_steps_ = &load_test_remaining_steps_;
+      game_state_ = State::TESTING_MAP;
+      break;
+
+    case State::LOADING:
+      remaining_steps_ = &play_remaining_steps_;
+      map_ = &play_map_;
+      player_ = &play_player_;
+      game_state_ = State::LOADING;
+      break;
+
+    case State::PLAYING:
+      game_state_ = State::PLAYING;
+      break;
+
+    case State::WON:
+      game_state_ = State::WON;
+      break;
+
+    case State::NO_MORE_STEPS:
+      game_state_ = State::NO_MORE_STEPS;
+      break;
+
+    case State::PREVIOUS:
+      switchState(previous_game_state_);
+      break;
+  }
+}
+
+
 
 
 

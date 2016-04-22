@@ -30,10 +30,5 @@ Message::Code CommandShow::execute(Game &board, std::vector<std::string> &params
   if(params.size() == 1 && params[0] != "more")
     return Message::WRONG_PARAMETER;
 
-  if(board.getState() == Game::NO_MAZE_LOADED)
-    return Message::NO_MAZE_LOADED;
-
-  board.show(params.size() == 1);
-
-  return Message::SUCCESS;
+  return board.show(params.size() == 1);
 }

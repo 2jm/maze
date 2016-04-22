@@ -29,8 +29,8 @@ class Game
     //--------------------------------------------------------------------------
     // State enum
     //
-    // The game works a little bit like a state machine. When the game ist
-    // started the state is NO_MAZE_LOADED.
+    // The game works like a state machine. When the game is started the state
+    // is NO_MAZE_LOADED.
     // When the user loads a map the first thing Game does is testing the map
     // if it is valid. While doing this it is in the sate TESTING_MAP.
     // When the file is valid it loads the map to be playable while in state
@@ -41,14 +41,18 @@ class Game
     // The reset command brings the game back to the state PLAYING.
     // Loading a new file brings the game to state TESTING_MAP.
     //
-    enum State
+    // PREVIOUS it no state it is used to switch to the previous state.
+    //
+    enum class State
     {
       NO_MAZE_LOADED,
       TESTING_MAP,
       LOADING,
       PLAYING,
       WON,
-      NO_MORE_STEPS
+      NO_MORE_STEPS,
+
+      PREVIOUS
     };
 
   private:
@@ -69,8 +73,9 @@ class Game
 
     int available_steps_;
 
-    // See State enum
-    State game_state_;
+    // In previous_game_state_ is the previous game state saved. It is used by
+    // switchState(PREVIOUS)
+    State game_state_, previous_game_state_;
 
     // If auto_save_filename_ is empty no auto save is made, if it is not empty
     // the game is auto saved to the file.
@@ -111,6 +116,11 @@ class Game
     // This method is called after a successful load, move or reset.
     //
     void autoSave();
+
+    //--------------------------------------------------------------------------
+    // Switches the state of game.
+    //
+    void switchState(State new_state);
 
   public:
     Game();
@@ -187,7 +197,7 @@ class Game
     //--------------------------------------------------------------------------
     // Resets the Map to start status and clears the move_history
     //
-    void fullReset();
+    Message::Code fullReset();
 
     //--------------------------------------------------------------------------
     // Prints the complete map with the actual player position
@@ -195,7 +205,7 @@ class Game
     // @param show_more set to false that no additional information is printed
     //                  out
     //
-    void show(const bool show_more = false);
+    Message::Code show(const bool show_more = false);
 
     //--------------------------------------------------------------------------
     // Returns the game state
