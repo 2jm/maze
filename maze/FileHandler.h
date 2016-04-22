@@ -13,6 +13,7 @@
 #define MAZE_ALL_FILEHANDLER_H
 
 #include <string>
+#include "Message.h"
 
 namespace FileHandler
 {
