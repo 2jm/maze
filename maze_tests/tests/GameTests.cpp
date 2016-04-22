@@ -5,13 +5,13 @@
 #include <Game.h>
 #include "gtest/gtest.h"
 
-#define TEST_FILES_PATH "../maze_tests/tests/test_files/"
+#define TEST_FILES_PATH "../tests/testFiles/"
 
 
 TEST(GameTest, test_no_file)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"not_existing_file"), Message::FILE_COULD_NOT_BE_OPENED);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"notExistingFile"), Message::FILE_COULD_NOT_BE_OPENED);
 }
 
 TEST(GameTest, test_empty)
@@ -29,73 +29,73 @@ TEST(GameTest, test_valid_1)
 TEST(GameTest, test_valid_2)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"valid_with_moves.txt"), Message::SUCCESS);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"validWithMoves.txt"), Message::SUCCESS);
 }
 
 TEST(GameTest, test_no_available_steps)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"no_available_steps.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"noAvailableSteps.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_invalid_available_steps_1)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_available_steps_1.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidAvailableSteps1.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_invalid_available_steps_2)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_available_steps_2.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidAvailableSteps2.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_no_map)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"no_map.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"noMap.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_invalid_map)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_map.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidMap.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_invalid_moves)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_moves.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidMoves.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_invalid_two_starts)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_two_starts.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidTwoStarts.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_invalid_two_ends)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_two_ends.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidTwoEnds.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_impossible_moves)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"impossible_moves.txt"), Message::INVALID_PATH);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"impossibleMoves.txt"), Message::INVALID_PATH);
 }
 
 TEST(GameTest, test_complete_teleporter)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"complete_teleporter.txt"), Message::SUCCESS);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"completeTeleporter.txt"), Message::SUCCESS);
 }
 
 TEST(GameTest, test_incomplete_teleporter)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"incomplete_teleporter.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"incompleteTeleporter.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_game_won)
@@ -124,7 +124,7 @@ TEST(GameTest, test_move_after_game_won)
 TEST(GameTest, test_game_lost)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"valid_inusfficient_steps.txt"), Message::SUCCESS);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"validInusfficientSteps.txt"), Message::SUCCESS);
   game.movePlayer(Direction::RIGHT);
   ASSERT_EQ(game.getState(), Game::NO_MORE_STEPS);
   game.movePlayer(Direction::RIGHT);
@@ -135,7 +135,7 @@ TEST(GameTest, test_game_lost)
 TEST(GameTest, test_game_reload_valid_file)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"valid_with_moves.txt"), Message::SUCCESS);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"validWithMoves.txt"), Message::SUCCESS);
   ASSERT_EQ(game.getState(), Game::PLAYING);
   ASSERT_EQ(2, game.getPlayer().getPosition().x());
   ASSERT_EQ(1, game.getPlayer().getPosition().y());
@@ -150,12 +150,12 @@ TEST(GameTest, test_game_reload_valid_file)
 TEST(GameTest, test_game_reload_invalid_file)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"valid_with_moves.txt"), Message::SUCCESS);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"validWithMoves.txt"), Message::SUCCESS);
   ASSERT_EQ(game.getState(), Game::PLAYING);
   ASSERT_EQ(2, game.getPlayer().getPosition().x());
   ASSERT_EQ(1, game.getPlayer().getPosition().y());
 
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_map.txt"), Message::INVALID_FILE);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidMap.txt"), Message::INVALID_FILE);
   ASSERT_EQ(game.getState(), Game::PLAYING);
   ASSERT_EQ(2, game.getPlayer().getPosition().x());
   ASSERT_EQ(1, game.getPlayer().getPosition().y());
@@ -165,7 +165,7 @@ TEST(GameTest, test_game_reload_invalid_file)
 TEST(GameTest, test_valid_two_teleporters_valid_move)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"valid_two_teleporters_valid_move.txt"), Message::SUCCESS);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"validTwoTeleportersValidMove.txt"), Message::SUCCESS);
   ASSERT_EQ(Message::SUCCESS, game.movePlayer(Direction::RIGHT));
   ASSERT_EQ(Message::SUCCESS, game.movePlayer(Direction::LEFT));
   ASSERT_EQ(Message::INVALID_MOVE, game.movePlayer(Direction::UP));

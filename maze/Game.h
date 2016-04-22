@@ -20,13 +20,27 @@
 //------------------------------------------------------------------------------
 // Game class
 //
-//
-//
-//
+// This class holds the complete game with it's map and the player. It loads the
+// files, counts the steps and lets the user win or loose.
 //
 class Game
 {
   public:
+    //--------------------------------------------------------------------------
+    // State enum
+    //
+    // The game works a little bit like a state machine. When the game ist
+    // started the state is NO_MAZE_LOADED.
+    // When the user loads a map the first thing Game does is testing the map
+    // if it is valid. While doing this it is in the sate TESTING_MAP.
+    // When the file is valid it loads the map to be playable while in state
+    // LOADING.
+    // After the map is loaded the state is PLAYING till such time as the user
+    // wins the game -> state WON or no more steps are available -> state
+    // NO_MORE_STEPS
+    // The reset command brings the game back to the state PLAYING.
+    // Loading a new file brings the game to state TESTING_MAP.
+    //
     enum State
     {
       NO_MAZE_LOADED,
@@ -38,16 +52,38 @@ class Game
     };
 
   private:
+    //--------------------------------------------------------------------------
+    // For map, player and steps left (now *) exists a object play_* and
+    // load_test_* and a pointer *, for the following reason:
+    // While the game is loading a file it first tests it if it is valid.
+    // During the TESTING_MAP state the pointers * point to the load_test_*
+    // objects and so all operations are performed on these.
+    // When the file testing is finished and the file is valid, the pointers *
+    // are changed to point to the play_* objects.
+    // Now the load operations are performed on these and when they are finished
+    // the user plays with the play_* objects.
+    //
     Map play_map_, load_test_map_, *map_;
     Player play_player_, load_test_player_, *player_;
-    int play_steps_left_, load_test_steps_left_, *steps_left_,
-            initial_steps_left_;
+    int play_remaining_steps_, load_test_remaining_steps_, *remaining_steps_;
+
+    int available_steps_;
+
+    // See State enum
     State game_state_;
+
+    // If auto_save_filename_ is empty no auto save is made, if it is not empty
+    // the game is auto saved to the file.
     std::string auto_save_filename_;
+
+    // The move_history_ contains all valid steps the user made.
+    // The fast_move_move_history_ contains all steps of a single fast move.
     std::vector<Direction> move_history_, fast_move_move_history_;
+
+    // If fast_moving_ is true no implicit show or auto save is executed after a
+    // valid move.
     bool fast_moving_;
 
-    //TODO check methodnames AvailableSteps vs leftSteps
     //--------------------------------------------------------------------------
     // Loads number of available steps out of a file
     //
@@ -61,8 +97,19 @@ class Game
     // @param input_file string of the input file
     //
     std::string loadMapString(std::ifstream &input_file);
+
+    //--------------------------------------------------------------------------
+    // Run the fastmove command with the saved moves in a file, while the file
+    // is loading.
+    //
+    // @param saved_moves The moves saved in the file.
+    //
     Message::Code doInitialFastMove(std::string &saved_moves);
 
+    //--------------------------------------------------------------------------
+    // Checks if auto_save_filename_ is empty and saves the file if it's not.
+    // This method is called after a successful load, move or reset.
+    //
     void autoSave();
 
   public:
