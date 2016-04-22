@@ -32,7 +32,9 @@ namespace Message
     WRONG_PARAMETER,
     NO_MAZE_LOADED,
     BYE,
-    WON
+    WON,
+    REMAINING_STEPS,
+    MOVED_STEPS
   };
 
   Code print(Code result_code);

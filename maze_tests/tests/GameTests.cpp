@@ -65,7 +65,7 @@ TEST(GameTest, test_invalid_map)
 TEST(GameTest, test_invalid_moves)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_moves.txt"), Message::INVALID_PATH);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalid_moves.txt"), Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_invalid_two_starts)

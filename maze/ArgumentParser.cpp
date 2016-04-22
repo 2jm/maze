@@ -29,6 +29,9 @@ ArgumentParser::ArgumentParser(const ArgumentParser &original) :
 
 void ArgumentParser::parse(int argc, char **argv)
 {
+  // It is important that the auto save is set before the load is executed.
+  // To achieve this the file names for load and save are saved and then
+  // executed in the correct order
   std::string auto_save_file_name, load_file_name;
 
   if(argc >= 2)
@@ -70,10 +73,6 @@ const char *ArgumentParser::getArgumentFileName(int argc, char **argv,
   if(argc >= argument_index + 2)
   {
     argument_index++;
-
-    if(!FileHandler::isValidFileName(argv[argument_index]))
-      throw InvalidCommandLineArgumentException();
-
     return argv[argument_index];
   }
   else

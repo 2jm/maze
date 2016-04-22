@@ -29,7 +29,9 @@ namespace Message
           "[ERR] Wrong parameter.\n",
           "[ERR] No maze loaded.\n",
           "Bye!\n",
-          "Congratulation! You solved the maze.\n"
+          "Congratulation! You solved the maze.\n",
+          "Remaining Steps: ",
+          "Moved Steps: "
   };
 
   Code print(Code code)

@@ -15,13 +15,12 @@ namespace FileHandler
 {
   bool isValidFileName(std::string filename)
   {
-    unsigned int loop_counter;
-    for(loop_counter = 0; loop_counter < filename.length() ; ++loop_counter)
+    for(auto character : filename)
     {
-      if (!((filename[loop_counter] >= 'A'  && filename[loop_counter] <= 'Z') ||
-            (filename[loop_counter] >= 'a'  && filename[loop_counter] <= 'z') ||
-            (filename[loop_counter] >= '0'  && filename[loop_counter] <= '9') ||
-             filename[loop_counter] == '.' || filename[loop_counter] == '/'))
+      if (!((character >= 'A'  && character <= 'Z') ||
+            (character >= 'a'  && character <= 'z') ||
+            (character >= '0'  && character <= '9') ||
+            character == '.' || character == '/'))
       {
         return false;
       }

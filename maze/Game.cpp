@@ -14,6 +14,7 @@
 #include "Game.h"
 #include "CommandFastMove.h"
 #include "Convert.h"
+#include "FileHandler.h"
 
 
 Game::Game() : map_(&play_map_),
@@ -32,6 +33,9 @@ Message::Code Game::loadFile(const std::string file_name)
   Message::Code return_code;
   int steps_left;
   std::string map_string;
+
+  if(!FileHandler::isValidFileName(file_name))
+    return Message::WRONG_PARAMETER;
 
   std::ifstream input_file(file_name, std::ifstream::binary);
 
@@ -69,8 +73,13 @@ Message::Code Game::loadFile(const std::string file_name)
     player_ = &play_player_;
     game_state_ = previous_game_state;
 
-    return (return_code == Message::WRONG_PARAMETER) ?
-                                      Message::INVALID_FILE : return_code;
+    if(return_code == Message::WRONG_PARAMETER)
+      return_code = Message::INVALID_FILE;
+
+    if(return_code == Message::INVALID_MOVE)
+      return_code = Message::INVALID_PATH;
+
+    return return_code;
   }
 
   game_state_ = State::LOADING;
@@ -95,6 +104,9 @@ Message::Code Game::loadFile(const std::string file_name)
 
 Message::Code Game::saveFile(const std::string file_name)
 {
+  if(!FileHandler::isValidFileName(file_name))
+    return Message::WRONG_PARAMETER;
+
   std::ofstream
           output_file(file_name, std::ifstream::binary | std::ofstream::trunc);
 
@@ -236,13 +248,15 @@ void Game::show(const bool show_more)
   if(show_more)
   {
     // TODO make constants for strings
-    std::cout << "Remaining Steps: " << *steps_left_ << '\n';
-    std::cout << "Moved Steps: ";
+    Message::print(Message::REMAINING_STEPS);
+    std::cout << *steps_left_ << '\n';
+
+    Message::print(Message::MOVED_STEPS);
     for(auto move : move_history_)
       std::cout << static_cast<char>(move);
     std::cout << '\n';
   }
-  //std::cout << player_.getPosition().x() << " " << player_.getPosition().y() << std::endl;
+
   std::cout << map_->toStringWithPlayer(player_->getPosition());
 }
 
