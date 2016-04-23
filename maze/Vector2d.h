@@ -12,6 +12,7 @@
 #ifndef MAZE_VECTOR2D_H
 #define MAZE_VECTOR2D_H
 
+
 #include "Direction.h"
 
 class Vector2d

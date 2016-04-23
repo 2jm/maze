@@ -12,20 +12,19 @@
 #ifndef MAZE_TILE_H
 #define MAZE_TILE_H
 
+
 #include "Vector2d.h"
 
-//enum class TileType : char
-//{
-//    Wall = '',
+// Possible tile types:
+//    Wall = '#',
 //    Path = ' ',
-//    Start = 'o',<
+//    Start = 'o',
 //    Finish = 'x',
 //    Ice = '+',
 //    Teleport = 'A-Z',
 //    OneWay = '><^v',
 //    Bonus = 'a-e',
 //    Quicksand ='f-j'
-//};
 
 class Tile
 {
@@ -44,12 +43,18 @@ class Tile
 
     Tile(Vector2d position, char character);
 
-    // return value tells, if on the new tile enter should be called again
-    // (needed for the ice tile, if the player should move from tile to tile
-    // without having a chance to interact (move) again
+    //--------------------------------------------------------------------------
+    // Called when the player enters a tile
+    // @param source_position The initial player position
+    // @return EnterResult Tells if it was a valid/invalid move or if the
+    // player should move again (call enter on the new tile again, needed for
+    // the ice tile)
     virtual EnterResult enter(Vector2d &source_position) = 0;
 
-    // return value tells, if the player is allowed to move away from this tile
+    //--------------------------------------------------------------------------
+    // Called when the player leaves a tile
+    // @param move_direction The current moving direction of the player
+    // @return bool Tells if the player is allowed to move away from this tile
     virtual bool leave(const Direction move_direction) const;
 
     virtual void reset();

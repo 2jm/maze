@@ -30,7 +30,7 @@ class CommandFastMove : public Command
     //--------------------------------------------------------------------------
     // Executes the command.
     // @param board The board where action should be performed on
-    // @param params Possible parameters neede for the execution
+    // @param params Possible parameters needed for the execution
     // @return Integer representing the success of the action
     Message::Code execute(Game &board, std::vector<std::string> &params);
 };
