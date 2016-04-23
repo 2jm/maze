@@ -35,9 +35,9 @@ class Map : public Matrix<std::shared_ptr<Tile>>
 
     bool loadFromString(std::string map_string, Game &game);
 
-    operator std::string() const;
+    std::string toString(bool orignal = true) const;
 
-    std::string toStringWithPlayer(Vector2d player_position);
+    std::string toStringWithPlayer(Vector2d player_position) const;
 
     void clear();
 

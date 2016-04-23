@@ -71,10 +71,14 @@ Message::Code Game::loadFile(const std::string file_name)
   map_->loadFromString(map_string, *this);
   doInitialFastMove(saved_moves);
 
-  switchState(State::PLAYING);
+  if(game_state_ != State::WON)
+    switchState(State::PLAYING);
 
   autoSave();
   show();
+
+  if(game_state_ == State::WON)
+    Message::print(Message::WON);
 
   return Message::SUCCESS;
 }
@@ -98,7 +102,7 @@ Message::Code Game::saveFile(const std::string file_name)
 
   output_file << available_steps_ << '\n';
 
-  output_file << static_cast<std::string>(play_map_);
+  output_file << play_map_.toString(true);
 
   return Message::SUCCESS;
 }
@@ -106,7 +110,6 @@ Message::Code Game::saveFile(const std::string file_name)
 
 Message::Code Game::movePlayer(const Direction direction)
 {
-  // TODO reihenfolge der fehler
   if(game_state_ == State::WON)
     return Message::INVALID_MOVE;
 
@@ -135,7 +138,7 @@ Message::Code Game::movePlayer(const Direction direction)
     // decrement 1 step for a single move
     (*remaining_steps_)--;
 
-    if(game_state_ != State::WON && *remaining_steps_ <= 0) // remaining_steps_ could be -1, if Quicksand has already set the step left counter to 0
+    if(game_state_ != State::WON && *remaining_steps_ <= 0)
       lostGame();
 
     move_history_.push_back(direction);
@@ -181,7 +184,7 @@ void Game::completeFastMove()
   }
 
   if(player_->getPosition() == map_->getEndTile()->getPosition())
-    Message::print(Message::WON);
+    wonGame();
 
   else if(*remaining_steps_ <= 0)
     lostGame();
@@ -234,7 +237,6 @@ Message::Code Game::show(const bool show_more)
 
   if(show_more)
   {
-    // TODO make constants for strings
     Message::print(Message::REMAINING_STEPS);
     std::cout << *remaining_steps_ << '\n';
 
@@ -258,7 +260,7 @@ Game::State Game::getState() const
 
 void Game::wonGame()
 {
-  if(!fast_moving_)
+  if(!fast_moving_ && game_state_ != State::TESTING_MAP)
     switchState(State::WON);
 }
 
@@ -287,7 +289,6 @@ Player& Game::getPlayer() const
 }
 
 
-//TODO check methodnames AvailableSteps vs leftSteps
 int Game::loadAvailableSteps(std::ifstream &input_file)
 {
   std::string available_steps_string;
@@ -396,6 +397,7 @@ void Game::switchState(State new_state)
       map_ = &play_map_;
       player_ = &play_player_;
       game_state_ = State::LOADING;
+      move_history_.clear();
       break;
 
     case State::PLAYING:

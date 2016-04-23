@@ -43,7 +43,7 @@ int main()
 
   output_file << 5 << '\n';
 
-  output_file << static_cast<std::string>(map);
+  output_file << map.toString();
 
   return 0;
 }

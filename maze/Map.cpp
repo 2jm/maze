@@ -169,7 +169,7 @@ bool Map::check()
   return true;
 }
 
-Map::operator std::string() const
+std::string Map::toString(bool original) const
 {
   std::string matrix_string;
 
@@ -178,7 +178,7 @@ Map::operator std::string() const
   for(row_number = 0; row_number < size_.y(); row_number++)
   {
     for(column_number = 0; column_number < size_.x(); column_number++)
-      matrix_string += static_cast<char>(*(columns_[column_number][row_number]));
+      matrix_string += columns_[column_number][row_number]->toChar(original);
 
     matrix_string += '\n';
   }
@@ -186,7 +186,7 @@ Map::operator std::string() const
   return matrix_string;
 }
 
-std::string Map::toStringWithPlayer(Vector2d player_position)
+std::string Map::toStringWithPlayer(Vector2d player_position) const
 {
   std::string map_string;
   int row_number, column_number;
@@ -198,7 +198,7 @@ std::string Map::toStringWithPlayer(Vector2d player_position)
       if(player_position == Vector2d(column_number, row_number))
         map_string += '*';
       else
-        map_string += static_cast<char>(*(columns_[column_number][row_number]));
+        map_string += columns_[column_number][row_number]->toChar(false);
     }
     map_string += '\n';
   }

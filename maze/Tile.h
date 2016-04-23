@@ -44,7 +44,9 @@ class Tile
 
     Tile(Vector2d position, char character);
 
-    // return value tells, if on the new tile enter should be called again (needed for the ice tile, if the player should move from tile to tile without having a chance to interact (move) again
+    // return value tells, if on the new tile enter should be called again
+    // (needed for the ice tile, if the player should move from tile to tile
+    // without having a chance to interact (move) again
     virtual EnterResult enter(Vector2d &source_position) = 0;
 
     // return value tells, if the player is allowed to move away from this tile
@@ -53,6 +55,8 @@ class Tile
     virtual void reset();
 
     Vector2d getPosition() const;
+
+    virtual char toChar(bool original = true);
 
     virtual operator char() const;
 };

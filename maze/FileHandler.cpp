@@ -11,7 +11,6 @@
 
 #include <fstream>
 #include "FileHandler.h"
-#include "Message.h"
 
 namespace FileHandler
 {
@@ -19,10 +18,10 @@ namespace FileHandler
   {
     for(auto character : filename)
     {
-      if (!((character >= 'A'  && character <= 'Z') ||
-            (character >= 'a'  && character <= 'z') ||
-            (character >= '0'  && character <= '9') ||
-            character == '.' || character == '/'))
+      if (!((character >= 'A' && character <= 'Z') ||
+            (character >= 'a' && character <= 'z') ||
+            (character >= '0' && character <= '9') ||
+             character == '.' || character == '/'))
       {
         return false;
       }

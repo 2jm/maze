@@ -27,9 +27,9 @@ class TileBonus : public Tile
 
     EnterResult enter(Vector2d &source_position);
 
-    operator char() const;
-
     void reset();
+
+    virtual char toChar(bool original = true);
 };
 
 

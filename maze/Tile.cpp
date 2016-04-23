@@ -27,13 +27,19 @@ Vector2d Tile::getPosition() const
   return position_;
 }
 
+void Tile::reset()
+{
+  // does nothing
+}
+
+char Tile::toChar(bool original)
+{
+  return character_;
+}
+
 Tile::operator char() const
 {
   return character_;
 }
 
-void Tile::reset()
-{
-  // does nothing
-}
 

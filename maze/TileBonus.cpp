@@ -43,15 +43,17 @@ Tile::EnterResult TileBonus::enter(Vector2d &source_position)
   return VALID_MOVE;
 }
 
-TileBonus::operator char() const
-{
-  return (used_) ? ' ' : character_;
-}
-
 void TileBonus::reset()
 {
   used_ = false;
 }
+
+char TileBonus::toChar(bool original)
+{
+  return (!original && used_) ? ' ' : character_;
+}
+
+
 
 
 
