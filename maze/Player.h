@@ -12,6 +12,7 @@
 #ifndef MAZE_PLAYER_H
 #define MAZE_PLAYER_H
 
+
 #include "Vector2d.h"
 #include "Direction.h"
 

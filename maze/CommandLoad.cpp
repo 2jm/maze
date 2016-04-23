@@ -11,7 +11,6 @@
 
 #include "CommandLoad.h"
 #include "Game.h"
-#include "FileHandler.h"
 
 CommandLoad::CommandLoad() : Command("load")
 {
