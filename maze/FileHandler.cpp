@@ -16,6 +16,9 @@ namespace FileHandler
 {
   bool isValidFileName(std::string filename)
   {
+    if(filename.length() > 255)
+      return false;
+
     for(auto character : filename)
     {
       if (!((character >= 'A' && character <= 'Z') ||
