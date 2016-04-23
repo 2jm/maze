@@ -21,16 +21,27 @@ class Map;
 class Player
 {
   private:
+    //--------------------------------------------------------------------------
+    /// Current position of the player
     Vector2d position_;
+    //--------------------------------------------------------------------------
+    /// Reference to the current loaded map
     Map &map_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
     Player(Map &map);
-
+    //--------------------------------------------------------------------------
+    // Moves the player in the given direction
+    // @param direction The current moving direction of the player
+    // @return bool Tells if the move is valid
     bool move(Direction direction);
-
+    //--------------------------------------------------------------------------
+    // Getter Methods
     Vector2d getPosition() const;
-
+    //--------------------------------------------------------------------------
+    // Setter Methods
     void setPosition(Vector2d);
 };
 

@@ -29,7 +29,11 @@
 class Tile
 {
   protected:
+    //--------------------------------------------------------------------------
+    /// Position of this tile
     Vector2d position_;
+    //--------------------------------------------------------------------------
+    /// Character representing this tile on the map
     char character_;
 
   public:
@@ -41,6 +45,8 @@ class Tile
       MOVE_AGAIN
     };
 
+    //--------------------------------------------------------------------------
+    // Constructor
     Tile(Vector2d position, char character);
 
     //--------------------------------------------------------------------------
@@ -59,6 +65,8 @@ class Tile
 
     virtual void reset();
 
+    //--------------------------------------------------------------------------
+    // Getter Methods
     Vector2d getPosition() const;
 
     virtual char toChar(bool original = true);
