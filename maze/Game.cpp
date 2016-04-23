@@ -184,8 +184,12 @@ void Game::completeFastMove()
   }
 
   if(player_->getPosition() == map_->getEndTile()->getPosition())
+  {
     wonGame();
 
+    if(game_state_ != State::LOADING && game_state_ != State::TESTING_MAP)
+      Message::print(Message::WON);
+  }
   else if(*remaining_steps_ <= 0)
     lostGame();
 }
@@ -193,6 +197,9 @@ void Game::completeFastMove()
 
 void Game::cancelFastMove()
 {
+  if(game_state_ == State::WON)
+    return;
+
   reset();
 
   //redo all moves
