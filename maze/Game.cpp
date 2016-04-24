@@ -27,6 +27,11 @@ Game::Game() : map_(&play_map_),
 
 }
 
+Game::~Game()
+{
+
+}
+
 Message::Code Game::loadFile(const std::string file_name)
 {
   std::string saved_moves;
@@ -424,6 +429,10 @@ void Game::switchState(State new_state)
       break;
   }
 }
+
+
+
+
 
 
 

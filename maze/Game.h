@@ -120,10 +120,26 @@ class Game
     //--------------------------------------------------------------------------
     // Switches the state of game.
     //
+    // @param new_state The new state
+    //
     void switchState(State new_state);
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
     Game();
+
+    //--------------------------------------------------------------------------
+    // Destructor
+    //
+    ~Game();
+
+    //--------------------------------------------------------------------------
+    // Copy Constructor
+    // The game should not be copied and it's nowhere needed
+    //
+    Game(const Game &original) = delete;
 
     //--------------------------------------------------------------------------
     // Set auto save method
