@@ -22,7 +22,7 @@ CommandShow::~CommandShow()
 
 }
 
-Message::Code CommandShow::execute(Game &board,
+Message::Code CommandShow::execute(Game &game,
                                    std::vector<std::string> &params)
 {
   if(params.size() > 1)
@@ -31,5 +31,5 @@ Message::Code CommandShow::execute(Game &board,
   if(params.size() == 1 && params[0] != "more")
     return Message::WRONG_PARAMETER;
 
-  return board.show(params.size() == 1);
+  return game.show(params.size() == 1);
 }

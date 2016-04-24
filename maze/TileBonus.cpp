@@ -12,9 +12,9 @@
 #include "TileBonus.h"
 
 //------------------------------------------------------------------------------
-TileBonus::TileBonus(Vector2d position, char character, Game &board) :
+TileBonus::TileBonus(Vector2d position, char character, Game &game) :
         Tile(position, character),
-        board_(board),
+        game_(game),
         used_(false)
 {
 
@@ -25,8 +25,8 @@ Tile::EnterResult TileBonus::enter(Vector2d &source_position)
 {
   if(!used_)
   {
-    int steps_left = board_.getStepsLeft() + character_ - 'a' + 1;
-    board_.setStepsLeft(steps_left);
+    int steps_left = game_.getStepsLeft() + character_ - 'a' + 1;
+    game_.setStepsLeft(steps_left);
     used_ = true;
   }
   source_position = position_;

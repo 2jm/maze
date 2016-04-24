@@ -23,13 +23,13 @@
 class TileFinish : public Tile
 {
   private:
-    Game &board_;
+    Game &game_;
 
   public:
     //--------------------------------------------------------------------------
     // Constructor
     //
-    TileFinish(Vector2d position, Game &board);
+    TileFinish(Vector2d position, Game &game);
 
     //--------------------------------------------------------------------------
     // Called when the player enters a tile

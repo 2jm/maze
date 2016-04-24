@@ -25,7 +25,7 @@ CommandMove::~CommandMove()
 
 }
 
-Message::Code CommandMove::execute(Game &board,
+Message::Code CommandMove::execute(Game &game,
                                    std::vector<std::string> &params)
 {
   if(params.size() != 1)
@@ -36,7 +36,7 @@ Message::Code CommandMove::execute(Game &board,
   if(move_direction == Direction::OTHER)
     return Message::WRONG_PARAMETER;
 
-  return board.movePlayer(move_direction);
+  return game.movePlayer(move_direction);
 }
 
 Direction CommandMove::string_to_direction(

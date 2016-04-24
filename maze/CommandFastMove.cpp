@@ -23,7 +23,7 @@ CommandFastMove::~CommandFastMove()
 
 }
 
-Message::Code CommandFastMove::execute(Game &board,
+Message::Code CommandFastMove::execute(Game &game,
                                        std::vector<std::string> &params)
 {
   if(params.size() != 1)
@@ -34,7 +34,7 @@ Message::Code CommandFastMove::execute(Game &board,
   if(!isValidFastMoveString(fast_move_string))
     return Message::WRONG_PARAMETER;
 
-  if(!board.startFastMove())
+  if(!game.startFastMove())
     return Message::NO_MAZE_LOADED;
 
   for(auto move_direction_character : fast_move_string)
@@ -42,14 +42,14 @@ Message::Code CommandFastMove::execute(Game &board,
     Direction move_direction = Convert::toDirection(move_direction_character);
     Message::Code move_result;
 
-    if((move_result = board.movePlayer(move_direction)) != Message::SUCCESS)
+    if((move_result = game.movePlayer(move_direction)) != Message::SUCCESS)
     {
-      board.cancelFastMove();
+      game.cancelFastMove();
       return move_result;
     }
   }
 
-  board.completeFastMove();
+  game.completeFastMove();
 
   return Message::SUCCESS;
 }

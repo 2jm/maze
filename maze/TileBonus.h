@@ -26,7 +26,7 @@ class TileBonus : public Tile
     //--------------------------------------------------------------------------
     /// Reference to the current game
     //
-    Game &board_;
+    Game &game_;
     //--------------------------------------------------------------------------
     /// Boolean representing if the bonus has been already consumed
     //
@@ -36,7 +36,7 @@ class TileBonus : public Tile
     //--------------------------------------------------------------------------
     // Constructor
     //
-    TileBonus(Vector2d position, char character, Game &board);
+    TileBonus(Vector2d position, char character, Game &game);
 
     //--------------------------------------------------------------------------
     // Called when the player enters a tile

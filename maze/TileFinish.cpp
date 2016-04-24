@@ -12,8 +12,8 @@
 #include "TileFinish.h"
 
 //------------------------------------------------------------------------------
-TileFinish::TileFinish(Vector2d position, Game &board) : Tile(position, 'x'),
-                                                         board_(board)
+TileFinish::TileFinish(Vector2d position, Game &game) : Tile(position, 'x'),
+                                                         game_(game)
 {
 
 }
@@ -22,6 +22,6 @@ TileFinish::TileFinish(Vector2d position, Game &board) : Tile(position, 'x'),
 Tile::EnterResult TileFinish::enter(Vector2d &source_position)
 {
   source_position = position_;
-  board_.wonGame();
+  game_.wonGame();
   return VALID_MOVE;
 }

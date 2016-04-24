@@ -23,13 +23,13 @@
 class TileQuicksand : public Tile
 {
   private:
-    Game &board_;
+    Game &game_;
 
   public:
     //--------------------------------------------------------------------------
     // Constructor
     //
-    TileQuicksand(Vector2d position, char character, Game &board);
+    TileQuicksand(Vector2d position, char character, Game &game);
 
     //--------------------------------------------------------------------------
     // Called when the player enters a tile

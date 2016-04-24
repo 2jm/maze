@@ -12,9 +12,9 @@
 #include "TileQuicksand.h"
 
 //------------------------------------------------------------------------------
-TileQuicksand::TileQuicksand(Vector2d position, char character, Game &board) :
+TileQuicksand::TileQuicksand(Vector2d position, char character, Game &game) :
         Tile(position, character),
-        board_(board)
+        game_(game)
 {
 
 }
@@ -23,8 +23,8 @@ TileQuicksand::TileQuicksand(Vector2d position, char character, Game &board) :
 Tile::EnterResult TileQuicksand::enter(Vector2d &source_position)
 {
   int steps_remove = character_ - 'f' + 1;
-  int steps_left = board_.getStepsLeft() - steps_remove;
-  board_.setStepsLeft(steps_left);
+  int steps_left = game_.getStepsLeft() - steps_remove;
+  game_.setStepsLeft(steps_left);
   source_position = position_;
   return VALID_MOVE;
 }

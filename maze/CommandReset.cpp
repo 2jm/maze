@@ -22,11 +22,11 @@ CommandReset::~CommandReset()
 
 }
 
-Message::Code CommandReset::execute(Game &board,
+Message::Code CommandReset::execute(Game &game,
                                     std::vector<std::string> &params)
 {
   if(params.size() != 0)
     return Message::WRONG_PARAMETER_COUNT;
 
-  return board.fullReset();
+  return game.fullReset();
 }

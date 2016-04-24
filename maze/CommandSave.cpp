@@ -22,8 +22,8 @@ CommandSave::~CommandSave()
 
 }
 
-Message::Code CommandSave::execute(Game &board,
+Message::Code CommandSave::execute(Game &game,
                                    std::vector<std::string> &params)
 {
-  return board.saveFile(params[0]);
+  return game.saveFile(params[0]);
 }

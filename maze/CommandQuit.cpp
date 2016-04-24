@@ -22,7 +22,7 @@ CommandQuit::~CommandQuit()
 
 }
 
-Message::Code CommandQuit::execute(Game &board,
+Message::Code CommandQuit::execute(Game &game,
                                    std::vector<std::string> &params)
 {
   return Message::BYE;
