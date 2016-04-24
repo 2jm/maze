@@ -20,11 +20,24 @@ enum class Direction : char;
 class CommandFastMove : public Command
 {
   private:
+    //--------------------------------------------------------------------------
+    // Checks the entered Fastmove parameter if the string is valid
+    //
+    // @param fast_move_string The string with the fastmove parameter
+    //
+    // @return true if the String is valid
+    //
     bool isValidFastMoveString(std::string fast_move_string);
 
   public:
+    //--------------------------------------------------------------------------
+    //Constructor
+    //
     CommandFastMove();
 
+    //--------------------------------------------------------------------------
+    //Destructor
+    //
     virtual ~CommandFastMove();
 
     //--------------------------------------------------------------------------

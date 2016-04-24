@@ -27,6 +27,10 @@ CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 
 }
 
+CommandLineInterface::~CommandLineInterface()
+{
+}
+
 const std::string CommandLineInterface::name_strings_[] = {
         "load",
         "save",

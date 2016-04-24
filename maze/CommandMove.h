@@ -24,10 +24,24 @@ class CommandMove : public Command
     const std::string DOWN  = "down";
     const std::string LEFT = "left";
 
+    //--------------------------------------------------------------------------
+    // Changes a string into a Direction
+    //
+    // @param direction_string string which is transformed
+    //
+    // @return Direction UP, DOWN, LEFT, RIGHT or OTHER
+    //
     Direction string_to_direction(const std::string direction_string) const;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
     CommandMove();
+
+    //--------------------------------------------------------------------------
+    // Destructor
+    //
     virtual ~CommandMove();
 
     //--------------------------------------------------------------------------
