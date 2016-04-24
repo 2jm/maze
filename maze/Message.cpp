@@ -15,7 +15,7 @@
 namespace Message
 {
   const std::string strings[] = {
-          "",                                       // print nothing on success
+          "", // print nothing on success
           "[ERR] Out of memory.\n",
           "[ERR] Wrong usage: ./basic [-s <filename1>] [-m <filename2>]\n",
           "[ERR] File could not be opened.\n",
@@ -34,12 +34,14 @@ namespace Message
           "Moved Steps: "
   };
 
+  //----------------------------------------------------------------------------
   Code print(Code message_code)
   {
     std::cout << strings[message_code];
     return message_code;
   }
 
+  //----------------------------------------------------------------------------
   const char *get(Code message_code)
   {
     return strings[message_code].c_str();

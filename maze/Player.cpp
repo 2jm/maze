@@ -12,12 +12,14 @@
 #include "Player.h"
 #include "Map.h"
 
+//------------------------------------------------------------------------------
 Player::Player(Map &map) :
         map_(map)
 {
 
 }
 
+//------------------------------------------------------------------------------
 bool Player::move(Direction direction)
 {
   // check if the player is allowed to leave the tile
@@ -39,11 +41,13 @@ bool Player::move(Direction direction)
   return valid_move;
 }
 
+//------------------------------------------------------------------------------
 Vector2d Player::getPosition() const
 {
   return position_;
 }
 
+//------------------------------------------------------------------------------
 void Player::setPosition(Vector2d new_position)
 {
   position_ = new_position;

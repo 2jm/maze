@@ -47,17 +47,20 @@ class Vector2d
     // Constructor
     // @param x The initial x coordinate
     // @param y The initial y coordinate
+    //
     Vector2d(int x, int y);
 
     //--------------------------------------------------------------------------
     // Constructor
     // @param direction Pointing either up, right, down, left or other
+    //
     Vector2d(Direction direction);
 
     //--------------------------------------------------------------------------
     // Constructor
     // @param sign Character that is representing either up, right, down, left
     //        or other
+    //
     Vector2d(char sign);
 
     //--------------------------------------------------------------------------

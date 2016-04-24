@@ -16,9 +16,12 @@
 #include <string>
 #include "Direction.h"
 
+//------------------------------------------------------------------------------
+// Convert namespace
+// This namespace holds all methods to convert between different file types
+//
 namespace Convert
 {
-  // Feel free to add your functions
   //----------------------------------------------------------------------------
   // converts a string to a unsigned int number
   //

@@ -29,6 +29,7 @@ class TileTeleport : public Tile
   public:
     //--------------------------------------------------------------------------
     // Constructor
+    //
     TileTeleport(Vector2d position, char character);
 
     //--------------------------------------------------------------------------
@@ -37,11 +38,13 @@ class TileTeleport : public Tile
     // @return EnterResult Tells if it was a valid/invalid move or if the
     //         player should move again (call enter on the new tile again,
     //         needed for the ice tile)
+    //
     EnterResult enter(Vector2d &source_position);
 
     //--------------------------------------------------------------------------
     // Set a reference to the corresponding teleporter on the map
     // @param teleport The corresponding teleport tile
+    //
     void setCorrespondingTeleport(TileTeleport *teleport);
 };
 

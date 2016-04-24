@@ -14,19 +14,20 @@
 #include "Game.h"
 #include "FileHandler.h"
 
+//------------------------------------------------------------------------------
 ArgumentParser::ArgumentParser(Game &game) : game_(game)
 {
 
 }
 
-
+//------------------------------------------------------------------------------
 ArgumentParser::ArgumentParser(const ArgumentParser &original) :
         game_(original.game_)
 {
 
 }
 
-
+//------------------------------------------------------------------------------
 void ArgumentParser::parse(int argc, char **argv)
 {
   // It is important that the auto save is set before the load is executed.
@@ -67,6 +68,7 @@ void ArgumentParser::parse(int argc, char **argv)
     Message::print(game_.loadFile(load_file_name));
 }
 
+//------------------------------------------------------------------------------
 const char *ArgumentParser::getArgumentFileName(int argc, char **argv,
                                                 int &argument_index)
 {

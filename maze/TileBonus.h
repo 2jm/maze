@@ -23,12 +23,19 @@
 class TileBonus : public Tile
 {
   private:
+    //--------------------------------------------------------------------------
+    /// Reference to the current game
+    //
     Game &board_;
+    //--------------------------------------------------------------------------
+    /// Boolean representing if the bonus has been already consumed
+    //
     bool used_;
 
   public:
     //--------------------------------------------------------------------------
     // Constructor
+    //
     TileBonus(Vector2d position, char character, Game &board);
 
     //--------------------------------------------------------------------------
@@ -37,16 +44,19 @@ class TileBonus : public Tile
     // @return EnterResult Tells if it was a valid/invalid move or if the
     //         player should move again (call enter on the new tile again,
     //         needed for the ice tile)
+    //
     EnterResult enter(Vector2d &source_position);
 
     //--------------------------------------------------------------------------
     // Called when a tile should be reset, e.g. during a map reset
+    //
     void reset();
 
     //--------------------------------------------------------------------------
     // Called when a tile should be reset, e.g. during a map reset
     // @param original
     // @return char Representing the tile on the map
+    //
     virtual char toChar(bool original = true);
 };
 
