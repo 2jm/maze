@@ -19,8 +19,22 @@
 namespace Convert
 {
   // Feel free to add your functions
+  //----------------------------------------------------------------------------
+  // converts a string to a unsigned int number
+  //
+  // @param string the string that's converted
+  //
+  // @return the converted number
+  //
   unsigned int toUnsignedInt(std::string string);
 
+  //----------------------------------------------------------------------------
+  // converts a char to a direction
+  //
+  // @param direction_char a char which means direction
+  //
+  // @return a direction UP, DOWN, RIGHT, LEFT or OTHER
+  //
   Direction toDirection(const char direction_char);
 }
 

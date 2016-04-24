@@ -32,11 +32,31 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     bool check();
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
     Map();
 
+    //--------------------------------------------------------------------------
+    // Loads the map out of a string into the game matrix
+    //
+    // @param map_string string in which the map is saved
+    // @param game game object in which the needed matrix exists
+    //
+    // @return true if it is a valid map
+    //
     bool loadFromString(std::string map_string, Game &game);
 
-    std::string toString(bool orignal = true) const;
+    //--------------------------------------------------------------------------
+    // Writes the map from a matrix into a string
+    //
+    // @param original says if the original sign or the actual sign is written
+    //                 (needed for the bonus tiles)
+    //
+    // @return string with the map
+    //
+    std::string toString(bool original = true) const;
+
 
     std::string toStringWithPlayer(Vector2d player_position) const;
 
