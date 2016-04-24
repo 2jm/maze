@@ -47,5 +47,3 @@ Tile::operator char() const
 {
   return character_;
 }
-
-

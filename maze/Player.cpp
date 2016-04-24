@@ -27,8 +27,8 @@ bool Player::move(Direction direction)
   bool valid_move = false;
   Tile::EnterResult enter_result;
 
-  while((enter_result = map_[position_ + direction]->enter(position_)) == Tile::MOVE_AGAIN &&
-          map_[position_]->leave(direction))
+  while((enter_result = map_[position_ + direction]->enter(position_)) ==
+        Tile::MOVE_AGAIN && map_[position_]->leave(direction))
   {
     if(enter_result != Tile::INVALID_MOVE)
       valid_move = true;
@@ -48,10 +48,3 @@ void Player::setPosition(Vector2d new_position)
 {
   position_ = new_position;
 }
-
-
-
-
-
-
-

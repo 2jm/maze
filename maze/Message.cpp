@@ -44,6 +44,4 @@ namespace Message
   {
     return strings[message_code].c_str();
   }
-
-
 }

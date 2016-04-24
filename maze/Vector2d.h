@@ -42,20 +42,24 @@ class Vector2d
     // Constructor
     //
     Vector2d();
+
     //--------------------------------------------------------------------------
     // Constructor
     // @param x The initial x coordinate
     // @param y The initial y coordinate
     Vector2d(int x, int y);
+
     //--------------------------------------------------------------------------
     // Constructor
     // @param direction Pointing either up, right, down, left or other
     Vector2d(Direction direction);
+
     //--------------------------------------------------------------------------
     // Constructor
     // @param sign Character that is representing either up, right, down, left
     //        or other
     Vector2d(char sign);
+
     //--------------------------------------------------------------------------
     // Copy Constructor
     // Makes a copy of another Vector2d Object.
@@ -67,23 +71,31 @@ class Vector2d
     // Getter Methods
     //
     int getX() const;
+
     int getY() const;
+
     int x() const;
+
     int y() const;
 
     //--------------------------------------------------------------------------
     // Setter Methods
     //
     void setX(int x);
+
     void setY(int y);
 
     //--------------------------------------------------------------------------
     // Overloaded Operators
     //
     bool operator==(const Vector2d &other) const;
+
     Vector2d operator+(const Vector2d &other);
+
     Vector2d operator-(const Vector2d &other);
+
     void operator+=(const Vector2d &other);
+
     operator Direction() const;
 };
 

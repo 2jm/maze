@@ -23,5 +23,3 @@ Tile::EnterResult TileWall::enter(Vector2d &source_position)
   // don't move into the wall
   return INVALID_MOVE;
 }
-
-

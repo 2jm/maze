@@ -44,8 +44,3 @@ char TileBonus::toChar(bool original)
 {
   return (!original && used_) ? ' ' : character_;
 }
-
-
-
-
-

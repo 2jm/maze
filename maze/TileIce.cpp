@@ -23,4 +23,3 @@ Tile::EnterResult TileIce::enter(Vector2d &source_position)
   source_position = position_;
   return MOVE_AGAIN;
 }
-

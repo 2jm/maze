@@ -26,11 +26,7 @@ Tile::EnterResult TileTeleport::enter(Vector2d &source_position)
 }
 
 //------------------------------------------------------------------------------
-void TileTeleport::setCorrespondingTeleport(TileTeleport* teleport)
+void TileTeleport::setCorrespondingTeleport(TileTeleport *teleport)
 {
   corresponding_teleport_ = teleport;
 }
-
-
-
-
