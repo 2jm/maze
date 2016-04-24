@@ -214,13 +214,6 @@ std::string Map::toStringWithPlayer(Vector2d player_position) const
 //------------------------------------------------------------------------------
 void Map::clear()
 {
-  /* we have shared pointers now \o/
-  for (auto &row : columns_)
-  {
-    for (auto &element : row)
-      delete element;
-  }*/
-
   resize(0, 0);
 
   is_loaded_ = false;
