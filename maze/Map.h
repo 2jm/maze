@@ -29,6 +29,11 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
     int teleporter_pair_[26];       //-1 --> doesn't exist; 0 --> exists once; 1 --> exists twice, size is 26 -> every char of the alphabet
 
+    //--------------------------------------------------------------------------
+    // Checks if the map is valid
+    //
+    // @return true if the map is valid
+    //
     bool check();
 
   public:
@@ -87,14 +92,14 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //--------------------------------------------------------------------------
     // returns the position of the EndTile
     //
-    // @return is_loaded_
+    // @return a shared pointer Object that's a reference to the EndTile
     //
     std::shared_ptr<Tile> getEndTile() const;
 
     //--------------------------------------------------------------------------
-    // returns the position of the EndTile
+    // returns the position of the startTile
     //
-    // @return is_loaded_
+    // @return a shared pointer Object that's a reference to the EndTile
     //
     std::shared_ptr<Tile> getStartTile() const;
 };
