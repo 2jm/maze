@@ -68,39 +68,29 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     // @param player_position actual position of the player
     //
-    // @return string with the map(player included)
+    // @return string with the map (player included)
     //
     std::string toStringWithPlayer(Vector2d player_position) const;
 
     //--------------------------------------------------------------------------
-    // sets the whole map to a size of (0,0)
+    // Clear Method
+    // Clears the map, e.g. resize it's column and rows to zero.
     //
     void clear();
 
     //--------------------------------------------------------------------------
-    // reset all tiles to the start-status
+    // Reset Method
+    // Resets the map itself to it's initial status.
     //
     void reset();
 
     //--------------------------------------------------------------------------
-    // returns if isLoaded is set
-    //
-    // @return is_loaded_
+    // Getter Methods
     //
     bool isLoaded() const;
 
-    //--------------------------------------------------------------------------
-    // returns the position of the EndTile
-    //
-    // @return a shared pointer Object that's a reference to the EndTile
-    //
     std::shared_ptr<Tile> getEndTile() const;
 
-    //--------------------------------------------------------------------------
-    // returns the position of the startTile
-    //
-    // @return a shared pointer Object that's a reference to the EndTile
-    //
     std::shared_ptr<Tile> getStartTile() const;
 };
 

@@ -18,6 +18,7 @@
 
 //----------------------------------------------------------------------------
 // Command Move
+//
 // class representing the move command
 //
 class CommandMove : public Command

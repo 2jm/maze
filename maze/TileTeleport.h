@@ -19,6 +19,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Teleport
+//
 // class representing a teleport ('A' - 'Z') on the map
 //
 class TileTeleport : public Tile

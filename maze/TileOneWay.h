@@ -17,6 +17,7 @@
 
 //----------------------------------------------------------------------------
 // Tile One Way
+//
 // class representing a one way ('^', '>', 'v', '<') on the map
 //
 class TileOneWay : public Tile

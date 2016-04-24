@@ -17,6 +17,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Start
+//
 // class representing the start ('o') on the map
 //
 class TileStart : public Tile

@@ -23,12 +23,14 @@
 
 using std::string;
 
+//------------------------------------------------------------------------------
 Map::Map() : matrix_(*this),
              is_loaded_(false)
 {
 
 }
 
+//------------------------------------------------------------------------------
 bool Map::loadFromString(string map_string, Game &game)
 {
   int x = 0;
@@ -130,6 +132,7 @@ bool Map::loadFromString(string map_string, Game &game)
   return false;
 }
 
+//------------------------------------------------------------------------------
 bool Map::check()
 {
   int line_length;
@@ -169,6 +172,7 @@ bool Map::check()
   return true;
 }
 
+//------------------------------------------------------------------------------
 std::string Map::toString(bool original) const
 {
   std::string matrix_string;
@@ -186,6 +190,7 @@ std::string Map::toString(bool original) const
   return matrix_string;
 }
 
+//------------------------------------------------------------------------------
 std::string Map::toStringWithPlayer(Vector2d player_position) const
 {
   std::string map_string;
@@ -206,6 +211,7 @@ std::string Map::toStringWithPlayer(Vector2d player_position) const
   return map_string;
 }
 
+//------------------------------------------------------------------------------
 void Map::clear()
 {
   /* we have shared pointers now \o/
@@ -220,6 +226,7 @@ void Map::clear()
   is_loaded_ = false;
 }
 
+//------------------------------------------------------------------------------
 void Map::reset()
 {
   // reset all tiles
@@ -230,17 +237,19 @@ void Map::reset()
   }
 }
 
+//------------------------------------------------------------------------------
 bool Map::isLoaded() const
 {
   return is_loaded_;
 }
 
+//------------------------------------------------------------------------------
 std::shared_ptr<Tile> Map::getEndTile() const
 {
   return end_tile_;
 }
 
-
+//------------------------------------------------------------------------------
 std::shared_ptr<Tile> Map::getStartTile() const
 {
   return start_tile_;

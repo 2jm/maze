@@ -19,6 +19,7 @@
 
 //------------------------------------------------------------------------------
 // Maze class
+//
 // This is the main class of the whole program.
 //
 class Maze

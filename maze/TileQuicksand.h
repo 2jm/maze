@@ -18,6 +18,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Quicksand
+//
 // class representing a quicksand ('f' - 'j') on the map
 //
 class TileQuicksand : public Tile

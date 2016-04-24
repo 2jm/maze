@@ -20,12 +20,12 @@ class Game;
 
 //----------------------------------------------------------------------------
 // Command Line Interface
+//
 // class representing the interface for commands of the command line
 //
 class CommandLineInterface
 {
   private:
-
     //--------------------------------------------------------------------------
     // Enum with all command Names
     //
@@ -42,6 +42,9 @@ class CommandLineInterface
 
     const static std::string name_strings_[];
 
+    //--------------------------------------------------------------------------
+    // Reference of the actual game object
+    //
     Game &game_;
 
     //--------------------------------------------------------------------------
@@ -58,7 +61,7 @@ class CommandLineInterface
     //--------------------------------------------------------------------------
     // Constructor
     //
-    // @param game reference of the actual game object
+    // @param game Reference of the actual game object
     //
     CommandLineInterface(Game &game);
 

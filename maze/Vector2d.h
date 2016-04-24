@@ -17,6 +17,7 @@
 
 //----------------------------------------------------------------------------
 // Vector 2D
+//
 // class representing a point (x, y) in the 2d space
 //
 class Vector2d

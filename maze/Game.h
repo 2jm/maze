@@ -71,22 +71,33 @@ class Game
     Player play_player_, load_test_player_, *player_;
     int play_remaining_steps_, load_test_remaining_steps_, *remaining_steps_;
 
+    //--------------------------------------------------------------------------
+    // Available steps left for the player to move
+    //
     int available_steps_;
 
+    //--------------------------------------------------------------------------
     // In previous_game_state_ is the previous game state saved. It is used by
     // switchState(PREVIOUS)
+    //
     State game_state_, previous_game_state_;
 
+    //--------------------------------------------------------------------------
     // If auto_save_filename_ is empty no auto save is made, if it is not empty
     // the game is auto saved to the file.
+    //
     std::string auto_save_filename_;
 
+    //--------------------------------------------------------------------------
     // The move_history_ contains all valid steps the user made.
     // The fast_move_move_history_ contains all steps of a single fast move.
+    //
     std::vector<Direction> move_history_, fast_move_move_history_;
 
+    //--------------------------------------------------------------------------
     // If fast_moving_ is true no implicit show or auto save is executed after a
     // valid move.
+    //
     bool fast_moving_;
 
     //--------------------------------------------------------------------------
@@ -241,16 +252,12 @@ class Game
     void lostGame();
 
     //--------------------------------------------------------------------------
-    // Returns the left steps
-    //
-    // @return left steps
+    // Getter Methods
     //
     int getStepsLeft() const;
 
     //--------------------------------------------------------------------------
-    // Sets number of left steps
-    //
-    // @param steps_left number of steps left
+    // Setter Methods
     //
     void setStepsLeft(int steps_left);
 

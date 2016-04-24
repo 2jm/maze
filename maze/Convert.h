@@ -18,6 +18,7 @@
 
 //------------------------------------------------------------------------------
 // Convert namespace
+//
 // This namespace holds all methods to convert between different file types
 //
 namespace Convert

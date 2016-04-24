@@ -26,6 +26,7 @@ class Game;
 
 //---------------------------------------------------------------------------
 // Command
+//
 // base for all commands
 //
 class Command
@@ -42,7 +43,7 @@ class Command
     Command &operator=(const Command &original);
 
     //--------------------------------------------------------------------------
-    /// Name of this command
+    // Name of this command
     //
     std::string command_name_;
 

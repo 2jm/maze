@@ -12,6 +12,7 @@
 #include "InvalidCommandLineArgumentException.h"
 #include "Message.h"
 
+//------------------------------------------------------------------------------
 const char *InvalidCommandLineArgumentException::what() const throw()
 {
   return Message::get(Message::WRONG_USAGE);

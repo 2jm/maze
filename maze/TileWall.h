@@ -17,6 +17,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Wall
+//
 // class representing a wall ('#') on the map
 //
 class TileWall : public Tile

@@ -19,6 +19,7 @@ class Game;
 
 //------------------------------------------------------------------------------
 // ArgumentParser class
+//
 // The argument parser class parses and processes the command line arguments.
 //
 class ArgumentParser

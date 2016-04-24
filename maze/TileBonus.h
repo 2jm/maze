@@ -18,6 +18,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Bonus
+//
 // class representing a bonus ('a' - 'e') on the map
 //
 class TileBonus : public Tile

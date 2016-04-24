@@ -14,6 +14,7 @@
 
 namespace Message
 {
+  //------------------------------------------------------------------------------
   const std::string strings[] = {
           "", // print nothing on success
           "[ERR] Out of memory.\n",

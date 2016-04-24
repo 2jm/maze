@@ -17,6 +17,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Path
+//
 // class representing a path (' ') on the map
 //
 class TilePath : public Tile

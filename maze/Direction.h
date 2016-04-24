@@ -12,7 +12,11 @@
 #ifndef MAZE_DIRECTION_H
 #define MAZE_DIRECTION_H
 
-
+//--------------------------------------------------------------------------
+// Direction enum
+//
+// Representing the meaning of the given chars
+//
 enum class Direction : char
 {
     UP = 'u',
@@ -22,6 +26,11 @@ enum class Direction : char
     OTHER = 0
 };
 
+//--------------------------------------------------------------------------
+// Direction One Way enum
+//
+// Representing the meaning of the given chars
+//
 enum class DirectionOneWay : char
 {
     UP = '^',

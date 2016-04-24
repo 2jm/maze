@@ -15,9 +15,20 @@
 
 #include <exception>
 
+//------------------------------------------------------------------------------
+// Invalid Command Line Argument Exception
+//
+// Custom made exception that is thrown if something went wrong while
+// parsing the command line arguments
+//
 class InvalidCommandLineArgumentException : public std::exception
 {
   public:
+    //--------------------------------------------------------------------------
+    // Tells what went wrong
+    //
+    // @return Message representing what went wrong
+    //
     virtual const char *what() const throw();
 };
 

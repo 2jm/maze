@@ -12,8 +12,10 @@
 #include <fstream>
 #include "FileHandler.h"
 
+//------------------------------------------------------------------------------
 namespace FileHandler
 {
+  //----------------------------------------------------------------------------
   bool isValidFileName(std::string filename)
   {
     if(filename.length() > 255)
@@ -32,6 +34,7 @@ namespace FileHandler
     return true;
   }
 
+  //----------------------------------------------------------------------------
   Message::Code getInputFile(const std::string file_name, std::ifstream &file)
   {
     if(!FileHandler::isValidFileName(file_name))
@@ -45,6 +48,7 @@ namespace FileHandler
     return Message::SUCCESS;
   }
 
+  //----------------------------------------------------------------------------
   Message::Code getOutputFile(const std::string file_name, std::ofstream &file)
   {
     if(!FileHandler::isValidFileName(file_name))

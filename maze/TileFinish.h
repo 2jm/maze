@@ -18,6 +18,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Finish
+//
 // class representing the finish ('x') on the map
 //
 class TileFinish : public Tile

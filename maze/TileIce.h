@@ -17,6 +17,7 @@
 
 //----------------------------------------------------------------------------
 // Tile Ice
+//
 // class representing an ice ('+') on the map
 //
 class TileIce : public Tile

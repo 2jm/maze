@@ -17,6 +17,7 @@
 
 //----------------------------------------------------------------------------
 // Command Quit
+//
 // class representing the quit command
 //
 class CommandQuit : public Command

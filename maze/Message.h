@@ -14,11 +14,18 @@
 
 //------------------------------------------------------------------------------
 // Message namespace
+//
 // This namespace holds all messages the program can print and an enum Code to
 // address these messages.
 //
 namespace Message
 {
+  //--------------------------------------------------------------------------
+  // Code enum
+  //
+  // Representing the return states of most of the methods, so it's easy
+  // to recognize if something went wrong.
+  //
   enum Code
   {
     SUCCESS = 0,          // These three numbers are important because they are

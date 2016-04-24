@@ -16,7 +16,7 @@
 #include "Convert.h"
 #include "FileHandler.h"
 
-
+//------------------------------------------------------------------------------
 Game::Game() : map_(&play_map_),
                play_player_(play_map_),
                load_test_player_(load_test_map_),
@@ -27,11 +27,13 @@ Game::Game() : map_(&play_map_),
 
 }
 
+//------------------------------------------------------------------------------
 Game::~Game()
 {
 
 }
 
+//------------------------------------------------------------------------------
 Message::Code Game::loadFile(const std::string file_name)
 {
   std::string saved_moves;
@@ -88,7 +90,7 @@ Message::Code Game::loadFile(const std::string file_name)
   return Message::SUCCESS;
 }
 
-
+//------------------------------------------------------------------------------
 Message::Code Game::saveFile(const std::string file_name)
 {
   if(game_state_ == State::NO_MAZE_LOADED)
@@ -112,7 +114,7 @@ Message::Code Game::saveFile(const std::string file_name)
   return Message::SUCCESS;
 }
 
-
+//------------------------------------------------------------------------------
 Message::Code Game::movePlayer(const Direction direction)
 {
   if(game_state_ == State::WON)
@@ -159,7 +161,7 @@ Message::Code Game::movePlayer(const Direction direction)
   return Message::INVALID_MOVE;
 }
 
-
+//------------------------------------------------------------------------------
 bool Game::startFastMove()
 {
   if(game_state_ == State::NO_MAZE_LOADED)
@@ -171,7 +173,7 @@ bool Game::startFastMove()
   return true;
 }
 
-
+//------------------------------------------------------------------------------
 void Game::completeFastMove()
 {
   fast_moving_ = false;
@@ -199,7 +201,7 @@ void Game::completeFastMove()
     lostGame();
 }
 
-
+//------------------------------------------------------------------------------
 void Game::cancelFastMove()
 {
   if(game_state_ == State::WON)
@@ -214,6 +216,7 @@ void Game::cancelFastMove()
   fast_moving_ = false;
 }
 
+//------------------------------------------------------------------------------
 void Game::reset()
 {
   *remaining_steps_ = available_steps_;
@@ -221,6 +224,7 @@ void Game::reset()
   player_->setPosition(map_->getStartTile()->getPosition());
 }
 
+//------------------------------------------------------------------------------
 Message::Code Game::fullReset()
 {
   if(game_state_ == State::NO_MAZE_LOADED)
@@ -234,6 +238,7 @@ Message::Code Game::fullReset()
   return Message::SUCCESS;
 }
 
+//------------------------------------------------------------------------------
 void Game::setAutoSave(const std::string file_name)
 {
   auto_save_filename_ = file_name;
@@ -242,6 +247,7 @@ void Game::setAutoSave(const std::string file_name)
     autoSave();
 }
 
+//------------------------------------------------------------------------------
 Message::Code Game::show(const bool show_more)
 {
   if(game_state_ == State::NO_MAZE_LOADED)
@@ -263,30 +269,33 @@ Message::Code Game::show(const bool show_more)
   return Message::SUCCESS;
 }
 
-
-
+//------------------------------------------------------------------------------
 Game::State Game::getState() const
 {
   return game_state_;
 }
 
+//------------------------------------------------------------------------------
 void Game::wonGame()
 {
   if(!fast_moving_ && game_state_ != State::TESTING_MAP)
     switchState(State::WON);
 }
 
+//------------------------------------------------------------------------------
 void Game::lostGame()
 {
   switchState(State::NO_MORE_STEPS);
 
 }
 
+//------------------------------------------------------------------------------
 int Game::getStepsLeft() const
 {
   return *remaining_steps_;
 }
 
+//------------------------------------------------------------------------------
 void Game::setStepsLeft(int steps_left)
 {
   if(steps_left < 0)
@@ -300,7 +309,7 @@ Player& Game::getPlayer() const
   return *player_;
 }
 
-
+//------------------------------------------------------------------------------
 int Game::loadAvailableSteps(std::ifstream &input_file)
 {
   std::string available_steps_string;
@@ -325,6 +334,7 @@ int Game::loadAvailableSteps(std::ifstream &input_file)
   }
 }
 
+//------------------------------------------------------------------------------
 std::string Game::loadMapString(std::ifstream &input_file)
 {
   std::string map_string;
@@ -352,6 +362,7 @@ std::string Game::loadMapString(std::ifstream &input_file)
   return map_string;
 }
 
+//------------------------------------------------------------------------------
 Message::Code Game::doInitialFastMove(std::string &saved_moves)
 {
   player_->setPosition(map_->getStartTile()->getPosition());
@@ -381,12 +392,14 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
   return Message::SUCCESS;
 }
 
+//------------------------------------------------------------------------------
 void Game::autoSave()
 {
   if(auto_save_filename_ != "")
     Message::print(saveFile(auto_save_filename_));
 }
 
+//------------------------------------------------------------------------------
 void Game::switchState(State new_state)
 {
   if(new_state != State::PREVIOUS)
