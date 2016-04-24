@@ -17,17 +17,32 @@
 #include "Tile.h"
 #include "Game.h"
 
+//----------------------------------------------------------------------------
+// Tile Teleport
+// class representing a teleport ('A' - 'Z') on the map
+//
 class TileTeleport : public Tile
 {
   private:
-    TileTeleport* corresponding_teleport_;
+    TileTeleport *corresponding_teleport_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
     TileTeleport(Vector2d position, char character);
 
+    //--------------------------------------------------------------------------
+    // Called when the player enters a tile
+    // @param source_position The initial player position
+    // @return EnterResult Tells if it was a valid/invalid move or if the
+    //         player should move again (call enter on the new tile again,
+    //         needed for the ice tile)
     EnterResult enter(Vector2d &source_position);
 
-    void setCorrespondingTeleport(TileTeleport* teleport);
+    //--------------------------------------------------------------------------
+    // Set a reference to the corresponding teleporter on the map
+    // @param teleport The corresponding teleport tile
+    void setCorrespondingTeleport(TileTeleport *teleport);
 };
 
 

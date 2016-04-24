@@ -11,11 +11,13 @@
 
 #include "TilePath.h"
 
+//------------------------------------------------------------------------------
 TilePath::TilePath(Vector2d position) : Tile(position, ' ')
 {
 
 }
 
+//------------------------------------------------------------------------------
 Tile::EnterResult TilePath::enter(Vector2d &source_position)
 {
   source_position = position_;

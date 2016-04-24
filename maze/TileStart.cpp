@@ -11,11 +11,13 @@
 
 #include "TileStart.h"
 
+//------------------------------------------------------------------------------
 TileStart::TileStart(Vector2d position) : Tile(position, 'o')
 {
 
 }
 
+//------------------------------------------------------------------------------
 Tile::EnterResult TileStart::enter(Vector2d &source_position)
 {
   source_position = position_;

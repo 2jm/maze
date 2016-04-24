@@ -15,19 +15,9 @@
 
 #include "Vector2d.h"
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 // Tile
-// class representing a single tile of the map
-// Possible tile types:
-//    Wall = '#',
-//    Path = ' ',
-//    Start = 'o',
-//    Finish = 'x',
-//    Ice = '+',
-//    Teleport = 'A-Z',
-//    OneWay = '><^v',
-//    Bonus = 'a-e',
-//    Quicksand ='f-j'
+// base for all tiles
 //
 class Tile
 {
@@ -56,8 +46,8 @@ class Tile
     // Called when the player enters a tile
     // @param source_position The initial player position
     // @return EnterResult Tells if it was a valid/invalid move or if the
-    // player should move again (call enter on the new tile again, needed for
-    // the ice tile)
+    //         player should move again (call enter on the new tile again,
+    //         needed for the ice tile)
     virtual EnterResult enter(Vector2d &source_position) = 0;
 
     //--------------------------------------------------------------------------

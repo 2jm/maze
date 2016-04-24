@@ -16,14 +16,26 @@
 #include "Tile.h"
 #include "Game.h"
 
+//----------------------------------------------------------------------------
+// Tile Quicksand
+// class representing a quicksand ('f' - 'j') on the map
+//
 class TileQuicksand : public Tile
 {
   private:
     Game &board_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
     TileQuicksand(Vector2d position, char character, Game &board);
 
+    //--------------------------------------------------------------------------
+    // Called when the player enters a tile
+    // @param source_position The initial player position
+    // @return EnterResult Tells if it was a valid/invalid move or if the
+    //         player should move again (call enter on the new tile again,
+    //         needed for the ice tile)
     EnterResult enter(Vector2d &source_position);
 };
 

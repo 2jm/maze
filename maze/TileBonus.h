@@ -16,6 +16,10 @@
 #include "Tile.h"
 #include "Game.h"
 
+//----------------------------------------------------------------------------
+// Tile Bonus
+// class representing a bonus ('a' - 'e') on the map
+//
 class TileBonus : public Tile
 {
   private:
@@ -23,12 +27,26 @@ class TileBonus : public Tile
     bool used_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
     TileBonus(Vector2d position, char character, Game &board);
 
+    //--------------------------------------------------------------------------
+    // Called when the player enters a tile
+    // @param source_position The initial player position
+    // @return EnterResult Tells if it was a valid/invalid move or if the
+    //         player should move again (call enter on the new tile again,
+    //         needed for the ice tile)
     EnterResult enter(Vector2d &source_position);
 
+    //--------------------------------------------------------------------------
+    // Called when a tile should be reset, e.g. during a map reset
     void reset();
 
+    //--------------------------------------------------------------------------
+    // Called when a tile should be reset, e.g. during a map reset
+    // @param original
+    // @return char Representing the tile on the map
     virtual char toChar(bool original = true);
 };
 

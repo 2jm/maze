@@ -15,11 +15,23 @@
 
 #include "Tile.h"
 
+//----------------------------------------------------------------------------
+// Tile Start
+// class representing the start ('o') on the map
+//
 class TileStart : public Tile
 {
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
     TileStart(Vector2d position);
 
+    //--------------------------------------------------------------------------
+    // Called when the player enters a tile
+    // @param source_position The initial player position
+    // @return EnterResult Tells if it was a valid/invalid move or if the
+    //         player should move again (call enter on the new tile again,
+    //         needed for the ice tile)
     EnterResult enter(Vector2d &source_position);
 };
 

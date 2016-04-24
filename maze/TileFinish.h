@@ -16,14 +16,26 @@
 #include "Tile.h"
 #include "Game.h"
 
+//----------------------------------------------------------------------------
+// Tile Finish
+// class representing the finish ('x') on the map
+//
 class TileFinish : public Tile
 {
   private:
     Game &board_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constructor
     TileFinish(Vector2d position, Game &board);
 
+    //--------------------------------------------------------------------------
+    // Called when the player enters a tile
+    // @param source_position The initial player position
+    // @return EnterResult Tells if it was a valid/invalid move or if the
+    //         player should move again (call enter on the new tile again,
+    //         needed for the ice tile)
     EnterResult enter(Vector2d &source_position);
 };
 

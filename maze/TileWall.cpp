@@ -11,11 +11,13 @@
 
 #include "TileWall.h"
 
+//------------------------------------------------------------------------------
 TileWall::TileWall(Vector2d position) : Tile(position, '#')
 {
 
 }
 
+//------------------------------------------------------------------------------
 Tile::EnterResult TileWall::enter(Vector2d &source_position)
 {
   // don't move into the wall
