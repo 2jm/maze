@@ -13,16 +13,19 @@
 #include "Game.h"
 #include "Convert.h"
 
+//------------------------------------------------------------------------------
 CommandFastMove::CommandFastMove() : Command("fastmove")
 {
 
 }
 
+//------------------------------------------------------------------------------
 CommandFastMove::~CommandFastMove()
 {
 
 }
 
+//------------------------------------------------------------------------------
 Message::Code CommandFastMove::execute(Game &game,
                                        std::vector<std::string> &params)
 {
@@ -54,6 +57,7 @@ Message::Code CommandFastMove::execute(Game &game,
   return Message::SUCCESS;
 }
 
+//------------------------------------------------------------------------------
 bool CommandFastMove::isValidFastMoveString(std::string fast_move_string)
 {
   for(auto move_direction_character : fast_move_string)

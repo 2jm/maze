@@ -22,7 +22,7 @@ namespace Convert
       throw std::invalid_argument(string);
 
     // there is no std::stoui function.
-    // convert to unsigned long and check if it is to big
+    // convert to unsigned long and check if it is too big
     unsigned long number = std::stoul(string);
 
     if(number > std::numeric_limits<unsigned int>::max())

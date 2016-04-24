@@ -17,6 +17,10 @@
 
 enum class Direction : char;
 
+//----------------------------------------------------------------------------
+// Command Fast Move
+// class representing the fast move command
+//
 class CommandFastMove : public Command
 {
   private:

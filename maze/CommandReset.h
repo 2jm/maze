@@ -15,6 +15,10 @@
 
 #include "Command.h"
 
+//----------------------------------------------------------------------------
+// Command Reset
+// class representing the reset command
+//
 class CommandReset : public Command
 {
   public:

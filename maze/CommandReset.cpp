@@ -12,16 +12,19 @@
 #include "CommandReset.h"
 #include "Game.h"
 
+//------------------------------------------------------------------------------
 CommandReset::CommandReset() : Command("reset")
 {
 
 }
 
+//------------------------------------------------------------------------------
 CommandReset::~CommandReset()
 {
 
 }
 
+//------------------------------------------------------------------------------
 Message::Code CommandReset::execute(Game &game,
                                     std::vector<std::string> &params)
 {

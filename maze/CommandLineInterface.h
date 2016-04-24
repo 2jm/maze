@@ -18,6 +18,10 @@
 
 class Game;
 
+//----------------------------------------------------------------------------
+// Command Line Interface
+// class representing the interface for commands of the command line
+//
 class CommandLineInterface
 {
   private:

@@ -12,6 +12,7 @@
 #include "Maze.h"
 #include <iostream>
 
+//------------------------------------------------------------------------------
 Maze::Maze() :
         game_(),
         command_line_interface_(game_),
@@ -20,6 +21,7 @@ Maze::Maze() :
 
 }
 
+//------------------------------------------------------------------------------
 int Maze::run(int argc, char **argv)
 {
   try

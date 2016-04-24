@@ -16,6 +16,10 @@
 #include <string>
 #include "Message.h"
 
+//------------------------------------------------------------------------------
+// File Handler namespace
+// This namespace holds all methods needed to deal with file input/output
+//
 namespace FileHandler
 {
   //--------------------------------------------------------------------------

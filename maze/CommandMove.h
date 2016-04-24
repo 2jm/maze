@@ -16,6 +16,10 @@
 #include "Command.h"
 #include "Direction.h"
 
+//----------------------------------------------------------------------------
+// Command Move
+// class representing the move command
+//
 class CommandMove : public Command
 {
   private:

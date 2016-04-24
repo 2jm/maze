@@ -22,15 +22,18 @@
 #include "CommandQuit.h"
 #include "CommandReset.h"
 
+//------------------------------------------------------------------------------
 CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
 {
 
 }
 
+//------------------------------------------------------------------------------
 CommandLineInterface::~CommandLineInterface()
 {
 }
 
+//------------------------------------------------------------------------------
 const std::string CommandLineInterface::name_strings_[] = {
         "load",
         "save",
@@ -41,6 +44,7 @@ const std::string CommandLineInterface::name_strings_[] = {
         "quit"
 };
 
+//------------------------------------------------------------------------------
 bool CommandLineInterface::update()
 {
   std::cout << "sep> ";
@@ -66,6 +70,7 @@ bool CommandLineInterface::update()
   return execute(command, params);
 }
 
+//------------------------------------------------------------------------------
 bool CommandLineInterface::execute(std::string command,
                                    std::vector<std::string> params)
 {

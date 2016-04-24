@@ -12,16 +12,19 @@
 #include "CommandShow.h"
 #include "Game.h"
 
+//------------------------------------------------------------------------------
 CommandShow::CommandShow() : Command("show")
 {
 
 }
 
+//------------------------------------------------------------------------------
 CommandShow::~CommandShow()
 {
 
 }
 
+//------------------------------------------------------------------------------
 Message::Code CommandShow::execute(Game &game,
                                    std::vector<std::string> &params)
 {

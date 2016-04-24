@@ -15,16 +15,19 @@
 
 using std::cout;
 
+//------------------------------------------------------------------------------
 CommandMove::CommandMove() : Command("move")
 {
 
 }
 
+//------------------------------------------------------------------------------
 CommandMove::~CommandMove()
 {
 
 }
 
+//------------------------------------------------------------------------------
 Message::Code CommandMove::execute(Game &game,
                                    std::vector<std::string> &params)
 {
@@ -39,6 +42,7 @@ Message::Code CommandMove::execute(Game &game,
   return game.movePlayer(move_direction);
 }
 
+//------------------------------------------------------------------------------
 Direction CommandMove::string_to_direction(
         const std::string direction_string) const
 {

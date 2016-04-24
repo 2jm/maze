@@ -12,16 +12,19 @@
 #include "CommandLoad.h"
 #include "Game.h"
 
+//------------------------------------------------------------------------------
 CommandLoad::CommandLoad() : Command("load")
 {
 
 }
 
+//------------------------------------------------------------------------------
 CommandLoad::~CommandLoad()
 {
 
 }
 
+//------------------------------------------------------------------------------
 Message::Code CommandLoad::execute(Game &game,
                                    std::vector<std::string> &params)
 {

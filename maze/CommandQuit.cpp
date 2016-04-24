@@ -12,16 +12,19 @@
 #include "CommandQuit.h"
 #include <iostream>
 
+//------------------------------------------------------------------------------
 CommandQuit::CommandQuit() : Command("quit")
 {
 
 }
 
+//------------------------------------------------------------------------------
 CommandQuit::~CommandQuit()
 {
 
 }
 
+//------------------------------------------------------------------------------
 Message::Code CommandQuit::execute(Game &game,
                                    std::vector<std::string> &params)
 {

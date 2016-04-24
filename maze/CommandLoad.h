@@ -15,6 +15,10 @@
 
 #include "Command.h"
 
+//----------------------------------------------------------------------------
+// Command Load
+// class representing the load command
+//
 class CommandLoad : public Command
 {
   public:
