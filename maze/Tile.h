@@ -15,6 +15,9 @@
 
 #include "Vector2d.h"
 
+//----------------------------------------------------------------------------
+// Tile
+// class representing a single tile of the map
 // Possible tile types:
 //    Wall = '#',
 //    Path = ' ',
@@ -25,7 +28,7 @@
 //    OneWay = '><^v',
 //    Bonus = 'a-e',
 //    Quicksand ='f-j'
-
+//
 class Tile
 {
   protected:
@@ -63,14 +66,23 @@ class Tile
     // @return bool Tells if the player is allowed to move away from this tile
     virtual bool leave(const Direction move_direction) const;
 
+    //--------------------------------------------------------------------------
+    // Called when a tile should be reset, e.g. during a map reset
     virtual void reset();
+
+    //--------------------------------------------------------------------------
+    // Called when a tile should be reset, e.g. during a map reset
+    // @param original
+    // @return char Representing the tile on the map
+    virtual char toChar(bool original = true);
 
     //--------------------------------------------------------------------------
     // Getter Methods
     Vector2d getPosition() const;
 
-    virtual char toChar(bool original = true);
-
+    //--------------------------------------------------------------------------
+    // Overloaded Operators
+    //
     virtual operator char() const;
 };
 

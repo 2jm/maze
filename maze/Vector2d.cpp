@@ -86,9 +86,8 @@ Vector2d::Vector2d(char sign)
 }
 
 //------------------------------------------------------------------------------
-Vector2d::Vector2d(const Vector2d &original) :
-        x_(original.x_),
-        y_(original.y_)
+Vector2d::Vector2d(const Vector2d &original) : x_(original.x_),
+                                               y_(original.y_)
 {
 
 }

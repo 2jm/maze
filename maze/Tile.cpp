@@ -11,32 +11,38 @@
 
 #include "Tile.h"
 
+//------------------------------------------------------------------------------
 Tile::Tile(Vector2d position, char character) : position_(position),
                                                 character_(character)
 {
 
 }
 
+//------------------------------------------------------------------------------
 bool Tile::leave(const Direction move_direction) const
 {
   return true;
 }
 
+//------------------------------------------------------------------------------
 Vector2d Tile::getPosition() const
 {
   return position_;
 }
 
+//------------------------------------------------------------------------------
 void Tile::reset()
 {
   // does nothing
 }
 
+//------------------------------------------------------------------------------
 char Tile::toChar(bool original)
 {
   return character_;
 }
 
+//------------------------------------------------------------------------------
 Tile::operator char() const
 {
   return character_;
