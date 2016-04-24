@@ -42,6 +42,3 @@ Command &Command::operator=(const Command &original)
 {
   return *this;
 }
-
-
-

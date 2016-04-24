@@ -50,6 +50,4 @@ namespace Convert
         return Direction::OTHER;
     }
   }
-
-
 }

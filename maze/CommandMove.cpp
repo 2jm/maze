@@ -12,6 +12,7 @@
 #include <iostream>
 #include "CommandMove.h"
 #include "Game.h"
+
 using std::cout;
 
 CommandMove::CommandMove() : Command("move")
@@ -24,7 +25,8 @@ CommandMove::~CommandMove()
 
 }
 
-Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params)
+Message::Code CommandMove::execute(Game &board,
+                                   std::vector<std::string> &params)
 {
   if(params.size() != 1)
     return Message::WRONG_PARAMETER_COUNT;
@@ -37,7 +39,8 @@ Message::Code CommandMove::execute(Game &board, std::vector<std::string> &params
   return board.movePlayer(move_direction);
 }
 
-Direction CommandMove::string_to_direction(const std::string direction_string) const
+Direction CommandMove::string_to_direction(
+        const std::string direction_string) const
 {
   if(direction_string == UP)
   {

@@ -47,7 +47,7 @@ namespace FileHandler
   // @param file  outputfilestream on which the file is opened
   //
   // @return MesseageCode WRONG_PARAMETER if wrong parameters were entered
-    //                      FILE_COULD_NOT_BE_WRITTEN if ofstream couldn't be
+  //                      FILE_COULD_NOT_BE_WRITTEN if ofstream couldn't be
   //                                                opened
   //                      SUCCESS if ofstream opened successfully
   //

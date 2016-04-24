@@ -22,7 +22,8 @@ CommandShow::~CommandShow()
 
 }
 
-Message::Code CommandShow::execute(Game &board, std::vector<std::string> &params)
+Message::Code CommandShow::execute(Game &board,
+                                   std::vector<std::string> &params)
 {
   if(params.size() > 1)
     return Message::WRONG_PARAMETER_COUNT;

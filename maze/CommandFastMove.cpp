@@ -24,7 +24,7 @@ CommandFastMove::~CommandFastMove()
 }
 
 Message::Code CommandFastMove::execute(Game &board,
-                                     std::vector<std::string> &params)
+                                       std::vector<std::string> &params)
 {
   if(params.size() != 1)
     return Message::WRONG_PARAMETER_COUNT;
