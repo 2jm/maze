@@ -15,6 +15,7 @@
 
 namespace Convert
 {
+  //----------------------------------------------------------------------------
   unsigned int toUnsignedInt(std::string string)
   {
     if(string.find_first_not_of("0123456789") != std::string::npos)
@@ -30,20 +31,21 @@ namespace Convert
     return static_cast<unsigned int>(number);
   }
 
+  //----------------------------------------------------------------------------
   Direction toDirection(const char direction_char)
   {
     switch(direction_char)
     {
-      case 'u':
+      case static_cast<char>(Direction::UP):
         return Direction::UP;
 
-      case 'r':
+      case static_cast<char>(Direction::RIGHT):
         return Direction::RIGHT;
 
-      case 'd':
+      case static_cast<char>(Direction::DOWN):
         return Direction::DOWN;
 
-      case 'l':
+      case static_cast<char>(Direction::LEFT):
         return Direction::LEFT;
 
       default:

@@ -60,23 +60,23 @@ Vector2d::Vector2d(Direction direction)
 }
 
 //------------------------------------------------------------------------------
-Vector2d::Vector2d(char sign)
+Vector2d::Vector2d(char character)
 {
-  switch(sign)
+  switch(character)
   {
-    case '^':
+    case static_cast<char>(DirectionOneWay::UP):
       *this = UP;
       break;
 
-    case '>':
+    case static_cast<char>(DirectionOneWay::RIGHT):
       *this = RIGHT;
       break;
 
-    case 'v':
+    case static_cast<char>(DirectionOneWay::DOWN):
       *this = DOWN;
       break;
 
-    case '<':
+    case static_cast<char>(DirectionOneWay::LEFT):
       *this = LEFT;
       break;
 

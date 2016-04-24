@@ -22,5 +22,13 @@ enum class Direction : char
     OTHER = 0
 };
 
+enum class DirectionOneWay : char
+{
+    UP = '^',
+    RIGHT = '>',
+    DOWN = 'v',
+    LEFT = '<'
+};
+
 
 #endif //MAZE_DIRECTION_H

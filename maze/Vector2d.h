@@ -58,10 +58,10 @@ class Vector2d
 
     //--------------------------------------------------------------------------
     // Constructor
-    // @param sign Character that is representing either up, right, down, left
-    //        or other
+    // @param character Character that is representing either up, right, down,
+    //                  left or other
     //
-    Vector2d(char sign);
+    Vector2d(char character);
 
     //--------------------------------------------------------------------------
     // Copy Constructor
