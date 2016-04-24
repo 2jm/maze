@@ -20,14 +20,44 @@
 
 class Game;
 
+//------------------------------------------------------------------------------
+// Map class
+//
+// This class represents the whole map, which consists out of a matrix, filled
+// with tiles.
+//
 class Map : public Matrix<std::shared_ptr<Tile>>
 {
   private:
+    //--------------------------------------------------------------------------
+    // Reference to the matrix base class
+    //
     Matrix &matrix_;
+
+    //--------------------------------------------------------------------------
+    // Is true if the map is loaded
+    //
     bool is_loaded_;
+
+    //--------------------------------------------------------------------------
+    // Reference to the start/end tile for faster access
+    //
     std::shared_ptr<Tile> start_tile_, end_tile_;
-    int start_once_, end_once_;     //-1 --> doesn't exist; 0 --> exists once
-    int teleporter_pair_[26];       //-1 --> doesn't exist; 0 --> exists once; 1 --> exists twice, size is 26 -> every char of the alphabet
+
+    //--------------------------------------------------------------------------
+    // Integers telling if the start/end tile is exisiting once
+    // -1 => doesn't exist
+    //  0 => exists once
+    int start_once_, end_once_;
+
+    //--------------------------------------------------------------------------
+    // Array needed to check if every teleporter of a loaded map from a file
+    // has a corresponding teleporter to be teleported to
+    // -1 => doesn't exist
+    //  0 => exists once
+    //  1 => exists twice, size is 26 -> every char of the alphabet
+    //
+    int teleporter_pair_[26];
 
     //--------------------------------------------------------------------------
     // Checks if the map is valid
