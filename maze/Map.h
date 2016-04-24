@@ -57,17 +57,45 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     std::string toString(bool original = true) const;
 
-
+    //--------------------------------------------------------------------------
+    // Writes the map from a matrix into a string and draws a * at the position
+    // of the player
+    //
+    // @param player_position actual position of the player
+    //
+    // @return string with the map(player included)
+    //
     std::string toStringWithPlayer(Vector2d player_position) const;
 
+    //--------------------------------------------------------------------------
+    // sets the whole map to a size of (0,0)
+    //
     void clear();
 
+    //--------------------------------------------------------------------------
+    // reset all tiles to the start-status
+    //
     void reset();
 
+    //--------------------------------------------------------------------------
+    // returns if isLoaded is set
+    //
+    // @return is_loaded_
+    //
     bool isLoaded() const;
 
+    //--------------------------------------------------------------------------
+    // returns the position of the EndTile
+    //
+    // @return is_loaded_
+    //
     std::shared_ptr<Tile> getEndTile() const;
 
+    //--------------------------------------------------------------------------
+    // returns the position of the EndTile
+    //
+    // @return is_loaded_
+    //
     std::shared_ptr<Tile> getStartTile() const;
 };
 
