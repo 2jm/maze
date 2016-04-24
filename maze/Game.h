@@ -52,7 +52,6 @@ class Game
       PLAYING,
       WON,
       NO_MORE_STEPS,
-
       PREVIOUS
     };
 

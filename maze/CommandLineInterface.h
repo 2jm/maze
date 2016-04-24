@@ -42,8 +42,10 @@ class CommandLineInterface
 
     //--------------------------------------------------------------------------
     // Calls the needed Commandmethod and prints the returned Message
+    //
     // @param command string of the command, that was entered
     // @param params vector of strings of all params that were entered
+    //
     // @return false if program should be quit else true
     //
     bool execute(std::string command, std::vector<std::string> params);
@@ -51,6 +53,7 @@ class CommandLineInterface
   public:
     //--------------------------------------------------------------------------
     // Constructor
+    //
     // @param game reference of the actual game object
     //
     CommandLineInterface(Game &game);
@@ -63,6 +66,7 @@ class CommandLineInterface
 
     //--------------------------------------------------------------------------
     // Gets the Userinput (command and params) and evaluates it
+    //
     // @return calls execute()-method
     //
     bool update();

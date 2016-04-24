@@ -23,7 +23,7 @@
 namespace Convert
 {
   //----------------------------------------------------------------------------
-  // converts a string to a unsigned int number
+  // Converts a string to an unsigned int number
   //
   // @param string the string that's converted
   //
@@ -32,9 +32,9 @@ namespace Convert
   unsigned int toUnsignedInt(std::string string);
 
   //----------------------------------------------------------------------------
-  // converts a char to a direction
+  // Converts a char to a direction
   //
-  // @param direction_char a char which means direction
+  // @param direction_char A char which means direction
   //
   // @return a direction UP, DOWN, RIGHT, LEFT or OTHER
   //

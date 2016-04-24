@@ -29,7 +29,9 @@ class TileOneWay : public Tile
 
     //--------------------------------------------------------------------------
     // Called when the player enters a tile
+    //
     // @param source_position The initial player position
+    //
     // @return EnterResult Tells if it was a valid/invalid move or if the
     //         player should move again (call enter on the new tile again,
     //         needed for the ice tile)
@@ -38,7 +40,9 @@ class TileOneWay : public Tile
 
     //--------------------------------------------------------------------------
     // Called when the player leaves a tile
+    //
     // @param move_direction The current moving direction of the player
+    //
     // @return bool Tells if the player is allowed to move away from this tile
     //
     bool leave(const Direction move_direction) const override;

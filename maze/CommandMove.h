@@ -26,7 +26,9 @@ class CommandMove : public Command
 
     //--------------------------------------------------------------------------
     // Converts a string into a Direction
+    //
     // @param direction_string string which is transformed
+    //
     // @return Direction UP, DOWN, LEFT, RIGHT or OTHER
     //
     Direction string_to_direction(const std::string direction_string) const;
@@ -44,8 +46,10 @@ class CommandMove : public Command
 
     //--------------------------------------------------------------------------
     // Executes the command.
+    //
     // @param board The board where action should be performed on
     // @param params Possible parameters needed for the execution
+    //
     // @return Integer representing the success of the action
     //
     Message::Code execute(Game &board, std::vector<std::string> &params);

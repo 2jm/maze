@@ -29,7 +29,9 @@ class TileStart : public Tile
 
     //--------------------------------------------------------------------------
     // Called when the player enters a tile
+    //
     // @param source_position The initial player position
+    //
     // @return EnterResult Tells if it was a valid/invalid move or if the
     //         player should move again (call enter on the new tile again,
     //         needed for the ice tile)

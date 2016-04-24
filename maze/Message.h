@@ -42,13 +42,16 @@ namespace Message
 
   //----------------------------------------------------------------------------
   // Prints the message with the code message_code.
+  //
   // @param message_code The code of the message
+  //
   // @return returns the message_code to enable the code to bubble up
   //
   Code print(Code message_code);
 
   //----------------------------------------------------------------------------
   // Returns the message with the code message_code.
+  //
   // @return The message
   //
   const char *get(Code message_code);

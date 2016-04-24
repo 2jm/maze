@@ -33,8 +33,10 @@ class ArgumentParser
     // Get the argument file name
     // This is called after a -s or -m is detected. It returns following
     // argument if it is existing.
+    //
     // @param argc The argument count
     // @param argv The arguments
+    //
     // @param argument_index The index of the currently checked argument
     //
     const char *getArgumentFileName(int argc, char **argv, int &argument_index);
@@ -47,6 +49,7 @@ class ArgumentParser
 
     //----------------------------------------------------------------------
     // Copy Constructor
+    //
     // @param original The original ArgumentParser to copy
     //
     ArgumentParser(const ArgumentParser &original);
@@ -54,6 +57,7 @@ class ArgumentParser
     //----------------------------------------------------------------------
     // Parse method
     // This method parses and processes the command line arguments.
+    //
     // @param argc The argument count
     // @param argv The arguments
     //

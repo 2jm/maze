@@ -38,7 +38,9 @@ class Player
 
     //--------------------------------------------------------------------------
     // Moves the player in the given direction
+    //
     // @param direction The current moving direction of the player
+    //
     // @return bool Tells if the move is valid
     //
     bool move(Direction direction);
