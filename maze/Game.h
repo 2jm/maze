@@ -101,6 +101,12 @@ class Game
     bool fast_moving_;
 
     //--------------------------------------------------------------------------
+    // Constant the method loadAvailableSteps(std::ifstream &input_file) can
+    // return.
+    //
+    const int INVALID_AVAILABLE_STEPS = -1;
+
+    //--------------------------------------------------------------------------
     // Loads number of available steps out of a file
     //
     // @param input_file string of the input file
@@ -260,9 +266,6 @@ class Game
     // Setter Methods
     //
     void setStepsLeft(int steps_left);
-
-    // TODO: only needed for test cases!
-    Player &getPlayer() const;
 };
 
 

@@ -303,12 +303,6 @@ void Game::setStepsLeft(int steps_left)
   *remaining_steps_ = steps_left;
 }
 
-// TODO: only needed for test cases!
-Player& Game::getPlayer() const
-{
-  return *player_;
-}
-
 //------------------------------------------------------------------------------
 int Game::loadAvailableSteps(std::ifstream &input_file)
 {
@@ -316,7 +310,7 @@ int Game::loadAvailableSteps(std::ifstream &input_file)
 
   std::getline(input_file, available_steps_string);
   if(available_steps_string == "")
-    return -1;  // TODO konstante einführen
+    return INVALID_AVAILABLE_STEPS;
 
   try //convert available_steps
   {
@@ -324,13 +318,13 @@ int Game::loadAvailableSteps(std::ifstream &input_file)
     available_steps = Convert::toUnsignedInt(available_steps_string);
 
     if(available_steps == 0)
-      return -1;
+      return INVALID_AVAILABLE_STEPS;
 
     return available_steps;
   }
   catch(const std::exception &e)
   {
-    return -1;
+    return INVALID_AVAILABLE_STEPS;
   }
 }
 
