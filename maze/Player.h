@@ -18,6 +18,12 @@
 
 class Map;
 
+//------------------------------------------------------------------------------
+// Player class
+//
+// class representing the player of the game with the current position on the
+// map
+//
 class Player
 {
   private:

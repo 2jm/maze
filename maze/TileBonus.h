@@ -25,7 +25,7 @@ class TileBonus : public Tile
 {
   private:
     //--------------------------------------------------------------------------
-    /// Reference to the current game
+    // Reference to the current game
     //
     Game &game_;
     //--------------------------------------------------------------------------

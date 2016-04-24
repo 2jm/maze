@@ -25,6 +25,9 @@
 class TileTeleport : public Tile
 {
   private:
+    //--------------------------------------------------------------------------
+    // Reference to the corresponding teleport tile
+    //
     TileTeleport *corresponding_teleport_;
 
   public:

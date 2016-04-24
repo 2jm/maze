@@ -24,6 +24,9 @@
 class TileFinish : public Tile
 {
   private:
+    //--------------------------------------------------------------------------
+    // Reference to the current game
+    //
     Game &game_;
 
   public:

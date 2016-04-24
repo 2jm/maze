@@ -25,8 +25,17 @@
 class Maze
 {
   private:
+    //--------------------------------------------------------------------------
+    // The current game object
+    //
     Game game_;
+    //--------------------------------------------------------------------------
+    // The current command line interface object
+    //
     CommandLineInterface command_line_interface_;
+    //--------------------------------------------------------------------------
+    // The current argument parser object
+    //
     ArgumentParser argument_parser_;
 
   public:
