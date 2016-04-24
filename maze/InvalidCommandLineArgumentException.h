@@ -12,6 +12,7 @@
 #ifndef MAZE_ALL_INVALIDCOMMANDLINEARGUMENTEXCEPTION_H
 #define MAZE_ALL_INVALIDCOMMANDLINEARGUMENTEXCEPTION_H
 
+
 #include <exception>
 
 class InvalidCommandLineArgumentException : public std::exception

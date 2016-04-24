@@ -12,6 +12,7 @@
 #ifndef MAZE_DIRECTION_H
 #define MAZE_DIRECTION_H
 
+
 enum class Direction : char
 {
     UP = 'u',
@@ -20,5 +21,6 @@ enum class Direction : char
     LEFT = 'l',
     OTHER = 0
 };
+
 
 #endif //MAZE_DIRECTION_H

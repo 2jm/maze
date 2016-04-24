@@ -17,6 +17,7 @@
 #ifndef COMMAND_H_INCLUDED
 #define COMMAND_H_INCLUDED
 
+
 #include <string>
 #include <vector>
 #include "Message.h"
@@ -59,5 +60,6 @@ class Command
     // Getter Methods
     const std::string &getName() const;
 };
+
 
 #endif //COMMAND_H_INCLUDED

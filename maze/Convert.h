@@ -12,6 +12,7 @@
 #ifndef MAZE_ALL_CONVERT_H
 #define MAZE_ALL_CONVERT_H
 
+
 #include <string>
 #include "Direction.h"
 
@@ -22,5 +23,6 @@ namespace Convert
 
   Direction toDirection(const char direction_char);
 }
+
 
 #endif //MAZE_ALL_CONVERT_H

@@ -12,6 +12,7 @@
 #ifndef MAZE_COMMANDLINEINTERFACE_H
 #define MAZE_COMMANDLINEINTERFACE_H
 
+
 #include <vector>
 #include "Message.h"
 
@@ -69,7 +70,6 @@ class CommandLineInterface
     //
     bool update();
 };
-
 
 
 #endif //MAZE_COMMANDLINEINTERFACE_H

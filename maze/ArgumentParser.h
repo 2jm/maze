@@ -12,6 +12,7 @@
 #ifndef MAZE_ARGUMENTPARSER_H
 #define MAZE_ARGUMENTPARSER_H
 
+
 #include "InvalidCommandLineArgumentException.h"
 
 class Game;
