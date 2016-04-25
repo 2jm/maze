@@ -33,6 +33,11 @@ class Vector2d
     int y_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Constant vectors for the four directions and one for other directions.
+    // These are returned when a Vector2d is created with a Direction as
+    // argument.
+    //
     const static Vector2d UP;
     const static Vector2d RIGHT;
     const static Vector2d DOWN;

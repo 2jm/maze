@@ -11,6 +11,7 @@
 
 #include "Vector2d.h"
 
+//------------------------------------------------------------------------------
 const Vector2d Vector2d::UP(Vector2d(0, -1));
 const Vector2d Vector2d::RIGHT(Vector2d(1, 0));
 const Vector2d Vector2d::DOWN(Vector2d(0, 1));

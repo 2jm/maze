@@ -33,7 +33,6 @@ class Tile
     char character_;
 
   public:
-    // TODO find better name
     enum EnterResult
     {
       INVALID_MOVE,

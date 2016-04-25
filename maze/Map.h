@@ -29,8 +29,11 @@ class Game;
 class Map : public Matrix<std::shared_ptr<Tile>>
 {
   private:
+    const static int SIZE_OF_ALPHABET = 26;
+
     //--------------------------------------------------------------------------
-    // Reference to the matrix base class
+    // Reference to this class to be able to use the [] operator more easily
+    // (*this)[] -> matrix[]
     //
     Matrix &matrix_;
 
@@ -57,7 +60,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //  0 => exists once
     //  1 => exists twice, size is 26 -> every char of the alphabet
     //
-    int teleporter_pair_[26];
+    int teleporter_pair_[SIZE_OF_ALPHABET];
 
     //--------------------------------------------------------------------------
     // Checks if the map is valid

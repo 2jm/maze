@@ -41,9 +41,9 @@ bool Map::loadFromString(string map_string, Game &game)
   start_once_ = -1;
   end_once_ = -1;
 
-  std::vector<std::shared_ptr<TileTeleport>> tiles_teleport(26);   //TODO remove '26'
+  std::vector<std::shared_ptr<TileTeleport>> tiles_teleport(SIZE_OF_ALPHABET);
 
-  std::fill(teleporter_pair_, teleporter_pair_ + 26, -1);  //TODO remove '26'
+  std::fill(teleporter_pair_, teleporter_pair_ + SIZE_OF_ALPHABET, -1);
 
   clear();
 
