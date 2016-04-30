@@ -12,7 +12,6 @@
 #include <string>
 #include "ArgumentParser.h"
 #include "Game.h"
-#include "FileHandler.h"
 
 //------------------------------------------------------------------------------
 ArgumentParser::ArgumentParser(Game &game) : game_(game)

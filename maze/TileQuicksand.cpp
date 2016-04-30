@@ -10,6 +10,7 @@
 //
 
 #include "TileQuicksand.h"
+#include "Game.h"
 
 //------------------------------------------------------------------------------
 TileQuicksand::TileQuicksand(Vector2d position, char character, Game &game) :

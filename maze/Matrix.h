@@ -46,12 +46,6 @@ class Matrix
     //
     class Column
     {
-      // This is needed in order that the matrix can resize the elements_.
-      // An public resize() method in would be worse because than everybody
-      // would be able to resize a single column of the matrix and this would
-      // hurt the integrity of the matrix.
-      friend class Matrix;
-
       private:
         std::vector<T> elements_;
 
@@ -77,6 +71,14 @@ class Matrix
         // Destructor
         //
         ~Column();
+
+        //----------------------------------------------------------------------
+        // Resize
+        // Resize the elements_ vector
+        //
+        // @param size The new size of the vector
+        //
+        void resize(unsigned int size);
 
         //----------------------------------------------------------------------
         // operator[]
@@ -295,10 +297,10 @@ Matrix<T>::Matrix(const Matrix &original) :
 template<class T>
 void Matrix<T>::resize()
 {
-  columns_.resize(static_cast<unsigned int>(size_.x()));
+  columns_.resize(static_cast<unsigned int>(size_.getX()));
 
   for(auto &row : columns_)
-    row.elements_.resize(static_cast<unsigned int>(size_.y()));
+    row.resize(static_cast<unsigned int>(size_.getY()));
 }
 
 
@@ -342,14 +344,14 @@ Matrix<T>::Column& Matrix<T>::operator[](unsigned int column_index) const
 template<class T>
 T& Matrix<T>::operator[](Vector2d position)
 {
-  return columns_[position.x()][position.y()];
+  return columns_[position.getX()][position.getY()];
 }
 
 
 template<class T>
 const T& Matrix<T>::operator[](Vector2d position) const
 {
-  return columns_[position.x()][position.y()];
+  return columns_[position.getX()][position.getY()];
 }
 
 
@@ -387,11 +389,11 @@ void Matrix<T>::put(T element, Vector2d position)
 {
   Vector2d new_size = size_;
 
-  if(position.x() >= size_.x())
-    new_size.setX(position.x() + 1);
+  if(position.getX() >= size_.getX())
+    new_size.setX(position.getX() + 1);
 
-  if(position.y() >= size_.y())
-    new_size.setY(position.y() + 1);
+  if(position.getY() >= size_.getY())
+    new_size.setY(position.getY() + 1);
 
   resize(new_size);
 
@@ -438,6 +440,12 @@ template<class T>
 Matrix<T>::Column::~Column()
 {
 
+}
+
+template<class T>
+void Matrix<T>::Column::resize(unsigned int size)
+{
+  elements_.resize(size);
 }
 
 
@@ -495,5 +503,7 @@ typename std::vector<T>::iterator Matrix<T>::Column::end()
 {
   return elements_.end();
 }
+
+
 
 #endif //MAZE_MATRIX_H

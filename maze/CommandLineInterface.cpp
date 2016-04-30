@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <string.h>
 #include <algorithm>
 #include "CommandLineInterface.h"
 #include "CommandLoad.h"

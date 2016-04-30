@@ -10,6 +10,7 @@
 //
 
 #include "TileBonus.h"
+#include "Game.h"
 
 //------------------------------------------------------------------------------
 TileBonus::TileBonus(Vector2d position, char character, Game &game) :

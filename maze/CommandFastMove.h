@@ -15,8 +15,6 @@
 
 #include "Command.h"
 
-enum class Direction : char;
-
 //----------------------------------------------------------------------------
 // Command Fast Move
 //

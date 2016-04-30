@@ -14,9 +14,9 @@ int main()
 
   map.resize(size);
 
-  for(i=0; i<size.x(); i++)
+  for(i=0; i< size.getX(); i++)
   {
-    for(j=0; j<size.y(); j++)
+    for(j=0; j< size.getY(); j++)
     {
       Vector2d pos(i, j);
       map[pos] = std::make_shared<TileWall>(pos);

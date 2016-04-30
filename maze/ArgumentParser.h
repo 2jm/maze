@@ -48,14 +48,14 @@ class ArgumentParser
     //
     ArgumentParser(Game &game);
 
-    //----------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Copy Constructor
     //
     // @param original The original ArgumentParser to copy
     //
     ArgumentParser(const ArgumentParser &original);
 
-    //----------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Parse method
     // This method parses and processes the command line arguments.
     //

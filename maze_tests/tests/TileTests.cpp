@@ -101,28 +101,28 @@ TEST(TileTest, test_one_way)
 
   // > field
   game.movePlayer(Direction::UP);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::DOWN);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::LEFT);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
 
   game.movePlayer(Direction::RIGHT);
   tile_pos = game.getPlayer().getPosition();
 
   // v field
   game.movePlayer(Direction::UP);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::RIGHT);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::LEFT);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
 
   game.movePlayer(Direction::DOWN);
   game.movePlayer(Direction::DOWN);
@@ -130,28 +130,28 @@ TEST(TileTest, test_one_way)
 
   // < field
   game.movePlayer(Direction::UP);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::RIGHT);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::DOWN);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
 
   game.movePlayer(Direction::LEFT);
   tile_pos = game.getPlayer().getPosition();
 
   // ^ field
   game.movePlayer(Direction::RIGHT);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::DOWN);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
   game.movePlayer(Direction::LEFT);
-  EXPECT_EQ(tile_pos.x(), game.getPlayer().getPosition().x());
-  EXPECT_EQ(tile_pos.y(), game.getPlayer().getPosition().y());
+  EXPECT_EQ(tile_pos.getX(), game.getPlayer().getPosition().x());
+  EXPECT_EQ(tile_pos.getY(), game.getPlayer().getPosition().y());
 
   game.movePlayer(Direction::UP);
 

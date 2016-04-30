@@ -58,9 +58,12 @@ bool Map::loadFromString(string map_string, Game &game)
       {
         put(std::make_shared<TileWall>(tile_position), tile_position);
       }
-      else if(map_string[string_position] >= 'A' && map_string[string_position] <= 'Z')
+      else if(map_string[string_position] >= 'A' &&
+              map_string[string_position] <= 'Z')
       {
-        std::shared_ptr<TileTeleport> tile_teleport = std::make_shared<TileTeleport>(tile_position, map_string[string_position]);
+        std::shared_ptr<TileTeleport> tile_teleport =
+                std::make_shared<TileTeleport>(
+                        tile_position, map_string[string_position]);
         pair_nr = map_string[string_position] - 'A';  //character - ascii(A)
         teleporter_pair_[pair_nr]++;
 
@@ -68,8 +71,10 @@ bool Map::loadFromString(string map_string, Game &game)
           tiles_teleport[pair_nr] = tile_teleport;
         else
         {
-          tiles_teleport[pair_nr]->setCorrespondingTeleport(tile_teleport.get());
-          tile_teleport->setCorrespondingTeleport(tiles_teleport[pair_nr].get());
+          tiles_teleport[pair_nr]->
+                  setCorrespondingTeleport(tile_teleport.get());
+          tile_teleport->
+                  setCorrespondingTeleport(tiles_teleport[pair_nr].get());
         }
 
         put(tile_teleport, tile_position);
@@ -90,13 +95,19 @@ bool Map::loadFromString(string map_string, Game &game)
 
         put(end_tile_, tile_position);
       }
-      else if(map_string[string_position] >= 'a' && map_string[string_position] <= 'e')
+      else if(map_string[string_position] >= 'a' &&
+              map_string[string_position] <= 'e')
       {
-        put(std::make_shared<TileBonus>(tile_position, map_string[string_position], game), tile_position);
+        put(std::make_shared<TileBonus>(tile_position,
+                                        map_string[string_position],
+                                        game), tile_position);
       }
-      else if(map_string[string_position] >= 'f' && map_string[string_position] <= 'j')
+      else if(map_string[string_position] >= 'f' &&
+              map_string[string_position] <= 'j')
       {
-        put(std::make_shared<TileQuicksand>(tile_position, map_string[string_position], game), tile_position);
+        put(std::make_shared<TileQuicksand>(tile_position,
+                                            map_string[string_position],
+                                            game), tile_position);
       }
       else if(map_string[string_position] == ' ')
       {
@@ -106,10 +117,14 @@ bool Map::loadFromString(string map_string, Game &game)
       {
         put(std::make_shared<TileIce>(tile_position), tile_position);
       }
-      else if(map_string[string_position] == '<' || map_string[string_position] == '>' ||
-              map_string[string_position] == 'v' || map_string[string_position] == '^')
+      else if(map_string[string_position] == '<' ||
+              map_string[string_position] == '>' ||
+              map_string[string_position] == 'v' ||
+              map_string[string_position] == '^')
       {
-        put(std::make_shared<TileOneWay>(tile_position, map_string[string_position]), tile_position);
+        put(std::make_shared<TileOneWay>(tile_position,
+                                         map_string[string_position]),
+            tile_position);
       }
       else
       {
@@ -138,8 +153,8 @@ bool Map::check()
   int line_length;
   int column_height;
 
-  line_length = size_.x();
-  column_height = size_.y();
+  line_length = size_.getX();
+  column_height = size_.getY();
 
   for (int j = 0; j < column_height; j++)
   {
@@ -179,9 +194,9 @@ std::string Map::toString(bool original) const
 
   int row_number, column_number;
 
-  for(row_number = 0; row_number < size_.y(); row_number++)
+  for(row_number = 0; row_number < size_.getY(); row_number++)
   {
-    for(column_number = 0; column_number < size_.x(); column_number++)
+    for(column_number = 0; column_number < size_.getX(); column_number++)
       matrix_string += columns_[column_number][row_number]->toChar(original);
 
     matrix_string += '\n';
@@ -196,9 +211,9 @@ std::string Map::toStringWithPlayer(Vector2d player_position) const
   std::string map_string;
   int row_number, column_number;
 
-  for(row_number = 0; row_number < size_.y(); row_number++)
+  for(row_number = 0; row_number < size_.getY(); row_number++)
   {
-    for(column_number = 0; column_number < getSize().x(); column_number++)
+    for(column_number = 0; column_number < getSize().getX(); column_number++)
     {
       if(player_position == Vector2d(column_number, row_number))
         map_string += '*';

@@ -9,11 +9,9 @@
 //------------------------------------------------------------------------------
 //
 
-#include <iostream>
 #include "CommandMove.h"
+#include "Direction.h"
 #include "Game.h"
-
-using std::cout;
 
 //------------------------------------------------------------------------------
 CommandMove::CommandMove() : Command("move")
@@ -43,8 +41,8 @@ Message::Code CommandMove::execute(Game &game,
 }
 
 //------------------------------------------------------------------------------
-Direction CommandMove::string_to_direction(
-        const std::string direction_string) const
+Direction CommandMove::string_to_direction(const std::string direction_string)
+const
 {
   if(direction_string == UP)
   {

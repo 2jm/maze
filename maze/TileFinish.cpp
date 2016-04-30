@@ -10,6 +10,7 @@
 //
 
 #include "TileFinish.h"
+#include "Game.h"
 
 //------------------------------------------------------------------------------
 TileFinish::TileFinish(Vector2d position, Game &game) : Tile(position, 'x'),

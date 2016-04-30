@@ -10,7 +10,6 @@
 //
 
 #include "CommandQuit.h"
-#include <iostream>
 
 //------------------------------------------------------------------------------
 CommandQuit::CommandQuit() : Command("quit")

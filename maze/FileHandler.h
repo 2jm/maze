@@ -23,7 +23,7 @@
 //
 namespace FileHandler
 {
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   // Checks if the entered Filename is valid
   //
   // @param filename a string with the entered path/filename
@@ -32,7 +32,7 @@ namespace FileHandler
   //
   bool isValidFileName(const std::string filename);
 
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   // Opens an inputfilestream
   //
   // @param filename a string with the entered path/filename
@@ -45,7 +45,7 @@ namespace FileHandler
   //
   Message::Code getInputFile(const std::string file_name, std::ifstream &file);
 
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   // Opens an outputfilestream
   //
   // @param filename a string with the entered path/filename

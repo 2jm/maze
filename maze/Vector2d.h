@@ -13,9 +13,9 @@
 #define MAZE_VECTOR2D_H
 
 
-#include "Direction.h"
+enum class Direction : char;
 
-//----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // Vector 2D
 //
 // class representing a point (x, y) in the 2d space
@@ -82,10 +82,6 @@ class Vector2d
     int getX() const;
 
     int getY() const;
-
-    int x() const;
-
-    int y() const;
 
     //--------------------------------------------------------------------------
     // Setter Methods

@@ -14,9 +14,10 @@
 
 
 #include "Command.h"
-#include "Direction.h"
 
-//----------------------------------------------------------------------------
+enum class Direction : char;
+
+//------------------------------------------------------------------------------
 // Command Move
 //
 // class representing the move command

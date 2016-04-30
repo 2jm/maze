@@ -14,9 +14,9 @@
 
 
 #include "Vector2d.h"
-#include "Direction.h"
 
 class Map;
+enum class Direction : char;
 
 //------------------------------------------------------------------------------
 // Player class
@@ -31,6 +31,7 @@ class Player
     /// Current position of the player
     //
     Vector2d position_;
+
     //--------------------------------------------------------------------------
     /// Reference to the current loaded map
     //
