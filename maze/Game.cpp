@@ -192,10 +192,10 @@ void Game::completeFastMove()
 
   if(player_->getPosition() == map_->getEndTile()->getPosition())
   {
-    wonGame();
-
     if(game_state_ != State::LOADING && game_state_ != State::TESTING_MAP)
       Message::print(Message::WON);
+
+    wonGame();
   }
   else if(*remaining_steps_ <= 0)
     lostGame();
