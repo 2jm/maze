@@ -34,7 +34,7 @@
 // .at(column).at(row) or at(Vector2d(column, row).
 // The at method does bounds checking.
 //
-template <class T>
+template<class T>
 class Matrix
 {
   public:
@@ -89,8 +89,9 @@ class Matrix
         // @return Returns the element with index element_index from the
         //         std::vector<T> elements_.
         //
-        T& operator[](unsigned int element_index);
-        const T& operator[](unsigned int element_index) const;
+        T &operator[](unsigned int element_index);
+
+        const T &operator[](unsigned int element_index) const;
 
         //----------------------------------------------------------------------
         // at
@@ -103,8 +104,9 @@ class Matrix
         // @return Returns the element with index element_index from the
         //         std::vector<T> elements_.
         //
-        T& at(unsigned int element_index);
-        const T& at(unsigned int element_index) const;
+        T &at(unsigned int element_index);
+
+        const T &at(unsigned int element_index) const;
 
         //----------------------------------------------------------------------
         // begin and end iterators
@@ -113,14 +115,18 @@ class Matrix
         //         std::vector<T> elements_.
         //
         typename std::vector<T>::const_iterator begin() const;
+
         typename std::vector<T>::iterator begin();
+
         typename std::vector<T>::const_iterator end() const;
+
         typename std::vector<T>::iterator end();
     };
 
   protected:
     Vector2d size_;
     std::vector<Column> columns_;
+
     void resize();
 
   public:
@@ -182,8 +188,9 @@ class Matrix
     //
     // @return Returns the column with index column_index.
     //
-    Column& operator[](unsigned int column_index);
-    const Column& operator[](unsigned int column_index) const;
+    Column &operator[](unsigned int column_index);
+
+    const Column &operator[](unsigned int column_index) const;
 
     //--------------------------------------------------------------------------
     // operator[Vector2d]
@@ -192,8 +199,9 @@ class Matrix
     //
     // @return Returns the element on the position position.
     //
-    T& operator[](Vector2d position);
-    const T& operator[](Vector2d position) const;
+    T &operator[](Vector2d position);
+
+    const T &operator[](Vector2d position) const;
 
     //--------------------------------------------------------------------------
     // at(unsigned int)
@@ -206,8 +214,9 @@ class Matrix
     //
     // @return Returns the column with index column_index.
     //
-    Column& at(unsigned int column_index);
-    const Column& at(unsigned int column_index) const;
+    Column &at(unsigned int column_index);
+
+    const Column &at(unsigned int column_index) const;
 
     //--------------------------------------------------------------------------
     // at(Vector2d)
@@ -220,8 +229,9 @@ class Matrix
     //
     // @return Returns the element on the position position.
     //
-    T& at(unsigned int row_index, unsigned int element_index);
-    const T& at(unsigned int row_index, unsigned int element_index) const;
+    T &at(unsigned int row_index, unsigned int element_index);
+
+    const T &at(unsigned int row_index, unsigned int element_index) const;
 
     //--------------------------------------------------------------------------
     // Put method
@@ -327,7 +337,7 @@ Vector2d Matrix<T>::getSize() const
 
 
 template<class T>
-typename Matrix<T>::Column& Matrix<T>::operator[](unsigned int column_index)
+typename Matrix<T>::Column &Matrix<T>::operator[](unsigned int column_index)
 {
   return columns_[column_index];
 }
@@ -335,28 +345,28 @@ typename Matrix<T>::Column& Matrix<T>::operator[](unsigned int column_index)
 
 template<class T>
 const typename
-Matrix<T>::Column& Matrix<T>::operator[](unsigned int column_index) const
+Matrix<T>::Column &Matrix<T>::operator[](unsigned int column_index) const
 {
   return columns_[column_index];
 }
 
 
 template<class T>
-T& Matrix<T>::operator[](Vector2d position)
+T &Matrix<T>::operator[](Vector2d position)
 {
   return columns_[position.getX()][position.getY()];
 }
 
 
 template<class T>
-const T& Matrix<T>::operator[](Vector2d position) const
+const T &Matrix<T>::operator[](Vector2d position) const
 {
   return columns_[position.getX()][position.getY()];
 }
 
 
 template<class T>
-typename Matrix<T>::Column& Matrix<T>::at(unsigned int column_index)
+typename Matrix<T>::Column &Matrix<T>::at(unsigned int column_index)
 {
   return columns_.at(column_index);
 }
@@ -364,21 +374,21 @@ typename Matrix<T>::Column& Matrix<T>::at(unsigned int column_index)
 
 template<class T>
 const
-typename Matrix<T>::Column& Matrix<T>::at(unsigned int column_index) const
+typename Matrix<T>::Column &Matrix<T>::at(unsigned int column_index) const
 {
   return columns_.at(column_index);
 }
 
 
 template<class T>
-T& Matrix<T>::at(unsigned int row_index, unsigned int element_index)
+T &Matrix<T>::at(unsigned int row_index, unsigned int element_index)
 {
   return columns_.at(row_index).at(element_index);
 }
 
 
 template<class T>
-const T& Matrix<T>::at(unsigned int row_index, unsigned int element_index) const
+const T &Matrix<T>::at(unsigned int row_index, unsigned int element_index) const
 {
   return columns_.at(row_index).at(element_index);
 }
@@ -450,28 +460,28 @@ void Matrix<T>::Column::resize(unsigned int size)
 
 
 template<class T>
-T& Matrix<T>::Column::operator[](unsigned int element_index)
+T &Matrix<T>::Column::operator[](unsigned int element_index)
 {
   return elements_[element_index];
 }
 
 
 template<class T>
-const T& Matrix<T>::Column::operator[](unsigned int element_index) const
+const T &Matrix<T>::Column::operator[](unsigned int element_index) const
 {
   return elements_[element_index];
 }
 
 
 template<class T>
-T& Matrix<T>::Column::at(unsigned int element_index)
+T &Matrix<T>::Column::at(unsigned int element_index)
 {
   return elements_.at(element_index);
 }
 
 
 template<class T>
-const T& Matrix<T>::Column::at(unsigned int element_index) const
+const T &Matrix<T>::Column::at(unsigned int element_index) const
 {
   return elements_.at(element_index);
 }
@@ -501,9 +511,8 @@ typename std::vector<T>::const_iterator Matrix<T>::Column::end() const
 template<class T>
 typename std::vector<T>::iterator Matrix<T>::Column::end()
 {
-  return elements_.end();
+  return elements_.gend();
 }
-
 
 
 #endif //MAZE_MATRIX_H
