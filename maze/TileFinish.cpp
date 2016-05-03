@@ -14,7 +14,7 @@
 
 //------------------------------------------------------------------------------
 TileFinish::TileFinish(Vector2d position, Game &game) : Tile(position, 'x'),
-                                                         game_(game)
+                                                        game_(game)
 {
 
 }
