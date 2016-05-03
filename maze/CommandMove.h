@@ -37,7 +37,7 @@ class CommandMove : public Command
     //
     // @return Direction UP, DOWN, LEFT, RIGHT or OTHER
     //
-    Direction string_to_direction(const std::string direction_string) const;
+    Direction stringToDirection(const std::string direction_string) const;
 
   public:
     //--------------------------------------------------------------------------
