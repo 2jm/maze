@@ -36,8 +36,7 @@ void ArgumentParser::parse(int argc, char **argv)
 
   if(argc >= 2)
   {
-    int argument_index;
-    for(argument_index = 1; argument_index < argc; argument_index++)
+    for(int argument_index = 1; argument_index < argc; argument_index++)
     {
       if(std::string(argv[argument_index]).compare("-m") == 0)
       {
