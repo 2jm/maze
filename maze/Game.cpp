@@ -402,6 +402,7 @@ void Game::switchState(State new_state)
   switch(new_state)
   {
     case State::NO_MAZE_LOADED:
+      game_state_ = State::NO_MAZE_LOADED;
       break;
 
     case State::TESTING_MAP:

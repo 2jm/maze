@@ -511,7 +511,7 @@ typename std::vector<T>::const_iterator Matrix<T>::Column::end() const
 template<class T>
 typename std::vector<T>::iterator Matrix<T>::Column::end()
 {
-  return elements_.gend();
+  return elements_.end();
 }
 
 
