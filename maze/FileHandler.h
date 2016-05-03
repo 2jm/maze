@@ -26,7 +26,7 @@ namespace FileHandler
   //----------------------------------------------------------------------------
   // Checks if the entered Filename is valid
   //
-  // @param filename a string with the entered path/filename
+  // @param file_name a string with the entered path/filename
   //
   // @return true if the Filename is valid else false
   //
@@ -35,8 +35,8 @@ namespace FileHandler
   //----------------------------------------------------------------------------
   // Opens an inputfilestream
   //
-  // @param filename a string with the entered path/filename
-  // @param file  inputfilestream on which the file is opened
+  // @param file_name a string with the entered path/filename
+  // @param file inputfilestream on which the file is opened
   //
   // @return MesseageCode WRONG_PARAMETER if wrong parameters were entered
   //                      FILE_COULD_NOT_BE_OPENED if ifstream couldn't be
@@ -48,8 +48,8 @@ namespace FileHandler
   //----------------------------------------------------------------------------
   // Opens an outputfilestream
   //
-  // @param filename a string with the entered path/filename
-  // @param file  outputfilestream on which the file is opened
+  // @param file_name a string with the entered path/filename
+  // @param file outputfilestream on which the file is opened
   //
   // @return MesseageCode WRONG_PARAMETER if wrong parameters were entered
   //                      FILE_COULD_NOT_BE_WRITTEN if ofstream couldn't be
