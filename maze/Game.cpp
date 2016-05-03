@@ -43,7 +43,7 @@ Message::Code Game::loadFile(const std::string file_name)
 
   std::ifstream input_file;
   if((return_code = FileHandler::getInputFile(file_name, input_file))
-      != Message::SUCCESS)
+     != Message::SUCCESS)
     return return_code;
 
   std::getline(input_file, saved_moves);

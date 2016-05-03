@@ -150,26 +150,28 @@ bool Map::loadFromString(string map_string, Game &game)
 //------------------------------------------------------------------------------
 bool Map::check()
 {
-  int line_length;
-  int column_height;
+  int line_length, column_height;
 
   line_length = size_.getX();
   column_height = size_.getY();
 
-  for(int j = 0; j < column_height; j++)
+  for(int row_number = 0; row_number < column_height; row_number++)
   {
-    if(matrix_[0][j] == nullptr || matrix_[line_length - 1][j] == nullptr ||
-       *(matrix_[0][j]) != '#' || *(matrix_[line_length - 1][j]) != '#')
+    if(matrix_[0][row_number] == nullptr ||
+       matrix_[line_length - 1][row_number] == nullptr ||
+       *(matrix_[0][row_number]) != '#' ||
+       *(matrix_[line_length - 1][row_number]) != '#')
       return false;
   }
 
-  for(int j = 0; j < line_length; j++)
+  for(int column_number = 0; column_number < line_length; column_number++)
   {
-    if(matrix_[j][0] == nullptr || matrix_[j][column_height - 1] == nullptr ||
-       *(matrix_[j][0]) != '#' || *(matrix_[j][column_height - 1]) != '#')
+    if(matrix_[column_number][0] == nullptr ||
+       matrix_[column_number][column_height - 1] == nullptr ||
+       *(matrix_[column_number][0]) != '#' ||
+       *(matrix_[column_number][column_height - 1]) != '#')
       return false;
   }
-
 
   //check if exact one start-tile
   if(start_once_ != 0)
@@ -178,9 +180,9 @@ bool Map::check()
   if(end_once_ != 0)
     return false;
   //check if if teleporter_pairs are correct
-  for(int i = 0; i < 26; i++)
+  for(int pair = 0; pair < 26; pair++)
   {
-    if(teleporter_pair_[i] != -1 && teleporter_pair_[i] != 1)
+    if(teleporter_pair_[pair] != -1 && teleporter_pair_[pair] != 1)
       return false;
   }
 
