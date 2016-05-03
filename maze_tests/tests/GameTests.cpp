@@ -20,6 +20,57 @@ TEST(GameTest, test_empty)
   ASSERT_EQ(game.loadFile(TEST_FILES_PATH"empty.txt"), Message::INVALID_FILE);
 }
 
+TEST(GameTest, test_filename)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"filename.txt"), Message::SUCCESS);
+}
+
+TEST(GameTest, test_filename_save)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"filename.save.txt"),
+            Message::SUCCESS);
+}
+
+TEST(GameTest, test_filename_save_save)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"filename.save.save.txt"),
+            Message::SUCCESS);
+}
+
+TEST(GameTest, test_filename_extension_long)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"filename.savemeiamsolong"),
+            Message::SUCCESS);
+}
+
+TEST(GameTest, test_filename_without_extension)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"filename"), Message::SUCCESS);
+}
+
+TEST(GameTest, test_filename_big_and_underscore)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"FiLeNaMe_.txt"), Message::SUCCESS);
+}
+
+TEST(GameTest, test_filename_big)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"FiLeNaMeS.txt"), Message::SUCCESS);
+}
+
+TEST(GameTest, test_invalid_filename_big)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"FiLeNaMes.txt"), Message::FILE_COULD_NOT_BE_OPENED);
+}
+
 TEST(GameTest, test_valid_1)
 {
   Game game;
@@ -62,6 +113,20 @@ TEST(GameTest, test_invalid_map)
   ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidMap.txt"), Message::INVALID_FILE);
 }
 
+TEST(GameTest, test_invalid_map2)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidMap2.txt"),
+            Message::INVALID_FILE);
+}
+
+TEST(GameTest, test_invalid_map3)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidMap3.txt"),
+            Message::INVALID_FILE);
+}
+
 TEST(GameTest, test_invalid_moves)
 {
   Game game;
@@ -78,6 +143,20 @@ TEST(GameTest, test_invalid_two_ends)
 {
   Game game;
   ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidTwoEnds.txt"), Message::INVALID_FILE);
+}
+
+TEST(GameTest, test_invalid_no_end)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidNoEnd.txt"),
+            Message::INVALID_FILE);
+}
+
+TEST(GameTest, test_invalid_no_start)
+{
+  Game game;
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"invalidNoStart.txt"),
+            Message::INVALID_FILE);
 }
 
 TEST(GameTest, test_impossible_moves)
@@ -97,6 +176,7 @@ TEST(GameTest, test_incomplete_teleporter)
   Game game;
   ASSERT_EQ(game.loadFile(TEST_FILES_PATH"incompleteTeleporter.txt"), Message::INVALID_FILE);
 }
+/*
 
 TEST(GameTest, test_game_won)
 {
@@ -172,3 +252,4 @@ TEST(GameTest, test_valid_two_teleporters_valid_move)
   ASSERT_EQ(Message::SUCCESS, game.movePlayer(Direction::RIGHT));
   ASSERT_EQ( Game::State::WON, game.getState());
 }
+*/
