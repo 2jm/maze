@@ -7,6 +7,7 @@
 
 #define TEST_FILES_PATH "../tests/testFiles/"
 
+/*
 TEST(TileTest, test_ice_then_teleporter)
 {
   Game game;
@@ -233,4 +234,4 @@ TEST(TileTest, test_wall)
   game.movePlayer(Direction::RIGHT);
   game.movePlayer(Direction::RIGHT);
   EXPECT_EQ(game.getState(), Game::State::WON);
-}
+}*/

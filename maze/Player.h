@@ -16,6 +16,7 @@
 #include "Vector2d.h"
 
 class Map;
+
 enum class Direction : char;
 
 //------------------------------------------------------------------------------

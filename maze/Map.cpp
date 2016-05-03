@@ -156,17 +156,17 @@ bool Map::check()
   line_length = size_.getX();
   column_height = size_.getY();
 
-  for (int j = 0; j < column_height; j++)
+  for(int j = 0; j < column_height; j++)
   {
     if(matrix_[0][j] == nullptr || matrix_[line_length - 1][j] == nullptr ||
-            *(matrix_[0][j]) != '#' || *(matrix_[line_length - 1][j]) != '#')
+       *(matrix_[0][j]) != '#' || *(matrix_[line_length - 1][j]) != '#')
       return false;
   }
 
-  for (int j = 0; j < line_length; j++)
+  for(int j = 0; j < line_length; j++)
   {
     if(matrix_[j][0] == nullptr || matrix_[j][column_height - 1] == nullptr ||
-            *(matrix_[j][0]) != '#' || *(matrix_[j][column_height - 1]) != '#')
+       *(matrix_[j][0]) != '#' || *(matrix_[j][column_height - 1]) != '#')
       return false;
   }
 
@@ -238,9 +238,9 @@ void Map::clear()
 void Map::reset()
 {
   // reset all tiles
-  for (auto &column : columns_)
+  for(auto &column : columns_)
   {
-    for (auto &element : column)
+    for(auto &element : column)
       element->reset();
   }
 }
