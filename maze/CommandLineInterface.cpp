@@ -48,10 +48,10 @@ bool CommandLineInterface::update()
 {
   std::cout << "sep> ";
 
-  std::string input_string_;
-  std::getline(std::cin, input_string_);
+  std::string input_string;
+  std::getline(std::cin, input_string);
 
-  std::istringstream iss(input_string_);
+  std::istringstream iss(input_string);
 
   std::string command;
   std::vector<std::string> params;

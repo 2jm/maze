@@ -32,7 +32,7 @@ Message::Code CommandMove::execute(Game &game,
   if(params.size() != 1)
     return Message::WRONG_PARAMETER_COUNT;
 
-  Direction move_direction = string_to_direction(params[0]);
+  Direction move_direction = stringToDirection(params[0]);
 
   if(move_direction == Direction::OTHER)
     return Message::WRONG_PARAMETER;
@@ -41,7 +41,7 @@ Message::Code CommandMove::execute(Game &game,
 }
 
 //------------------------------------------------------------------------------
-Direction CommandMove::string_to_direction(const std::string direction_string)
+Direction CommandMove::stringToDirection(const std::string direction_string)
 const
 {
   if(direction_string == UP)

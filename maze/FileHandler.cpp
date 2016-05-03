@@ -16,12 +16,12 @@
 namespace FileHandler
 {
   //----------------------------------------------------------------------------
-  bool isValidFileName(std::string filename)
+  bool isValidFileName(std::string file_name)
   {
-    if(filename.length() > 255)
+    if(file_name.length() > 255)
       return false;
 
-    for(auto character : filename)
+    for(auto character : file_name)
     {
       if(!((character >= 'A' && character <= 'Z') ||
            (character >= 'a' && character <= 'z') ||
