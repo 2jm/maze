@@ -56,7 +56,7 @@ TEST(GameTest, test_filename_without_extension)
 TEST(GameTest, test_filename_big_and_underscore)
 {
   Game game;
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"FiLeNaMe_.txt"), Message::SUCCESS);
+  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"FiLeNaMe_.txt"), Message::WRONG_PARAMETER);
 }
 
 TEST(GameTest, test_filename_big)
