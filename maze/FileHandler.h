@@ -30,7 +30,7 @@ namespace FileHandler
   //
   // @return true if the Filename is valid else false
   //
-  bool isValidFileName(const std::string filename);
+  bool isValidFileName(const std::string file_name);
 
   //----------------------------------------------------------------------------
   // Opens an inputfilestream
