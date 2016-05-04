@@ -119,8 +119,9 @@ bool CommandLineInterface::execute(std::string command,
   else if(command == name_strings_[Name::QUIT])
   {
     CommandQuit command_quit;
-    Message::print(command_quit.execute(game_, params));
-    return false;
+    Message::Code return_code = command_quit.execute(game_, params);
+    Message::print(return_code);
+    return return_code != Message::BYE;
   }
     //-----empty command------
   else if(command.empty())
