@@ -27,5 +27,8 @@ CommandQuit::~CommandQuit()
 Message::Code CommandQuit::execute(Game &game,
                                    std::vector<std::string> &params)
 {
+  if(params.size() != 0)
+    return Message::WRONG_PARAMETER_COUNT;
+
   return Message::BYE;
 }

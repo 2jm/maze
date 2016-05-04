@@ -212,7 +212,7 @@ std::string Map::toStringWithPlayer(Vector2d player_position) const
 
   for(int row_number = 0; row_number < size_.getY(); row_number++)
   {
-    for(int column_number = 0; column_number < getSize().getX();
+    for(int column_number = 0; column_number < size_.getX();
         column_number++)
     {
       if(player_position == Vector2d(column_number, row_number))

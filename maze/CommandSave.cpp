@@ -28,5 +28,8 @@ CommandSave::~CommandSave()
 Message::Code CommandSave::execute(Game &game,
                                    std::vector<std::string> &params)
 {
+  if(params.size() != 1)
+    return Message::WRONG_PARAMETER_COUNT;
+
   return game.saveFile(params[0]);
 }
