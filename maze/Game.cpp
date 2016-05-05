@@ -264,12 +264,6 @@ Message::Code Game::show(const bool show_more)
 }
 
 //------------------------------------------------------------------------------
-Game::State Game::getState() const
-{
-  return game_state_;
-}
-
-//------------------------------------------------------------------------------
 void Game::wonGame()
 {
   if(!fast_moving_ && game_state_ != State::TESTING_MAP)

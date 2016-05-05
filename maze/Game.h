@@ -245,13 +245,6 @@ class Game
     Message::Code show(const bool show_more = false);
 
     //--------------------------------------------------------------------------
-    // Returns the game state
-    //
-    // @return Game::State
-    //
-    State getState() const;
-
-    //--------------------------------------------------------------------------
     // Sets the game state to WON if it is allowed
     //
     void wonGame();
