@@ -119,14 +119,10 @@ Message::Code Game::movePlayer(const Direction direction)
     return Message::INVALID_MOVE;
 
   if(game_state_ == State::NO_MORE_STEPS)
-  {
-    fullReset();
     return Message::NO_MORE_STEPS;
-  }
 
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
-
 
   if(fast_moving_ && player_->move(direction))
   {

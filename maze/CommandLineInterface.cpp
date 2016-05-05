@@ -20,6 +20,7 @@
 #include "CommandShow.h"
 #include "CommandQuit.h"
 #include "CommandReset.h"
+#include "Game.h"
 
 //------------------------------------------------------------------------------
 CommandLineInterface::CommandLineInterface(Game &game) : game_(game)
@@ -98,7 +99,10 @@ bool CommandLineInterface::execute(std::string command,
   else if(command == name_strings_[Name::MOVE])
   {
     CommandMove command_move;
-    Message::print(command_move.execute(game_, params));
+    Message::Code return_code = command_move.execute(game_, params);
+    Message::print(return_code);
+    if(return_code == Message::NO_MORE_STEPS)
+      game_.fullReset();
     return true;
   }
     //-----show------
