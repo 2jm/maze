@@ -35,10 +35,10 @@ class CommandMove : public Command
     //
     CommandMove &operator=(const CommandMove &original);
 
-    const std::string UP = "up";
-    const std::string RIGHT = "right";
-    const std::string DOWN = "down";
-    const std::string LEFT = "left";
+    //--------------------------------------------------------------------------
+    // Strings representing all four possible directions
+    //
+    const std::string UP = "up", RIGHT = "right", DOWN = "down", LEFT = "left";
 
     //--------------------------------------------------------------------------
     // Converts a string into a Direction
