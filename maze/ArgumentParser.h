@@ -26,7 +26,7 @@ class ArgumentParser
 {
   private:
     //--------------------------------------------------------------------------
-    /// Reference to the current game
+    // Reference to the current game
     //
     Game &game_;
 

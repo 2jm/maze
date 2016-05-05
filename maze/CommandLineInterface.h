@@ -50,6 +50,9 @@ class CommandLineInterface
       QUIT
     };
 
+    //--------------------------------------------------------------------------
+    // Array that contains every possible command name
+    //
     const static std::string name_strings_[];
 
     //--------------------------------------------------------------------------

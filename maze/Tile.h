@@ -35,16 +35,19 @@ class Tile
 
   protected:
     //--------------------------------------------------------------------------
-    /// Position of this tile
+    // Position of this tile
     //
     Vector2d position_;
 
     //--------------------------------------------------------------------------
-    /// Character representing this tile on the map
+    // Character representing this tile on the map
     //
     char character_;
 
   public:
+    //--------------------------------------------------------------------------
+    // Enum that tells every possible result when entering a tile
+    //
     enum EnterResult
     {
       INVALID_MOVE,

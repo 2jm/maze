@@ -41,7 +41,7 @@ class TileBonus : public Tile
     Game &game_;
 
     //--------------------------------------------------------------------------
-    /// Boolean representing if the bonus has been already consumed
+    // Boolean representing if the bonus has been already consumed
     //
     bool used_;
 

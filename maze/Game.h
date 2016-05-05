@@ -26,35 +26,6 @@
 //
 class Game
 {
-  public:
-    //--------------------------------------------------------------------------
-    // State enum
-    //
-    // The game works like a state machine. When the game is started the state
-    // is NO_MAZE_LOADED.
-    // When the user loads a map the first thing Game does is testing the map
-    // if it is valid. While doing this it is in the sate TESTING_MAP.
-    // When the file is valid it loads the map to be playable while in state
-    // LOADING.
-    // After the map is loaded the state is PLAYING till such time as the user
-    // wins the game -> state WON or no more steps are available -> state
-    // NO_MORE_STEPS
-    // The reset command brings the game back to the state PLAYING.
-    // Loading a new file brings the game to state TESTING_MAP.
-    //
-    // PREVIOUS it no state it is used to switch to the previous state.
-    //
-    enum class State
-    {
-      NO_MAZE_LOADED,
-      TESTING_MAP,
-      LOADING,
-      PLAYING,
-      WON,
-      NO_MORE_STEPS,
-      PREVIOUS
-    };
-
   private:
     //--------------------------------------------------------------------------
     // Private copy constructor
@@ -152,6 +123,34 @@ class Game
     void switchState(State new_state);
 
   public:
+    //--------------------------------------------------------------------------
+    // State enum
+    //
+    // The game works like a state machine. When the game is started the state
+    // is NO_MAZE_LOADED.
+    // When the user loads a map the first thing Game does is testing the map
+    // if it is valid. While doing this it is in the sate TESTING_MAP.
+    // When the file is valid it loads the map to be playable while in state
+    // LOADING.
+    // After the map is loaded the state is PLAYING till such time as the user
+    // wins the game -> state WON or no more steps are available -> state
+    // NO_MORE_STEPS
+    // The reset command brings the game back to the state PLAYING.
+    // Loading a new file brings the game to state TESTING_MAP.
+    //
+    // PREVIOUS it no state it is used to switch to the previous state.
+    //
+    enum class State
+    {
+        NO_MAZE_LOADED,
+        TESTING_MAP,
+        LOADING,
+        PLAYING,
+        WON,
+        NO_MORE_STEPS,
+        PREVIOUS
+    };
+
     //--------------------------------------------------------------------------
     // Constructor
     //

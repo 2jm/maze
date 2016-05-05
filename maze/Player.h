@@ -39,12 +39,12 @@ class Player
     Player &operator=(const Player &original);
 
     //--------------------------------------------------------------------------
-    /// Current position of the player
+    // Current position of the player
     //
     Vector2d position_;
 
     //--------------------------------------------------------------------------
-    /// Reference to the current loaded map
+    // Reference to the current loaded map
     //
     Map &map_;
 

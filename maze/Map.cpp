@@ -137,14 +137,14 @@ bool Map::loadFromString(string map_string, Game &game)
     string_position++;
   }
 
-  if(check())
+  if(isValidMap())
     return true;
 
   return false;
 }
 
 //------------------------------------------------------------------------------
-bool Map::check()
+bool Map::isValidMap()
 {
   int line_length, column_height;
 

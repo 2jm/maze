@@ -57,14 +57,13 @@ bool CommandLineInterface::update()
   std::string command;
   std::vector<std::string> params;
 
-  //Split the input into command and parameter
-  iss >> command;
+  iss >> command; //split the input into command and parameter
 
   std::string param;
   while(iss >> param)
-    params.push_back(param);//write all single params into a string vector
+    params.push_back(param); //write all single params into a string vector
 
-  //Transform the command into all LowerCase because its case insensitive
+  //transform the command into all LowerCase because its case insensitive
   std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 
   return execute(command, params);

@@ -44,12 +44,12 @@ class CommandFastMove : public Command
 
   public:
     //--------------------------------------------------------------------------
-    //Constructor
+    // Constructor
     //
     CommandFastMove();
 
     //--------------------------------------------------------------------------
-    //Destructor
+    // Destructor
     //
     virtual ~CommandFastMove();
 

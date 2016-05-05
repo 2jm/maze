@@ -38,6 +38,9 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     Map &operator=(const Map &original);
 
+    //--------------------------------------------------------------------------
+    // Integer that represents the size of the alphabet
+    //
     const static int SIZE_OF_ALPHABET = 26;
 
     //--------------------------------------------------------------------------
@@ -55,6 +58,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     // Integers telling if the start/end tile is exisiting once
     // -1 => doesn't exist
     //  0 => exists once
+    //
     int start_once_, end_once_;
 
     //--------------------------------------------------------------------------
@@ -71,7 +75,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     // @return true if the map is valid
     //
-    bool check();
+    bool isValidMap();
 
   public:
     //--------------------------------------------------------------------------
