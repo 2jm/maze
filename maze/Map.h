@@ -47,11 +47,6 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     Matrix &matrix_;
 
     //--------------------------------------------------------------------------
-    // Is true if the map is loaded
-    //
-    bool is_loaded_;
-
-    //--------------------------------------------------------------------------
     // Reference to the start/end tile for faster access
     //
     std::shared_ptr<Tile> start_tile_, end_tile_;
@@ -129,8 +124,6 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //--------------------------------------------------------------------------
     // Getter Methods
     //
-    bool isLoaded() const;
-
     std::shared_ptr<Tile> getEndTile() const;
 
     std::shared_ptr<Tile> getStartTile() const;

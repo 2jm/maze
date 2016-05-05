@@ -24,8 +24,7 @@
 using std::string;
 
 //------------------------------------------------------------------------------
-Map::Map() : matrix_(*this),
-             is_loaded_(false)
+Map::Map() : matrix_(*this)
 {
 
 }
@@ -139,10 +138,7 @@ bool Map::loadFromString(string map_string, Game &game)
   }
 
   if(check())
-  {
-    is_loaded_ = true;
     return true;
-  }
 
   return false;
 }
@@ -230,8 +226,6 @@ std::string Map::toStringWithPlayer(Vector2d player_position) const
 void Map::clear()
 {
   resize(0, 0);
-
-  is_loaded_ = false;
 }
 
 //------------------------------------------------------------------------------
@@ -246,12 +240,6 @@ void Map::reset()
 }
 
 //------------------------------------------------------------------------------
-bool Map::isLoaded() const
-{
-  return is_loaded_;
-}
-
-//------------------------------------------------------------------------------
 std::shared_ptr<Tile> Map::getEndTile() const
 {
   return end_tile_;
@@ -262,4 +250,3 @@ std::shared_ptr<Tile> Map::getStartTile() const
 {
   return start_tile_;
 }
-
