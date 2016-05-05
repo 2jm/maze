@@ -29,6 +29,16 @@ class Player
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    Player(const Player &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    Player &operator=(const Player &original);
+
+    //--------------------------------------------------------------------------
     /// Current position of the player
     //
     Vector2d position_;

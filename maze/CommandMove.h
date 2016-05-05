@@ -25,6 +25,16 @@ enum class Direction : char;
 class CommandMove : public Command
 {
   private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandMove(const CommandMove &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandMove &operator=(const CommandMove &original);
+
     const std::string UP = "up";
     const std::string RIGHT = "right";
     const std::string DOWN = "down";

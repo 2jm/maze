@@ -26,6 +26,16 @@ class Maze
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    Maze(const Maze &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    Maze &operator=(const Maze &original);
+
+    //--------------------------------------------------------------------------
     // The current game object
     //
     Game game_;

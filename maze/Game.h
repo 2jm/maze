@@ -57,6 +57,16 @@ class Game
 
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    Game(const Game &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    Game &operator=(const Game &original);
+
+    //--------------------------------------------------------------------------
     // For map, player and steps left (now *) exists a object play_* and
     // load_test_* and a pointer *, for the following reason:
     // While the game is loading a file it first tests it if it is valid.
@@ -151,12 +161,6 @@ class Game
     // Destructor
     //
     ~Game();
-
-    //--------------------------------------------------------------------------
-    // Copy Constructor
-    // The game should not be copied and it's nowhere needed
-    //
-    Game(const Game &original) = delete;
 
     //--------------------------------------------------------------------------
     // Set auto save method

@@ -28,6 +28,16 @@ class Game;
 class Map : public Matrix<std::shared_ptr<Tile>>
 {
   private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    Map(const Map &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    Map &operator=(const Map &original);
+
     const static int SIZE_OF_ALPHABET = 26;
 
     //--------------------------------------------------------------------------

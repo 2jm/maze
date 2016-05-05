@@ -24,6 +24,16 @@ class CommandFastMove : public Command
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandFastMove(const CommandFastMove &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandFastMove &operator=(const CommandFastMove &original);
+
+    //--------------------------------------------------------------------------
     // Checks the entered Fastmove parameter if the string is valid
     //
     // @param fast_move_string The string with the fastmove parameter

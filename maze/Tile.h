@@ -22,11 +22,23 @@
 //
 class Tile
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    Tile(const Tile &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    Tile &operator=(const Tile &original);
+
   protected:
     //--------------------------------------------------------------------------
     /// Position of this tile
     //
     Vector2d position_;
+
     //--------------------------------------------------------------------------
     /// Character representing this tile on the map
     //

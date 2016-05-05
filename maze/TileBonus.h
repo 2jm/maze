@@ -26,9 +26,20 @@ class TileBonus : public Tile
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    TileBonus(const TileBonus &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    TileBonus &operator=(const TileBonus &original);
+
+    //--------------------------------------------------------------------------
     // Reference to the current game
     //
     Game &game_;
+
     //--------------------------------------------------------------------------
     /// Boolean representing if the bonus has been already consumed
     //

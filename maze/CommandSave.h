@@ -22,6 +22,17 @@
 //
 class CommandSave : public Command
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandSave(const CommandSave &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandSave &operator=(const CommandSave &original);
+
   public:
     //--------------------------------------------------------------------------
     // Constructor

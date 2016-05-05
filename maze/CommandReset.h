@@ -22,6 +22,17 @@
 //
 class CommandReset : public Command
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandReset(const CommandReset &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandReset &operator=(const CommandReset &original);
+
   public:
     //--------------------------------------------------------------------------
     // Constructor

@@ -22,6 +22,17 @@
 //
 class CommandQuit : public Command
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandQuit(const CommandQuit &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandQuit &operator=(const CommandQuit &original);
+
   public:
     //--------------------------------------------------------------------------
     // Constructor

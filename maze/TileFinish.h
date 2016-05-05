@@ -26,6 +26,16 @@ class TileFinish : public Tile
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    TileFinish(const TileFinish &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    TileFinish &operator=(const TileFinish &original);
+
+    //--------------------------------------------------------------------------
     // Reference to the current game
     //
     Game &game_;

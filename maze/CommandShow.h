@@ -22,6 +22,17 @@
 //
 class CommandShow : public Command
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandShow(const CommandShow &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandShow &operator=(const CommandShow &original);
+
   public:
     //--------------------------------------------------------------------------
     // Constructor

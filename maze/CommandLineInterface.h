@@ -27,6 +27,16 @@ class CommandLineInterface
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandLineInterface(const CommandLineInterface &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandLineInterface &operator=(const CommandLineInterface &original);
+
+    //--------------------------------------------------------------------------
     // Enum with all command Names
     //
     enum Name
@@ -69,7 +79,6 @@ class CommandLineInterface
     // Destructor
     //
     ~CommandLineInterface();
-
 
     //--------------------------------------------------------------------------
     // Gets the Userinput (command and params) and evaluates it

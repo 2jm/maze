@@ -25,6 +25,16 @@ class TileTeleport : public Tile
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    TileTeleport(const TileTeleport &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    TileTeleport &operator=(const TileTeleport &original);
+
+    //--------------------------------------------------------------------------
     // Reference to the corresponding teleport tile
     //
     TileTeleport *corresponding_teleport_;

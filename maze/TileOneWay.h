@@ -22,6 +22,17 @@
 //
 class TileOneWay : public Tile
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    TileOneWay(const TileOneWay &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    TileOneWay &operator=(const TileOneWay &original);
+
   public:
     //--------------------------------------------------------------------------
     // Constructor

@@ -22,6 +22,17 @@
 //
 class TileWall : public Tile
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    TileWall(const TileWall &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    TileWall &operator=(const TileWall &original);
+
   public:
     //--------------------------------------------------------------------------
     // Constructor

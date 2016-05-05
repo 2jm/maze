@@ -22,6 +22,17 @@
 //
 class CommandLoad : public Command
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    CommandLoad(const CommandLoad &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    CommandLoad &operator=(const CommandLoad &original);
+
   public:
     //--------------------------------------------------------------------------
     // Constructor

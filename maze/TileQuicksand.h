@@ -26,6 +26,16 @@ class TileQuicksand : public Tile
 {
   private:
     //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    TileQuicksand(const TileQuicksand &original);
+
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    TileQuicksand &operator=(const TileQuicksand &original);
+
+    //--------------------------------------------------------------------------
     // Reference to the current game
     //
     Game &game_;
