@@ -40,8 +40,8 @@ Message::Code Game::loadFile(const std::string file_name)
   Message::Code return_code;
   int steps_left;
   std::string map_string;
-
   std::ifstream input_file;
+
   if((return_code = FileHandler::getInputFile(file_name, input_file))
      != Message::SUCCESS)
     return return_code;
@@ -93,22 +93,20 @@ Message::Code Game::loadFile(const std::string file_name)
 //------------------------------------------------------------------------------
 Message::Code Game::saveFile(const std::string file_name)
 {
-  if(game_state_ == State::NO_MAZE_LOADED)
-    return Message::NO_MAZE_LOADED;
-
   Message::Code return_code;
-
   std::ofstream output_file;
+
   if((return_code = FileHandler::getOutputFile(file_name, output_file))
      != Message::SUCCESS)
     return return_code;
 
+  if(game_state_ == State::NO_MAZE_LOADED)
+    return Message::NO_MAZE_LOADED;
+
   for(auto move : move_history_)
     output_file << static_cast<char>(move);
   output_file << '\n';
-
   output_file << available_steps_ << '\n';
-
   output_file << play_map_.toString(true);
 
   return Message::SUCCESS;
