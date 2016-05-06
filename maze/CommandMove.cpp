@@ -10,7 +10,7 @@
 //
 
 #include "CommandMove.h"
-#include "Direction.h"
+#include "Convert.h"
 #include "Game.h"
 
 //------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ Message::Code CommandMove::execute(Game &game,
   if(params.size() != 1)
     return Message::WRONG_PARAMETER_COUNT;
 
-  Direction move_direction = stringToDirection(params[0]);
+  Direction move_direction = Convert::toDirection(params[0]);
 
   if(move_direction == Direction::OTHER)
     return Message::WRONG_PARAMETER;
@@ -41,27 +41,7 @@ Message::Code CommandMove::execute(Game &game,
 }
 
 //------------------------------------------------------------------------------
-Direction CommandMove::stringToDirection(const std::string direction_string)
-const
-{
-  if(direction_string == UP)
-  {
-    return Direction::UP;
-  }
-  else if(direction_string == RIGHT)
-  {
-    return Direction::RIGHT;
-  }
-  else if(direction_string == DOWN)
-  {
-    return Direction::DOWN;
-  }
-  else if(direction_string == LEFT)
-  {
-    return Direction::LEFT;
-  }
-  else
-  {
-    return Direction::OTHER;
-  }
-}
+const std::string CommandMove::UP = "up";
+const std::string CommandMove::RIGHT = "right";
+const std::string CommandMove::DOWN = "down";
+const std::string CommandMove::LEFT = "left";

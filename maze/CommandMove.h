@@ -35,20 +35,6 @@ class CommandMove : public Command
     //
     CommandMove &operator=(const CommandMove &original);
 
-    //--------------------------------------------------------------------------
-    // Strings representing all four possible directions
-    //
-    const std::string UP = "up", RIGHT = "right", DOWN = "down", LEFT = "left";
-
-    //--------------------------------------------------------------------------
-    // Converts a string into a Direction
-    //
-    // @param direction_string string which is transformed
-    //
-    // @return Direction UP, DOWN, LEFT, RIGHT or OTHER
-    //
-    Direction stringToDirection(const std::string direction_string) const;
-
   public:
     //--------------------------------------------------------------------------
     // Constructor
@@ -59,6 +45,14 @@ class CommandMove : public Command
     // Destructor
     //
     virtual ~CommandMove();
+
+    //--------------------------------------------------------------------------
+    // Strings representing all four possible directions
+    //
+    const static std::string UP;
+    const static std::string RIGHT;
+    const static std::string DOWN;
+    const static std::string LEFT;
 
     //--------------------------------------------------------------------------
     // Executes the command.

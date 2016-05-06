@@ -41,7 +41,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //--------------------------------------------------------------------------
     // Integer that represents the size of the alphabet
     //
-    const static int SIZE_OF_ALPHABET = 26;
+    const static int SIZE_OF_ALPHABET;
 
     //--------------------------------------------------------------------------
     // Reference to this class to be able to use the [] operator more easily
