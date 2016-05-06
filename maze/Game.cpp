@@ -351,13 +351,13 @@ Message::Code Game::doInitialFastMove(std::string &saved_moves)
 
   if(saved_moves != "")
   {
-    CommandFastMove fastMove;
+    CommandFastMove fast_move;
     std::vector<std::string> fast_move_params;
     fast_move_params.push_back(saved_moves);
 
     Message::Code return_code;
 
-    if((return_code = fastMove.execute(*this, fast_move_params))
+    if((return_code = fast_move.execute(*this, fast_move_params))
        != Message::SUCCESS)
     {
       if(game_state_ == State::TESTING_MAP)
