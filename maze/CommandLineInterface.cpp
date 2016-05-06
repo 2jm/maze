@@ -34,14 +34,15 @@ CommandLineInterface::~CommandLineInterface()
 }
 
 //------------------------------------------------------------------------------
-const std::string CommandLineInterface::name_strings_[] = {
-        "load",
-        "save",
-        "fastmove",
-        "move",
-        "show",
-        "reset",
-        "quit"
+const std::string CommandLineInterface::name_strings_[] =
+{
+  "load",
+  "save",
+  "fastmove",
+  "move",
+  "show",
+  "reset",
+  "quit"
 };
 
 //------------------------------------------------------------------------------
