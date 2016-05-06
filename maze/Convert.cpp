@@ -18,7 +18,7 @@
 namespace Convert
 {
   //----------------------------------------------------------------------------
-  unsigned int toUnsignedInt(const std::string string) const
+  unsigned int toUnsignedInt(const std::string string)
   {
     if(string.find_first_not_of("0123456789") != std::string::npos)
       throw std::invalid_argument(string);
@@ -34,7 +34,7 @@ namespace Convert
   }
 
   //----------------------------------------------------------------------------
-  Direction toDirection(const char direction_char) const
+  Direction toDirection(const char direction_char)
   {
     switch(direction_char)
     {
@@ -52,31 +52,6 @@ namespace Convert
 
       default:
         return Direction::OTHER;
-    }
-  }
-
-  //----------------------------------------------------------------------------
-  Direction toDirection(const std::string direction_string) const
-  {
-    if(direction_string == CommandMove::UP)
-    {
-      return Direction::UP;
-    }
-    else if(direction_string == CommandMove::RIGHT)
-    {
-      return Direction::RIGHT;
-    }
-    else if(direction_string == CommandMove::DOWN)
-    {
-      return Direction::DOWN;
-    }
-    else if(direction_string == CommandMove::LEFT)
-    {
-      return Direction::LEFT;
-    }
-    else
-    {
-      return Direction::OTHER;
     }
   }
 }
