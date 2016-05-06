@@ -28,12 +28,12 @@ class TileQuicksand : public Tile
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    TileQuicksand(const TileQuicksand &original);
+    TileQuicksand(const TileQuicksand &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    TileQuicksand &operator=(const TileQuicksand &original);
+    TileQuicksand &operator=(const TileQuicksand &) = delete;
 
     //--------------------------------------------------------------------------
     // Reference to the current game

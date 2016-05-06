@@ -29,12 +29,13 @@ class CommandLineInterface
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    CommandLineInterface(const CommandLineInterface &original);
+    CommandLineInterface(const CommandLineInterface &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    CommandLineInterface &operator=(const CommandLineInterface &original);
+    CommandLineInterface &operator=(const CommandLineInterface &)
+            = delete;
 
     //--------------------------------------------------------------------------
     // Enum with all command Names

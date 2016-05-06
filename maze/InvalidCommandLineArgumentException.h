@@ -23,6 +23,19 @@
 //
 class InvalidCommandLineArgumentException : public std::exception
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private deleted copy constructor
+    //
+    InvalidCommandLineArgumentException(
+            const InvalidCommandLineArgumentException &) = delete;
+
+    //--------------------------------------------------------------------------
+    // Private deleted assignment operator
+    //
+    InvalidCommandLineArgumentException &operator=(
+            const InvalidCommandLineArgumentException &) = delete;
+
   public:
     //--------------------------------------------------------------------------
     // Tells what went wrong

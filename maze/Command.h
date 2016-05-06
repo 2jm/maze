@@ -35,12 +35,12 @@ class Command
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    Command(const Command &original);
+    Command(const Command &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    Command &operator=(const Command &original);
+    Command &operator=(const Command &) = delete;
 
     //--------------------------------------------------------------------------
     // Name of this command

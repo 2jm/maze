@@ -26,12 +26,12 @@ class CommandLoad : public Command
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    CommandLoad(const CommandLoad &original);
+    CommandLoad(const CommandLoad &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    CommandLoad &operator=(const CommandLoad &original);
+    CommandLoad &operator=(const CommandLoad &) = delete;
 
   public:
     //--------------------------------------------------------------------------

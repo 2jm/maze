@@ -26,12 +26,12 @@ class CommandShow : public Command
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    CommandShow(const CommandShow &original);
+    CommandShow(const CommandShow &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    CommandShow &operator=(const CommandShow &original);
+    CommandShow &operator=(const CommandShow &) = delete;
 
   public:
     //--------------------------------------------------------------------------

@@ -57,14 +57,14 @@ class Game
 
   private:
     //--------------------------------------------------------------------------
-    // Private copy constructor
+    // Private deleted copy constructor
     //
-    Game(const Game &original);
+    Game(const Game &) = delete;
 
     //--------------------------------------------------------------------------
-    // Private assignment operator
+    // Private deleted assignment operator
     //
-    Game &operator=(const Game &original);
+    Game &operator=(const Game &) = delete;
 
     //--------------------------------------------------------------------------
     // For map, player and steps left (now *) exists a object play_* and

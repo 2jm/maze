@@ -26,12 +26,12 @@ class CommandSave : public Command
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    CommandSave(const CommandSave &original);
+    CommandSave(const CommandSave &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    CommandSave &operator=(const CommandSave &original);
+    CommandSave &operator=(const CommandSave &) = delete;
 
   public:
     //--------------------------------------------------------------------------
