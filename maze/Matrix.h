@@ -47,7 +47,7 @@ class Matrix
     class Column
     {
       private:
-        //--------------------------------------------------------------------------
+        //----------------------------------------------------------------------
         // A vector containing the elements of this column.
         //
         std::vector<T> elements_;
