@@ -54,7 +54,7 @@ class CommandLineInterface
     //--------------------------------------------------------------------------
     // Array that contains every possible command name
     //
-    const static std::string name_strings_[];
+    const static std::string NAME_STRINGS[];
 
     //--------------------------------------------------------------------------
     // Reference of the actual game object
