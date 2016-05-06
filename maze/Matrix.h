@@ -47,6 +47,9 @@ class Matrix
     class Column
     {
       private:
+        //--------------------------------------------------------------------------
+        // A vector containing the elements of this column.
+        //
         std::vector<T> elements_;
 
       public:
@@ -112,7 +115,7 @@ class Matrix
         // begin and end iterators
         //
         // @return Returns the begin and end iterators of the
-        //         std::vector<T> elements_.
+        //         std::vector<T> elements_
         //
         typename std::vector<T>::const_iterator begin() const;
 
@@ -124,9 +127,19 @@ class Matrix
     };
 
   protected:
+    //--------------------------------------------------------------------------
+    // The current size (x, y) of the matrix
+    //
     Vector2d size_;
-    std::vector<Column> columns_;
 
+    //--------------------------------------------------------------------------
+    // A vector containing the columns of the matrix
+    //
+    std::vector<Column> columns_;
+    
+    //--------------------------------------------------------------------------
+    // Resizes the map to the current set size_;
+    //
     void resize();
 
   public:
@@ -309,8 +322,8 @@ void Matrix<T>::resize()
 {
   columns_.resize(static_cast<unsigned int>(size_.getX()));
 
-  for(auto &row : columns_)
-    row.resize(static_cast<unsigned int>(size_.getY()));
+  for(auto &column : columns_)
+    column.resize(static_cast<unsigned int>(size_.getY()));
 }
 
 
