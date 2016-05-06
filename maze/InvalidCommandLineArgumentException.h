@@ -25,6 +25,23 @@ class InvalidCommandLineArgumentException : public std::exception
 {
   public:
     //--------------------------------------------------------------------------
+    // Use default Constructor
+    //
+    InvalidCommandLineArgumentException() = default;
+
+    //--------------------------------------------------------------------------
+    // Use default copy constructor
+    //
+    InvalidCommandLineArgumentException(
+            const InvalidCommandLineArgumentException &) = default;
+
+    //--------------------------------------------------------------------------
+    // Use default assignment operator
+    //
+    InvalidCommandLineArgumentException &operator=(
+            const InvalidCommandLineArgumentException &) = default;
+
+    //--------------------------------------------------------------------------
     // Tells what went wrong
     //
     // @return Message representing what went wrong

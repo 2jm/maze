@@ -28,12 +28,12 @@ class Maze
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    Maze(const Maze &original);
+    Maze(const Maze &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    Maze &operator=(const Maze &original);
+    Maze &operator=(const Maze &) = delete;
 
     //--------------------------------------------------------------------------
     // The current game object

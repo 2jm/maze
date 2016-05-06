@@ -26,12 +26,12 @@ class Tile
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    Tile(const Tile &original);
+    Tile(const Tile &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    Tile &operator=(const Tile &original);
+    Tile &operator=(const Tile &) = delete;
 
   protected:
     //--------------------------------------------------------------------------

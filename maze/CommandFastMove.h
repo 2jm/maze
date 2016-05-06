@@ -26,12 +26,12 @@ class CommandFastMove : public Command
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    CommandFastMove(const CommandFastMove &original);
+    CommandFastMove(const CommandFastMove &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    CommandFastMove &operator=(const CommandFastMove &original);
+    CommandFastMove &operator=(const CommandFastMove &) = delete;
 
     //--------------------------------------------------------------------------
     // Checks the entered Fastmove parameter if the string is valid

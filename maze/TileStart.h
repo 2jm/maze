@@ -26,12 +26,12 @@ class TileStart : public Tile
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    TileStart(const TileStart &original);
+    TileStart(const TileStart &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    TileStart &operator=(const TileStart &original);
+    TileStart &operator=(const TileStart &) = delete;
 
   public:
     //--------------------------------------------------------------------------

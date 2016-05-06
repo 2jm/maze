@@ -28,12 +28,12 @@ class TileBonus : public Tile
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    TileBonus(const TileBonus &original);
+    TileBonus(const TileBonus &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    TileBonus &operator=(const TileBonus &original);
+    TileBonus &operator=(const TileBonus &) = delete;
 
     //--------------------------------------------------------------------------
     // Reference to the current game

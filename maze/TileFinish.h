@@ -28,12 +28,12 @@ class TileFinish : public Tile
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    TileFinish(const TileFinish &original);
+    TileFinish(const TileFinish &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    TileFinish &operator=(const TileFinish &original);
+    TileFinish &operator=(const TileFinish &) = delete;
 
     //--------------------------------------------------------------------------
     // Reference to the current game

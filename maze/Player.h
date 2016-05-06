@@ -31,12 +31,12 @@ class Player
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    Player(const Player &original);
+    Player(const Player &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    Player &operator=(const Player &original);
+    Player &operator=(const Player &) = delete;
 
     //--------------------------------------------------------------------------
     // Current position of the player

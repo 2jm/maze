@@ -27,12 +27,12 @@ class TileTeleport : public Tile
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    TileTeleport(const TileTeleport &original);
+    TileTeleport(const TileTeleport &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    TileTeleport &operator=(const TileTeleport &original);
+    TileTeleport &operator=(const TileTeleport &) = delete;
 
     //--------------------------------------------------------------------------
     // Reference to the corresponding teleport tile

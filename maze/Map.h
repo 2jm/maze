@@ -31,12 +31,12 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    Map(const Map &original);
+    Map(const Map &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    Map &operator=(const Map &original);
+    Map &operator=(const Map &) = delete;
 
     //--------------------------------------------------------------------------
     // Integer that represents the size of the alphabet

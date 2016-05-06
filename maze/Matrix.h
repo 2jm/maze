@@ -136,7 +136,7 @@ class Matrix
     // A vector containing the columns of the matrix
     //
     std::vector<Column> columns_;
-    
+
     //--------------------------------------------------------------------------
     // Resizes the map to the current set size_;
     //

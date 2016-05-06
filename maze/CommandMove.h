@@ -28,12 +28,12 @@ class CommandMove : public Command
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    CommandMove(const CommandMove &original);
+    CommandMove(const CommandMove &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    CommandMove &operator=(const CommandMove &original);
+    CommandMove &operator=(const CommandMove &) = delete;
 
   public:
     //--------------------------------------------------------------------------
