@@ -32,12 +32,37 @@ Message::Code CommandMove::execute(Game &game,
   if(params.size() != 1)
     return Message::WRONG_PARAMETER_COUNT;
 
-  Direction move_direction = Convert::toDirection(params[0]);
+  Direction move_direction = toDirection(params[0]);
 
   if(move_direction == Direction::OTHER)
     return Message::WRONG_PARAMETER;
 
   return game.movePlayer(move_direction);
+}
+
+//----------------------------------------------------------------------------
+Direction CommandMove::toDirection(const std::string direction_string) const
+{
+  if(direction_string == CommandMove::UP)
+  {
+    return Direction::UP;
+  }
+  else if(direction_string == CommandMove::RIGHT)
+  {
+    return Direction::RIGHT;
+  }
+  else if(direction_string == CommandMove::DOWN)
+  {
+    return Direction::DOWN;
+  }
+  else if(direction_string == CommandMove::LEFT)
+  {
+    return Direction::LEFT;
+  }
+  else
+  {
+    return Direction::OTHER;
+  }
 }
 
 //------------------------------------------------------------------------------

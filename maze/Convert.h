@@ -30,7 +30,7 @@ namespace Convert
   //
   // @return the converted number
   //
-  unsigned int toUnsignedInt(const std::string string) const;
+  unsigned int toUnsignedInt(const std::string string);
 
   //----------------------------------------------------------------------------
   // Converts a char to a direction
@@ -39,16 +39,7 @@ namespace Convert
   //
   // @return a direction UP, DOWN, RIGHT, LEFT or OTHER
   //
-  Direction toDirection(const char direction_char) const;
-
-  //--------------------------------------------------------------------------
-  // Converts a string into a Direction
-  //
-  // @param direction_string string which is transformed
-  //
-  // @return Direction UP, DOWN, LEFT, RIGHT or OTHER
-  //
-  Direction toDirection(const std::string direction_string) const;
+  Direction toDirection(const char direction_char);
 }
 
 
