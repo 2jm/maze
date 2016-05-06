@@ -19,11 +19,11 @@
 //
 enum class Direction : char
 {
-    UP = 'u',
-    RIGHT = 'r',
-    DOWN = 'd',
-    LEFT = 'l',
-    OTHER = 0
+  UP = 'u',
+  RIGHT = 'r',
+  DOWN = 'd',
+  LEFT = 'l',
+  OTHER = 0
 };
 
 //------------------------------------------------------------------------------
@@ -33,10 +33,10 @@ enum class Direction : char
 //
 enum class DirectionOneWay : char
 {
-    UP = '^',
-    RIGHT = '>',
-    DOWN = 'v',
-    LEFT = '<'
+  UP = '^',
+  RIGHT = '>',
+  DOWN = 'v',
+  LEFT = '<'
 };
 
 
