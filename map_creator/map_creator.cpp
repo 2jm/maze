@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Game.h"
 #include "TileWall.h"
 #include <fstream>
 #include <iostream>
