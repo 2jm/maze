@@ -53,6 +53,10 @@ bool CommandLineInterface::update()
   std::string input_string;
   std::getline(std::cin, input_string);
 
+  if (std::cin.eof()) {
+    return false;
+  }
+
   std::istringstream iss(input_string);
 
   std::string command;
