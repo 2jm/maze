@@ -16,7 +16,7 @@
 namespace Message
 {
   //----------------------------------------------------------------------------
-  const std::string strings[] =
+  const std::string MESSAGE_STRINGS[] =
   {
     "", // print nothing on success
     "[ERR] Out of memory.\n",
@@ -40,13 +40,13 @@ namespace Message
   //----------------------------------------------------------------------------
   Code print(Code message_code)
   {
-    std::cout << strings[message_code];
+    std::cout << MESSAGE_STRINGS[message_code];
     return message_code;
   }
 
   //----------------------------------------------------------------------------
   const char *get(Code message_code)
   {
-    return strings[message_code].c_str();
+    return MESSAGE_STRINGS[message_code].c_str();
   }
 }
