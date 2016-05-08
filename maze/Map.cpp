@@ -137,10 +137,7 @@ bool Map::loadFromString(string map_string, Game &game)
     string_position++;
   }
 
-  if(isValidMap())
-    return true;
-
-  return false;
+  return isValidMap();
 }
 
 //------------------------------------------------------------------------------
