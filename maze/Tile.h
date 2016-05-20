@@ -78,7 +78,7 @@ class Tile
     //
     // @return bool Tells if the player is allowed to move away from this tile
     //
-    virtual bool leave(const Direction move_direction) const;
+    virtual bool leave(const Direction move_direction);
 
     //--------------------------------------------------------------------------
     // Called when a tile should be reset, e.g. during a map reset

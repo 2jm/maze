@@ -19,7 +19,7 @@ Tile::Tile(Vector2d position, char character) : position_(position),
 }
 
 //------------------------------------------------------------------------------
-bool Tile::leave(const Direction move_direction) const
+bool Tile::leave(const Direction move_direction)
 {
   return true;
 }

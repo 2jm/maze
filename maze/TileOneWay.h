@@ -57,7 +57,7 @@ class TileOneWay : public Tile
     //
     // @return bool Tells if the player is allowed to move away from this tile
     //
-    bool leave(const Direction move_direction) const override;
+    bool leave(const Direction move_direction) override;
 };
 
 

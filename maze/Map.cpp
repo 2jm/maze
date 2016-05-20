@@ -20,6 +20,7 @@
 #include "TileOneWay.h"
 #include "TileQuicksand.h"
 #include "TileHole.h"
+#include "TileCounter.h"
 
 
 using std::string;
@@ -131,6 +132,13 @@ bool Map::loadFromString(string map_string, Game &game)
       {
         put(std::make_shared<TileOneWay>(tile_position,
                                          map_string[string_position]),
+            tile_position);
+      }
+      else if(map_string[string_position] >= '0' &&
+              map_string[string_position] <= '9')
+      {
+        put(std::make_shared<TileCounter>(tile_position,
+                                          map_string[string_position]),
             tile_position);
       }
       else
