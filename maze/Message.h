@@ -44,7 +44,8 @@ namespace Message
     BYE,
     WON,
     REMAINING_STEPS,
-    MOVED_STEPS
+    MOVED_STEPS,
+    WHOAMI_KI_NAME
   };
 
   //----------------------------------------------------------------------------

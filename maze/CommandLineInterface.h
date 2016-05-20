@@ -48,7 +48,8 @@ class CommandLineInterface
       MOVE,
       SHOW,
       RESET,
-      QUIT
+      QUIT,
+      WHOAMI
     };
 
     //--------------------------------------------------------------------------

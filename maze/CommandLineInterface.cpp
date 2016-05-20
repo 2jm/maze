@@ -20,6 +20,7 @@
 #include "CommandShow.h"
 #include "CommandQuit.h"
 #include "CommandReset.h"
+#include "CommandWhoAmI.h"
 #include "Game.h"
 
 //------------------------------------------------------------------------------
@@ -42,7 +43,8 @@ const std::string CommandLineInterface::NAME_STRINGS[] =
   "move",
   "show",
   "reset",
-  "quit"
+  "quit",
+  "whoami"
 };
 
 //------------------------------------------------------------------------------
@@ -129,6 +131,13 @@ bool CommandLineInterface::execute(std::string command,
     Message::Code return_code = command_quit.execute(game_, params);
     Message::print(return_code);
     return return_code != Message::BYE;
+  }
+    //-----whoami------
+  else if(command == NAME_STRINGS[Name::WHOAMI])
+  {
+    CommandWhoAmI command_whoami;
+    Message::print(command_whoami.execute(game_, params));
+    return true;
   }
     //-----empty command------
   else if(command.empty())
