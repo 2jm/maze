@@ -245,20 +245,23 @@ void Game::setAutoSave(const std::string file_name)
 }
 
 //------------------------------------------------------------------------------
-Message::Code Game::show(const bool show_more)
+Message::Code Game::show(const bool show_more, const bool show_no_path)
 {
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  if(show_more)
+  if(show_more || show_no_path)
   {
     Message::print(Message::REMAINING_STEPS);
     std::cout << *remaining_steps_ << '\n';
 
-    Message::print(Message::MOVED_STEPS);
-    for(auto move : move_history_)
-      std::cout << static_cast<char>(move);
-    std::cout << '\n';
+    if(!show_no_path)
+    {
+      Message::print(Message::MOVED_STEPS);
+      for(auto move : move_history_)
+        std::cout << static_cast<char>(move);
+      std::cout << '\n';
+    }
   }
 
   std::cout << map_->toStringWithPlayer(player_->getPosition());

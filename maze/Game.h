@@ -241,8 +241,10 @@ class Game
     //
     // @param show_more set to false that no additional information is printed
     //                  out
+    // @param show_no_path set to false that moved steps isn't printed out
     //
-    Message::Code show(const bool show_more = false);
+    Message::Code show(const bool show_more = false,
+                       const bool show_no_path = false);
 
     //--------------------------------------------------------------------------
     // Sets the game state to WON if it is allowed
