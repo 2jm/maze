@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 //
 
-#ifndef MAZE_ALL_TILEHOLE_H
-#define MAZE_ALL_TILEHOLE_H
+#ifndef MAZE_ALL_TILECOUNTER_H
+#define MAZE_ALL_TILECOUNTER_H
 
 #include "Tile.h"
 
@@ -19,29 +19,30 @@
 //
 // class representing a hole ('s') on the map
 //
-class TileHole : public Tile
+class TileCounter : public Tile
 {
   private:
     //--------------------------------------------------------------------------
     // Private copy constructor
     //
-    TileHole(const TileHole &) = delete;
+    TileCounter(const TileCounter &) = delete;
 
     //--------------------------------------------------------------------------
     // Private assignment operator
     //
-    TileHole &operator=(const TileHole &) = delete;
+    TileCounter &operator=(const TileCounter &) = delete;
 
     //--------------------------------------------------------------------------
-    // Reference to the start tile
+    // Private assignment operator
     //
-    Tile *start_tile_;
+    int counter_value_;
+
 
   public:
     //--------------------------------------------------------------------------
     // Constructor
     //
-    TileHole(Vector2d position);
+    TileCounter(Vector2d position, char character);
 
     //--------------------------------------------------------------------------
     // Called when the player enters a tile
@@ -55,12 +56,28 @@ class TileHole : public Tile
     EnterResult enter(Vector2d &source_position);
 
     //--------------------------------------------------------------------------
-    // Set a reference to the start tile on the map
+    // Called when the player leaves a tile
     //
-    // @param start The start tile
+    // @param move_direction The current moving direction of the player
     //
-    void setStartTile(Tile *start);
+    // @return bool Tells if the player is allowed to move away from this tile
+    //
+    bool leave(const Direction move_direction) override;
+
+    //--------------------------------------------------------------------------
+    // Called when a tile should be reset, e.g. during a map reset
+    //
+    void reset();
+
+    //--------------------------------------------------------------------------
+    // Called when a tile should be reset, e.g. during a map reset
+    //
+    // @param original
+    //
+    // @return char Representing the tile on the map
+    //
+    virtual char toChar(bool original = true);
 };
 
 
-#endif //MAZE_ALL_TILEHOLE_H
+#endif //MAZE_ALL_TILECOUNTER_H
