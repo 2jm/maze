@@ -24,8 +24,7 @@ TileQuicksand::TileQuicksand(Vector2d position, char character, Game &game) :
 Tile::EnterResult TileQuicksand::enter(Vector2d &source_position)
 {
   int steps_remove = character_ - 'f' + 1;
-  int steps_left = game_.getStepsLeft() - steps_remove;
-  game_.setStepsLeft(steps_left);
+  game_.decrementRemainingSteps(steps_remove);
   source_position = position_;
   return VALID_MOVE;
 }

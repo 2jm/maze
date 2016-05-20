@@ -4,6 +4,7 @@
 
 Abgabe/*
 bin/*
+testcases/*
 
 # Compiled Object files
 *.slo

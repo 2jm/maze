@@ -46,7 +46,7 @@ TEST(TileTest, test_bonus_too_few_steps)
     EXPECT_EQ(game.getState(), Game::State::PLAYING);
     game.movePlayer(Direction::RIGHT);
   }
-  EXPECT_EQ(game.getStepsLeft(), 0);
+  EXPECT_EQ(game.getRemainingSteps(), 0);
   EXPECT_EQ(game.getState(), Game::State::NO_MORE_STEPS);
   game.movePlayer(Direction::RIGHT);
   EXPECT_EQ(game.getState(), Game::State::PLAYING);

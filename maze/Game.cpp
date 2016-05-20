@@ -124,20 +124,23 @@ Message::Code Game::movePlayer(const Direction direction)
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  if(fast_moving_ && player_->move(direction))
+  if(fast_moving_)
   {
-    (*remaining_steps_)--;
-
-    if(*remaining_steps_ < 0)
+    if(*remaining_steps_ == 0)
       return Message::INVALID_MOVE;
 
-    fast_move_move_history_.push_back(direction);
-    return Message::SUCCESS;
+    if(player_->move(direction))
+    {
+      decrementRemainingSteps(1);
+      fast_move_move_history_.push_back(direction);
+
+      return Message::SUCCESS;
+    }
   }
   else if(!fast_moving_ && player_->move(direction))
   {
     // decrement 1 step for a single move
-    (*remaining_steps_)--;
+    decrementRemainingSteps(1);
 
     if(game_state_ != State::WON && *remaining_steps_ <= 0)
       lostGame();
@@ -278,17 +281,25 @@ void Game::lostGame()
 }
 
 //------------------------------------------------------------------------------
-int Game::getStepsLeft() const
+int Game::getRemainingSteps() const
 {
   return *remaining_steps_;
 }
 
 //------------------------------------------------------------------------------
-void Game::setStepsLeft(int steps_left)
+void Game::setRemainingSteps(int remaining_steps)
 {
-  if(steps_left < 0)
-    steps_left = 0;
-  *remaining_steps_ = steps_left;
+  if(remaining_steps < 0)
+    remaining_steps = 0;
+  *remaining_steps_ = remaining_steps;
+}
+
+//------------------------------------------------------------------------------
+void Game::decrementRemainingSteps(int amount)
+{
+  *remaining_steps_ -= amount;
+  if(*remaining_steps_ < 0)
+    *remaining_steps_ = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -425,3 +436,5 @@ void Game::switchState(State new_state)
       break;
   }
 }
+
+

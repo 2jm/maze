@@ -26,8 +26,8 @@ Tile::EnterResult TileBonus::enter(Vector2d &source_position)
 {
   if(!used_)
   {
-    int steps_left = game_.getStepsLeft() + character_ - 'a' + 1;
-    game_.setStepsLeft(steps_left);
+    int steps_left = game_.getRemainingSteps() + character_ - 'a' + 1;
+    game_.setRemainingSteps(steps_left);
     used_ = true;
   }
   source_position = position_;

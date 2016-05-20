@@ -257,12 +257,19 @@ class Game
     //--------------------------------------------------------------------------
     // Getter Methods
     //
-    int getStepsLeft() const;
+    int getRemainingSteps() const;
 
     //--------------------------------------------------------------------------
     // Setter Methods
     //
-    void setStepsLeft(int steps_left);
+    void setRemainingSteps(int remaining_steps);
+
+    //--------------------------------------------------------------------------
+    // Decrement steps left
+    //
+    // @param amount The amount to decrement the steps left
+    //
+    void decrementRemainingSteps(int amount);
 };
 
 
