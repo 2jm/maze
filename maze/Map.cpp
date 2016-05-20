@@ -19,6 +19,7 @@
 #include "TileIce.h"
 #include "TileOneWay.h"
 #include "TileQuicksand.h"
+#include "TileHole.h"
 
 
 using std::string;
@@ -40,6 +41,7 @@ bool Map::loadFromString(string map_string, Game &game)
   start_once_ = -1;
   end_once_ = -1;
 
+  std::vector<std::shared_ptr<TileHole>> hole_tiles;
   std::vector<std::shared_ptr<TileTeleport>> tiles_teleport(SIZE_OF_ALPHABET);
 
   std::fill(teleporter_pair_, teleporter_pair_ + SIZE_OF_ALPHABET, -1);
@@ -108,6 +110,12 @@ bool Map::loadFromString(string map_string, Game &game)
                                             map_string[string_position],
                                             game), tile_position);
       }
+      else if(map_string[string_position] == 's')
+      {
+        auto hole_tile = std::make_shared<TileHole>(tile_position);
+        hole_tiles.push_back(hole_tile);
+        put(hole_tile, tile_position);
+      }
       else if(map_string[string_position] == ' ')
       {
         put(std::make_shared<TilePath>(tile_position), tile_position);
@@ -136,6 +144,9 @@ bool Map::loadFromString(string map_string, Game &game)
     y++;
     string_position++;
   }
+
+  for(auto hole_tile : hole_tiles)
+    hole_tile->setStartTile(start_tile_.get());
 
   return isValidMap();
 }
