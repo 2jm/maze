@@ -241,10 +241,18 @@ class Game
     //
     // @param show_more set to false that no additional information is printed
     //                  out
-    // @param show_no_path set to false that moved steps isn't printed out
+    // @param show_no_path set to false that moved steps is printed out
     //
     Message::Code show(const bool show_more = false,
                        const bool show_no_path = false);
+
+    //--------------------------------------------------------------------------
+    // Prints the complete map with the actual player position
+    //
+    // @param silent set to false that the found path is printed out
+    //
+    Message::Code solve(const bool silent = false);
+
 
     //--------------------------------------------------------------------------
     // Sets the game state to WON if it is allowed

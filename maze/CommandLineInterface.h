@@ -49,7 +49,8 @@ class CommandLineInterface
       SHOW,
       RESET,
       QUIT,
-      WHOAMI
+      WHOAMI,
+      SOLVE
     };
 
     //--------------------------------------------------------------------------
