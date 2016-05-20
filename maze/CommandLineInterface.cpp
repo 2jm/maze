@@ -21,6 +21,7 @@
 #include "CommandQuit.h"
 #include "CommandReset.h"
 #include "CommandWhoAmI.h"
+#include "CommandSolve.h"
 #include "Game.h"
 
 //------------------------------------------------------------------------------
@@ -44,7 +45,8 @@ const std::string CommandLineInterface::NAME_STRINGS[] =
   "show",
   "reset",
   "quit",
-  "whoami"
+  "whoami",
+  "solve"
 };
 
 //------------------------------------------------------------------------------
@@ -137,6 +139,13 @@ bool CommandLineInterface::execute(std::string command,
   {
     CommandWhoAmI command_whoami;
     Message::print(command_whoami.execute(game_, params));
+    return true;
+  }
+    //-----solve------
+  else if(command == NAME_STRINGS[Name::SOLVE])
+  {
+    CommandSolve command_solve;
+    Message::print(command_solve.execute(game_, params));
     return true;
   }
     //-----empty command------
