@@ -315,36 +315,76 @@ Wenn sich der Spieler bereits im Ziel befindet.
     {
       int knotenIndex = ((col - 1) * (size_vector.getX() - 2)) + (row - 1);
 
-      char neighbor1 = '#';
-      char neighbor2 = '#';
-      char neighbor3 = '#';
-      char neighbor4 = '#';
+      char neighborUp = '#';
+      char neighborLeft = '#';
+      char neighborDown = '#';
+      char neighborRight = '#';
+
+      char crtChar = map_->at(row, col).get()->toChar(false);
 
       // get all 4 neighbor knoten
-      if(col - 1 != 0)
+      if(crtChar == '<')
       {
-        int row_index = knotenIndex - (size_vector.getX() - 2);
-        neighbor1 = map_->at(row, col - 1).get()->toChar(false);
-        adj[knotenIndex][row_index] = getPathCost(neighbor1);
+        if(row - 1 != 0)
+        {
+          int row_index = knotenIndex - 1;
+          neighborLeft = map_->at(row - 1, col).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborLeft);
+        }
       }
-      if(row - 1 != 0)
+      else if(crtChar == '>')
       {
-        int row_index = knotenIndex - 1;
-        neighbor2 = map_->at(row - 1, col).get()->toChar(false);
-        adj[knotenIndex][row_index] = getPathCost(neighbor2);
+        if(row + 1 != size_vector.getX() - 1)
+        {
+          int row_index = knotenIndex + 1;
+          neighborRight = map_->at(row + 1, col).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborRight);
+        }
       }
-      if(col + 1 != size_vector.getY() - 1)
+      else if(crtChar == '^')
       {
-        int row_index = knotenIndex + (size_vector.getX() - 2);
-        // TODO: check if size_vector.getY() - 1 is correct
-        neighbor3 = map_->at(row, col + 1).get()->toChar(false);
-        adj[knotenIndex][row_index] = getPathCost(neighbor3);
+        if(col - 1 != 0)
+        {
+          int row_index = knotenIndex - (size_vector.getX() - 2);
+          neighborUp = map_->at(row, col - 1).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborUp);
+        }
       }
-      if(row + 1 != size_vector.getX() - 1)
+      else if(crtChar == 'v')
       {
-        int row_index = knotenIndex + 1;
-        neighbor4 = map_->at(row + 1, col).get()->toChar(false);
-        adj[knotenIndex][row_index] = getPathCost(neighbor4);
+        if(col + 1 != size_vector.getY() - 1)
+        {
+          int row_index = knotenIndex + (size_vector.getX() - 2);
+          neighborDown = map_->at(row, col + 1).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborDown);
+        }
+      }
+      else
+      {
+        if(row - 1 != 0)
+        {
+          int row_index = knotenIndex - 1;
+          neighborLeft = map_->at(row - 1, col).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborLeft);
+        }
+        if(row + 1 != size_vector.getX() - 1)
+        {
+          int row_index = knotenIndex + 1;
+          neighborRight = map_->at(row + 1, col).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborRight);
+        }
+        if(col - 1 != 0)
+        {
+          int row_index = knotenIndex - (size_vector.getX() - 2);
+          neighborUp = map_->at(row, col - 1).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborUp);
+        }
+        if(col + 1 != size_vector.getY() - 1)
+        {
+          int row_index = knotenIndex + (size_vector.getX() - 2);
+          neighborDown = map_->at(row, col + 1).get()->toChar(false);
+          adj[knotenIndex][row_index] = getPathCost(neighborDown);
+        }
       }
     }
   }
@@ -380,6 +420,11 @@ int Game::getPathCost(char tile_char) const
     path_cost = way_path_cost - (tile_char - 'a') * 10; // a = 90, e = 50
   else if(tile_char >= 'f' && tile_char <= 'j')
     path_cost = way_path_cost + (tile_char - 'f' + 1) * way_path_cost;
+  else if(tile_char == '<' ||
+          tile_char == '>' ||
+          tile_char == 'v' ||
+          tile_char == '^')
+    path_cost = 100;
       // f = 200, j = 600
   //else if(tile_char == '#') // unnecessary, as inital state of path_cost
   // is 0
@@ -419,14 +464,17 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
     }
 
     vis[cur] = true; // visited next knoten
-    if(vis[B]) // break when end knoten has been visited
-      break;
+   //if(vis[B]) // break when end knoten has been visited
+    //  break;
 
     for(int j = 0; j < n; ++j) // loop through the paths of each knoten
     {
+      // TODO: change to inf? or remove?
       if(adj[cur][j] == 0) // not allowed path
         continue;
-      int path = dist[cur] + adj[cur][j];
+      int path = adj[cur][j];
+      if(path != inf)
+        path += dist[cur];
       if(path < dist[j])
       {
         dist[j] = path;
@@ -442,10 +490,12 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
 
   char neighbors_chars[]{'d', 'r', 'u', 'l'};
 
+  // TODO: usage of prev, to no look at previously visited location again?
+  int prev = crtVal;
   while(crtVal != A)
   {
-    std::vector<int> neighbors{10000, 10000, 10000, 10000};
-    std::vector<int> row_indexes{10000, 10000, 10000, 10000};
+    std::vector<int> neighbors{inf, inf, inf, inf};
+    std::vector<int> row_indexes{-1, -1, -1, -1};
     // get all 4 neighbor knoten
     if(col - 1 != -1)
     {
@@ -474,13 +524,25 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
 
     std::vector<int>::iterator result;
 
+    // TODO: add check, if result_neighbor is inf value, then
+    //        level is not solveable
+
     result = std::min_element(neighbors.begin(), neighbors.end());
     int result_neighbor = std::distance(neighbors.begin(), result);
     //std::cout << "min element at: " << result_neighbor << '\n';
 
+    if(result_neighbor == inf)
+    {
+      std::cout << "Level is not solvable" << '\n';
+      path.clear();
+      return -1;
+    }
+
     path.insert(0, 1, neighbors_chars[result_neighbor]);
 
     crtVal = row_indexes[result_neighbor];
+    row = crtVal % (size_vector.getX() - 2);
+    col = crtVal / (size_vector.getX() - 2);
   }
 
   return path.length(); //dist[B];
