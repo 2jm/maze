@@ -282,7 +282,7 @@ class Game
     void decrementRemainingSteps(int amount);
 
     int dijk(int A, int B, std::vector<std::vector<int>> adj, std::string
-    &path);
+    &path, Vector2d size_vector);
 
     int getPathCost(char tile_char) const;
 };

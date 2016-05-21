@@ -352,11 +352,13 @@ Wenn sich der Spieler bereits im Ziel befindet.
   Vector2d start_pos = map_->getStartTile().get()->getPosition();
   Vector2d end_pos = map_->getEndTile().get()->getPosition();
 
-  int start = ((start_pos.getY() - 1) * (size_vector.getX() - 2)) + (start_pos.getX() - 1);
-  int end = ((end_pos.getY() - 1) * (size_vector.getX() - 2)) + (end_pos.getX() - 1);
+  int start = ((start_pos.getY() - 1) * (size_vector.getX() - 2)) +
+              (start_pos.getX() - 1);
+  int end = ((end_pos.getY() - 1) * (size_vector.getX() - 2)) +
+            (end_pos.getX() - 1);
 
   std::string path = "";
-  used_steps = dijk(start, end, adj, path);
+  used_steps = dijk(start, end, adj, path, size_vector);
 
   std::cout << "The maze was solved in " << used_steps << " steps.\n";
 
@@ -372,15 +374,21 @@ int Game::getPathCost(char tile_char) const
 {
   int path_cost = 0; // 0 means not visitable
   if(tile_char == ' ' || tile_char == 'x' || tile_char == 'o')
-    path_cost = 1;
+    path_cost = 10;
+  else if(tile_char >= 'a' && tile_char <= 'e')
+    path_cost = 5 - (tile_char - 'a');
   //else if(tile_char == '#') // unnecessary, as inital state of path_cost
   // is 0
   // path_cost = 0; // 0 means not visitable
   return path_cost;
 }
 
+
+#include <algorithm>
+
 // given adjacency matrix adj, finds shortest path from A to B
-int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path)
+int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
+               Vector2d size_vector)
 {
   std::cout << "Dest: " << B << "\n";
   int n = adj.size(); // knoten
@@ -420,33 +428,58 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path)
         dist[j] = path;
       }
     }
+    //std::cout << cur << ":" << dist[cur] << '\n';
   }
 
   int crtVal = 0;
-  int crt;
-  int prev = 0;
-  for(int k = 0; k <= B; ++k)
+  crtVal = B; // beginning of way back
+  int row = crtVal % (size_vector.getX() - 2);
+  int col = crtVal / (size_vector.getX() - 2);
+
+  char neighbors_chars[]{'d', 'r', 'u', 'l'};
+
+  while(crtVal != A)
   {
-    if(crtVal < dist[k])
+    std::vector<int> neighbors{10000, 10000, 10000, 10000};
+    std::vector<int> row_indexes{10000, 10000, 10000, 10000};
+    // get all 4 neighbor knoten
+    if(col - 1 != -1)
     {
-      crtVal = dist[k];
-
-      prev = crt;
-      crt = k;
-
-      if(crt - 1 == prev) // moved right
-        path += "r";
-      else if(crt + 1 == prev) // moved left
-        path += "l";
-      else if(crt - 2 >= prev) // moved down
-        path += "d";
-      else if(crt + 2 <= prev) // moved up
-        path += "u";
+      int row_index = crtVal - (size_vector.getX() - 2);
+      row_indexes[0] = row_index;
+      neighbors[0] = dist[row_index];
     }
+    if(row - 1 != -1)
+    {
+      int row_index = crtVal - 1;
+      row_indexes[1] = row_index;
+      neighbors[1] = dist[row_index];
+    }
+    if(col != size_vector.getY() - 3)
+    {
+      int row_index = crtVal + (size_vector.getX() - 2);
+      row_indexes[2] = row_index;
+      neighbors[2] = dist[row_index];
+    }
+    if(row != size_vector.getX() - 3)
+    {
+      int row_index = crtVal + 1;
+      row_indexes[3] = row_index;
+      neighbors[3] = dist[row_index];
+    }
+
+    std::vector<int>::iterator result;
+
+    result = std::min_element(neighbors.begin(), neighbors.end());
+    int result_neighbor = std::distance(neighbors.begin(), result);
+    //std::cout << "min element at: " << result_neighbor << '\n';
+
+    path.insert(0, 1, neighbors_chars[result_neighbor]);
+
+    crtVal = row_indexes[result_neighbor];
   }
 
-
-  return dist[B];
+  return path.length(); //dist[B];
 }
 
 //------------------------------------------------------------------------------
