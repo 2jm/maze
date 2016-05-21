@@ -402,16 +402,6 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path)
         continue; // already visited, prevent going back
       if(cur == -1 || dist[j] < dist[cur])
       { // determine next knoten mit minimaler Distanz zum aktuellen Knoten (shortest path first)
-
-          /*if(j - 1 == cur) // moved right
-            path += "r";
-          else if(j + 1 == cur) // moved left
-            path += "l";
-          else if(j - 2 >= cur) // moved down
-            path += "d";
-          else if(j + 2 <= cur) // moved up
-            path += "u";*/
-
         cur = j;
       }
     }
@@ -431,6 +421,31 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path)
       }
     }
   }
+
+  int crtVal = 0;
+  int crt;
+  int prev = 0;
+  for(int k = 0; k <= B; ++k)
+  {
+    if(crtVal < dist[k])
+    {
+      crtVal = dist[k];
+
+      prev = crt;
+      crt = k;
+
+      if(crt - 1 == prev) // moved right
+        path += "r";
+      else if(crt + 1 == prev) // moved left
+        path += "l";
+      else if(crt - 2 >= prev) // moved down
+        path += "d";
+      else if(crt + 2 <= prev) // moved up
+        path += "u";
+    }
+  }
+
+
   return dist[B];
 }
 
