@@ -269,6 +269,10 @@ Message::Code Game::show(const bool show_more, const bool show_no_path)
   return Message::SUCCESS;
 }
 
+
+const int inf = 1 << 30;
+using std::vector;
+
 //------------------------------------------------------------------------------
 Message::Code Game::solve(const bool silent)
 {
@@ -287,16 +291,147 @@ Wenn sich der Spieler bereits im Ziel befindet.
   // TODO: calc. path and set used steps accordingly
   int used_steps = 0;
 
+  Vector2d size_vector = map_->getSize();
+
+  int N = (size_vector.getX() - 2) * (size_vector.getY() - 2); // N = amount of
+  // knoten (tiles to search through), -2 because wall is stripped away
+  vector<vector<int>> adj(N); // adjacency matrix
+  // https://de.wikipedia.org/wiki/Adjazenzmatrix
+
+  // init adjacency matrix
+  for(int i = 0; i < N; ++i)
+  {
+    adj[i] = vector<int>(N);
+    for(int j = 0; j < N; ++j)
+    {
+      adj[i][j] = inf;
+    }
+  }
+
+  // only loop through content of map (wall around the map is stripped away)
+  for(int col = 1; col < size_vector.getY() - 1; ++col)
+  {
+    for(int row = 1; row < size_vector.getX() - 1; ++row)
+    {
+      int knotenIndex = ((col - 1) * (size_vector.getX() - 2)) + (row - 1);
+
+      char neighbor1 = '#';
+      char neighbor2 = '#';
+      char neighbor3 = '#';
+      char neighbor4 = '#';
+
+      // get all 4 neighbor knoten
+      if(col - 1 != 0)
+      {
+        int row_index = knotenIndex - (size_vector.getX() - 2);
+        neighbor1 = map_->at(row, col - 1).get()->toChar(false);
+        adj[knotenIndex][row_index] = getPathCost(neighbor1);
+      }
+      if(row - 1 != 0)
+      {
+        int row_index = knotenIndex - 1;
+        neighbor2 = map_->at(row - 1, col).get()->toChar(false);
+        adj[knotenIndex][row_index] = getPathCost(neighbor2);
+      }
+      if(col + 1 != size_vector.getY() - 1)
+      {
+        int row_index = knotenIndex + (size_vector.getX() - 2);
+        // TODO: check if size_vector.getY() - 1 is correct
+        neighbor3 = map_->at(row, col + 1).get()->toChar(false);
+        adj[knotenIndex][row_index] = getPathCost(neighbor3);
+      }
+      if(row + 1 != size_vector.getX() - 1)
+      {
+        int row_index = knotenIndex + 1;
+        neighbor4 = map_->at(row + 1, col).get()->toChar(false);
+        adj[knotenIndex][row_index] = getPathCost(neighbor4);
+      }
+    }
+  }
+
+  Vector2d start_pos = map_->getStartTile().get()->getPosition();
+  Vector2d end_pos = map_->getEndTile().get()->getPosition();
+
+  int start = ((start_pos.getY() - 1) * (size_vector.getX() - 2)) + (start_pos.getX() - 1);
+  int end = ((end_pos.getY() - 1) * (size_vector.getX() - 2)) + (end_pos.getX() - 1);
+
+  std::string path = "";
+  used_steps = dijk(start, end, adj, path);
+
   std::cout << "The maze was solved in " << used_steps << " steps.\n";
 
   if(!silent)
   {
-    std::cout << "Found path: ";
-    // TODO: print found_path;
-    std::cout << '\n';
+    std::cout << "Found path: " << path << '\n';
   }
 
   return Message::SUCCESS;
+}
+
+int Game::getPathCost(char tile_char) const
+{
+  int path_cost = 0; // 0 means not visitable
+  if(tile_char == ' ' || tile_char == 'x' || tile_char == 'o')
+    path_cost = 1;
+  //else if(tile_char == '#') // unnecessary, as inital state of path_cost
+  // is 0
+  // path_cost = 0; // 0 means not visitable
+  return path_cost;
+}
+
+// given adjacency matrix adj, finds shortest path from A to B
+int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path)
+{
+  std::cout << "Dest: " << B << "\n";
+  int n = adj.size(); // knoten
+  vector<int> dist(n); // stores the distance between the knoten
+  vector<bool> vis(n); // visited knoten
+
+  for(int i = 0; i < n; ++i)
+  { // init every dist with infinity
+    dist[i] = inf;
+  }
+  dist[A] = 0;  // set source distance to 0
+
+  for(int i = 0; i < n; ++i)
+  { // loop through every knoten
+    int cur = -1;
+    for(int j = 0; j < n; ++j)
+    { // loop again through every knoten
+      if(vis[j])
+        continue; // already visited, prevent going back
+      if(cur == -1 || dist[j] < dist[cur])
+      { // determine next knoten mit minimaler Distanz zum aktuellen Knoten (shortest path first)
+
+          /*if(j - 1 == cur) // moved right
+            path += "r";
+          else if(j + 1 == cur) // moved left
+            path += "l";
+          else if(j - 2 >= cur) // moved down
+            path += "d";
+          else if(j + 2 <= cur) // moved up
+            path += "u";*/
+
+        cur = j;
+      }
+    }
+
+    vis[cur] = true; // visited next knoten
+    if(vis[B]) // break when end knoten has been visited
+      break;
+
+    for(int j = 0; j < n; ++j) // loop through the paths of each knoten
+    {
+      if(adj[cur][j] == 0) // not allowed path
+        continue;
+      int path = dist[cur] + adj[cur][j];
+      if(path < dist[j])
+      {
+        dist[j] = path;
+      }
+    }
+  }
+  return dist[B];
 }
 
 //------------------------------------------------------------------------------

@@ -280,6 +280,11 @@ class Game
     // @param amount The amount to decrement the steps left
     //
     void decrementRemainingSteps(int amount);
+
+    int dijk(int A, int B, std::vector<std::vector<int>> adj, std::string
+    &path);
+
+    int getPathCost(char tile_char) const;
 };
 
 
