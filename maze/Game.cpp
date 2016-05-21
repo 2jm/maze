@@ -485,6 +485,13 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
 
   int crtVal = 0;
   crtVal = B; // beginning of way back
+  if(dist[crtVal] == inf)
+  {
+    std::cout << "Level is not solvable" << '\n';
+    return -1;
+  }
+
+
   int row = crtVal % (size_vector.getX() - 2);
   int col = crtVal / (size_vector.getX() - 2);
 
@@ -531,12 +538,12 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
     int result_neighbor = std::distance(neighbors.begin(), result);
     //std::cout << "min element at: " << result_neighbor << '\n';
 
-    if(result_neighbor == inf)
-    {
-      std::cout << "Level is not solvable" << '\n';
-      path.clear();
-      return -1;
-    }
+//    if(result_neighbor == inf)
+//    {
+//      std::cout << "Level is not solvable" << '\n';
+//      path.clear();
+//      return -1;
+//    }
 
     path.insert(0, 1, neighbors_chars[result_neighbor]);
 
