@@ -373,10 +373,14 @@ Wenn sich der Spieler bereits im Ziel befindet.
 int Game::getPathCost(char tile_char) const
 {
   int path_cost = 0; // 0 means not visitable
+  int way_path_cost = 100;
   if(tile_char == ' ' || tile_char == 'x' || tile_char == 'o')
-    path_cost = 10;
+    path_cost = way_path_cost;
   else if(tile_char >= 'a' && tile_char <= 'e')
-    path_cost = 5 - (tile_char - 'a');
+    path_cost = way_path_cost - (tile_char - 'a') * 10; // a = 90, e = 50
+  else if(tile_char >= 'f' && tile_char <= 'j')
+    path_cost = way_path_cost + (tile_char - 'f' + 1) * way_path_cost;
+      // f = 200, j = 600
   //else if(tile_char == '#') // unnecessary, as inital state of path_cost
   // is 0
   // path_cost = 0; // 0 means not visitable
