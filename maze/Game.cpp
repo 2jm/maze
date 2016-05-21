@@ -507,26 +507,51 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
     if(col - 1 != -1)
     {
       int row_index = crtVal - (size_vector.getX() - 2);
-      row_indexes[0] = row_index;
-      neighbors[0] = dist[row_index];
+      int rowNeighbor = row_index % (size_vector.getX() - 2);
+      int colNeighbor = row_index / (size_vector.getX() - 2);
+      char neighborChar = map_->at(rowNeighbor + 1, colNeighbor + 1).get()
+              ->toChar(false);
+      if(!(neighborChar == '>' || neighborChar == '^' || neighborChar == '<'))
+      {
+        row_indexes[0] = row_index;
+        neighbors[0] = dist[row_index];
+      }
     }
     if(row - 1 != -1)
     {
       int row_index = crtVal - 1;
-      row_indexes[1] = row_index;
-      neighbors[1] = dist[row_index];
+      int rowNeighbor = row_index % (size_vector.getX() - 2);
+      int colNeighbor = row_index / (size_vector.getX() - 2);
+      char neighborChar = map_->at(rowNeighbor + 1, colNeighbor + 1).get()->toChar(false);
+      if(!(neighborChar == 'v' || neighborChar == '^' || neighborChar == '<'))
+      {
+        row_indexes[1] = row_index;
+        neighbors[1] = dist[row_index];
+      }
     }
     if(col != size_vector.getY() - 3)
     {
       int row_index = crtVal + (size_vector.getX() - 2);
-      row_indexes[2] = row_index;
-      neighbors[2] = dist[row_index];
+      int rowNeighbor = row_index % (size_vector.getX() - 2);
+      int colNeighbor = row_index / (size_vector.getX() - 2);
+      char neighborChar = map_->at(rowNeighbor + 1, colNeighbor + 1).get()->toChar(false);
+      if(!(neighborChar == '>' || neighborChar == 'v' || neighborChar == '<'))
+      {
+        row_indexes[2] = row_index;
+        neighbors[2] = dist[row_index];
+      }
     }
     if(row != size_vector.getX() - 3)
     {
       int row_index = crtVal + 1;
-      row_indexes[3] = row_index;
-      neighbors[3] = dist[row_index];
+      int rowNeighbor = row_index % (size_vector.getX() - 2);
+      int colNeighbor = row_index / (size_vector.getX() - 2);
+      char neighborChar = map_->at(rowNeighbor + 1, colNeighbor + 1).get()->toChar(false);
+      if(!(neighborChar == '>' || neighborChar == '^' || neighborChar == 'v'))
+      {
+        row_indexes[3] = row_index;
+        neighbors[3] = dist[row_index];
+      }
     }
 
     std::vector<int>::iterator result;
