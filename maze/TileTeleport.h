@@ -62,6 +62,9 @@ class TileTeleport : public Tile
     // @param teleport The corresponding teleport tile
     //
     void setCorrespondingTeleport(TileTeleport *teleport);
+
+    // TODO
+    TileTeleport* getCorrespondingTeleport();
 };
 
 

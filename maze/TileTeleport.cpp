@@ -30,3 +30,10 @@ void TileTeleport::setCorrespondingTeleport(TileTeleport *teleport)
 {
   corresponding_teleport_ = teleport;
 }
+
+TileTeleport *TileTeleport::getCorrespondingTeleport()
+{
+  return corresponding_teleport_;
+}
+
+

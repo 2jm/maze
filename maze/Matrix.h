@@ -268,6 +268,20 @@ class Matrix
     // @param row     The row the element should be put to.
     //
     void put(T element, unsigned int column, unsigned int row);
+
+    //----------------------------------------------------------------------
+    // begin and end iterators
+    //
+    // @return Returns the begin and end iterators of the
+    //         std::vector<T> elements_
+    //
+    typename std::vector<Matrix<T>::Column>::const_iterator begin() const;
+
+    typename std::vector<Matrix<T>::Column>::iterator begin();
+
+    typename std::vector<Matrix<T>::Column>::const_iterator end() const;
+
+    typename std::vector<Matrix<T>::Column>::iterator end();
 };
 
 
@@ -428,6 +442,36 @@ template<class T>
 void Matrix<T>::put(T element, unsigned int column, unsigned int row)
 {
   put(element, Vector2d(column, row));
+}
+
+
+template<class T>
+typename std::vector<typename Matrix<T>::Column>::const_iterator
+Matrix<T>::begin() const
+{
+  return columns_.begin();
+};
+
+
+template<class T>
+typename std::vector<typename Matrix<T>::Column>::iterator Matrix<T>::begin()
+{
+  return columns_.begin();
+};
+
+
+template<class T>
+typename std::vector<typename Matrix<T>::Column>::const_iterator
+Matrix<T>::end() const
+{
+  return columns_.end();
+};
+
+
+template<class T>
+typename std::vector<typename Matrix<T>::Column>::iterator Matrix<T>::end()
+{
+  return columns_.end();
 }
 
 

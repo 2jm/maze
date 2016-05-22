@@ -157,3 +157,10 @@ Vector2d::operator Direction() const
   else
     return Direction::OTHER;
 }
+
+Vector2d Vector2d::operator*(const int scalar)
+{
+  return Vector2d(x_ * scalar, y_ * scalar);
+}
+
+

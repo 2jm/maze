@@ -13,7 +13,9 @@
 
 //------------------------------------------------------------------------------
 Tile::Tile(Vector2d position, char character) : position_(position),
-                                                character_(character)
+                                                character_(character),
+                                                reach_time_(99),
+                                                is_inverted_(false)
 {
 
 }
@@ -47,3 +49,26 @@ Tile::operator char() const
 {
   return character_;
 }
+
+//------------------------------------------------------------------------------
+int Tile::getReachTime() const
+{
+  return reach_time_;
+}
+
+//------------------------------------------------------------------------------
+void Tile::setReachTime(int reach_time)
+{
+  reach_time_ = reach_time;
+}
+
+void Tile::invert()
+{
+  is_inverted_ = !is_inverted_;
+}
+
+
+
+
+
+

@@ -99,6 +99,8 @@ class Vector2d
 
     Vector2d operator-(const Vector2d &other);
 
+    Vector2d operator*(const int scalar);
+
     void operator+=(const Vector2d &other);
 
     operator Direction() const;

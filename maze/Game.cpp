@@ -11,10 +11,12 @@
 
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "Game.h"
 #include "CommandFastMove.h"
 #include "Convert.h"
 #include "FileHandler.h"
+#include "PathTree.h"
 
 //------------------------------------------------------------------------------
 Game::Game() : map_(&play_map_),
@@ -275,29 +277,187 @@ Message::Code Game::solve(const bool silent)
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  // TODO: print out correct error messages
-  /*
-  Fehlermeldungen
-[ERR] No path found.\n
-Wenn vom aktuellen Standpunkt aus kein Weg ins Ziel gefunden werden kann (Bsp: nicht genügend Schritte oder es existiert kein Pfad). In diesem Fall wird auch kein fastmove oder save Befehl ausgeführt.
-[ERR] You already solved the maze.\n
-Wenn sich der Spieler bereits im Ziel befindet.
-   */
+  int time = 0;
+  std::vector<std::vector<std::shared_ptr<PathTree::Node>>> history;
 
-  // TODO: calc. path and set used steps accordingly
-  int used_steps = 0;
+  bool endReached = false;
+  bool movesPossible = true;
+  std::vector<Direction> directions;
+  directions.push_back(Direction::RIGHT);
+  directions.push_back(Direction::DOWN);
+  directions.push_back(Direction::LEFT);
+  directions.push_back(Direction::UP);
 
-  std::cout << "The maze was solved in " << used_steps << " steps.\n";
 
-  if(!silent)
+  std::shared_ptr<Tile> startTile = map_->getStartTile();
+  startTile->setReachTime(time);
+
+  PathTree tree(startTile);
+
+  history.push_back(
+          std::vector<std::shared_ptr<PathTree::Node>>(1, tree.getRootNode()));
+
+  time++;
+
+  PathTree::Node *end_node = nullptr;
+
+
+  while(movesPossible)
   {
-    std::cout << "Found path: ";
-    // TODO: print found_path;
-    std::cout << '\n';
+    movesPossible = false;
+    history.push_back(std::vector<std::shared_ptr<PathTree::Node>>());
+
+    for(auto node : history[history.size()-2])
+    {
+      Vector2d origin;
+
+      // move in all 4 directions
+      for(auto direction : directions)
+      {
+        bool valid_move = false;
+        Tile::EnterResult enter_result;
+
+        origin = node->getTile()->getPosition();
+
+        while((enter_result = (*map_)[origin + direction]->enter(origin)) ==
+              Tile::MOVE_AGAIN && (*map_)[origin]->leave(direction))
+        {
+          if(enter_result != Tile::INVALID_MOVE)
+            valid_move = true;
+        }
+        if(enter_result != Tile::INVALID_MOVE)
+          valid_move = true;
+
+        // the player moved
+        if(valid_move)
+        {
+          if((*map_)[origin] == (*map_).getEndTile())
+            endReached = true;
+
+          if((*map_)[origin]->getReachTime() > time)
+          {
+            (*map_)[origin]->setReachTime(time);
+            movesPossible = true;
+
+            std::shared_ptr<PathTree::Node> new_node =
+                    node->addBranch((*map_)[origin], direction);
+
+            history.back().push_back(new_node);
+
+            if(map_->getEndTile()->getPosition()
+                  ==  (*map_)[origin]->getPosition())
+              end_node = new_node.get();
+          }
+
+          if(!endReached)
+            movesPossible = true;
+        }
+      }
+    }
+
+    std::cout << "Time:  " << time << std::endl;
+    std::cout << "Count: " << history.back().size() << std::endl;
+    for(int row_number = 0; row_number < map_->getSize().getY(); row_number++)
+    {
+      for(int column_number = 0; column_number < map_->getSize().getX();
+          column_number++)
+        std::cout <<
+          (((*map_)[column_number][row_number]->getReachTime() < 10) ? " " : "")
+          << (*map_)[column_number][row_number]->getReachTime() << " ";
+
+      std::cout << std::endl;
+    }
+
+
+    time++;
+
+    if(time == 100000)
+      break;
+  }
+
+  std::cout << std::endl << std::endl << " RECONSTRUCT FROM TREE " <<
+          std::endl <<
+          std::endl;
+
+  map_->reset();
+
+  // Reconstruct moves
+  if(end_node != nullptr)
+  {
+    std::vector<Direction> moves;
+
+    while(end_node->getParent() != nullptr)
+    {
+      moves.push_back(end_node->getParentDirection());
+      end_node = end_node->getParent();
+    }
+
+    int move_counter;
+
+    for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
+        move_counter--)
+      std::cout << static_cast<char>(moves[move_counter]);
+
+    std::cout << std::endl;
   }
 
   return Message::SUCCESS;
 }
+
+
+/*int i = 0;
+
+while(time > 0 && i < 100)
+{
+  Vector2d origin;
+  std::shared_ptr<Tile> smallestReachTimeTile = nullptr;  //TODO
+  Direction move;
+
+  tile->invert();
+
+  for(auto direction : directions)
+  {
+    bool valid_move = false;
+    Tile::EnterResult enter_result;
+
+    origin = tile->getPosition();
+
+    while((enter_result = (*map_)[origin + direction]->enter(origin)) ==
+          Tile::MOVE_AGAIN && (*map_)[origin]->leave(direction))
+    {
+      if(enter_result != Tile::INVALID_MOVE)
+        valid_move = true;
+    }
+    if(enter_result != Tile::INVALID_MOVE)
+      valid_move = true;
+
+    // the player moved
+    if(valid_move)
+    {
+      if(smallestReachTimeTile == nullptr)
+      {
+        smallestReachTimeTile = (*map_)[origin];
+        move = direction;
+      }
+      else if((*map_)[origin]->getReachTime() <
+              smallestReachTimeTile->getReachTime())
+      {
+        smallestReachTimeTile = (*map_)[origin];
+        move = direction;
+      }
+    }
+  }
+
+  i++;
+
+  tile->invert();
+
+  moves.push_back(move);
+  tile = smallestReachTimeTile;
+  time = tile->getReachTime();
+
+  std::cout << static_cast<char>(move) << " " << time << std::endl;
+}*/
 
 //------------------------------------------------------------------------------
 void Game::wonGame()

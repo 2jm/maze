@@ -33,6 +33,11 @@ class Tile
     //
     Tile &operator=(const Tile &) = delete;
 
+    //--------------------------------------------------------------------------
+    // Time this tile was reached
+    //
+    int reach_time_;
+
   protected:
     //--------------------------------------------------------------------------
     // Position of this tile
@@ -43,6 +48,9 @@ class Tile
     // Character representing this tile on the map
     //
     char character_;
+
+    // TODO
+    bool is_inverted_;
 
   public:
     //--------------------------------------------------------------------------
@@ -97,7 +105,19 @@ class Tile
     //--------------------------------------------------------------------------
     // Getter Methods
     //
-    Vector2d getPosition() const;
+    virtual Vector2d getPosition() const;
+
+    virtual int getReachTime() const;
+
+    //--------------------------------------------------------------------------
+    // Setter Methods
+    //
+    virtual void setReachTime(int reach_time);
+
+    //--------------------------------------------------------------------------
+    // Invert
+    //
+    virtual void invert();
 
     //--------------------------------------------------------------------------
     // Overloaded Operators
