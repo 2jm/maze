@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <iomanip>
 #include "Game.h"
 #include "CommandFastMove.h"
 #include "Convert.h"
@@ -293,6 +294,9 @@ Message::Code Game::solve(const bool silent)
   startTile->setReachTime(time);
 
   PathTree tree(startTile);
+  Matrix<PathTree::Node*> node_map(map_->getSize());
+
+  node_map[startTile->getPosition()] = tree.getRootNode().get();
 
   history.push_back(
           std::vector<std::shared_ptr<PathTree::Node>>(1, tree.getRootNode()));
@@ -307,6 +311,8 @@ Message::Code Game::solve(const bool silent)
     movesPossible = false;
     history.push_back(std::vector<std::shared_ptr<PathTree::Node>>());
 
+    std::vector<PathTree::Node*> nodes_to_add;
+
     for(auto node : history[history.size()-2])
     {
       Vector2d origin;
@@ -318,6 +324,10 @@ Message::Code Game::solve(const bool silent)
         Tile::EnterResult enter_result;
 
         origin = node->getTile()->getPosition();
+        int moved_steps = node->getTile()->getReachTime();
+
+        std::cout << origin.getX() << " " << origin.getY() << " " <<
+                static_cast<char>(direction) << ": ";
 
         while((enter_result = (*map_)[origin + direction]->enter(origin)) ==
               Tile::MOVE_AGAIN && (*map_)[origin]->leave(direction))
@@ -331,29 +341,141 @@ Message::Code Game::solve(const bool silent)
         // the player moved
         if(valid_move)
         {
+          std::cout << "valid ";
+
           if((*map_)[origin] == (*map_).getEndTile())
             endReached = true;
 
-          if((*map_)[origin]->getReachTime() > time)
+          moved_steps++;
+
+          // check if the bonus tile was already visited
+          if((*map_)[origin]->getStepChange() > 0)  // it is a bonus tile
           {
-            (*map_)[origin]->setReachTime(time);
+            bool used = false;
+
+            // go through the tree
+            PathTree::Node *search_node = node.get();
+
+            while(search_node->getParent() != nullptr)
+            {
+              if(search_node->getTile()->getPosition()
+                  == (*map_)[origin]->getPosition())
+                used = true;
+
+              std::cout << search_node->getTile()->getPosition().getX() <<
+                      " " << search_node->getTile()->getPosition().getY() <<
+                      ", ";
+
+
+              search_node = search_node->getParent();
+            }
+
+            if(!used)
+              moved_steps -= (*map_)[origin]->getStepChange();
+
+            std::cout << "used: " << used << " ";
+          }
+          else
+            moved_steps -= (*map_)[origin]->getStepChange();
+
+          // man muss irgendwie alle bonusfelder die beide pfade schon
+          // gesammelt haben aufsummieren und abziehen und wenn dann die steps
+          // immer noch größer sind, dann überschreiben, also den alten pfad
+          // komplett löschen.
+          // bringt glaub ich nix
+          // aber man kann noch miteinbeziehen wer die bonusfelder früher
+          // gesammelt hat, früher = besser
+
+
+
+          if((*map_)[origin]->getReachTime() > moved_steps)
+          {
+            std::cout << "moved steps: " << moved_steps;
+            //(*map_)[origin]->setReachTime(moved_steps);
             movesPossible = true;
 
             std::shared_ptr<PathTree::Node> new_node =
-                    node->addBranch((*map_)[origin], direction);
+                    node->addBranch((*map_)[origin], direction, moved_steps);
 
-            history.back().push_back(new_node);
+            nodes_to_add.push_back(new_node.get());
 
-            if(map_->getEndTile()->getPosition()
-                  ==  (*map_)[origin]->getPosition())
-              end_node = new_node.get();
+            // remove the node that was here before
+
+            //node_map[origin] = new_node.get();
+
+            //if(map_->getEndTile()->getPosition() ==
+            //        (*map_)[origin]->getPosition())
+            //  end_node = new_node.get();
           }
 
           if(!endReached)
             movesPossible = true;
+
+        }
+
+        std::cout << std::endl;
+      }
+    }
+
+    // check all nodes that where added
+    // if two nodes where added on the same field take the one with less steps,
+    // if the steps are equal take the one that took the bonus field earlier.
+
+    // this can be done faster
+    int i, j;  //TODO
+    bool go_to_next;
+
+    for(i = 0; i < nodes_to_add.size(); i++)
+    {
+      go_to_next = false;
+
+      for(j = i+1; j < nodes_to_add.size() && !go_to_next; j++)
+      {
+        if(nodes_to_add[i]->getTile()->getPosition() ==
+                nodes_to_add[j]->getTile()->getPosition())
+        {
+          if(nodes_to_add[i]->getMovedSteps() >
+             nodes_to_add[j]->getMovedSteps())
+          {
+            nodes_to_add.erase(nodes_to_add.begin() + i);
+            go_to_next = true;
+          }
+          else if(nodes_to_add[i]->getMovedSteps() <
+             nodes_to_add[j]->getMovedSteps())
+          {
+            nodes_to_add.erase(nodes_to_add.begin() + j);
+          }
+          else
+          {
+            // if no bonus tile was used or the same it doesn't matter which
+            // one i take
+
+            // i muas sie irgendwie parallel laffn lossn, aber des wead gestört
+
+            // es is so: wenn sich zwei pfade treffen, de gleich viele aber
+            // unterschiedliche bonusfelder verwendet haben, müssen die
+            // beiden parallel weiterlaufen, vielleicht löschen sie sich
+            // wieder auf.
+            // dazu die moved steps in den nodes speichern und, wenn
+            // parallelisiert wird die node_map duplizieren und auf der
+            // jeweiligen weiterlaufen, k.a. wie das funktionieren soll, weil
+            // man trotzdem immer mit den anderen parallelen maps vergleichen
+            // muss damit man langsamere pfade entfernen kann.
+
+            // ganz neue idee:
+            // vorher mal einen weg suchen und dann in der nähe des weges
+            // schauen ob bonusfelder da sind die sich rentieren mitzunehmen,
+            // wenn ja die noch ansteuern, den neuen weg wieder checken usw...
+            // im prinzip kann man das so lange machen bis man keine
+            // bonusfelder in der nähe mehr findet, oder 15s um sind.
+          }
+
+          i--;
+          j--;
         }
       }
     }
+
 
     std::cout << "Time:  " << time << std::endl;
     std::cout << "Count: " << history.back().size() << std::endl;
@@ -361,8 +483,7 @@ Message::Code Game::solve(const bool silent)
     {
       for(int column_number = 0; column_number < map_->getSize().getX();
           column_number++)
-        std::cout <<
-          (((*map_)[column_number][row_number]->getReachTime() < 10) ? " " : "")
+        std::cout << std::setw(3)
           << (*map_)[column_number][row_number]->getReachTime() << " ";
 
       std::cout << std::endl;

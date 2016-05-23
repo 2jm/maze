@@ -56,6 +56,9 @@ class TileQuicksand : public Tile
     //         needed for the ice tile)
     //
     EnterResult enter(Vector2d &source_position);
+
+    // TODO
+    virtual int getStepChange();
 };
 
 

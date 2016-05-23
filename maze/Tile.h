@@ -49,8 +49,6 @@ class Tile
     //
     char character_;
 
-    // TODO
-    bool is_inverted_;
 
   public:
     //--------------------------------------------------------------------------
@@ -114,10 +112,8 @@ class Tile
     //
     virtual void setReachTime(int reach_time);
 
-    //--------------------------------------------------------------------------
-    // Invert
-    //
-    virtual void invert();
+    // TODO
+    virtual int getStepChange();
 
     //--------------------------------------------------------------------------
     // Overloaded Operators

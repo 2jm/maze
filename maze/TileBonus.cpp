@@ -30,6 +30,7 @@ Tile::EnterResult TileBonus::enter(Vector2d &source_position)
     game_.setRemainingSteps(steps_left);
     used_ = true;
   }
+
   source_position = position_;
   return VALID_MOVE;
 }
@@ -45,3 +46,10 @@ char TileBonus::toChar(bool original)
 {
   return (!original && used_) ? ' ' : character_;
 }
+
+int TileBonus::getStepChange()
+{
+  return character_ - 'a' + 1;
+}
+
+

@@ -28,3 +28,10 @@ Tile::EnterResult TileQuicksand::enter(Vector2d &source_position)
   source_position = position_;
   return VALID_MOVE;
 }
+
+int TileQuicksand::getStepChange()
+{
+  return (character_ - 'f' + 1) * -1;
+}
+
+

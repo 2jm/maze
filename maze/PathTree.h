@@ -20,20 +20,23 @@ class PathTree
         std::shared_ptr<Node> childs_[4];
         Node *parent_;
         Direction parent_direction_;
+        int moved_steps_;
 
         int directionToArrayIndex(Direction direction);
 
       public:
-        Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction);
+        Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction,
+             int moved_steps);
         Node(std::shared_ptr<Tile> tile);
 
         std::shared_ptr<Node> addBranch(std::shared_ptr<Tile> tile, Direction
-        direction);
+        direction, int moved_steps);
 
         std::shared_ptr<Tile> getTile();
         std::shared_ptr<Node> getChild(Direction direction);
         Node *getParent();
         Direction getParentDirection();
+        int getMovedSteps();
     };
 
   private:
@@ -62,20 +65,22 @@ std::shared_ptr<PathTree::Node> PathTree::getRootNode()
 
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
-                     Direction direction) :
+                     Direction direction, int moved_steps) :
         tile_(tile),
         parent_(parent),
-        parent_direction_(direction)
+        parent_direction_(direction),
+        moved_steps_(moved_steps)
 {
 
 }
 
 std::shared_ptr<PathTree::Node> PathTree::Node::addBranch(
-        std::shared_ptr<Tile> tile, Direction direction)
+        std::shared_ptr<Tile> tile, Direction direction, int moved_steps)
 {
   int array_index = directionToArrayIndex(direction);
 
-  childs_[array_index] = std::make_shared<Node>(tile, this, direction);
+  childs_[array_index] =
+          std::make_shared<Node>(tile, this, direction, moved_steps);
 
   return childs_[array_index];
 }
@@ -122,5 +127,9 @@ Direction PathTree::Node::getParentDirection()
   return parent_direction_;
 }
 
+int PathTree::Node::getMovedSteps()
+{
+  return moved_steps_;
+}
 
 #endif //MAZE_ALL_TREE_H
