@@ -288,7 +288,6 @@ Wenn vom aktuellen Standpunkt aus kein Weg ins Ziel gefunden werden kann (Bsp: n
 Wenn sich der Spieler bereits im Ziel befindet.
    */
 
-  // TODO: calc. path and set used steps accordingly
   int used_steps = 0;
 
   Vector2d size_vector = map_->getSize();
@@ -412,23 +411,20 @@ Wenn sich der Spieler bereits im Ziel befindet.
 
 int Game::getPathCost(char tile_char) const
 {
-  int path_cost = 0; // 0 means not visitable
+  int path_cost = inf; // inf means not visitable
   int way_path_cost = 100;
   if(tile_char == ' ' || tile_char == 'x' || tile_char == 'o')
     path_cost = way_path_cost;
-  else if(tile_char >= 'a' && tile_char <= 'e')
-    path_cost = way_path_cost - (tile_char - 'a') * 10; // a = 90, e = 50
-  else if(tile_char >= 'f' && tile_char <= 'j')
+  else if(tile_char >= 'a' && tile_char <= 'e') // a = 0, e = -400
+    path_cost = way_path_cost - (tile_char - 'a') * 100;
+  else if(tile_char >= 'f' && tile_char <= 'j') // f = 200, j = 600
     path_cost = way_path_cost + (tile_char - 'f' + 1) * way_path_cost;
   else if(tile_char == '<' ||
           tile_char == '>' ||
           tile_char == 'v' ||
           tile_char == '^')
     path_cost = 100;
-      // f = 200, j = 600
-  //else if(tile_char == '#') // unnecessary, as inital state of path_cost
-  // is 0
-  // path_cost = 0; // 0 means not visitable
+  //else if(tile_char == '#') //unnecessary, as inital state of path_cost is inf
   return path_cost;
 }
 
@@ -470,8 +466,8 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
     for(int j = 0; j < n; ++j) // loop through the paths of each knoten
     {
       // TODO: change to inf? or remove?
-      if(adj[cur][j] == 0) // not allowed path
-        continue;
+      //if(adj[cur][j] == 0) // not allowed path
+      //  continue;
       int path = adj[cur][j];
       if(path != inf)
         path += dist[cur];
@@ -487,6 +483,12 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
   crtVal = B; // beginning of way back
   if(dist[crtVal] == inf)
   {
+    // TODO: try to use all teleporter that are reachable here
+    // TODO: therefore get the path for the teleporters end, and if there's
+    // TODO: the ziel, then get the path to this teleporter. and so on.
+
+
+
     std::cout << "Level is not solvable" << '\n';
     return -1;
   }
@@ -557,7 +559,7 @@ int Game::dijk(int A, int B, vector<vector<int>> adj, std::string &path,
     std::vector<int>::iterator result;
 
     // TODO: add check, if result_neighbor is inf value, then
-    //        level is not solveable
+    //        level is not solveable -> but this should never be the outcome!
 
     result = std::min_element(neighbors.begin(), neighbors.end());
     int result_neighbor = std::distance(neighbors.begin(), result);
