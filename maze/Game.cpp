@@ -283,10 +283,10 @@ Message::Code Game::solve(const bool silent)
   bool endReached = false;
   bool movesPossible = true;
   std::vector<Direction> directions;
+  directions.push_back(Direction::UP);
   directions.push_back(Direction::RIGHT);
   directions.push_back(Direction::DOWN);
   directions.push_back(Direction::LEFT);
-  directions.push_back(Direction::UP);
 
 
   std::shared_ptr<Tile> startTile = map_->getStartTile();
@@ -361,7 +361,7 @@ Message::Code Game::solve(const bool silent)
 
 
     // compare all nodes_to_add and check if some point to the same tile, if
-    // they do take the one that is a bonus path, if no one is a bonus path,
+    // they do take the one with more bonus steps of both have 0 bonus steps,
     // take the first one.
     // this can be done faster
     int i, j;  //TODO
@@ -376,14 +376,17 @@ Message::Code Game::solve(const bool silent)
         if(nodes_to_add[i]->getTile()->getPosition() ==
            nodes_to_add[j]->getTile()->getPosition())
         {
-          if(nodes_to_add[j]->isBonusPath())
+          if(nodes_to_add[j]->getBonusSteps() >
+                  nodes_to_add[i]->getBonusSteps())
           {
+            nodes_to_add[i]->remove();
             nodes_to_add.erase(nodes_to_add.begin() + i);
             i--;
             go_to_next = true;
           }
           else
           {
+            nodes_to_add[j]->remove();
             nodes_to_add.erase(nodes_to_add.begin() + j);
             j--;
           }

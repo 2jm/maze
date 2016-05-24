@@ -22,13 +22,13 @@ class PathTree
         std::shared_ptr<Node> childs_[4];
         Node *parent_;
         Direction parent_direction_;
-        bool bonusPath_;
+        int bonusPath_;
 
         int directionToArrayIndex(Direction direction);
 
       public:
         Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction,
-             bool bonusPath);
+             int bonusPath);
         Node(std::shared_ptr<Tile> tile);
 
         // TODO destructor that destroys all children or is this done by the
@@ -41,7 +41,7 @@ class PathTree
         std::shared_ptr<Node> getChild(Direction direction);
         Node *getParent();
         Direction getParentDirection();
-        bool isBonusPath();
+        int getBonusSteps();
         void remove();
 
         void recursivePrint(int &print_depth, bool &new_line);
@@ -90,22 +90,18 @@ void PathTree::print()
 //------------------------------------------------------------------------------
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
-                     Direction direction, bool bonusPath) :
+                     Direction direction, int bonusPath) :
         tile_(tile),
         parent_(parent),
         parent_direction_(direction),
         bonusPath_(bonusPath)
 {
-
 }
 
 std::shared_ptr<PathTree::Node> PathTree::Node::addBranch(
         std::shared_ptr<Tile> tile, Direction direction)
 {
-  bool bonusPath = bonusPath_;
-
-  if(tile->getStepChange() > 0) //bonusTile
-    bonusPath = true;
+  int bonusPath = bonusPath_ + tile->getStepChange();
 
   int array_index = directionToArrayIndex(direction);
 
@@ -133,7 +129,7 @@ PathTree::Node::Node(std::shared_ptr<Tile> tile) :
         tile_(tile),
         parent_(nullptr),
         parent_direction_(Direction::OTHER),
-        bonusPath_(false)
+        bonusPath_(0)
 {
 
 }
@@ -158,7 +154,7 @@ Direction PathTree::Node::getParentDirection()
   return parent_direction_;
 }
 
-bool PathTree::Node::isBonusPath()
+int PathTree::Node::getBonusSteps()
 {
   return bonusPath_;
 }
@@ -180,7 +176,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
   {
     new_line = false;
 
-    for(i=0; i < print_depth * 12; i++)
+    for(i=0; i < print_depth * 15; i++)
     {
       std::cout << " ";
     }
@@ -200,7 +196,8 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
 
   std::cout << static_cast<char>(parent_direction_) << " " << bracketL
           << std::setw(2) << tile_->getPosition().getX() << "/"
-          << std::setw(2) << tile_->getPosition().getY() << bracketR <<
+          << std::setw(2) << tile_->getPosition().getY() << bracketR
+          << std::setw(2) << bonusPath_ << " " <<
           tile_->toChar(true);
 
   print_depth++;
