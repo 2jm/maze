@@ -307,6 +307,8 @@ Message::Code Game::solve(const bool silent)
     movesPossible = false;
     history.push_back(std::vector<std::shared_ptr<PathTree::Node>>());
 
+    std::vector<std::shared_ptr<PathTree::Node>> nodes_to_add;
+
     for(auto node : history[history.size()-2])
     {
       Vector2d origin;
@@ -334,7 +336,7 @@ Message::Code Game::solve(const bool silent)
           if((*map_)[origin] == (*map_).getEndTile())
             endReached = true;
 
-          if((*map_)[origin]->getReachTime() > time)
+          if((*map_)[origin]->getReachTime() >= time)
           {
             (*map_)[origin]->setReachTime(time);
             movesPossible = true;
@@ -342,7 +344,9 @@ Message::Code Game::solve(const bool silent)
             std::shared_ptr<PathTree::Node> new_node =
                     node->addBranch((*map_)[origin], direction);
 
-            history.back().push_back(new_node);
+            nodes_to_add.push_back(new_node);
+
+            //history.back().push_back(new_node);
 
             if(map_->getEndTile()->getPosition()
                   ==  (*map_)[origin]->getPosition())
@@ -354,6 +358,47 @@ Message::Code Game::solve(const bool silent)
         }
       }
     }
+
+
+    // compare all nodes_to_add and check if some point to the same tile, if
+    // they do take the one that is a bonus path, if no one is a bonus path,
+    // take the first one.
+    // this can be done faster
+    int i, j;  //TODO
+    bool go_to_next;
+
+    for(i = 0; i < nodes_to_add.size(); i++)
+    {
+      go_to_next = false;
+
+      for(j = i+1; j < nodes_to_add.size() && !go_to_next; j++)
+      {
+        if(nodes_to_add[i]->getTile()->getPosition() ==
+           nodes_to_add[j]->getTile()->getPosition())
+        {
+          if(nodes_to_add[j]->isBonusPath())
+          {
+            nodes_to_add.erase(nodes_to_add.begin() + i);
+            i--;
+            go_to_next = true;
+          }
+          else
+          {
+            nodes_to_add.erase(nodes_to_add.begin() + j);
+            j--;
+          }
+        }
+      }
+    }
+
+    // add the remaining nodes to the history
+    for(auto &new_node : nodes_to_add)
+    {
+      history.back().push_back(new_node);
+    }
+
+    nodes_to_add.clear();
+
 
     std::cout << "Time:  " << time << std::endl;
     std::cout << "Count: " << history.back().size() << std::endl;
@@ -400,6 +445,8 @@ Message::Code Game::solve(const bool silent)
 
     std::cout << std::endl;
   }
+
+  tree.print();
 
   return Message::SUCCESS;
 }

@@ -115,9 +115,9 @@ class Tile
     virtual void setReachTime(int reach_time);
 
     //--------------------------------------------------------------------------
-    // Invert
+    // Get step change
     //
-    virtual void invert();
+    virtual int getStepChange();
 
     //--------------------------------------------------------------------------
     // Overloaded Operators

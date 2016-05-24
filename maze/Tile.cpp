@@ -62,13 +62,11 @@ void Tile::setReachTime(int reach_time)
   reach_time_ = reach_time;
 }
 
-void Tile::invert()
+//------------------------------------------------------------------------------
+int Tile::getStepChange()
 {
-  is_inverted_ = !is_inverted_;
+  return 0;
 }
-
-
-
 
 
 

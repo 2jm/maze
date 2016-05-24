@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <bits/shared_ptr.h>
+#include <iostream>
+#include <iomanip>
 #include "Tile.h"
 #include "Direction.h"
 
@@ -20,12 +22,17 @@ class PathTree
         std::shared_ptr<Node> childs_[4];
         Node *parent_;
         Direction parent_direction_;
+        bool bonusPath_;
 
         int directionToArrayIndex(Direction direction);
 
       public:
-        Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction);
+        Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction,
+             bool bonusPath);
         Node(std::shared_ptr<Tile> tile);
+
+        // TODO destructor that destroys all children or is this done by the
+        // shared_ptr?
 
         std::shared_ptr<Node> addBranch(std::shared_ptr<Tile> tile, Direction
         direction);
@@ -34,6 +41,10 @@ class PathTree
         std::shared_ptr<Node> getChild(Direction direction);
         Node *getParent();
         Direction getParentDirection();
+        bool isBonusPath();
+        void remove();
+
+        void recursivePrint(int &print_depth, bool &new_line);
     };
 
   private:
@@ -44,7 +55,10 @@ class PathTree
 
     std::shared_ptr<Node> getRootNode();
 
+    void print();
 };
+
+
 
 PathTree::PathTree(std::shared_ptr<Tile> tile) :
         root_node_(std::make_shared<Node>(tile))
@@ -57,15 +71,30 @@ std::shared_ptr<PathTree::Node> PathTree::getRootNode()
   return root_node_;
 }
 
+void PathTree::print()
+{
+  int print_depth = 0;
+  bool new_line = false;
+
+  root_node_->recursivePrint(print_depth, new_line);
+}
 
 
 
+
+
+
+
+//------------------------------------------------------------------------------
+//              NODE
+//------------------------------------------------------------------------------
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
-                     Direction direction) :
+                     Direction direction, bool bonusPath) :
         tile_(tile),
         parent_(parent),
-        parent_direction_(direction)
+        parent_direction_(direction),
+        bonusPath_(bonusPath)
 {
 
 }
@@ -73,9 +102,15 @@ PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
 std::shared_ptr<PathTree::Node> PathTree::Node::addBranch(
         std::shared_ptr<Tile> tile, Direction direction)
 {
+  bool bonusPath = bonusPath_;
+
+  if(tile->getStepChange() > 0) //bonusTile
+    bonusPath = true;
+
   int array_index = directionToArrayIndex(direction);
 
-  childs_[array_index] = std::make_shared<Node>(tile, this, direction);
+  childs_[array_index] = std::make_shared<Node>(tile, this, direction,
+                                                bonusPath);
 
   return childs_[array_index];
 }
@@ -97,7 +132,8 @@ int PathTree::Node::directionToArrayIndex(Direction direction)
 PathTree::Node::Node(std::shared_ptr<Tile> tile) :
         tile_(tile),
         parent_(nullptr),
-        parent_direction_(Direction::OTHER)
+        parent_direction_(Direction::OTHER),
+        bonusPath_(false)
 {
 
 }
@@ -120,6 +156,71 @@ PathTree::Node *PathTree::Node::getParent()
 Direction PathTree::Node::getParentDirection()
 {
   return parent_direction_;
+}
+
+bool PathTree::Node::isBonusPath()
+{
+  return bonusPath_;
+}
+
+void PathTree::Node::remove()
+{
+  if(parent_ == nullptr)
+    return;
+
+  parent_->childs_[directionToArrayIndex(parent_direction_)].reset();
+}
+
+void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
+{
+  bool is_leave = true;
+  int i; //TODO
+
+  if(new_line)
+  {
+    new_line = false;
+
+    for(i=0; i < print_depth * 12; i++)
+    {
+      std::cout << " ";
+    }
+    std::cout << "+";
+  }
+  else
+  {
+    std::cout << " -";
+  }
+
+  char bracketL = '(', bracketR = ')';
+  if(bonusPath_)
+  {
+    bracketL = '[';
+    bracketR = ']';
+  }
+
+  std::cout << static_cast<char>(parent_direction_) << " " << bracketL
+          << std::setw(2) << tile_->getPosition().getX() << "/"
+          << std::setw(2) << tile_->getPosition().getY() << bracketR <<
+          tile_->toChar(true);
+
+  print_depth++;
+
+  for(i=0; i<4; i++)
+  {
+    if(childs_[i] != nullptr)
+    {
+      is_leave = false;
+      childs_[i]->recursivePrint(print_depth, new_line);
+    }
+  }
+
+  print_depth--;
+
+  if(is_leave)
+  {
+    std::cout << std::endl;
+    new_line = true;
+  }
 }
 
 

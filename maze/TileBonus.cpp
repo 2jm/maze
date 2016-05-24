@@ -45,3 +45,10 @@ char TileBonus::toChar(bool original)
 {
   return (!original && used_) ? ' ' : character_;
 }
+
+int TileBonus::getStepChange()
+{
+  return character_ - 'a' + 1;
+}
+
+
