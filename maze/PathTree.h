@@ -9,6 +9,7 @@
 #include <memory>
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #include "Tile.h"
 #include "Direction.h"
 

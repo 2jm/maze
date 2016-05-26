@@ -16,7 +16,6 @@
 #include "CommandFastMove.h"
 #include "Convert.h"
 #include "FileHandler.h"
-#include "PathTree.h"
 
 //------------------------------------------------------------------------------
 Game::Game() : map_(&play_map_),
@@ -277,7 +276,7 @@ Message::Code Game::solve(const bool silent)
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  std::cout << map_->solve(player_->getPosition());
+  std::cout << map_->solve(player_->getPosition()) << std::endl;
 
   return Message::SUCCESS;
 }
