@@ -6,7 +6,7 @@
 #define MAZE_ALL_TREE_H
 
 #include <vector>
-#include <bits/shared_ptr.h>
+#include <memory>
 #include <iostream>
 #include <iomanip>
 #include "Tile.h"
@@ -18,18 +18,20 @@ class PathTree
     class Node
     {
       private:
+        PathTree &tree_;
         std::shared_ptr<Tile> tile_;
         std::shared_ptr<Node> childs_[4];
         Node *parent_;
         Direction parent_direction_;
-        int bonusPath_;
+        int bonus_path_;
+        int depth_;
 
         int directionToArrayIndex(Direction direction);
 
       public:
         Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction,
-             int bonusPath);
-        Node(std::shared_ptr<Tile> tile);
+             int bonusPath, PathTree &tree, int depth);
+        Node(std::shared_ptr<Tile> tile, PathTree &tree);
 
         // TODO destructor that destroys all children or is this done by the
         // shared_ptr?
@@ -42,13 +44,19 @@ class PathTree
         Node *getParent();
         Direction getParentDirection();
         int getBonusSteps();
-        void remove();
+        bool isLeave();
+        Node *remove();
+        int getDepth();
 
         void recursivePrint(int &print_depth, bool &new_line);
+
+        bool operator<(Node *node2);
     };
 
   private:
     std::shared_ptr<Node> root_node_;
+    std::vector<Node*> leaves_;
+
 
   public:
     PathTree(std::shared_ptr<Tile> tile);
@@ -56,12 +64,21 @@ class PathTree
     std::shared_ptr<Node> getRootNode();
 
     void print();
+
+    void trim();
+
+    void addLeave(Node* node);
+    void removeLeave(Node *node);
+
+    void sortLeaves();
+
+    void printLeaves();
 };
 
 
 
 PathTree::PathTree(std::shared_ptr<Tile> tile) :
-        root_node_(std::make_shared<Node>(tile))
+        root_node_(std::make_shared<Node>(tile, *this))
 {
 
 }
@@ -79,6 +96,71 @@ void PathTree::print()
   root_node_->recursivePrint(print_depth, new_line);
 }
 
+void PathTree::trim()
+{
+  int i;  // TODO
+  for(i=0; i<leaves_.size(); i++)
+  {
+    Node *node = leaves_[i];
+    if(*(node->getTile()) != 'x' && node->getTile()->getStepChange() <= 0)
+    {
+      node->remove();
+      i--;
+    }
+  }
+}
+
+void PathTree::addLeave(Node *node)
+{
+  if(node->getParent()->isLeave())
+  {
+    int i; // TODO
+    for(i = 0; i < leaves_.size(); i++)
+    {
+      if(node->getParent() == leaves_[i])
+      {
+        leaves_.erase(leaves_.begin() + i);
+        break;
+      }
+    }
+  }
+
+  leaves_.push_back(node);
+}
+
+void PathTree::removeLeave(Node *node)
+{
+  int i; // TODO
+  for(i = 0; i < leaves_.size(); i++)
+  {
+    if(node == leaves_[i])
+    {
+      leaves_.erase(leaves_.begin() + i);
+      break;
+    }
+  }
+}
+
+void PathTree::sortLeaves()
+{
+  std::sort(leaves_.begin(), leaves_.end());
+}
+
+void PathTree::printLeaves()
+{
+  int i;  // TODO
+  for(i=0; i<leaves_.size(); i++)
+    std::cout << "leave: " << leaves_[i]->getTile()->getPosition().getX() <<
+            " " << leaves_[i]->getTile()->getPosition().getY() << std::endl;
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -90,23 +172,30 @@ void PathTree::print()
 //------------------------------------------------------------------------------
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
-                     Direction direction, int bonusPath) :
+                     Direction direction, int bonusPath, PathTree &tree, int
+                     depth) :
         tile_(tile),
         parent_(parent),
         parent_direction_(direction),
-        bonusPath_(bonusPath)
+        bonus_path_(bonusPath),
+        tree_(tree),
+        depth_(depth)
 {
 }
 
 std::shared_ptr<PathTree::Node> PathTree::Node::addBranch(
         std::shared_ptr<Tile> tile, Direction direction)
 {
-  int bonusPath = bonusPath_ + tile->getStepChange();
+  int bonusPath = bonus_path_ + tile->getStepChange();
 
   int array_index = directionToArrayIndex(direction);
 
-  childs_[array_index] = std::make_shared<Node>(tile, this, direction,
-                                                bonusPath);
+  std::shared_ptr<Node> new_node =
+          std::make_shared<Node>(tile, this, direction, bonusPath, tree_,
+                                 depth_ + 1);
+
+  tree_.addLeave(new_node.get());
+  childs_[array_index] = new_node;
 
   return childs_[array_index];
 }
@@ -125,11 +214,13 @@ int PathTree::Node::directionToArrayIndex(Direction direction)
     return 4;  // TODO
 }
 
-PathTree::Node::Node(std::shared_ptr<Tile> tile) :
+PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree) :
         tile_(tile),
         parent_(nullptr),
         parent_direction_(Direction::OTHER),
-        bonusPath_(0)
+        bonus_path_(0),
+        tree_(tree),
+        depth_(0)
 {
 
 }
@@ -156,15 +247,32 @@ Direction PathTree::Node::getParentDirection()
 
 int PathTree::Node::getBonusSteps()
 {
-  return bonusPath_;
+  return bonus_path_;
 }
 
-void PathTree::Node::remove()
+PathTree::Node *PathTree::Node::remove()
 {
   if(parent_ == nullptr)
-    return;
+    return nullptr;
 
+  int i; //TODO
+  for(i=0; i<4; i++)  // TODO 4 -> richtungsanzahl oder so
+  {
+    if(childs_[i] != nullptr)
+      childs_[i]->remove();
+  }
+  tree_.removeLeave(this);
+
+  Node *parent_save = parent_; // This is needed because after the reset the
+                               // parent_ variable will not be available anymore
+
+  // Do nothing after this
   parent_->childs_[directionToArrayIndex(parent_direction_)].reset();
+
+  if(parent_save->isLeave())
+    parent_save->tree_.addLeave(parent_save);
+
+  return parent_save;
 }
 
 void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
@@ -188,7 +296,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
   }
 
   char bracketL = '(', bracketR = ')';
-  if(bonusPath_)
+  if(bonus_path_)
   {
     bracketL = '[';
     bracketR = ']';
@@ -197,7 +305,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
   std::cout << static_cast<char>(parent_direction_) << " " << bracketL
           << std::setw(2) << tile_->getPosition().getX() << "/"
           << std::setw(2) << tile_->getPosition().getY() << bracketR
-          << std::setw(2) << bonusPath_ << " " <<
+          << std::setw(2) << bonus_path_ << " " <<
           tile_->toChar(true);
 
   print_depth++;
@@ -218,6 +326,28 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
     std::cout << std::endl;
     new_line = true;
   }
+}
+
+bool PathTree::Node::isLeave()
+{
+  int i; //TODO
+  for(i=0; i<4; i++)  // TODO 4 -> richtungsanzahl oder so
+  {
+    if(childs_[i] != nullptr)
+      return false;
+  }
+
+  return true;
+}
+
+int PathTree::Node::getDepth()
+{
+  return depth_;
+}
+
+bool PathTree::Node::operator<(Node *node2)
+{
+  return (depth_ < node2->getDepth());
 }
 
 

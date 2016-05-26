@@ -77,6 +77,9 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     bool isValidMap();
 
+    // TODO
+    void solveInternal();
+
   public:
     //--------------------------------------------------------------------------
     // Constructor
@@ -131,6 +134,10 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     std::shared_ptr<Tile> getEndTile() const;
 
     std::shared_ptr<Tile> getStartTile() const;
+
+    // TODO
+    // returns the fastmove string
+    std::string solve(Vector2d start_position);
 };
 
 
