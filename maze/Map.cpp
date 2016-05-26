@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 //
 
+#include <iostream>
 #include "Map.h"
 #include "TileWall.h"
 #include "TileStart.h"
@@ -270,10 +271,97 @@ std::shared_ptr<Tile> Map::getStartTile() const
 
 std::string Map::solve(Vector2d start_position)
 {
-  int time = 0;   // in the first step the time is equal to the steps
+  // TODO mir fällt gerade auf dass man die bonus tiles die schon vor dem
+  // solve verwendet wurden natürlich nicht mehr verwendet werden dürfen,
+  // aber die während solve verwendeten bonusfelder öfter verwendbar sein
+  // müssen auf den verschiedenen pfaden.
 
-  // the history stores all nodes from each time
-  std::vector<std::vector<std::shared_ptr<PathTree::Node>>> history;
+  // get the start tile and set its reachTime to 0
+  std::shared_ptr<Tile> startTile = matrix_[start_position];
+  startTile->setReachTime(0);
+
+  // create the path tree with the startTile as root node
+  PathTree tree(startTile);
+
+
+  solveInternal(tree);
+
+
+  // print the tree
+  tree.print();
+
+  std::cout << std::endl << " TRIM " << std::endl << std::endl;
+  tree.trim();
+
+  tree.print();
+
+  tree.sortLeaves();
+  tree.printLeaves();
+
+
+  // and now try with the bonus paths
+
+  std::vector<PathTree::Node*> leaves = tree.getLeaves();
+
+  // hier muss man die map jetzt wieder auf den Zustand bevor man zu Lösen
+  // begonnen hat zurücksetzen und dann aus den leaves einen Baum erstellen
+  // der nur zu diesem leave führt und mit dem dann wieder starten
+  for(auto leave : leaves)
+  {
+    if(*leave->getTile() != 'x')
+    {
+      //PathTree bonus_path_tree(leave->getTile());
+    }
+  }
+
+
+  std::cout << std::endl << std::endl << " RECONSTRUCT FROM TREE " <<
+          std::endl << std::endl;
+
+  reset();
+
+
+  std::string fast_move_string;
+
+  PathTree::Node *end_node = nullptr;
+
+  for(auto leave : leaves)
+  {
+    if(*leave->getTile() == 'x')
+      end_node = leave;
+  }
+
+  // Reconstruct moves
+  if(end_node != nullptr)
+  {
+    std::vector<Direction> moves;
+
+    // start from the end node and go to the root node, the directions are
+    // pushed in the moves vector
+    while(end_node->getParent() != nullptr)
+    {
+      moves.push_back(end_node->getParentDirection());
+      end_node = end_node->getParent();
+    }
+
+    int move_counter;
+
+    // print the moves from back to front, because this is the right direction
+    for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
+        move_counter--)
+      fast_move_string += static_cast<char>(moves[move_counter]);
+
+    std::cout << std::endl;
+  }
+
+  return fast_move_string;
+}
+
+
+// fills the tree
+bool Map::solveInternal(PathTree &tree)
+{
+  int time = 0;   // in the first step the time is equal to the steps
 
   // some other variables
   bool endReached = false;
@@ -284,20 +372,15 @@ std::string Map::solve(Vector2d start_position)
   directions.push_back(Direction::DOWN);
   directions.push_back(Direction::LEFT);
 
-  // get the start tile and set its reachTime to 0
-  std::shared_ptr<Tile> startTile = matrix_[start_position];
-  startTile->setReachTime(time);
+  // the history stores all nodes from each time
+  std::vector<std::vector<std::shared_ptr<PathTree::Node>>> history;
 
   // the end node if it is found
   PathTree::Node *end_node = nullptr;
 
-  // create the path tree with the startTile as root node
-  PathTree tree(startTile);
-
   // add the root node to the history
   history.push_back(
           std::vector<std::shared_ptr<PathTree::Node>>(1, tree.getRootNode()));
-
 
   // start the solving
   time++;
@@ -440,58 +523,6 @@ std::string Map::solve(Vector2d start_position)
     if(time == 100000)
       break;
   }
-
-
-  // print the tree
-  tree.print();
-
-  std::cout << std::endl << " TRIM " << std::endl << std::endl;
-  tree.trim();
-
-  tree.print();
-
-  tree.sortLeaves();
-  tree.printLeaves();
-
-
-  std::cout << std::endl << std::endl << " RECONSTRUCT FROM TREE " <<
-  std::endl <<
-  std::endl;
-
-  reset();
-
-
-  std::string fast_move_string;
-
-  // Reconstruct moves
-  if(end_node != nullptr)
-  {
-    std::vector<Direction> moves;
-
-    // start from the end node and go to the root node, the directions are
-    // pushed in the moves vector
-    while(end_node->getParent() != nullptr)
-    {
-      moves.push_back(end_node->getParentDirection());
-      end_node = end_node->getParent();
-    }
-
-    int move_counter;
-
-    // print the moves from back to front, because this is the right direction
-    for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
-        move_counter--)
-      fast_move_string += static_cast<char>(moves[move_counter]);
-
-    std::cout << std::endl;
-  }
-
-  return fast_move_string;
-}
-
-void Map::solveInternal()
-{
-
 }
 
 

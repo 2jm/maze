@@ -14,8 +14,10 @@
 
 
 #include <string>
+#include "Direction.h"
 #include "Matrix.h"
 #include "Tile.h"
+#include "PathTree.h"
 
 class Game;
 
@@ -78,7 +80,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     bool isValidMap();
 
     // TODO
-    void solveInternal();
+    bool solveInternal(PathTree &tree);
 
   public:
     //--------------------------------------------------------------------------
