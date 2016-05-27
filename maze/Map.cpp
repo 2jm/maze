@@ -269,7 +269,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = false;
+static bool DEBUG = true;
 
 std::string Map::solve(const Vector2d start_position, int &used_steps)
 {
@@ -313,7 +313,17 @@ std::string Map::solve(const Vector2d start_position, int &used_steps)
   {
     if(*leave->getTile() != 'x')
     {
-      //PathTree bonus_path_tree(leave->getTile());
+      std::cout << std::endl << "LEAVE TREE: " <<
+              leave->getTile()->getPosition().getX() << " " <<
+              leave->getTile()->getPosition().getY() << std::endl;
+
+      std::shared_ptr<PathTree> leave_tree = leave->getTreeToNode();
+
+      leave_tree->print();
+
+      solveInternal(*leave_tree);
+
+      leave_tree->print();
     }
   }
 
@@ -382,17 +392,35 @@ bool Map::solveInternal(PathTree &tree)
   directions.push_back(Direction::LEFT);
 
   // the history stores all nodes from each time
-  std::vector<std::vector<std::shared_ptr<PathTree::Node>>> history;
+  std::vector<std::vector<PathTree::Node*>> history;
 
   // the end node if it is found
   PathTree::Node *end_node = nullptr;
 
   // add the root node to the history
-  history.push_back(
-          std::vector<std::shared_ptr<PathTree::Node>>(1, tree.getRootNode()));
+  history.push_back(std::vector<PathTree::Node*>(1, tree.getRootNode()));
 
-  // start the solving
+  tree.getRootNode()->getTile()->setReachTime(time);
+
   time++;
+
+  resetReachTimes();
+
+  // walk the path that is already in the tree
+  PathTree::Node *node = tree.getRootNode(), *next_node;
+  while(((next_node = node->getChild(Direction::UP))    != nullptr) ||
+        ((next_node = node->getChild(Direction::RIGHT)) != nullptr) ||
+        ((next_node = node->getChild(Direction::DOWN))  != nullptr) ||
+        ((next_node = node->getChild(Direction::LEFT))  != nullptr))
+  {
+    node = next_node;
+
+    history.push_back(std::vector<PathTree::Node*>(1, node));
+    node->getTile()->setReachTime(time);
+
+    time++;
+  }
+
 
   // run until no moves are possible anymore
   while(movesPossible)
@@ -400,12 +428,12 @@ bool Map::solveInternal(PathTree &tree)
     movesPossible = false;
 
     // add a new vector of nodes to the history, it will be filled in this step
-    history.push_back(std::vector<std::shared_ptr<PathTree::Node>>());
+    history.push_back(std::vector<PathTree::Node*>());
 
     // a vector containg all nodes that should be add, it will also contain
     // multiple nodes pointing to the same tile. From this nodes only one
     // will be taken and pushed to the history.
-    std::vector<std::shared_ptr<PathTree::Node>> nodes_to_add;
+    std::vector<PathTree::Node*> nodes_to_add;
 
     // loop through all nodes that were added in the last step
     for(auto node : history[history.size() - 2])
@@ -443,7 +471,7 @@ bool Map::solveInternal(PathTree &tree)
             movesPossible = true;
 
             // create a new node on the tree
-            std::shared_ptr<PathTree::Node> new_node =
+            PathTree::Node* new_node =
                     node->addBranch(matrix_[origin], direction);
 
             nodes_to_add.push_back(new_node);
@@ -452,7 +480,7 @@ bool Map::solveInternal(PathTree &tree)
             // but here is the end_node set
             if(getEndTile()->getPosition()
                == matrix_[origin]->getPosition())
-              end_node = new_node.get();
+              end_node = new_node;
           }
 
           // if the end is not reached moves are possible!
@@ -483,8 +511,8 @@ bool Map::solveInternal(PathTree &tree)
           if(nodes_to_add[j]->getBonusSteps() >
              nodes_to_add[i]->getBonusSteps())
           {
-            if(nodes_to_add[i].get() == end_node)
-              end_node = nodes_to_add[j].get();
+            if(nodes_to_add[i] == end_node)
+              end_node = nodes_to_add[j];
 
             // remove it from the tree
             nodes_to_add[i]->remove();
@@ -495,8 +523,8 @@ bool Map::solveInternal(PathTree &tree)
           }
           else
           {
-            if(nodes_to_add[j].get() == end_node)
-              end_node = nodes_to_add[i].get();
+            if(nodes_to_add[j] == end_node)
+              end_node = nodes_to_add[i];
 
             nodes_to_add[j]->remove();
             nodes_to_add.erase(nodes_to_add.begin() + j);
@@ -536,6 +564,19 @@ bool Map::solveInternal(PathTree &tree)
       break;
   }
 }
+
+void Map::resetReachTimes()
+{
+  for(auto column : columns_)
+  {
+    for(auto element : column)
+    {
+      element->setReachTime(99);  // MAX REACH TIME CONSTANT
+    }
+  }
+}
+
+
 
 
 

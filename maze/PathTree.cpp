@@ -12,12 +12,12 @@
 PathTree::PathTree(std::shared_ptr<Tile> tile) :
         root_node_(std::make_shared<Node>(tile, *this))
 {
-
+  leaves_.push_back(root_node_.get());
 }
 
-std::shared_ptr<PathTree::Node> PathTree::getRootNode()
+PathTree::Node* PathTree::getRootNode()
 {
-  return root_node_;
+  return root_node_.get();
 }
 
 void PathTree::print()
@@ -122,7 +122,18 @@ PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
 {
 }
 
-std::shared_ptr<PathTree::Node> PathTree::Node::addBranch(
+PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree) :
+        tile_(tile),
+        parent_(nullptr),
+        parent_direction_(Direction::OTHER),
+        bonus_path_(0),
+        tree_(tree),
+        depth_(0)
+{
+
+}
+
+PathTree::Node* PathTree::Node::addBranch(
         std::shared_ptr<Tile> tile, Direction direction)
 {
   int bonusPath = bonus_path_ + tile->getStepChange();
@@ -136,7 +147,7 @@ std::shared_ptr<PathTree::Node> PathTree::Node::addBranch(
   tree_.addLeave(new_node.get());
   childs_[array_index] = new_node;
 
-  return childs_[array_index];
+  return childs_[array_index].get();
 }
 
 int PathTree::Node::directionToArrayIndex(Direction direction)
@@ -153,25 +164,15 @@ int PathTree::Node::directionToArrayIndex(Direction direction)
     return 4;  // TODO
 }
 
-PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree) :
-        tile_(tile),
-        parent_(nullptr),
-        parent_direction_(Direction::OTHER),
-        bonus_path_(0),
-        tree_(tree),
-        depth_(0)
-{
-
-}
 
 std::shared_ptr<Tile> PathTree::Node::getTile()
 {
   return tile_;
 }
 
-std::shared_ptr<PathTree::Node> PathTree::Node::getChild(Direction direction)
+PathTree::Node* PathTree::Node::getChild(Direction direction)
 {
-  return childs_[directionToArrayIndex(direction)];
+  return childs_[directionToArrayIndex(direction)].get();
 }
 
 PathTree::Node *PathTree::Node::getParent()
@@ -288,4 +289,33 @@ bool PathTree::Node::operator<(Node *node2)
 {
   return (depth_ < node2->getDepth());
 }
+
+std::shared_ptr<PathTree> PathTree::Node::getTreeToNode()
+{
+  std::shared_ptr<PathTree> new_tree =
+          std::make_shared<PathTree>(tree_.getRootNode()->getTile());
+
+  std::vector<Direction> path;
+
+  Node* node = this;
+  while(node->parent_ != nullptr)
+  {
+    path.push_back(node->parent_direction_);
+    node = node->parent_;
+  }
+
+  Node *new_node = new_tree->getRootNode();
+  for(auto direction = path.rbegin(); direction != path.rend(); ++direction)
+  {
+    node = node->getChild(*direction);
+    std::cout << node->getTile()->getPosition().getX() << " "
+              << node->getTile()->getPosition().getY() << std::endl;
+    new_node = new_node->addBranch(node->getTile(), *direction);
+  }
+
+  return new_tree;
+}
+
+
+
 

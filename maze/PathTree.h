@@ -33,11 +33,11 @@ class PathTree
         // TODO destructor that destroys all children or is this done by the
         // shared_ptr?
 
-        std::shared_ptr<Node> addBranch(std::shared_ptr<Tile> tile, Direction
+        Node* addBranch(std::shared_ptr<Tile> tile, Direction
         direction);
 
         std::shared_ptr<Tile> getTile();
-        std::shared_ptr<Node> getChild(Direction direction);
+        Node *getChild(Direction direction);
         Node *getParent();
         Direction getParentDirection();
         int getBonusSteps();
@@ -46,6 +46,8 @@ class PathTree
         int getDepth();
 
         void recursivePrint(int &print_depth, bool &new_line);
+
+        std::shared_ptr<PathTree> getTreeToNode();
 
         bool operator<(Node *node2);
     };
@@ -57,9 +59,8 @@ class PathTree
 
   public:
     PathTree(std::shared_ptr<Tile> tile);
-    PathTree(Node *node);
 
-    std::shared_ptr<Node> getRootNode();
+    Node* getRootNode();
 
     void print();
 
