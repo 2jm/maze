@@ -276,7 +276,22 @@ Message::Code Game::solve(const bool silent)
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  std::cout << map_->solve(player_->getPosition()) << std::endl;
+  /* TODO: print out correct error messages
+  Fehlermeldungen
+[ERR] No path found.\n
+Wenn vom aktuellen Standpunkt aus kein Weg ins Ziel gefunden werden kann (Bsp: nicht genügend Schritte oder es existiert kein Pfad). In diesem Fall wird auch kein fastmove oder save Befehl ausgeführt.
+[ERR] You already solved the maze.\n
+Wenn sich der Spieler bereits im Ziel befindet.
+   */
+
+  int used_steps = 0;
+
+  std::string path = map_->solve(player_->getPosition(), used_steps);
+
+  std::cout << "The maze was solved in " << used_steps << " steps.\n";
+
+  if(!silent)
+    std::cout << "Found path: " << path << std::endl;
 
   return Message::SUCCESS;
 }

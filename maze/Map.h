@@ -139,7 +139,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
 
     // TODO
     // returns the fastmove string
-    std::string solve(Vector2d start_position);
+    std::string solve(const Vector2d start_position, int &used_steps);
 };
 
 

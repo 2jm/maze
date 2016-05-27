@@ -22,7 +22,6 @@
 #include "TileQuicksand.h"
 #include "TileHole.h"
 #include "TileCounter.h"
-#include "PathTree.h"
 
 
 using std::string;
@@ -269,7 +268,10 @@ std::shared_ptr<Tile> Map::getStartTile() const
   return start_tile_;
 }
 
-std::string Map::solve(Vector2d start_position)
+// TODO remove if debugging was finished
+static bool DEBUG = false;
+
+std::string Map::solve(const Vector2d start_position, int &used_steps)
 {
   // TODO mir fällt gerade auf dass man die bonus tiles die schon vor dem
   // solve verwendet wurden natürlich nicht mehr verwendet werden dürfen,
@@ -282,26 +284,27 @@ std::string Map::solve(Vector2d start_position)
 
   // create the path tree with the startTile as root node
   PathTree tree(startTile);
-
-
   solveInternal(tree);
 
-
   // print the tree
-  tree.print();
+  if(DEBUG)
+    tree.print();
 
-  std::cout << std::endl << " TRIM " << std::endl << std::endl;
+  if(DEBUG)
+    std::cout << std::endl << " TRIM " << std::endl << std::endl;
   tree.trim();
 
-  tree.print();
+  if(DEBUG)
+    tree.print();
 
   tree.sortLeaves();
-  tree.printLeaves();
+  if(DEBUG)
+    tree.printLeaves();
 
 
   // and now try with the bonus paths
 
-  std::vector<PathTree::Node*> leaves = tree.getLeaves();
+  std::vector<PathTree::Node *> leaves = tree.getLeaves();
 
   // hier muss man die map jetzt wieder auf den Zustand bevor man zu Lösen
   // begonnen hat zurücksetzen und dann aus den leaves einen Baum erstellen
@@ -314,12 +317,13 @@ std::string Map::solve(Vector2d start_position)
     }
   }
 
-
-  std::cout << std::endl << std::endl << " RECONSTRUCT FROM TREE " <<
-          std::endl << std::endl;
+  if(DEBUG)
+  {
+    std::cout << std::endl << std::endl << " RECONSTRUCT FROM TREE " <<
+    std::endl << std::endl;
+  }
 
   reset();
-
 
   std::string fast_move_string;
 
@@ -346,12 +350,17 @@ std::string Map::solve(Vector2d start_position)
 
     int move_counter;
 
+    // TODO update used_steps with quicksand/bonus fields
+    used_steps = static_cast<int>(moves.size() - 1);
+
     // print the moves from back to front, because this is the right direction
     for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
         move_counter--)
       fast_move_string += static_cast<char>(moves[move_counter]);
 
-    std::cout << std::endl;
+
+    if(DEBUG)
+      std::cout << std::endl;
   }
 
   return fast_move_string;
@@ -361,7 +370,7 @@ std::string Map::solve(Vector2d start_position)
 // fills the tree
 bool Map::solveInternal(PathTree &tree)
 {
-  int time = 0;   // in the first step the time is equal to the steps
+  int time = 0; // in the first step the time is equal to the steps
 
   // some other variables
   bool endReached = false;
@@ -503,18 +512,21 @@ bool Map::solveInternal(PathTree &tree)
 
     nodes_to_add.clear();
 
-    // print what we have got so far
-    std::cout << "Time:  " << time << std::endl;
-    std::cout << "Count: " << history.back().size() << std::endl;
-    for(int row_number = 0; row_number < getSize().getY(); row_number++)
+    if(DEBUG)
     {
-      for(int column_number = 0; column_number < getSize().getX();
-          column_number++)
-        std::cout <<
-        ((matrix_[column_number][row_number]->getReachTime() < 10) ? " " : "")
-        << matrix_[column_number][row_number]->getReachTime() << " ";
+      // print what we have got so far
+      std::cout << "Time:  " << time << std::endl;
+      std::cout << "Count: " << history.back().size() << std::endl;
+      for(int row_number = 0; row_number < getSize().getY(); row_number++)
+      {
+        for(int column_number = 0; column_number < getSize().getX();
+            column_number++)
+          std::cout <<
+          ((matrix_[column_number][row_number]->getReachTime() < 10) ? " " : "")
+          << matrix_[column_number][row_number]->getReachTime() << " ";
 
-      std::cout << std::endl;
+        std::cout << std::endl;
+      }
     }
 
 

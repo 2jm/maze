@@ -31,7 +31,7 @@ void PathTree::print()
 void PathTree::trim()
 {
   int i;  // TODO
-  for(i=0; i<leaves_.size(); i++)
+  for(i = 0; i < leaves_.size(); i++)
   {
     Node *node = leaves_[i];
     if(*(node->getTile()) != 'x' && node->getTile()->getStepChange() <= 0)
@@ -81,12 +81,12 @@ void PathTree::sortLeaves()
 void PathTree::printLeaves()
 {
   int i;  // TODO
-  for(i=0; i<leaves_.size(); i++)
+  for(i = 0; i < leaves_.size(); i++)
     std::cout << "leave: " << leaves_[i]->getTile()->getPosition().getX() <<
     " " << leaves_[i]->getTile()->getPosition().getY() << std::endl;
 }
 
-std::vector<PathTree::Node*> &PathTree::getLeaves()
+std::vector<PathTree::Node *> &PathTree::getLeaves()
 {
   return leaves_;
 }
@@ -195,7 +195,7 @@ PathTree::Node *PathTree::Node::remove()
     return nullptr;
 
   int i; //TODO
-  for(i=0; i<4; i++)  // TODO 4 -> richtungsanzahl oder so
+  for(i = 0; i < 4; i++)  // TODO 4 -> richtungsanzahl oder so
   {
     if(childs_[i] != nullptr)
       childs_[i]->remove();
@@ -223,7 +223,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
   {
     new_line = false;
 
-    for(i=0; i < print_depth * 15; i++)
+    for(i = 0; i < print_depth * 15; i++)
     {
       std::cout << " ";
     }
@@ -249,7 +249,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
 
   print_depth++;
 
-  for(i=0; i<4; i++)
+  for(i = 0; i < 4; i++)
   {
     if(childs_[i] != nullptr)
     {
@@ -270,7 +270,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
 bool PathTree::Node::isLeave()
 {
   int i; //TODO
-  for(i=0; i<4; i++)  // TODO 4 -> richtungsanzahl oder so
+  for(i = 0; i < 4; i++)  // TODO 4 -> richtungsanzahl oder so
   {
     if(childs_[i] != nullptr)
       return false;
