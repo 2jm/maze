@@ -82,6 +82,8 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     // TODO
     bool solveInternal(PathTree &tree);
 
+    std::string reconstructMoves(PathTree &tree);
+
     // TODO
     void resetReachTimes();
 
