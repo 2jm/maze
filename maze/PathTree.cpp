@@ -112,37 +112,48 @@ std::vector<PathTree::Node *> &PathTree::getLeaves()
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
                      Direction direction, int bonusPath, PathTree &tree, int
-                     depth) :
+                     depth, bool user_moved) :
         tile_(tile),
         parent_(parent),
         parent_direction_(direction),
         bonus_path_(bonusPath),
         tree_(tree),
-        depth_(depth)
+        depth_(depth),
+        user_moved_(user_moved)
 {
 }
 
-PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree) :
+PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree, bool user_moved) :
         tile_(tile),
         parent_(nullptr),
         parent_direction_(Direction::OTHER),
         bonus_path_(0),
         tree_(tree),
-        depth_(0)
+        depth_(0),
+        user_moved_(user_moved)
 {
 
 }
 
 PathTree::Node* PathTree::Node::addBranch(
-        std::shared_ptr<Tile> tile, Direction direction)
+        std::shared_ptr<Tile> tile, Direction direction, bool user_moved)
 {
-  int bonusPath = bonus_path_ + tile->getStepChange();
+  int bonus_path = bonus_path_;
+
+  // if it is a bonus tile check if it was already used
+  if(tile->getStepChange() > 0)
+  {
+    if(!isTileInPath(*tile))
+      bonus_path += tile->getStepChange();
+  }
+  else
+    bonus_path += tile->getStepChange();
 
   int array_index = directionToArrayIndex(direction);
 
   std::shared_ptr<Node> new_node =
-          std::make_shared<Node>(tile, this, direction, bonusPath, tree_,
-                                 depth_ + 1);
+          std::make_shared<Node>(tile, this, direction, bonus_path, tree_,
+                                 depth_ + 1, user_moved);
 
   tree_.addLeave(new_node.get());
   childs_[array_index] = new_node;
@@ -305,16 +316,73 @@ std::shared_ptr<PathTree> PathTree::Node::getTreeToNode()
   }
 
   Node *new_node = new_tree->getRootNode();
+  new_node->setUserMoved(node->isUserMoved());
+
   for(auto direction = path.rbegin(); direction != path.rend(); ++direction)
   {
     node = node->getChild(*direction);
     std::cout << node->getTile()->getPosition().getX() << " "
               << node->getTile()->getPosition().getY() << std::endl;
-    new_node = new_node->addBranch(node->getTile(), *direction);
+    new_node = new_node->addBranch(node->getTile(), *direction,
+                                   node->isUserMoved());
   }
 
   return new_tree;
 }
+
+bool PathTree::Node::isUserMoved()
+{
+  return user_moved_;
+}
+
+void PathTree::Node::setUserMoved(bool user_moved)
+{
+  user_moved_ = user_moved;
+}
+
+bool PathTree::Node::isTileInPath(const Tile &tile)
+{
+  Node *node = this;
+  while((node = node->getParent()) != nullptr)
+  {
+    if(node->getTile()->getPosition() == tile.getPosition())
+      return true;
+  }
+  return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

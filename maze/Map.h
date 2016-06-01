@@ -80,6 +80,11 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     bool isValidMap();
 
     // TODO
+    void fillTreeWithAlreadyMovedSteps(PathTree &tree,
+                                       const std::vector<Direction>
+                                       moved_steps);
+
+    // TODO
     bool solveInternal(PathTree &tree);
 
     std::string reconstructMoves(PathTree &tree);
@@ -144,7 +149,8 @@ class Map : public Matrix<std::shared_ptr<Tile>>
 
     // TODO
     // returns the fastmove string
-    std::string solve(const Vector2d start_position, int &used_steps);
+    std::string solve(const std::vector<Direction> moved_steps,
+                      int available_steps);
 };
 
 

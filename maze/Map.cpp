@@ -271,22 +271,30 @@ std::shared_ptr<Tile> Map::getStartTile() const
 // TODO remove if debugging was finished
 static bool DEBUG = true;
 
-std::string Map::solve(const Vector2d start_position, int &used_steps)
+std::string Map::solve(const std::vector<Direction> moved_steps,
+                       int available_steps)
 {
   // TODO mir fällt gerade auf dass man die bonus tiles die schon vor dem
   // solve verwendet wurden natürlich nicht mehr verwendet werden dürfen,
   // aber die während solve verwendeten bonusfelder öfter verwendbar sein
   // müssen auf den verschiedenen pfaden.
 
-  // get the start tile and set its reachTime to 0
-  std::shared_ptr<Tile> startTile = matrix_[start_position];
-  startTile->setReachTime(0);
-
-  std::string fast_move_string;
+  // reset the map
+  reset();
 
   // create the path tree with the startTile as root node
-  PathTree tree(startTile);
+  PathTree tree(getStartTile());
+
+  fillTreeWithAlreadyMovedSteps(tree, moved_steps);
+
+  if(DEBUG)
+    tree.print();
+
   solveInternal(tree);
+
+
+
+  std::string fast_move_string;
 
   // print the tree
   if(DEBUG)
@@ -330,6 +338,8 @@ std::string Map::solve(const Vector2d start_position, int &used_steps)
     {
       std::shared_ptr<PathTree> leave_tree = leave->getTreeToNode();
 
+      leave_tree->print();
+
       solveInternal(*leave_tree);
 
       leave_tree->trim();
@@ -371,6 +381,36 @@ std::string Map::solve(const Vector2d start_position, int &used_steps)
 }
 
 
+
+void Map::fillTreeWithAlreadyMovedSteps(PathTree &tree,
+                                        const std::vector<Direction>
+                                        moved_steps)
+{
+  PathTree::Node *node = tree.getRootNode();
+  Vector2d origin;
+
+  if(moved_steps.size() > 0)
+    node->setUserMoved(true);
+
+  for(auto direction : moved_steps)
+  {
+    // TODO same code is in the solve internal method
+    // the next lines are stolen from Player::move()
+    origin = node->getTile()->getPosition();
+
+    while((matrix_[origin + direction]->enter(origin)) ==
+          Tile::MOVE_AGAIN && matrix_[origin]->leave(direction))
+    {
+    }
+    // until here is stolen from Player::move()
+
+    node = node->addBranch(matrix_[origin], direction, true);
+  }
+}
+
+
+
+
 // fills the tree
 bool Map::solveInternal(PathTree &tree)
 {
@@ -394,11 +434,15 @@ bool Map::solveInternal(PathTree &tree)
   // add the root node to the history
   history.push_back(std::vector<PathTree::Node*>(1, tree.getRootNode()));
 
-  tree.getRootNode()->getTile()->setReachTime(time);
-
-  time++;
-
   resetReachTimes();
+
+  bool user_moved_path = tree.getRootNode()->isUserMoved();
+
+  if(!user_moved_path)
+  {
+    tree.getRootNode()->getTile()->setReachTime(time);
+    time++;
+  }
 
   // walk the path that is already in the tree
   PathTree::Node *node = tree.getRootNode(), *next_node;
@@ -410,11 +454,23 @@ bool Map::solveInternal(PathTree &tree)
     node = next_node;
 
     history.push_back(std::vector<PathTree::Node*>(1, node));
-    node->getTile()->setReachTime(time);
 
-    time++;
+    if(!node->isUserMoved())
+    {
+      if(!user_moved_path)
+        time = 0;
+
+      user_moved_path = false;
+      node->getTile()->setReachTime(time);
+      time++;
+    }
   }
 
+  if(user_moved_path)
+  {
+    node->getTile()->setReachTime(0);
+    time++;
+  }
 
   // run until no moves are possible anymore
   while(movesPossible)
@@ -565,7 +621,7 @@ void Map::resetReachTimes()
   {
     for(auto element : column)
     {
-      element->setReachTime(99);  // MAX REACH TIME CONSTANT
+      element->setReachTime(99);  // TODO MAX REACH TIME CONSTANT
     }
   }
 }

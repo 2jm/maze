@@ -286,7 +286,9 @@ Wenn sich der Spieler bereits im Ziel befindet.
 
   int used_steps = 0;
 
-  std::string path = map_->solve(player_->getPosition(), used_steps);
+  std::string path = map_->solve(move_history_, available_steps_);
+
+  // TODO run fastmove command with the path
 
   std::cout << "The maze was solved in " << used_steps << " steps.\n";
 

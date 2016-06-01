@@ -22,19 +22,23 @@ class PathTree
         Direction parent_direction_;
         int bonus_path_;
         int depth_;
+        bool user_moved_;
 
         int directionToArrayIndex(Direction direction);
+        bool isTileInPath(const Tile &tile);
 
       public:
         Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction,
-             int bonusPath, PathTree &tree, int depth);
-        Node(std::shared_ptr<Tile> tile, PathTree &tree);
+             int bonusPath, PathTree &tree, int depth,
+             bool user_moved = false);
+        Node(std::shared_ptr<Tile> tile, PathTree &tree,
+             bool user_moved = false);
 
         // TODO destructor that destroys all children or is this done by the
         // shared_ptr?
 
-        Node* addBranch(std::shared_ptr<Tile> tile, Direction
-        direction);
+        Node* addBranch(std::shared_ptr<Tile> tile, Direction direction,
+                        bool user_moved = false);
 
         std::shared_ptr<Tile> getTile();
         Node *getChild(Direction direction);
@@ -44,6 +48,8 @@ class PathTree
         bool isLeave();
         Node *remove();
         int getDepth();
+        bool isUserMoved();
+        void setUserMoved(bool user_moved);
 
         void recursivePrint(int &print_depth, bool &new_line);
 
