@@ -35,7 +35,7 @@ namespace Message
     "Congratulation! You solved the maze.\n",
     "Remaining Steps: ",
     "Moved Steps: ",
-    "SuperHero\n" // max. 15 characters, [a-zA-Z0-9]
+    "Theseus\n" // max. 15 characters, [a-zA-Z0-9]
   };
 
   //----------------------------------------------------------------------------

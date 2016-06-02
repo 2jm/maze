@@ -18,6 +18,6 @@ set(SOURCE_FILES Command.h Command.h Command.cpp Vector2d.cpp Vector2d.h
         TileBonus.h TileQuicksand.cpp TileQuicksand.h Message.cpp Message.h
         Message.h Convert.h Convert.cpp FileHandler.cpp FileHandler.h
         TileCounter.cpp TileCounter.h CommandWhoAmI.cpp CommandWhoAmI.h
-        CommandSolve.cpp CommandSolve.h PathTree.h PathTree.cpp)
+        CommandSolve.cpp CommandSolve.h PathTree.h PathTree.cpp Stopwatch.cpp Stopwatch.h)
 
 add_library(mazeLib STATIC ${SOURCE_FILES})

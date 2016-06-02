@@ -10,7 +10,9 @@
 //
 
 #include <iostream>
+#include <chrono>
 #include "Map.h"
+#include "Stopwatch.h"
 #include "TileWall.h"
 #include "TileStart.h"
 #include "TilePath.h"
@@ -274,6 +276,9 @@ static bool DEBUG = false;
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
 {
+  // TODO remove when testing is finished
+  Stopwatch::restart();
+
   // reset the map
   reset();
 
@@ -325,6 +330,10 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   reset();
 
+
+  std::cout << "It took me " << Stopwatch::getElapsedTime().count() <<
+          " microseconds." << std::endl;
+
   return fastmove_string;
 }
 
@@ -340,6 +349,9 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
 
   for(auto leave : leaves)
   {
+    if(Stopwatch::getElapsedTime() > Stopwatch::MAX_TIME)
+      return;
+
     if(*leave->getTile() != 'x')
     {
       std::shared_ptr<PathTree> leave_tree = leave->getTreeToNode();
