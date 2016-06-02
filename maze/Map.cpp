@@ -282,17 +282,19 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   // reset the map
   reset();
 
-  bool check_counter_tiles = false;
+  // at the end moves will be added to set this counters to zero
+  std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
 
   // create the path tree with the startTile as root node
   auto tree = std::make_shared<PathTree>(getStartTile());
+  std::vector<std::shared_ptr<TileCounter>> counter_tiles;
 
   fillTreeWithAlreadyMovedSteps(*tree, moved_steps);
 
   if(DEBUG)
     tree->print();
 
-  findPath(*tree);
+  findPath(*tree, &counter_tiles);
 
   // NO PATH FOUND
   if(tree->getFinishLeave() == nullptr)
@@ -301,25 +303,78 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
       std::cout << "NO PATH FOUND" << std::endl << "checking counter tiles" <<
             std::endl;
 
+
     // maybe a counter is the reason
-    auto counter_tiles = getCounterTiles();
-    int longest_path_length = tree->getDeepestLeave()->getDepth();
+    bool no_new_counter_tile = false;
+    bool finished = false;
+    std::vector<std::shared_ptr<TileCounter>> already_checked_counter_tiles;
 
-    for(auto counter_tile : counter_tiles)
-      counter_tile->set0();
+    while(!no_new_counter_tile && !finished)
+    {
+      no_new_counter_tile = true;
+      int longest_path_length = tree->getDeepestLeave()->getDepth();
 
-    tree->cut();
-    findPath(*tree);
+      for(auto counter_tile : counter_tiles)
+      {
+        bool already_checked = false;
+        for(auto already_checked_counter_tile : already_checked_counter_tiles)
+        {
+          if(counter_tile->getPosition() ==
+                                    already_checked_counter_tile->getPosition())
+          {
+            already_checked = true;
+            break;
+          }
+        }
+        if(already_checked)
+          continue;
 
-    if(tree->getFinishLeave() == nullptr)
+        no_new_counter_tile = false;
+
+        std::cout << "Settings " << counter_tile->getPosition().getX() << " "
+              << counter_tile->getPosition().getY() << " to 0" << std::endl;
+        counter_tile->set0();
+
+        tree->cut();  // retry from the beginning
+        findPath(*tree);
+
+        if(tree->getFinishLeave() != nullptr)
+        {
+          finished = true;
+          counter_tiles_to_zero.push_back(counter_tile);
+          break;
+        }
+
+        std::cout << "WTF " << tree->getDeepestLeave()->getDepth() << " " <<
+                longest_path_length << std::endl;
+        if(tree->getDeepestLeave()->getDepth() <= longest_path_length)
+        {
+          std::cout << "Resetting " << counter_tile->getPosition().getX() << " "
+              << counter_tile->getPosition().getY() << std::endl;
+          counter_tile->reset();
+        }
+        else
+          counter_tiles_to_zero.push_back(counter_tile);
+
+        already_checked_counter_tiles.push_back(counter_tile);
+      }
+
+      if(finished)
+        break;
+
+      tree->cut();
+      counter_tiles.clear();
+      findPath(*tree, &counter_tiles);
+
+      if(tree->getFinishLeave() != nullptr)
+        finished = true;
+    }
+
+    if(!finished)
       return "";
 
     if(DEBUG)
       std::cout << "WUHUUUU" << std::endl;
-
-    // at the end the path will be checked if it walked near counter tiles and
-    // adds moved to set this counters to zero
-    check_counter_tiles = true;
   }
 
   // print the tree
@@ -341,18 +396,13 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
 
   int minimal_path_length = tree->getPathLength();
-  std::string fastmove_string = tree->reconstructMoves();
   std::shared_ptr<PathTree> shortest_path = tree;
 
-  std::cout << "Path length: " << minimal_path_length << " " <<
-          fastmove_string << std::endl;
+  //std::cout << "Path length: " << minimal_path_length << " " <<
+  //        fastmove_string << std::endl;
 
   // and now try with the bonus paths
-  solveFromBonusTiles(*tree, minimal_path_length, fastmove_string,
-                      shortest_path, 0);
-
-
-  std::cout << "Minimal path length: " << minimal_path_length << std::endl;
+  solveFromBonusTiles(*tree, minimal_path_length, shortest_path, 0);
 
   if(DEBUG)
   {
@@ -360,11 +410,14 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
     std::endl << std::endl;
   }
 
+  auto finish_path = shortest_path->getFinishLeave()->getTreeToNode();
+  // add moves to zero the counter tiles that must be walls
+  std::string fastmove_string =
+          shortest_path->reconstructMoves(counter_tiles_to_zero);
+
   reset();
 
   // check if the available_steps are enough
-  auto finish_path = shortest_path->getFinishLeave()->getTreeToNode();
-
   if(!finish_path->checkStepCount(available_steps))
   {
     // not enough steps
@@ -380,7 +433,6 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
 
 void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
-                              std::string &fastmove_string,
                               std::shared_ptr<PathTree> &path_tree,
                               int recursion_depth)
 {
@@ -397,10 +449,11 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
     if(*leave->getTile() != 'x')
     {
       std::shared_ptr<PathTree> leave_tree = leave->getTreeToNode();
+      std::vector<std::shared_ptr<TileCounter>> counter_tiles;
 
       //leave_tree->print();
 
-      findPath(*leave_tree);
+      findPath(*leave_tree, &counter_tiles);
 
       leave_tree->trim();
       //leave_tree->print();
@@ -411,14 +464,13 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
       {
         path_length = this_path_length;
         path_tree = leave_tree;
-        fastmove_string = leave_tree->reconstructMoves();
         std::cout << recursion_depth << ": new path length: " << path_length <<
-                " " << fastmove_string << std::endl;
+                std::endl;
       }
 
       if(recursion_depth < MAX_SOLVE_RECURSION_DEPTH)
-        solveFromBonusTiles(*leave_tree, path_length, fastmove_string,
-                            path_tree, recursion_depth+1);
+        solveFromBonusTiles(*leave_tree, path_length, path_tree,
+                            recursion_depth+1);
     }
   }
 }
@@ -456,7 +508,8 @@ void Map::fillTreeWithAlreadyMovedSteps(PathTree &tree,
 
 
 // fills the tree
-bool Map::findPath(PathTree &tree)
+bool Map::findPath(PathTree &tree,
+        std::vector<std::shared_ptr<TileCounter>> *counter_tiles)
 {
   int time = 0; // in the first step the time is equal to the steps
 
@@ -630,7 +683,18 @@ bool Map::findPath(PathTree &tree)
 
     // add the remaining nodes to the history
     for(auto &new_node : nodes_to_add)
+    {
       history.back().push_back(new_node);
+
+      if(counter_tiles)   // not nullptr
+      {
+        if(std::dynamic_pointer_cast<TileCounter>(new_node->getTile()))
+        {
+          counter_tiles->push_back(
+                  std::dynamic_pointer_cast<TileCounter>(new_node->getTile()));
+        }
+      }
+    }
 
     nodes_to_add.clear();
 

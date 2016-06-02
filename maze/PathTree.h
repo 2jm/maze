@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include "Tile.h"
+#include "TileCounter.h"
 
 class PathTree
 {
@@ -84,7 +85,8 @@ class PathTree
 
     int getPathLength();
 
-    std::string reconstructMoves();
+    std::string reconstructMoves(
+            std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero);
 
     bool checkStepCount(int available_steps);
 };

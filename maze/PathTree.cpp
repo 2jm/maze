@@ -129,14 +129,53 @@ int PathTree::getPathLength()
   return path_length;
 }
 
-std::string PathTree::reconstructMoves()
+std::string PathTree::reconstructMoves(
+        std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero)
 {
   std::string fast_move_string;
 
-  Node *end_node = getFinishLeave();
+  Node *node = getRootNode(), *next_node;
+  while(((next_node = node->getChild(Direction::UP))    != nullptr) ||
+        ((next_node = node->getChild(Direction::RIGHT)) != nullptr) ||
+        ((next_node = node->getChild(Direction::DOWN))  != nullptr) ||
+        ((next_node = node->getChild(Direction::LEFT))  != nullptr))
+  {
+    node = next_node;
+
+    fast_move_string += static_cast<char>(node->getParentDirection());
+
+    for(auto counter_tile_to_zero : counter_tiles_to_zero)
+    {
+      Vector2d pos = node->getTile()->getPosition() +
+                                      Vector2d(node->getParentDirection());
+
+      std::cout << pos.getX() << " " << pos.getY() << " == " <<
+              counter_tile_to_zero->getPosition().getX() << " " <<
+              counter_tile_to_zero->getPosition().getY() << std::endl;
+
+      if(pos == counter_tile_to_zero->getPosition())
+      {
+        // bring this counter to zero
+        int counter_value = counter_tile_to_zero->toChar(true) - '0';
+
+        for(; counter_value > 0; counter_value--)
+        {
+          fast_move_string +=
+                  static_cast<char>(static_cast<Direction>(
+                                  Vector2d(node->getParentDirection()) * -1));
+
+          fast_move_string += static_cast<char>(node->getParentDirection());
+        }
+
+        break;
+      }
+    }
+  }
+
+  //Node *end_node = getFinishLeave();
 
   // Reconstruct moves
-  if(end_node != nullptr)
+  /*if(end_node != nullptr)
   {
     std::vector<Direction> moves;
 
@@ -154,7 +193,7 @@ std::string PathTree::reconstructMoves()
     for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
         move_counter--)
       fast_move_string += static_cast<char>(moves[move_counter]);
-  }
+  }*/
 
   return fast_move_string;
 }
@@ -189,6 +228,8 @@ PathTree::Node* PathTree::getDeepestLeave()
     if(leave->getDepth() > deepestLeave->getDepth())
       deepestLeave = leave;
   }
+
+  return deepestLeave;
 }
 
 

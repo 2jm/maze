@@ -85,7 +85,6 @@ class Map : public Matrix<std::shared_ptr<Tile>>
 
     // TODO
     void solveFromBonusTiles(PathTree &tree, int &path_length,
-                             std::string &fastmove_string,
                              std::shared_ptr<PathTree> &path_tree,
                              int recursion_depth);
 
@@ -95,7 +94,9 @@ class Map : public Matrix<std::shared_ptr<Tile>>
                                        moved_steps);
 
     // TODO
-    bool findPath(PathTree &tree);
+    bool findPath(PathTree &tree,
+                  std::vector<std::shared_ptr<TileCounter>> *counter_tiles =
+                  nullptr);
 
     // TODO
     void resetReachTimes();
