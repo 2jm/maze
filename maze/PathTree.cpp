@@ -321,8 +321,6 @@ std::shared_ptr<PathTree> PathTree::Node::getTreeToNode()
   for(auto direction = path.rbegin(); direction != path.rend(); ++direction)
   {
     node = node->getChild(*direction);
-    std::cout << node->getTile()->getPosition().getX() << " "
-              << node->getTile()->getPosition().getY() << std::endl;
     new_node = new_node->addBranch(node->getTile(), *direction,
                                    node->isUserMoved());
   }

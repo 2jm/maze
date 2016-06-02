@@ -269,16 +269,11 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = true;
+static bool DEBUG = false;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
 {
-  // TODO mir fällt gerade auf dass man die bonus tiles die schon vor dem
-  // solve verwendet wurden natürlich nicht mehr verwendet werden dürfen,
-  // aber die während solve verwendeten bonusfelder öfter verwendbar sein
-  // müssen auf den verschiedenen pfaden.
-
   // reset the map
   reset();
 
@@ -290,11 +285,9 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   if(DEBUG)
     tree.print();
 
-  solveInternal(tree);
+  findPath(tree);
 
 
-
-  std::string fast_move_string;
 
   // print the tree
   if(DEBUG)
@@ -312,60 +305,15 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
     tree.printLeaves();
 
 
-  // and now try with the bonus paths
 
-  std::vector<PathTree::Node *> leaves = tree.getLeaves();
-
-  int minimal_path_length = 0;
-
-  for(auto leave : leaves)
-  {
-    if(*leave->getTile() == 'x')
-      minimal_path_length = leave->getDepth() - leave->getBonusSteps();
-  }
-
-  fast_move_string = reconstructMoves(tree);
-
+  int minimal_path_length = getPathLength(tree);
+  std::string fastmove_string = reconstructMoves(tree);
 
   std::cout << "Path length: " << minimal_path_length << std::endl;
 
-  // hier muss man die map jetzt wieder auf den Zustand bevor man zu Lösen
-  // begonnen hat zurücksetzen und dann aus den leaves einen Baum erstellen
-  // der nur zu diesem leave führt und mit dem dann wieder starten
-  for(auto leave : leaves)
-  {
-    if(*leave->getTile() != 'x')
-    {
-      std::shared_ptr<PathTree> leave_tree = leave->getTreeToNode();
+  // and now try with the bonus paths
+  solveFromBonusTiles(tree, minimal_path_length, fastmove_string, 0);
 
-      leave_tree->print();
-
-      solveInternal(*leave_tree);
-
-      leave_tree->trim();
-      leave_tree->print();
-
-
-      std::vector<PathTree::Node *> leave_tree_leaves = leave_tree->getLeaves();
-
-      for(auto leave_tree_leave : leave_tree_leaves)
-      {
-        if(*leave_tree_leave->getTile() == 'x')
-        {
-          int path_length = leave_tree_leave->getDepth() -
-                                        leave_tree_leave->getBonusSteps();
-
-          std::cout << "New path length: " << path_length << std::endl;
-
-          if(path_length < minimal_path_length)
-          {
-            minimal_path_length = path_length;
-            fast_move_string = reconstructMoves(*leave_tree);
-          }
-        }
-      }
-    }
-  }
 
   std::cout << "Minimal path length: " << minimal_path_length << std::endl;
 
@@ -377,8 +325,50 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   reset();
 
-  return fast_move_string;
+  return fastmove_string;
 }
+
+
+
+void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
+                              std::string &fastmove_string, int recursion_depth)
+{
+  std::vector<PathTree::Node *> leaves = tree.getLeaves();
+
+  //std::cout << std::endl << std::endl << " RECURSTION " << recursion_depth <<
+  //        std::endl;
+
+  for(auto leave : leaves)
+  {
+    if(*leave->getTile() != 'x')
+    {
+      std::shared_ptr<PathTree> leave_tree = leave->getTreeToNode();
+
+      //leave_tree->print();
+
+      findPath(*leave_tree);
+
+      leave_tree->trim();
+      //leave_tree->print();
+
+
+      int this_path_length = getPathLength(*leave_tree);
+      if(this_path_length < path_length)
+      {
+        path_length = this_path_length;
+        fastmove_string = reconstructMoves(*leave_tree);
+        std::cout << recursion_depth << ": new path length: " << path_length <<
+                " " << fastmove_string << std::endl;
+      }
+
+
+      if(recursion_depth < MAX_SOLVE_RECURSION_DEPTH)
+        solveFromBonusTiles(*leave_tree, path_length, fastmove_string,
+                            recursion_depth+1);
+    }
+  }
+}
+
 
 
 
@@ -412,7 +402,7 @@ void Map::fillTreeWithAlreadyMovedSteps(PathTree &tree,
 
 
 // fills the tree
-bool Map::solveInternal(PathTree &tree)
+bool Map::findPath(PathTree &tree)
 {
   int time = 0; // in the first step the time is equal to the steps
 
@@ -593,7 +583,7 @@ bool Map::solveInternal(PathTree &tree)
     if(DEBUG)
     {
       // print what we have got so far
-      std::cout << "Time:  " << time << std::endl;
+      /*std::cout << "Time:  " << time << std::endl;
       std::cout << "Count: " << history.back().size() << std::endl;
       for(int row_number = 0; row_number < getSize().getY(); row_number++)
       {
@@ -604,7 +594,7 @@ bool Map::solveInternal(PathTree &tree)
           << matrix_[column_number][row_number]->getReachTime() << " ";
 
         std::cout << std::endl;
-      }
+      }*/
     }
 
 
@@ -668,6 +658,27 @@ std::string Map::reconstructMoves(PathTree &tree)
 
   return fast_move_string;
 }
+
+int Map::getPathLength(PathTree &tree)
+{
+  std::vector<PathTree::Node *> leaves = tree.getLeaves();
+
+  int minimal_path_length = 0;
+
+  for(auto leave : leaves)
+  {
+    if(*leave->getTile() == 'x')
+    {
+      if(leave->getDepth() - leave->getBonusSteps() < minimal_path_length)
+        minimal_path_length = leave->getDepth() - leave->getBonusSteps();
+    }
+  }
+
+  return minimal_path_length;
+}
+
+
+
 
 
 
