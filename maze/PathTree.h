@@ -80,6 +80,14 @@ class PathTree
     void printLeaves();
 
     std::vector<Node*> &getLeaves();
+
+    Node* getFinishLeave();
+
+    int getPathLength();
+
+    std::string reconstructMoves();
+
+    bool checkStepCount(int available_steps);
 };
 
 #endif //MAZE_ALL_TREE_H

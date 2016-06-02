@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
+#include <limits>
 #include "PathTree.h"
 #include "Direction.h"
 
@@ -90,6 +91,89 @@ std::vector<PathTree::Node *> &PathTree::getLeaves()
 {
   return leaves_;
 }
+
+PathTree::Node *PathTree::getFinishLeave()
+{
+  for(auto leave : getLeaves())
+  {
+    if(*leave->getTile() == 'x')
+      return leave;
+  }
+  return nullptr;
+}
+
+int PathTree::getPathLength()
+{
+  PathTree::Node* leave = getFinishLeave();
+
+  int path_length = std::numeric_limits<int>::max();
+
+  if(leave != nullptr)
+  {
+    if(leave->getDepth() - leave->getBonusSteps() < path_length)
+      path_length = leave->getDepth() - leave->getBonusSteps();
+  }
+
+  return path_length;
+}
+
+std::string PathTree::reconstructMoves()
+{
+  std::string fast_move_string;
+
+  Node *end_node = getFinishLeave();
+
+  // Reconstruct moves
+  if(end_node != nullptr)
+  {
+    std::vector<Direction> moves;
+
+    // start from the end node and go to the root node, the directions are
+    // pushed in the moves vector
+    while(end_node->getParent() != nullptr)
+    {
+      moves.push_back(end_node->getParentDirection());
+      end_node = end_node->getParent();
+    }
+
+    int move_counter;
+
+    // print the moves from back to front, because this is the right direction
+    for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
+        move_counter--)
+      fast_move_string += static_cast<char>(moves[move_counter]);
+  }
+
+  return fast_move_string;
+}
+
+bool PathTree::checkStepCount(int available_steps)
+{
+  Node *node = getRootNode(), *next_node;
+  while(((next_node = node->getChild(Direction::UP))    != nullptr) ||
+        ((next_node = node->getChild(Direction::RIGHT)) != nullptr) ||
+        ((next_node = node->getChild(Direction::DOWN))  != nullptr) ||
+        ((next_node = node->getChild(Direction::LEFT))  != nullptr))
+  {
+    if(available_steps <= 0)
+      return false;
+
+    node = next_node;
+    available_steps--;
+    available_steps += node->getBonusSteps() -
+                          node->getParent()->getBonusSteps();
+  }
+
+  return true;
+}
+
+
+
+
+
+
+
+
 
 
 

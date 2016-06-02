@@ -84,18 +84,17 @@ class Map : public Matrix<std::shared_ptr<Tile>>
 
     // TODO
     void solveFromBonusTiles(PathTree &tree, int &path_length,
-                             std::string &fastmove_string, int recursion_depth);
+                             std::string &fastmove_string,
+                             std::shared_ptr<PathTree> &path_tree,
+                             int recursion_depth);
 
+    // TODO
     void fillTreeWithAlreadyMovedSteps(PathTree &tree,
                                        const std::vector<Direction>
                                        moved_steps);
 
     // TODO
     bool findPath(PathTree &tree);
-
-    std::string reconstructMoves(PathTree &tree);
-
-    int getPathLength(PathTree &tree);
 
     // TODO
     void resetReachTimes();

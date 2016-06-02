@@ -283,41 +283,44 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   reset();
 
   // create the path tree with the startTile as root node
-  PathTree tree(getStartTile());
+  auto tree = std::make_shared<PathTree>(getStartTile());
 
-  fillTreeWithAlreadyMovedSteps(tree, moved_steps);
+  fillTreeWithAlreadyMovedSteps(*tree, moved_steps);
 
   if(DEBUG)
-    tree.print();
+    tree->print();
 
-  findPath(tree);
-
+  findPath(*tree);
 
 
   // print the tree
   if(DEBUG)
-    tree.print();
+    tree->print();
 
   if(DEBUG)
     std::cout << std::endl << " TRIM " << std::endl << std::endl;
-  tree.trim();
+  tree->trim();
 
   if(DEBUG)
-    tree.print();
+    tree->print();
 
-  tree.sortLeaves();
+  tree->sortLeaves();
   if(DEBUG)
-    tree.printLeaves();
+    tree->printLeaves();
 
 
 
-  int minimal_path_length = getPathLength(tree);
-  std::string fastmove_string = reconstructMoves(tree);
 
-  std::cout << "Path length: " << minimal_path_length << std::endl;
+  int minimal_path_length = tree->getPathLength();
+  std::string fastmove_string = tree->reconstructMoves();
+  std::shared_ptr<PathTree> shortest_path = tree;
+
+  std::cout << "Path length: " << minimal_path_length << " " <<
+          fastmove_string << std::endl;
 
   // and now try with the bonus paths
-  solveFromBonusTiles(tree, minimal_path_length, fastmove_string, 0);
+  solveFromBonusTiles(*tree, minimal_path_length, fastmove_string,
+                      shortest_path, 0);
 
 
   std::cout << "Minimal path length: " << minimal_path_length << std::endl;
@@ -330,6 +333,14 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   reset();
 
+  // check if the available_steps are enough
+  auto finish_path = shortest_path->getFinishLeave()->getTreeToNode();
+
+  if(!finish_path->checkStepCount(available_steps))
+  {
+    // not enough steps
+    std::cout << "NOT ENOUGH STEPS!" << std::endl;
+  }
 
   std::cout << "It took me " << Stopwatch::getElapsedTime().count() <<
           " microseconds." << std::endl;
@@ -340,7 +351,9 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
 
 void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
-                              std::string &fastmove_string, int recursion_depth)
+                              std::string &fastmove_string,
+                              std::shared_ptr<PathTree> &path_tree,
+                              int recursion_depth)
 {
   std::vector<PathTree::Node *> leaves = tree.getLeaves();
 
@@ -364,19 +377,19 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
       //leave_tree->print();
 
 
-      int this_path_length = getPathLength(*leave_tree);
+      int this_path_length = leave_tree->getPathLength();
       if(this_path_length < path_length)
       {
         path_length = this_path_length;
-        fastmove_string = reconstructMoves(*leave_tree);
+        path_tree = leave_tree;
+        fastmove_string = leave_tree->reconstructMoves();
         std::cout << recursion_depth << ": new path length: " << path_length <<
                 " " << fastmove_string << std::endl;
       }
 
-
       if(recursion_depth < MAX_SOLVE_RECURSION_DEPTH)
         solveFromBonusTiles(*leave_tree, path_length, fastmove_string,
-                            recursion_depth+1);
+                            path_tree, recursion_depth+1);
     }
   }
 }
@@ -615,6 +628,8 @@ bool Map::findPath(PathTree &tree)
     if(time == 100000)
       break;
   }
+
+  return true;
 }
 
 void Map::resetReachTimes()
@@ -627,70 +642,6 @@ void Map::resetReachTimes()
     }
   }
 }
-
-std::string Map::reconstructMoves(PathTree &tree)
-{
-  std::string fast_move_string;
-
-  PathTree::Node *end_node = nullptr;
-
-  for(auto leave : tree.getLeaves())
-  {
-    if(*leave->getTile() == 'x')
-      end_node = leave;
-  }
-
-  // Reconstruct moves
-  if(end_node != nullptr)
-  {
-    std::vector<Direction> moves;
-
-    // start from the end node and go to the root node, the directions are
-    // pushed in the moves vector
-    while(end_node->getParent() != nullptr)
-    {
-      moves.push_back(end_node->getParentDirection());
-      end_node = end_node->getParent();
-    }
-
-    int move_counter;
-
-    // TODO update used_steps with quicksand/bonus fields
-    //used_steps = static_cast<int>(moves.size() - 1);
-
-    // print the moves from back to front, because this is the right direction
-    for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
-        move_counter--)
-      fast_move_string += static_cast<char>(moves[move_counter]);
-
-
-    if(DEBUG)
-      std::cout << std::endl;
-  }
-
-  return fast_move_string;
-}
-
-int Map::getPathLength(PathTree &tree)
-{
-  std::vector<PathTree::Node *> leaves = tree.getLeaves();
-
-  int minimal_path_length = 0;
-
-  for(auto leave : leaves)
-  {
-    if(*leave->getTile() == 'x')
-    {
-      if(leave->getDepth() - leave->getBonusSteps() < minimal_path_length)
-        minimal_path_length = leave->getDepth() - leave->getBonusSteps();
-    }
-  }
-
-  return minimal_path_length;
-}
-
-
-
 
 
 
