@@ -283,10 +283,10 @@ Message::Code Game::solve(const bool silent)
 
   std::string path = map_->solve(move_history_, available_steps_);
 
+  fullReset();
+
   if(path == "")
     return Message::NO_PATH_FOUND;
-
-  fullReset();
 
   CommandFastMove command_fast_move;
   std::vector<std::string> command_fast_move_params;

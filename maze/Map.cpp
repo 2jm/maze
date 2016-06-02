@@ -296,13 +296,29 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   findPath(*tree, &counter_tiles);
 
+  // print the tree
+  if(DEBUG)
+    tree->print();
+
+  if(DEBUG)
+    std::cout << std::endl << " TRIM " << std::endl << std::endl;
+  tree->trim();
+
+  if(DEBUG)
+    tree->print();
+
+  tree->sortLeaves();
+  if(DEBUG)
+    tree->printLeaves();
+
+
   // NO PATH FOUND
   // maybe do this counter tile checking always
   if(tree->getFinishLeave() == nullptr)
   {
     if(DEBUG)
       std::cout << "NO PATH FOUND" << std::endl << "checking counter tiles" <<
-            std::endl;
+      std::endl;
 
 
     // maybe a counter is the reason
@@ -321,7 +337,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
         for(auto already_checked_counter_tile : already_checked_counter_tiles)
         {
           if(counter_tile->getPosition() ==
-                                    already_checked_counter_tile->getPosition())
+             already_checked_counter_tile->getPosition())
           {
             already_checked = true;
             break;
@@ -334,7 +350,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
         if(DEBUG)
           std::cout << "Settings " << counter_tile->getPosition().getX() << " "
-              << counter_tile->getPosition().getY() << " to 0" << std::endl;
+          << counter_tile->getPosition().getY() << " to 0" << std::endl;
         counter_tile->set0();
 
         tree->cut();  // retry from the beginning
@@ -351,7 +367,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
         {
           if(DEBUG)
             std::cout << "Resetting " << counter_tile->getPosition().getX() <<
-                    " " << counter_tile->getPosition().getY() << std::endl;
+            " " << counter_tile->getPosition().getY() << std::endl;
           counter_tile->reset();
         }
         else
@@ -374,22 +390,6 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
     if(!finished)
       return "";
   }
-
-  // print the tree
-  if(DEBUG)
-    tree->print();
-
-  if(DEBUG)
-    std::cout << std::endl << " TRIM " << std::endl << std::endl;
-  tree->trim();
-
-  if(DEBUG)
-    tree->print();
-
-  tree->sortLeaves();
-  if(DEBUG)
-    tree->printLeaves();
-
 
 
 
@@ -597,6 +597,9 @@ bool Map::findPath(PathTree &tree,
         Tile::EnterResult enter_result;
 
         Vector2d origin = node->getTile()->getPosition();
+
+        if(!matrix_[origin]->leave(direction))
+          continue;
 
         while((enter_result = matrix_[origin + direction]->enter(origin)) ==
               Tile::MOVE_AGAIN && matrix_[origin]->leave(direction))
