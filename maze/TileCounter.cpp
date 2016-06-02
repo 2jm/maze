@@ -47,3 +47,10 @@ char TileCounter::toChar(bool original)
 
   return counter_value_ + '0';
 }
+
+void TileCounter::set0()
+{
+  counter_value_ = 0;
+}
+
+

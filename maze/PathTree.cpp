@@ -29,6 +29,18 @@ void PathTree::print()
   root_node_->recursivePrint(print_depth, new_line);
 }
 
+void PathTree::cut()
+{
+  int i; //TODO
+  for(i=0; i<4; i++)
+  {
+    if(root_node_->getChild(i) != nullptr)
+      root_node_->getChild(i)->remove();
+  }
+
+}
+
+
 void PathTree::trim()
 {
   int i;  // TODO
@@ -45,7 +57,7 @@ void PathTree::trim()
 
 void PathTree::addLeave(Node *node)
 {
-  if(node->getParent()->isLeave())
+  if(node->getParent() != nullptr && node->getParent()->isLeave())
   {
     int i; // TODO
     for(i = 0; i < leaves_.size(); i++)
@@ -167,20 +179,17 @@ bool PathTree::checkStepCount(int available_steps)
   return true;
 }
 
+PathTree::Node* PathTree::getDeepestLeave()
+{
+  auto leaves = getLeaves();
+  Node *deepestLeave = root_node_.get();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  for(auto leave : leaves)
+  {
+    if(leave->getDepth() > deepestLeave->getDepth())
+      deepestLeave = leave;
+  }
+}
 
 
 
@@ -207,7 +216,8 @@ PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
 {
 }
 
-PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree, bool user_moved) :
+PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree,
+                     bool user_moved) :
         tile_(tile),
         parent_(nullptr),
         parent_direction_(Direction::OTHER),
@@ -269,6 +279,14 @@ PathTree::Node* PathTree::Node::getChild(Direction direction)
 {
   return childs_[directionToArrayIndex(direction)].get();
 }
+
+PathTree::Node *PathTree::Node::getChild(int index)
+{
+  if(index > 3)
+    return nullptr;
+  return childs_[index].get();
+}
+
 
 PathTree::Node *PathTree::Node::getParent()
 {

@@ -271,7 +271,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = false;
+static bool DEBUG = true;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
@@ -281,6 +281,8 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   // reset the map
   reset();
+
+  bool check_counter_tiles = false;
 
   // create the path tree with the startTile as root node
   auto tree = std::make_shared<PathTree>(getStartTile());
@@ -292,6 +294,33 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   findPath(*tree);
 
+  // NO PATH FOUND
+  if(tree->getFinishLeave() == nullptr)
+  {
+    if(DEBUG)
+      std::cout << "NO PATH FOUND" << std::endl << "checking counter tiles" <<
+            std::endl;
+
+    // maybe a counter is the reason
+    auto counter_tiles = getCounterTiles();
+    int longest_path_length = tree->getDeepestLeave()->getDepth();
+
+    for(auto counter_tile : counter_tiles)
+      counter_tile->set0();
+
+    tree->cut();
+    findPath(*tree);
+
+    if(tree->getFinishLeave() == nullptr)
+      return "";
+
+    if(DEBUG)
+      std::cout << "WUHUUUU" << std::endl;
+
+    // at the end the path will be checked if it walked near counter tiles and
+    // adds moved to set this counters to zero
+    check_counter_tiles = true;
+  }
 
   // print the tree
   if(DEBUG)
@@ -608,7 +637,7 @@ bool Map::findPath(PathTree &tree)
     if(DEBUG)
     {
       // print what we have got so far
-      /*std::cout << "Time:  " << time << std::endl;
+      std::cout << "Time:  " << time << std::endl;
       std::cout << "Count: " << history.back().size() << std::endl;
       for(int row_number = 0; row_number < getSize().getY(); row_number++)
       {
@@ -619,7 +648,7 @@ bool Map::findPath(PathTree &tree)
           << matrix_[column_number][row_number]->getReachTime() << " ";
 
         std::cout << std::endl;
-      }*/
+      }
     }
 
 
@@ -642,6 +671,25 @@ void Map::resetReachTimes()
     }
   }
 }
+
+std::vector<std::shared_ptr<TileCounter>> Map::getCounterTiles()
+{
+  std::vector<std::shared_ptr<TileCounter>> counter_tiles;
+
+  for(auto column : columns_)
+  {
+    for(auto element : column)
+    {
+      if(dynamic_cast<TileCounter*>(element.get()) != nullptr)
+        counter_tiles.push_back(
+                std::dynamic_pointer_cast<TileCounter>(element));
+    }
+  }
+
+  return counter_tiles;
+}
+
+
 
 
 

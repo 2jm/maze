@@ -42,6 +42,7 @@ class PathTree
 
         std::shared_ptr<Tile> getTile();
         Node *getChild(Direction direction);
+        Node *getChild(int index);
         Node *getParent();
         Direction getParentDirection();
         int getBonusSteps();
@@ -70,18 +71,16 @@ class PathTree
 
     void print();
 
+    void cut();
     void trim();
 
     void addLeave(Node* node);
     void removeLeave(Node *node);
-
     void sortLeaves();
-
     void printLeaves();
-
     std::vector<Node*> &getLeaves();
-
     Node* getFinishLeave();
+    Node* getDeepestLeave();
 
     int getPathLength();
 

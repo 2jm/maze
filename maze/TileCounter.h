@@ -77,6 +77,9 @@ class TileCounter : public Tile
     // @return char Representing the tile on the map
     //
     virtual char toChar(bool original = true);
+
+    // TODO
+    void set0();
 };
 
 

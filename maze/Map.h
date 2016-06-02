@@ -18,6 +18,7 @@
 #include "Matrix.h"
 #include "Tile.h"
 #include "PathTree.h"
+#include "TileCounter.h"
 
 class Game;
 
@@ -98,6 +99,8 @@ class Map : public Matrix<std::shared_ptr<Tile>>
 
     // TODO
     void resetReachTimes();
+
+    std::vector<std::shared_ptr<TileCounter>> getCounterTiles();
 
   public:
     //--------------------------------------------------------------------------
