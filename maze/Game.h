@@ -110,6 +110,9 @@ class Game
     //
     bool fast_moving_;
 
+    // TODO
+    std::string loaded_file_name_;
+
     //--------------------------------------------------------------------------
     // Constant the method loadAvailableSteps(std::ifstream &input_file) can
     // return.

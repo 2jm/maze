@@ -45,7 +45,9 @@ namespace Message
     WON,
     REMAINING_STEPS,
     MOVED_STEPS,
-    WHOAMI_KI_NAME
+    WHOAMI_KI_NAME,
+    MAZE_ALREADY_SOLVED,
+    NO_PATH_FOUND
   };
 
   //----------------------------------------------------------------------------

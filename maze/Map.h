@@ -47,7 +47,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     const static int SIZE_OF_ALPHABET = 26;
 
     // TODO
-    const static int MAX_SOLVE_RECURSION_DEPTH = 15;
+    const static int MAX_SOLVE_RECURSION_DEPTH = 10;
 
     //--------------------------------------------------------------------------
     // Reference to this class to be able to use the [] operator more easily

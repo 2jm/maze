@@ -149,10 +149,6 @@ std::string PathTree::reconstructMoves(
       Vector2d pos = node->getTile()->getPosition() +
                                       Vector2d(node->getParentDirection());
 
-      std::cout << pos.getX() << " " << pos.getY() << " == " <<
-              counter_tile_to_zero->getPosition().getX() << " " <<
-              counter_tile_to_zero->getPosition().getY() << std::endl;
-
       if(pos == counter_tile_to_zero->getPosition())
       {
         // bring this counter to zero
@@ -171,29 +167,6 @@ std::string PathTree::reconstructMoves(
       }
     }
   }
-
-  //Node *end_node = getFinishLeave();
-
-  // Reconstruct moves
-  /*if(end_node != nullptr)
-  {
-    std::vector<Direction> moves;
-
-    // start from the end node and go to the root node, the directions are
-    // pushed in the moves vector
-    while(end_node->getParent() != nullptr)
-    {
-      moves.push_back(end_node->getParentDirection());
-      end_node = end_node->getParent();
-    }
-
-    int move_counter;
-
-    // print the moves from back to front, because this is the right direction
-    for(move_counter = static_cast<int>(moves.size() - 1); move_counter >= 0;
-        move_counter--)
-      fast_move_string += static_cast<char>(moves[move_counter]);
-  }*/
 
   return fast_move_string;
 }

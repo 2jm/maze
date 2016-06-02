@@ -88,6 +88,8 @@ Message::Code Game::loadFile(const std::string file_name)
   if(game_state_ == State::WON)
     Message::print(Message::WON);
 
+  loaded_file_name_ = file_name;
+
   return Message::SUCCESS;
 }
 
@@ -276,24 +278,29 @@ Message::Code Game::solve(const bool silent)
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  /* TODO: print out correct error messages
-  Fehlermeldungen
-[ERR] No path found.\n
-Wenn vom aktuellen Standpunkt aus kein Weg ins Ziel gefunden werden kann (Bsp: nicht genügend Schritte oder es existiert kein Pfad). In diesem Fall wird auch kein fastmove oder save Befehl ausgeführt.
-[ERR] You already solved the maze.\n
-Wenn sich der Spieler bereits im Ziel befindet.
-   */
-
-  int used_steps = 0;
+  if(game_state_ == State::WON)
+    return Message::MAZE_ALREADY_SOLVED;
 
   std::string path = map_->solve(move_history_, available_steps_);
 
-  // TODO run fastmove command with the path
+  if(path == "")
+    return Message::NO_PATH_FOUND;
 
-  std::cout << "The maze was solved in " << used_steps << " steps.\n";
+  fullReset();
+
+  CommandFastMove command_fast_move;
+  std::vector<std::string> command_fast_move_params;
+  command_fast_move_params.push_back(path);
+
+  command_fast_move.execute(*this, command_fast_move_params);
+
+  saveFile(loaded_file_name_ + "Solved");
+
+  std::cout << "The maze was solved in " << available_steps_ - *remaining_steps_
+                << " steps.\n";
 
   if(!silent)
-    std::cout << "Found path: " << path << std::endl;
+    std::cout << "Found path: " << path << "\n";
 
   return Message::SUCCESS;
 }
