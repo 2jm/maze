@@ -271,7 +271,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = true;
+static bool DEBUG = false;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
@@ -416,10 +416,6 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   if(DEBUG)
     finish_path->print();
 
-  // add moves to zero the counter tiles that must be walls
-  std::string fastmove_string =
-                          finish_path->reconstructMoves(counter_tiles_to_zero);
-
   reset();
 
   // check if the available_steps are enough
@@ -428,6 +424,10 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
     // not enough steps
     return "";
   }
+
+  // add moves to zero the counter tiles that must be walls
+  std::string fastmove_string =
+          finish_path->reconstructMoves(counter_tiles_to_zero);
 
   if(DEBUG)
     std::cout << "It took me " << Stopwatch::getElapsedTime().count() <<

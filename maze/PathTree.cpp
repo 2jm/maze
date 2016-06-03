@@ -175,6 +175,9 @@ std::string PathTree::reconstructMoves(
   {
     node = next_node;
 
+    if(node->isUserMoved())
+      continue;
+
     fast_move_string += static_cast<char>(node->getParentDirection());
 
     for(auto counter_tile_to_zero : counter_tiles_to_zero)

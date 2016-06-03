@@ -283,24 +283,23 @@ Message::Code Game::solve(const bool silent)
 
   std::string path = map_->solve(move_history_, available_steps_);
 
-  fullReset();
+  switchState(State::PLAYING);
 
   if(path == "")
-  {
-    // TODO fastmove mit move history
     return Message::NO_PATH_FOUND;
-  }
 
   CommandFastMove command_fast_move;
   std::vector<std::string> command_fast_move_params;
   command_fast_move_params.push_back(path);
 
+  int remaining_steps_start = *remaining_steps_;
+
   command_fast_move.execute(*this, command_fast_move_params);
 
   saveFile(loaded_file_name_ + "Solved");
 
-  std::cout << "The maze was solved in " << available_steps_ - *remaining_steps_
-                << " steps.\n";
+  std::cout << "The maze was solved in " <<
+                remaining_steps_start - *remaining_steps_ << " steps.\n";
 
   if(!silent)
     std::cout << "Found path: " << path << "\n";

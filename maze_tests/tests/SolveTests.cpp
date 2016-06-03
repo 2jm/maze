@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "game.h"
+#include "Game.h"
 
 #define TEST_FILES_PATH "../tests/testFilesSolve/"
 
