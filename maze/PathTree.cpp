@@ -59,7 +59,9 @@ void PathTree::trim()
     }
     else
     {
-      if(node->getDepth() - node->getBonusSteps() <
+      if(!fastest_finish_path)
+        fastest_finish_path = node;
+      else if(node->getDepth() - node->getBonusSteps() <
          fastest_finish_path->getDepth() - fastest_finish_path->getBonusSteps())
         fastest_finish_path = node;
     }
