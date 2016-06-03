@@ -8,12 +8,14 @@ TEST(SolveTest, quicksand_1)
   Game game;
   Message::Code result = game.solve(true);
   ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"quicksand1.txt"), Message::SUCCESS);
+  std::string file_path = TEST_FILES_PATH"quicksand1.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("urrrrrd" ,game.solve_path);
   ASSERT_EQ(7 , game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
 
 TEST(SolveTest, fastmove_string)
@@ -21,11 +23,14 @@ TEST(SolveTest, fastmove_string)
   Game game;
   Message::Code result = game.solve(true);
   ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
-  ASSERT_EQ(game.loadFile(TEST_FILES_PATH"fastmoveString.txt"),
+  std::string file_path = TEST_FILES_PATH"fastmoveString.txt";
+  ASSERT_EQ(game.loadFile(file_path),
             Message::SUCCESS);
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("rrr" , game.solve_path);
   ASSERT_EQ(3, game.solve_steps);
+
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
