@@ -14,7 +14,7 @@ namespace Stopwatch
   // only for debugging
   void restart();
 
-  extern std::chrono::microseconds MAX_TIME;
+  extern const std::chrono::microseconds MAX_TIME;
 };
 
 

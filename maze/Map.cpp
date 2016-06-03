@@ -271,7 +271,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = false;
+static bool DEBUG = true;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
@@ -282,14 +282,15 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   // reset the map
   reset();
 
-  // at the end moves will be added to set this counters to zero
-  std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
-
   // create the path tree with the startTile as root node
   auto tree = std::make_shared<PathTree>(getStartTile());
   std::vector<std::shared_ptr<TileCounter>> counter_tiles;
+  // at the end moves will be added to set this counters to zero
+  std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
+
 
   fillTreeWithAlreadyMovedSteps(*tree, moved_steps);
+
 
   if(DEBUG)
     tree->print();
@@ -353,6 +354,8 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
           << counter_tile->getPosition().getY() << " to 0" << std::endl;
         counter_tile->set0();
 
+        // TODO ist es ein Problem dass der auch die vom Spieler gegangenen
+        // Schritte weglöscht?
         tree->cut();  // retry from the beginning
         findPath(*tree);
 
@@ -589,6 +592,8 @@ bool Map::findPath(PathTree &tree,
     // loop through all nodes that were added in the last step
     for(auto node : history[history.size() - 2])
     {
+      int reach_time = node->getTile()->getReachTime() + 1;
+
       // move in all 4 directions from this node
       for(auto direction : directions)
       {
@@ -619,9 +624,14 @@ bool Map::findPath(PathTree &tree,
             endReached = true;
 
           // if this tile was not reached in a previous step, enter it
-          if(matrix_[origin]->getReachTime() >= time)
+          if(matrix_[origin]->getReachTime() >= reach_time)
           {
-            matrix_[origin]->setReachTime(time);
+            int new_reach_time = reach_time;
+
+            if(matrix_[origin]->getStepChange() < 0)
+              new_reach_time -= matrix_[origin]->getStepChange();
+
+            matrix_[origin]->setReachTime(new_reach_time);
             movesPossible = true;
 
             // create a new node on the tree
@@ -631,7 +641,7 @@ bool Map::findPath(PathTree &tree,
             nodes_to_add.push_back(new_node);
 
             // thinking about this and what the variable endReached is for...
-            // but here is the end_node set
+            // but here is the end_node set TODO
             if(getEndTile()->getPosition()
                == matrix_[origin]->getPosition())
               end_node = new_node;

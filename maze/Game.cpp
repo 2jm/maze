@@ -286,7 +286,10 @@ Message::Code Game::solve(const bool silent)
   fullReset();
 
   if(path == "")
+  {
+    // TODO fastmove mit move history
     return Message::NO_PATH_FOUND;
+  }
 
   CommandFastMove command_fast_move;
   std::vector<std::string> command_fast_move_params;

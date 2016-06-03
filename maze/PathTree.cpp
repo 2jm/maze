@@ -43,14 +43,47 @@ void PathTree::cut()
 
 void PathTree::trim()
 {
+  Node *fastest_finish_path = getFinishLeave();
+
   int i;  // TODO
   for(i = 0; i < leaves_.size(); i++)
   {
     Node *node = leaves_[i];
-    if(*(node->getTile()) != 'x' && node->getTile()->getStepChange() <= 0)
+    if(*(node->getTile()) != 'x')
     {
-      node->remove();
-      i--;
+      if(node->getTile()->getStepChange() <= 0)
+      {
+        node->remove();
+        i--;
+      }
+    }
+    else
+    {
+      if(node->getDepth() - node->getBonusSteps() <
+         fastest_finish_path->getDepth() - fastest_finish_path->getBonusSteps())
+        fastest_finish_path = node;
+    }
+  }
+
+  // remove all finish leaves that are not the fastest_finish_path
+  for(i = 0; i < leaves_.size(); i++)
+  {
+    Node *node = leaves_[i];
+    if(*(node->getTile()) == 'x')
+    {
+      if(node != fastest_finish_path)
+      {
+        node->remove();
+        i--;
+      }
+    }
+    else
+    {
+      if(node->getTile()->getStepChange() <= 0)
+      {
+        node->remove();
+        i--;
+      }
     }
   }
 }
@@ -154,6 +187,7 @@ std::string PathTree::reconstructMoves(
         // bring this counter to zero
         int counter_value = counter_tile_to_zero->toChar(true) - '0';
 
+        // TODO andere richtungen checken
         for(; counter_value > 0; counter_value--)
         {
           fast_move_string +=
