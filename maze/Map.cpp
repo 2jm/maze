@@ -288,7 +288,6 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   // at the end moves will be added to set this counters to zero
   std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
 
-
   fillTreeWithAlreadyMovedSteps(*tree, moved_steps);
 
 

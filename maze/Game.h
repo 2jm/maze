@@ -283,6 +283,11 @@ class Game
     // @param amount The amount to decrement the steps left
     //
     void decrementRemainingSteps(int amount);
+
+    //TODO remove (only for debugging)
+    std::string solve_path;
+    //TODO remove (only for debugging)
+    int solve_steps;
 };
 
 
