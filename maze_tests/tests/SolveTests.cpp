@@ -3,21 +3,6 @@
 
 #define TEST_FILES_PATH "../tests/testFilesSolve/"
 
-TEST(SolveTest, quicksand_1)
-{
-  Game game;
-  Message::Code result = game.solve(true);
-  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
-  std::string file_path = TEST_FILES_PATH"quicksand1.txt";
-  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
-  result = game.solve(true);
-  ASSERT_EQ(result, Message::Code::SUCCESS);
-
-  ASSERT_EQ("urrrrrd" ,game.solve_path);
-  ASSERT_EQ(7 , game.solve_steps);
-  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
-}
-
 TEST(SolveTest, fastmove_string)
 {
   Game game;
@@ -32,5 +17,65 @@ TEST(SolveTest, fastmove_string)
   ASSERT_EQ("rrr" , game.solve_path);
   ASSERT_EQ(3, game.solve_steps);
 
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, quicksand_1)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"quicksand1.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("urrrrrd" ,game.solve_path);
+  ASSERT_EQ(7, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, quicksand_2)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"quicksand2.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("rrrrr" ,game.solve_path);
+  ASSERT_EQ(1, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, quicksand_3)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"quicksand3.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("urrrrrrd" ,game.solve_path);
+  ASSERT_EQ(8, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, heavy_1)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"heavy1.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("urrrrrrd" ,game.solve_path);
+  ASSERT_EQ(8, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
