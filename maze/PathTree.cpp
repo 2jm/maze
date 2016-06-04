@@ -45,7 +45,7 @@ void PathTree::trim()
 {
   Node *fastest_finish_path = getFinishLeave();
 
-  int i;  // TODO
+  unsigned int i;  // TODO
   for(i = 0; i < leaves_.size(); i++)
   {
     Node *node = leaves_[i];
@@ -94,7 +94,7 @@ void PathTree::addLeave(Node *node)
 {
   if(node->getParent() != nullptr && node->getParent()->isLeave())
   {
-    int i; // TODO
+    unsigned int i; // TODO
     for(i = 0; i < leaves_.size(); i++)
     {
       if(node->getParent() == leaves_[i])
@@ -110,7 +110,7 @@ void PathTree::addLeave(Node *node)
 
 void PathTree::removeLeave(Node *node)
 {
-  int i; // TODO
+  unsigned int i; // TODO
   for(i = 0; i < leaves_.size(); i++)
   {
     if(node == leaves_[i])
@@ -128,7 +128,7 @@ void PathTree::sortLeaves()
 
 void PathTree::printLeaves()
 {
-  int i;  // TODO
+  unsigned int i;  // TODO
   for(i = 0; i < leaves_.size(); i++)
     std::cout << "leave: " << leaves_[i]->getTile()->getPosition().getX() <<
     " " << leaves_[i]->getTile()->getPosition().getY() << std::endl;
@@ -259,11 +259,11 @@ PathTree::Node* PathTree::getDeepestLeave()
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
                      Direction direction, int bonusPath, PathTree &tree, int
                      depth, bool user_moved) :
+        tree_(tree),
         tile_(tile),
         parent_(parent),
         parent_direction_(direction),
         bonus_path_(bonusPath),
-        tree_(tree),
         depth_(depth),
         user_moved_(user_moved)
 {
@@ -271,11 +271,11 @@ PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree,
                      bool user_moved) :
+        tree_(tree),
         tile_(tile),
         parent_(nullptr),
         parent_direction_(Direction::OTHER),
         bonus_path_(0),
-        tree_(tree),
         depth_(0),
         user_moved_(user_moved)
 {

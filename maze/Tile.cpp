@@ -10,12 +10,13 @@
 //
 
 #include "Tile.h"
+#include <limits>
 
 //------------------------------------------------------------------------------
-Tile::Tile(Vector2d position, char character) : position_(position),
-                                                character_(character),
-                                                reach_time_(99),
-                                                is_inverted_(false)
+Tile::Tile(Vector2d position, char character) :
+        reach_time_(std::numeric_limits<int>::max()),
+        position_(position),
+        character_(character)
 {
 
 }

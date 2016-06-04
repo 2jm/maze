@@ -49,9 +49,6 @@ class Tile
     //
     char character_;
 
-    // TODO
-    bool is_inverted_;
-
   public:
     //--------------------------------------------------------------------------
     // Enum that tells every possible result when entering a tile

@@ -658,7 +658,7 @@ bool Map::findPath(PathTree &tree,
     // they do take the one with more bonus steps of both have 0 bonus steps,
     // take the first one.
     // this can be done faster
-    int i, j;  //TODO
+    unsigned int i, j;  //TODO
     bool go_to_next;
 
     for(i = 0; i < nodes_to_add.size(); i++)
@@ -747,7 +747,7 @@ void Map::resetReachTimes()
   {
     for(auto element : column)
     {
-      element->setReachTime(99);  // TODO MAX REACH TIME CONSTANT
+      element->setReachTime(std::numeric_limits<int>::max());  // TODO MAX REACH TIME CONSTANT
     }
   }
 }
