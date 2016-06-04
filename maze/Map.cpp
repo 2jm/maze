@@ -271,7 +271,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = false;
+static bool DEBUG = true;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
@@ -723,9 +723,17 @@ bool Map::findPath(PathTree &tree,
       {
         for(int column_number = 0; column_number < getSize().getX();
             column_number++)
-          std::cout <<
-          ((matrix_[column_number][row_number]->getReachTime() < 10) ? " " : "")
-          << matrix_[column_number][row_number]->getReachTime() << " ";
+        {
+          if(matrix_[column_number][row_number]->getReachTime() < 100)
+          {
+            std::cout <<
+            ((matrix_[column_number][row_number]->getReachTime() < 10) ? " "
+                                                                       : "")
+            << matrix_[column_number][row_number]->getReachTime() << " ";
+          }
+          else
+            std::cout << "## ";
+        }
 
         std::cout << std::endl;
       }
