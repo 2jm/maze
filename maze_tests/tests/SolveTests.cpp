@@ -106,6 +106,21 @@ TEST(SolveTest, heavy_3)
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("rrddl" ,game.solve_path);
+  ASSERT_EQ(5, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, bonus_1)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"bonus1.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("urrrrrd" ,game.solve_path);
   ASSERT_EQ(2, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
