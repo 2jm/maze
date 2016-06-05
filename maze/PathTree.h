@@ -35,9 +35,6 @@ class PathTree
         Node(std::shared_ptr<Tile> tile, PathTree &tree,
              bool user_moved = false);
 
-        // TODO destructor that destroys all children or is this done by the
-        // shared_ptr?
-
         Node* addBranch(std::shared_ptr<Tile> tile, Direction direction,
                         bool user_moved = false);
 

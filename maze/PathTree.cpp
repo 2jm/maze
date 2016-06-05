@@ -453,7 +453,7 @@ int PathTree::Node::getDepth()
 
 bool PathTree::Node::operator<(Node *node2)
 {
-  return (depth_ < node2->getDepth());
+  return (depth_ - bonus_path_ < node2->getDepth() - node2->getBonusSteps());
 }
 
 std::shared_ptr<PathTree> PathTree::Node::getTreeToNode()

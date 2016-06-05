@@ -47,7 +47,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     const static int SIZE_OF_ALPHABET = 26;
 
     // TODO
-    const static int MAX_SOLVE_RECURSION_DEPTH = 10;
+    const static int MAX_SOLVE_RECURSION_DEPTH = 5;
 
     //--------------------------------------------------------------------------
     // Reference to this class to be able to use the [] operator more easily
@@ -86,7 +86,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     // TODO
     void solveFromBonusTiles(PathTree &tree, int &path_length,
                              std::shared_ptr<PathTree> &path_tree,
-                             int recursion_depth);
+                             int recursion_depth, int available_steps);
 
     // TODO
     void fillTreeWithAlreadyMovedSteps(PathTree &tree,
@@ -94,7 +94,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
                                        moved_steps);
 
     // TODO
-    bool findPath(PathTree &tree,
+    bool findPath(PathTree &tree, int available_steps,
                   std::vector<std::shared_ptr<TileCounter>> *counter_tiles =
                   nullptr);
 

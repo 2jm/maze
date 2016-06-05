@@ -271,7 +271,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = true;
+static bool DEBUG = false;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
@@ -294,7 +294,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   if(DEBUG)
     tree->print();
 
-  findPath(*tree, &counter_tiles);
+  findPath(*tree, available_steps, &counter_tiles);
 
   // print the tree
   if(DEBUG)
@@ -356,7 +356,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
         // TODO ist es ein Problem dass der auch die vom Spieler gegangenen
         // Schritte weglöscht?
         tree->cut();  // retry from the beginning
-        findPath(*tree);
+        findPath(*tree, available_steps);
 
         if(tree->getFinishLeave() != nullptr)
         {
@@ -383,7 +383,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
       tree->cut();
       counter_tiles.clear();
-      findPath(*tree, &counter_tiles);
+      findPath(*tree, available_steps, &counter_tiles);
 
       if(tree->getFinishLeave() != nullptr)
         finished = true;
@@ -402,7 +402,8 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
     std::cout << "Path length: " << minimal_path_length << " " << std::endl;
 
   // and now try with the bonus paths
-  solveFromBonusTiles(*tree, minimal_path_length, shortest_path, 0);
+  solveFromBonusTiles(*tree, minimal_path_length, shortest_path, 0,
+                      available_steps);
 
   if(DEBUG)
   {
@@ -418,11 +419,11 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   reset();
 
   // check if the available_steps are enough
-  if(!finish_path->checkStepCount(available_steps))
+  /*if(!finish_path->checkStepCount(available_steps))
   {
     // not enough steps
     return "";
-  }
+  }*/
 
   // add moves to zero the counter tiles that must be walls
   std::string fastmove_string =
@@ -439,17 +440,20 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
 void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
                               std::shared_ptr<PathTree> &path_tree,
-                              int recursion_depth)
+                              int recursion_depth, int available_steps)
 {
   std::vector<PathTree::Node *> leaves = tree.getLeaves();
-
-  //std::cout << std::endl << std::endl << " RECURSTION " << recursion_depth <<
-  //        std::endl;
 
   for(auto leave : leaves)
   {
     if(Stopwatch::getElapsedTime() > Stopwatch::MAX_TIME)
       return;
+
+    /*if(recursion_depth == 0)
+    {
+      std::cout << leave->getTile()->getPosition().getX() << " " <<
+              leave->getTile()->getPosition().getY() << std::endl;
+    }*/
 
     if(*leave->getTile() != 'x')
     {
@@ -459,7 +463,7 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
       if(DEBUG)
         leave_tree->print();
 
-      findPath(*leave_tree, &counter_tiles);
+      findPath(*leave_tree, available_steps, &counter_tiles);
 
       if(leave_tree->getFinishLeave() != nullptr)
       {
@@ -469,13 +473,17 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
         int this_path_length = leave_tree->getPathLength();
         if(this_path_length < path_length)
         {
-          path_length = this_path_length;
-          path_tree = leave_tree;
+          auto finish_path = path_tree->getFinishLeave()->getTreeToNode();
+          if(finish_path->checkStepCount(available_steps))
+          {
+            path_length = this_path_length;
+            path_tree = leave_tree;
+          }
         }
 
         if(recursion_depth < MAX_SOLVE_RECURSION_DEPTH)
           solveFromBonusTiles(*leave_tree, path_length, path_tree,
-                              recursion_depth + 1);
+                              recursion_depth + 1, available_steps);
       }
     }
   }
@@ -514,7 +522,7 @@ void Map::fillTreeWithAlreadyMovedSteps(PathTree &tree,
 
 
 // fills the tree
-bool Map::findPath(PathTree &tree,
+bool Map::findPath(PathTree &tree, int available_steps,
         std::vector<std::shared_ptr<TileCounter>> *counter_tiles)
 {
   int time = 0; // in the first step the time is equal to the steps
@@ -535,16 +543,18 @@ bool Map::findPath(PathTree &tree,
   PathTree::Node *end_node = nullptr;
 
   // add the root node to the history
-  history.push_back(std::vector<PathTree::Node*>(1, tree.getRootNode()));
+  history.push_back(std::vector<PathTree::Node*>(1, tree.getLeaves()[0]));
 
   resetReachTimes();
 
-  bool user_moved_path = tree.getRootNode()->isUserMoved();
+  tree.getLeaves()[0]->getTile()->setReachTime(time);
+
+  /*bool user_moved_path = tree.getRootNode()->isUserMoved();
 
   if(!user_moved_path)
   {
-    tree.getRootNode()->getTile()->setReachTime(time);
-    time++;
+    //tree.getRootNode()->getTile()->setReachTime(time);
+    //time++;
   }
 
   // walk the path that is already in the tree
@@ -560,12 +570,12 @@ bool Map::findPath(PathTree &tree,
 
     if(!node->isUserMoved())
     {
-      if(!user_moved_path)
+      if(user_moved_path)
         time = 0;
 
       user_moved_path = false;
-      node->getTile()->setReachTime(time);
-      time++;
+      //node->getTile()->setReachTime(time);
+      //time++;
     }
   }
 
@@ -573,7 +583,8 @@ bool Map::findPath(PathTree &tree,
   {
     node->getTile()->setReachTime(0);
     time++;
-  }
+  }*/
+
 
   // run until no moves are possible anymore
   while(movesPossible)
@@ -592,6 +603,9 @@ bool Map::findPath(PathTree &tree,
     for(auto node : history[history.size() - 2])
     {
       int reach_time = node->getTile()->getReachTime() + 1;
+
+      if(node->getDepth() - node->getBonusSteps() > available_steps)
+        continue;
 
       // move in all 4 directions from this node
       for(auto direction : directions)
@@ -717,7 +731,7 @@ bool Map::findPath(PathTree &tree,
     if(DEBUG)
     {
       // print what we have got so far
-      std::cout << "Time:  " << time << std::endl;
+      /*std::cout << "Time:  " << time << std::endl;
       std::cout << "Count: " << history.back().size() << std::endl;
       for(int row_number = 0; row_number < getSize().getY(); row_number++)
       {
@@ -736,7 +750,7 @@ bool Map::findPath(PathTree &tree,
         }
 
         std::cout << std::endl;
-      }
+      }*/
     }
 
 
