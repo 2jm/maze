@@ -60,7 +60,7 @@ class PathTree
   private:
     std::shared_ptr<Node> root_node_;
     std::vector<Node*> leaves_;
-
+    Node* finish_node_;
 
   public:
     PathTree(std::shared_ptr<Tile> tile);
@@ -77,7 +77,8 @@ class PathTree
     void sortLeaves();
     void printLeaves();
     std::vector<Node*> &getLeaves();
-    Node* getFinishLeave();
+    void addFinishNode(Node* node);
+    Node* getFinishNode();
     Node* getDeepestLeave();
 
     int getPathLength();

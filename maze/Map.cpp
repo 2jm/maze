@@ -314,7 +314,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   // NO PATH FOUND
   // maybe do this counter tile checking always
-  if(tree->getFinishLeave() == nullptr)
+  if(tree->getFinishNode() == nullptr)
   {
     if(DEBUG)
       std::cout << "NO PATH FOUND" << std::endl << "checking counter tiles" <<
@@ -358,7 +358,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
         tree->cut();  // retry from the beginning
         findPath(*tree, available_steps);
 
-        if(tree->getFinishLeave() != nullptr)
+        if(tree->getFinishNode() != nullptr)
         {
           finished = true;
           counter_tiles_to_zero.push_back(counter_tile);
@@ -385,7 +385,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
       counter_tiles.clear();
       findPath(*tree, available_steps, &counter_tiles);
 
-      if(tree->getFinishLeave() != nullptr)
+      if(tree->getFinishNode() != nullptr)
         finished = true;
     }
 
@@ -411,7 +411,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
     std::endl << std::endl;
   }
 
-  auto finish_path = shortest_path->getFinishLeave()->getTreeToNode();
+  auto finish_path = shortest_path->getFinishNode()->getTreeToNode();
 
   if(DEBUG)
     finish_path->print();
@@ -465,15 +465,14 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
 
       findPath(*leave_tree, available_steps, &counter_tiles);
 
-      if(leave_tree->getFinishLeave() != nullptr)
+      if(leave_tree->getFinishNode() != nullptr)
       {
-        leave_tree->trim();
         //leave_tree->print();
 
         int this_path_length = leave_tree->getPathLength();
         if(this_path_length < path_length)
         {
-          auto finish_path = path_tree->getFinishLeave()->getTreeToNode();
+          auto finish_path = path_tree->getFinishNode()->getTreeToNode();
           if(finish_path->checkStepCount(available_steps))
           {
             path_length = this_path_length;
@@ -545,17 +544,11 @@ bool Map::findPath(PathTree &tree, int available_steps,
   // add the root node to the history
   history.push_back(std::vector<PathTree::Node*>(1, tree.getLeaves()[0]));
 
+  reset();
   resetReachTimes();
 
   tree.getLeaves()[0]->getTile()->setReachTime(time);
 
-  /*bool user_moved_path = tree.getRootNode()->isUserMoved();
-
-  if(!user_moved_path)
-  {
-    //tree.getRootNode()->getTile()->setReachTime(time);
-    //time++;
-  }
 
   // walk the path that is already in the tree
   PathTree::Node *node = tree.getRootNode(), *next_node;
@@ -566,24 +559,14 @@ bool Map::findPath(PathTree &tree, int available_steps,
   {
     node = next_node;
 
-    history.push_back(std::vector<PathTree::Node*>(1, node));
+    Vector2d origin = node->getTile()->getPosition();
+    Vector2d direction = node->getParentDirection();
 
-    if(!node->isUserMoved())
+    while((matrix_[origin + direction]->enter(origin)) ==
+          Tile::MOVE_AGAIN && matrix_[origin]->leave(direction))
     {
-      if(user_moved_path)
-        time = 0;
-
-      user_moved_path = false;
-      //node->getTile()->setReachTime(time);
-      //time++;
     }
   }
-
-  if(user_moved_path)
-  {
-    node->getTile()->setReachTime(0);
-    time++;
-  }*/
 
 
   // run until no moves are possible anymore
@@ -731,7 +714,7 @@ bool Map::findPath(PathTree &tree, int available_steps,
     if(DEBUG)
     {
       // print what we have got so far
-      /*std::cout << "Time:  " << time << std::endl;
+      std::cout << "Time:  " << time << std::endl;
       std::cout << "Count: " << history.back().size() << std::endl;
       for(int row_number = 0; row_number < getSize().getY(); row_number++)
       {
@@ -750,7 +733,7 @@ bool Map::findPath(PathTree &tree, int available_steps,
         }
 
         std::cout << std::endl;
-      }*/
+      }
     }
 
 

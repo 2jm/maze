@@ -11,7 +11,8 @@
 
 
 PathTree::PathTree(std::shared_ptr<Tile> tile) :
-        root_node_(std::make_shared<Node>(tile, *this))
+        root_node_(std::make_shared<Node>(tile, *this)),
+        finish_node_(nullptr)
 {
   leaves_.push_back(root_node_.get());
 }
@@ -43,8 +44,6 @@ void PathTree::cut()
 
 void PathTree::trim()
 {
-  Node *fastest_finish_path = getFinishLeave();
-
   unsigned int i;  // TODO
   for(i = 0; i < leaves_.size(); i++)
   {
@@ -59,16 +58,16 @@ void PathTree::trim()
     }
     else
     {
-      if(!fastest_finish_path)
-        fastest_finish_path = node;
-      else if(node->getDepth() - node->getBonusSteps() <
-         fastest_finish_path->getDepth() - fastest_finish_path->getBonusSteps())
-        fastest_finish_path = node;
+      if(node != finish_node_)
+      {
+        node->remove();
+        i--;
+      }
     }
   }
 
   // remove all finish leaves that are not the fastest_finish_path
-  for(i = 0; i < leaves_.size(); i++)
+  /*for(i = 0; i < leaves_.size(); i++)
   {
     Node *node = leaves_[i];
     if(*(node->getTile()) == 'x')
@@ -87,7 +86,7 @@ void PathTree::trim()
         i--;
       }
     }
-  }
+  }*/
 }
 
 void PathTree::addLeave(Node *node)
@@ -139,29 +138,30 @@ std::vector<PathTree::Node *> &PathTree::getLeaves()
   return leaves_;
 }
 
-PathTree::Node *PathTree::getFinishLeave()
+void PathTree::addFinishNode(Node *node)
 {
-  for(auto leave : getLeaves())
+  if(finish_node_ == nullptr)
+    finish_node_ = node;
+  else if(node->getDepth() - node->getBonusSteps() <
+      finish_node_->getDepth() - finish_node_->getBonusSteps())
   {
-    if(*leave->getTile() == 'x')
-      return leave;
+    finish_node_ = node;
   }
-  return nullptr;
+}
+
+PathTree::Node *PathTree::getFinishNode()
+{
+  return finish_node_;
 }
 
 int PathTree::getPathLength()
 {
-  PathTree::Node* leave = getFinishLeave();
-
-  int path_length = std::numeric_limits<int>::max();
+  PathTree::Node* leave = getFinishNode();
 
   if(leave != nullptr)
-  {
-    if(leave->getDepth() - leave->getBonusSteps() < path_length)
-      path_length = leave->getDepth() - leave->getBonusSteps();
-  }
+    return leave->getDepth() - leave->getBonusSteps();
 
-  return path_length;
+  return std::numeric_limits<int>::max();
 }
 
 std::string PathTree::reconstructMoves(
@@ -252,6 +252,7 @@ PathTree::Node* PathTree::getDeepestLeave()
 
 
 
+
 //------------------------------------------------------------------------------
 //              NODE
 //------------------------------------------------------------------------------
@@ -301,6 +302,11 @@ PathTree::Node* PathTree::Node::addBranch(
   std::shared_ptr<Node> new_node =
           std::make_shared<Node>(tile, this, direction, bonus_path, tree_,
                                  depth_ + 1, user_moved);
+
+  if(tile->toChar(true) == 'x')
+  {
+    tree_.addFinishNode(new_node.get());
+  }
 
   tree_.addLeave(new_node.get());
   childs_[array_index] = new_node;

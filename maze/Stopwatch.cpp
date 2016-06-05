@@ -10,7 +10,7 @@ namespace Stopwatch
   auto start_time = std::chrono::steady_clock::now();
 
   // 14s
-  const std::chrono::microseconds MAX_TIME(14*1000*1000);
+  const std::chrono::microseconds MAX_TIME(5*1000*1000);
 
 
   void restart()
