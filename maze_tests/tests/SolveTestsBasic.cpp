@@ -3,20 +3,20 @@
 
 #define TEST_FILES_PATH "../tests/testFilesSolveBasic/"
 
-//TEST(SolveTestBasic, big)
-//{
-//  Game game;
-//  Message::Code result = game.solve(true);
-//  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
-//  std::string file_path = TEST_FILES_PATH"big.maze";
-//  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
-//  result = game.solve(true);
-//  ASSERT_EQ(result, Message::Code::SUCCESS);
-//
-//  ASSERT_EQ("r" ,game.solve_path);
-//  ASSERT_EQ(1, game.solve_steps);
-//  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
-//}
+TEST(SolveTestBasic, big)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"big.maze";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("l" ,game.solve_path);
+  ASSERT_EQ(1, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
 
 TEST(SolveTestBasic, ice_1)
 {
@@ -178,8 +178,8 @@ TEST(SolveTestBasic, quicksandbonus3)
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
-  ASSERT_EQ("" ,game.solve_path);
-  ASSERT_EQ(0, game.solve_steps);
+  ASSERT_EQ("urrdlll" ,game.solve_path);
+  ASSERT_EQ(-5, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
 
@@ -191,11 +191,7 @@ TEST(SolveTestBasic, quicksand_bonus)
   std::string file_path = TEST_FILES_PATH"quicksandBonus4.maze";
   ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
   result = game.solve(true);
-  ASSERT_EQ(result, Message::Code::SUCCESS);
-
-  ASSERT_EQ("" ,game.solve_path);
-  ASSERT_EQ(0, game.solve_steps);
-  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+  ASSERT_EQ(result, Message::Code::NO_PATH_FOUND);
 }
 
 TEST(SolveTestBasic, quicksand_bonus2)
@@ -208,7 +204,7 @@ TEST(SolveTestBasic, quicksand_bonus2)
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
-  ASSERT_EQ("" ,game.solve_path);
-  ASSERT_EQ(0, game.solve_steps);
+  ASSERT_EQ("rrrrrurrrrrrd" ,game.solve_path);
+  ASSERT_EQ(-2, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }

@@ -120,7 +120,7 @@ TEST(SolveTest, bonus_1)
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
-  ASSERT_EQ("urrrrrd" ,game.solve_path);
+  ASSERT_EQ("rrrurrd" ,game.solve_path);
   ASSERT_EQ(2, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
