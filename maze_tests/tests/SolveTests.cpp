@@ -76,7 +76,7 @@ TEST(SolveTest, heavy_1)
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("urrrddl" ,game.solve_path);
-  ASSERT_EQ(3, game.solve_steps);
+  ASSERT_EQ(-3, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
 
