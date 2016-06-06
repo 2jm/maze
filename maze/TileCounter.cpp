@@ -17,6 +17,9 @@ Tile::EnterResult TileCounter::enter(Vector2d &source_position)
   if(counter_value_ == 0)
     return INVALID_MOVE;
 
+  if(counter_value_ > 0)
+    counter_value_--;
+
   source_position = position_;
   return VALID_MOVE;
 }
@@ -24,9 +27,6 @@ Tile::EnterResult TileCounter::enter(Vector2d &source_position)
 //------------------------------------------------------------------------------
 bool TileCounter::leave(const Direction move_direction)
 {
-  if(counter_value_ > 0)
-    counter_value_--;
-
   return true;
 }
 

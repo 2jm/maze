@@ -29,7 +29,8 @@
 using std::string;
 
 //------------------------------------------------------------------------------
-Map::Map() : matrix_(*this)
+Map::Map() : matrix_(*this),
+             dontResetCounterTiles(false)
 {
 
 }
@@ -254,7 +255,21 @@ void Map::reset()
   for(auto &column : columns_)
   {
     for(auto &element : column)
-      element->reset();
+    {
+      if(std::dynamic_pointer_cast<TileCounter>(element) == nullptr)
+        element->reset();
+      else if(!dontResetCounterTiles)
+      {
+        bool dontResetCounter = false;
+        for(auto counter_tile_to_zero : counter_tiles_to_zero)
+        {
+          if(element == counter_tile_to_zero)
+            dontResetCounter = true;
+        }
+        if(!dontResetCounter)
+          element->reset();
+      }
+    }
   }
 }
 
@@ -271,7 +286,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = false;
+static bool DEBUG = true;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
@@ -285,8 +300,8 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   // create the path tree with the startTile as root node
   auto tree = std::make_shared<PathTree>(getStartTile());
   std::vector<std::shared_ptr<TileCounter>> counter_tiles;
-  // at the end moves will be added to set this counters to zero
-  std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
+
+  counter_tiles_to_zero.clear();
 
   fillTreeWithAlreadyMovedSteps(*tree, moved_steps);
 
@@ -299,17 +314,6 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   // print the tree
   if(DEBUG)
     tree->print();
-
-  if(DEBUG)
-    std::cout << std::endl << " TRIM " << std::endl << std::endl;
-  tree->trim();
-
-  if(DEBUG)
-    tree->print();
-
-  tree->sortLeaves();
-  if(DEBUG)
-    tree->printLeaves();
 
 
   // NO PATH FOUND
@@ -349,14 +353,20 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
         no_new_counter_tile = false;
 
         if(DEBUG)
-          std::cout << "Settings " << counter_tile->getPosition().getX() << " "
+          std::cout << "Setting " << counter_tile->getPosition().getX() << " "
           << counter_tile->getPosition().getY() << " to 0" << std::endl;
+
+        reset();
+
         counter_tile->set0();
 
         // TODO ist es ein Problem dass der auch die vom Spieler gegangenen
         // Schritte weglöscht?
         tree->cut();  // retry from the beginning
-        findPath(*tree, available_steps);
+
+        dontResetCounterTiles = true;
+        findPath(*tree, available_steps, nullptr);
+        dontResetCounterTiles = false;
 
         if(tree->getFinishNode() != nullptr)
         {
@@ -393,6 +403,16 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
       return "";
   }
 
+  if(DEBUG)
+    std::cout << std::endl << " TRIM " << std::endl << std::endl;
+  tree->trim();
+
+  if(DEBUG)
+    tree->print();
+
+  tree->sortLeaves();
+  if(DEBUG)
+    tree->printLeaves();
 
 
   int minimal_path_length = tree->getPathLength();
@@ -418,16 +438,11 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   reset();
 
-  // check if the available_steps are enough
-  /*if(!finish_path->checkStepCount(available_steps))
-  {
-    // not enough steps
-    return "";
-  }*/
-
   // add moves to zero the counter tiles that must be walls
   std::string fastmove_string =
           finish_path->reconstructMoves(counter_tiles_to_zero);
+
+  counter_tiles_to_zero.clear();
 
   if(DEBUG)
     std::cout << "It took me " << Stopwatch::getElapsedTime().count() <<
@@ -458,12 +473,11 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
     if(*leave->getTile() != 'x')
     {
       std::shared_ptr<PathTree> leave_tree = leave->getTreeToNode();
-      std::vector<std::shared_ptr<TileCounter>> counter_tiles;
 
       if(DEBUG)
         leave_tree->print();
 
-      findPath(*leave_tree, available_steps, &counter_tiles);
+      findPath(*leave_tree, available_steps, nullptr);
 
       if(leave_tree->getFinishNode() != nullptr)
       {
@@ -587,7 +601,7 @@ bool Map::findPath(PathTree &tree, int available_steps,
     {
       int reach_time = node->getTile()->getReachTime() + 1;
 
-      if(node->getDepth() - node->getBonusSteps() > available_steps)
+      if(node->getDepth() - node->getBonusSteps() >= available_steps)
         continue;
 
       // move in all 4 directions from this node

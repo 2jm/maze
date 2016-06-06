@@ -49,6 +49,11 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     // TODO
     const static int MAX_SOLVE_RECURSION_DEPTH = 5;
 
+    // TODO
+    // at the end of a solve moves will be added to set this counters to zero
+    bool dontResetCounterTiles;
+    std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
+
     //--------------------------------------------------------------------------
     // Reference to this class to be able to use the [] operator more easily
     // (*this)[] -> matrix[]

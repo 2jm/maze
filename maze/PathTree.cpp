@@ -46,6 +46,10 @@ void PathTree::trim()
   for(i = 0; i < leaves_.size(); i++)
   {
     Node *node = leaves_[i];
+
+    if(node == root_node_.get())
+      continue;
+
     if(*(node->getTile()) != 'x')
     {
       if(node->getTile()->getStepChange() <= 0)
@@ -56,7 +60,7 @@ void PathTree::trim()
     }
     else
     {
-      if(node != finish_node_)
+      if(finish_node_ != nullptr && node != finish_node_)
       {
         node->remove();
         i--;
@@ -234,6 +238,8 @@ PathTree::Node *PathTree::getDeepestLeave()
 
   for(auto leave : leaves)
   {
+    std::cout << leave->getDepth() << " " << deepestLeave->getDepth() <<
+            std::endl;
     if(leave->getDepth() > deepestLeave->getDepth())
       deepestLeave = leave;
   }
