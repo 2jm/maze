@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
-#include <limits>
 #include "PathTree.h"
 #include "Direction.h"
 
@@ -17,7 +16,7 @@ PathTree::PathTree(std::shared_ptr<Tile> tile) :
   leaves_.push_back(root_node_.get());
 }
 
-PathTree::Node* PathTree::getRootNode()
+PathTree::Node *PathTree::getRootNode()
 {
   return root_node_.get();
 }
@@ -33,12 +32,11 @@ void PathTree::print()
 void PathTree::cut()
 {
   int i; //TODO
-  for(i=0; i<4; i++)
+  for(i = 0; i < 4; i++)
   {
     if(root_node_->getChild(i) != nullptr)
       root_node_->getChild(i)->remove();
   }
-
 }
 
 
@@ -140,10 +138,9 @@ std::vector<PathTree::Node *> &PathTree::getLeaves()
 
 void PathTree::addFinishNode(Node *node)
 {
-  if(finish_node_ == nullptr)
-    finish_node_ = node;
-  else if(node->getDepth() - node->getBonusSteps() <
-      finish_node_->getDepth() - finish_node_->getBonusSteps())
+  if(finish_node_ == nullptr ||
+          (node->getDepth() - node->getBonusSteps() <
+          finish_node_->getDepth() - finish_node_->getBonusSteps()))
   {
     finish_node_ = node;
   }
@@ -156,7 +153,7 @@ PathTree::Node *PathTree::getFinishNode()
 
 int PathTree::getPathLength()
 {
-  PathTree::Node* leave = getFinishNode();
+  PathTree::Node *leave = getFinishNode();
 
   if(leave != nullptr)
     return leave->getDepth() - leave->getBonusSteps();
@@ -170,10 +167,10 @@ std::string PathTree::reconstructMoves(
   std::string fast_move_string;
 
   Node *node = getRootNode(), *next_node;
-  while(((next_node = node->getChild(Direction::UP))    != nullptr) ||
+  while(((next_node = node->getChild(Direction::UP)) != nullptr) ||
         ((next_node = node->getChild(Direction::RIGHT)) != nullptr) ||
-        ((next_node = node->getChild(Direction::DOWN))  != nullptr) ||
-        ((next_node = node->getChild(Direction::LEFT))  != nullptr))
+        ((next_node = node->getChild(Direction::DOWN)) != nullptr) ||
+        ((next_node = node->getChild(Direction::LEFT)) != nullptr))
   {
     node = next_node;
 
@@ -185,7 +182,7 @@ std::string PathTree::reconstructMoves(
     for(auto counter_tile_to_zero : counter_tiles_to_zero)
     {
       Vector2d pos = node->getTile()->getPosition() +
-                                      Vector2d(node->getParentDirection());
+                     Vector2d(node->getParentDirection());
 
       if(pos == counter_tile_to_zero->getPosition())
       {
@@ -197,7 +194,7 @@ std::string PathTree::reconstructMoves(
         {
           fast_move_string +=
                   static_cast<char>(static_cast<Direction>(
-                                  Vector2d(node->getParentDirection()) * -1));
+                          Vector2d(node->getParentDirection()) * -1));
 
           fast_move_string += static_cast<char>(node->getParentDirection());
         }
@@ -213,10 +210,10 @@ std::string PathTree::reconstructMoves(
 bool PathTree::checkStepCount(int available_steps)
 {
   Node *node = getRootNode(), *next_node;
-  while(((next_node = node->getChild(Direction::UP))    != nullptr) ||
+  while(((next_node = node->getChild(Direction::UP)) != nullptr) ||
         ((next_node = node->getChild(Direction::RIGHT)) != nullptr) ||
-        ((next_node = node->getChild(Direction::DOWN))  != nullptr) ||
-        ((next_node = node->getChild(Direction::LEFT))  != nullptr))
+        ((next_node = node->getChild(Direction::DOWN)) != nullptr) ||
+        ((next_node = node->getChild(Direction::LEFT)) != nullptr))
   {
     if(available_steps <= 0)
       return false;
@@ -224,13 +221,13 @@ bool PathTree::checkStepCount(int available_steps)
     node = next_node;
     available_steps--;
     available_steps += node->getBonusSteps() -
-                          node->getParent()->getBonusSteps();
+                       node->getParent()->getBonusSteps();
   }
 
   return true;
 }
 
-PathTree::Node* PathTree::getDeepestLeave()
+PathTree::Node *PathTree::getDeepestLeave()
 {
   auto leaves = getLeaves();
   Node *deepestLeave = root_node_.get();
@@ -283,7 +280,7 @@ PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree,
 
 }
 
-PathTree::Node* PathTree::Node::addBranch(
+PathTree::Node *PathTree::Node::addBranch(
         std::shared_ptr<Tile> tile, Direction direction, bool user_moved)
 {
   int bonus_path = bonus_path_;
@@ -334,7 +331,7 @@ std::shared_ptr<Tile> PathTree::Node::getTile()
   return tile_;
 }
 
-PathTree::Node* PathTree::Node::getChild(Direction direction)
+PathTree::Node *PathTree::Node::getChild(Direction direction)
 {
   return childs_[directionToArrayIndex(direction)].get();
 }
@@ -469,7 +466,7 @@ std::shared_ptr<PathTree> PathTree::Node::getTreeToNode()
 
   std::vector<Direction> path;
 
-  Node* node = this;
+  Node *node = this;
   while(node->parent_ != nullptr)
   {
     path.push_back(node->parent_direction_);

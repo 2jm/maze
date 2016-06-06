@@ -124,3 +124,44 @@ TEST(SolveTest, bonus_1)
   ASSERT_EQ(2, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
+
+TEST(SolveTest, step_exact)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"stepExact.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("rrrrrr" ,game.solve_path);
+  ASSERT_EQ(6, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, step_few)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"stepFew.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_PATH_FOUND);
+}
+
+TEST(SolveTest, step_more)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"stepMore.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("rrrrrr" ,game.solve_path);
+  ASSERT_EQ(6, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
