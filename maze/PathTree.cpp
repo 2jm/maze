@@ -238,8 +238,6 @@ PathTree::Node *PathTree::getDeepestLeave()
 
   for(auto leave : leaves)
   {
-    std::cout << leave->getDepth() << " " << deepestLeave->getDepth() <<
-            std::endl;
     if(leave->getDepth() > deepestLeave->getDepth())
       deepestLeave = leave;
   }

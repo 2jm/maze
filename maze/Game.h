@@ -196,7 +196,7 @@ class Game
     // @return MessageCode FILE_COULD_NOT_BE_WRITTEN,
     //                     SUCCESS
     //
-    Message::Code saveFile(const std::string file_name);
+    Message::Code saveFile(const std::string file_name, std::string path="no");
 
     //--------------------------------------------------------------------------
     // Move player method

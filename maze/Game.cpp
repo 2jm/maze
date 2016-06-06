@@ -94,7 +94,7 @@ Message::Code Game::loadFile(const std::string file_name)
 }
 
 //------------------------------------------------------------------------------
-Message::Code Game::saveFile(const std::string file_name)
+Message::Code Game::saveFile(const std::string file_name, std::string path)
 {
   Message::Code return_code;
   std::ofstream output_file;
@@ -106,8 +106,16 @@ Message::Code Game::saveFile(const std::string file_name)
   if(game_state_ == State::NO_MAZE_LOADED)
     return Message::NO_MAZE_LOADED;
 
-  for(auto move : move_history_)
-    output_file << static_cast<char>(move);
+  if(path == "no")
+  {
+    for(auto move : move_history_)
+      output_file << static_cast<char>(move);
+  }
+  else
+  {
+    output_file << path;
+  }
+
   output_file << '\n';
   output_file << available_steps_ << '\n';
   output_file << play_map_.toString(true);
@@ -295,9 +303,15 @@ Message::Code Game::solve(const bool silent)
   std::vector<std::string> command_fast_move_params;
   command_fast_move_params.push_back(path);
 
+  std::string fastmove_path;
+
+  for(auto move : move_history_)
+    fastmove_path += static_cast<char>(move);
+  fastmove_path += path;
+
   command_fast_move.execute(*this, command_fast_move_params);
 
-  saveFile(loaded_file_name_ + "Solved");
+  saveFile(loaded_file_name_ + "Solved", fastmove_path);
 
   std::cout << "The maze was solved in " << available_steps_ - *remaining_steps_
             << " steps.\n";
