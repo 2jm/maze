@@ -23,7 +23,8 @@ Game::Game() : map_(&play_map_),
                load_test_player_(load_test_map_),
                player_(&play_player_),
                game_state_(State::NO_MAZE_LOADED),
-               fast_moving_(false)
+               fast_moving_(false),
+               dont_show_map_after_fastmove(false)
 {
 
 }
@@ -206,7 +207,8 @@ void Game::completeFastMove()
   if(game_state_ != State::LOADING && game_state_ != State::TESTING_MAP)
   {
     autoSave();
-    show();
+    if(!dont_show_map_after_fastmove)
+      show();
   }
 
   if(player_->getPosition() == map_->getEndTile()->getPosition())
@@ -317,7 +319,9 @@ Message::Code Game::solve(const bool silent)
     fastmove_path += static_cast<char>(move);
 
   command_fast_move_params.push_back(fastmove_path);
+  dont_show_map_after_fastmove = true;
   command_fast_move.execute(*this, command_fast_move_params);
+  dont_show_map_after_fastmove = false;
 
   move_history_ = saved_move_history;
 

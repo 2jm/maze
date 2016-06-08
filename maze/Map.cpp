@@ -301,7 +301,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = true;
+static bool DEBUG = false;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
