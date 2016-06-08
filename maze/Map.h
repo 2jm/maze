@@ -47,7 +47,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     const static int SIZE_OF_ALPHABET = 26;
 
     // TODO
-    const static int MAX_SOLVE_RECURSION_DEPTH = 3;
+    const static int MAX_SOLVE_RECURSION_DEPTH = 2;
 
     // TODO
     // at the end of a solve moves will be added to set this counters to zero
@@ -80,6 +80,8 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //  1 => exists twice, size is 26 -> every char of the alphabet
     //
     int teleporter_pair_[SIZE_OF_ALPHABET];
+
+    bool bonus_or_quicksand_on_map;
 
     //--------------------------------------------------------------------------
     // Checks if the map is valid

@@ -55,19 +55,22 @@ Message::Code Game::loadFile(const std::string file_name)
   if((map_string = loadMapString(input_file)) == "")
     return Message::INVALID_FILE;
 
-  switchState(State::TESTING_MAP);
-  *remaining_steps_ = steps_left;
-
-  if(!map_->loadFromString(map_string, *this))
+  if(game_state_ != Game::State::NO_MAZE_LOADED)
   {
-    switchState(State::PREVIOUS);
-    return Message::INVALID_FILE;
-  }
+    switchState(State::TESTING_MAP);
+    *remaining_steps_ = steps_left;
 
-  if((return_code = doInitialFastMove(saved_moves)) != Message::SUCCESS)
-  {
-    switchState(State::PREVIOUS);
-    return return_code;
+    if(!map_->loadFromString(map_string, *this))
+    {
+      switchState(State::PREVIOUS);
+      return Message::INVALID_FILE;
+    }
+
+    if((return_code = doInitialFastMove(saved_moves)) != Message::SUCCESS)
+    {
+      switchState(State::PREVIOUS);
+      return return_code;
+    }
   }
 
   switchState(State::LOADING);
@@ -76,8 +79,16 @@ Message::Code Game::loadFile(const std::string file_name)
   available_steps_ = steps_left;
 
   // we already know that the file is valid
-  map_->loadFromString(map_string, *this);
-  doInitialFastMove(saved_moves);
+  if(!map_->loadFromString(map_string, *this))
+  {
+    switchState(State::PREVIOUS);
+    return Message::INVALID_FILE;
+  }
+  if((return_code = doInitialFastMove(saved_moves)) != Message::SUCCESS)
+  {
+    switchState(State::PREVIOUS);
+    return return_code;
+  }
 
   if(game_state_ != State::WON)
     switchState(State::PLAYING);
@@ -311,7 +322,7 @@ Message::Code Game::solve(const bool silent)
 
   command_fast_move.execute(*this, command_fast_move_params);
 
-  saveFile(loaded_file_name_ + "Solved", fastmove_path);
+  saveFile(loaded_file_name_ + "Solved"); //, fastmove_path);
 
   std::cout << "The maze was solved in " << available_steps_ - *remaining_steps_
             << " steps.\n";

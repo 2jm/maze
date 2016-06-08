@@ -51,7 +51,16 @@ bool Map::loadFromString(string map_string, Game &game)
 
   std::fill(teleporter_pair_, teleporter_pair_ + SIZE_OF_ALPHABET, -1);
 
+  bonus_or_quicksand_on_map = false;
+
   clear();
+
+  unsigned int map_width = static_cast<unsigned int>(
+                        map_string.substr(0, map_string.find('\n')).length());
+  unsigned int map_height =
+          static_cast<unsigned int>(map_string.length() / map_width);
+
+  resize(map_width, map_height);
 
   while(map_string[string_position])
   {
@@ -63,6 +72,10 @@ bool Map::loadFromString(string map_string, Game &game)
       if(map_string[string_position] == '#')
       {
         put(std::make_shared<TileWall>(tile_position), tile_position);
+      }
+      else if(map_string[string_position] == ' ')
+      {
+        put(std::make_shared<TilePath>(tile_position), tile_position);
       }
       else if(map_string[string_position] >= 'A' &&
               map_string[string_position] <= 'Z')
@@ -88,9 +101,7 @@ bool Map::loadFromString(string map_string, Game &game)
       else if(map_string[string_position] == 'o')
       {
         start_once_++;
-
         start_tile_ = std::make_shared<TileStart>(tile_position);
-
         put(start_tile_, tile_position);
       }
       else if(map_string[string_position] == 'x')
@@ -107,6 +118,8 @@ bool Map::loadFromString(string map_string, Game &game)
         put(std::make_shared<TileBonus>(tile_position,
                                         map_string[string_position],
                                         game), tile_position);
+
+        bonus_or_quicksand_on_map = true;
       }
       else if(map_string[string_position] >= 'f' &&
               map_string[string_position] <= 'j')
@@ -114,16 +127,14 @@ bool Map::loadFromString(string map_string, Game &game)
         put(std::make_shared<TileQuicksand>(tile_position,
                                             map_string[string_position],
                                             game), tile_position);
+
+        bonus_or_quicksand_on_map = true;
       }
       else if(map_string[string_position] == 's')
       {
         auto hole_tile = std::make_shared<TileHole>(tile_position);
         hole_tiles.push_back(hole_tile);
         put(hole_tile, tile_position);
-      }
-      else if(map_string[string_position] == ' ')
-      {
-        put(std::make_shared<TilePath>(tile_position), tile_position);
       }
       else if(map_string[string_position] == '+')
       {
@@ -591,7 +602,8 @@ bool Map::findPath(PathTree &tree, int available_steps,
 
 
   // run until no moves are possible anymore
-  while(movesPossible)
+  while(movesPossible && bonus_or_quicksand_on_map ||
+          !endReached && !bonus_or_quicksand_on_map)
   {
     movesPossible = false;
 

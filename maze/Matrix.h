@@ -432,7 +432,8 @@ void Matrix<T>::put(T element, Vector2d position)
   if(position.getY() >= size_.getY())
     new_size.setY(position.getY() + 1);
 
-  resize(new_size);
+  if(!(new_size == size_))
+    resize(new_size);
 
   (*this)[position] = element;
 }
