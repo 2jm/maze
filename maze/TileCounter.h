@@ -80,6 +80,8 @@ class TileCounter : public Tile
 
     // TODO
     void set0();
+
+    int getValue();
 };
 
 

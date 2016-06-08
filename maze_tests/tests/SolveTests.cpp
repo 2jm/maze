@@ -206,7 +206,7 @@ TEST(SolveTest, heavy_5)
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
-  ASSERT_EQ("uurlrlrlrlrlrdddrluddddrllruuuuu" ,game.solve_path);
+  ASSERT_EQ("uurlrlrlrlrlrddddddrllruuuudrluu", game.solve_path);
   ASSERT_EQ(12, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }

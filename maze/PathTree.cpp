@@ -31,11 +31,25 @@ void PathTree::print()
 
 void PathTree::cut()
 {
+  Node *node = getRootNode(), *next_node;
+  while(((next_node = node->getChild(Direction::UP)) != nullptr) ||
+        ((next_node = node->getChild(Direction::RIGHT)) != nullptr) ||
+        ((next_node = node->getChild(Direction::DOWN)) != nullptr) ||
+        ((next_node = node->getChild(Direction::LEFT)) != nullptr))
+  {
+    if(!node->isUserMoved())
+    {
+      node = next_node;
+      break;
+    }
+    node = next_node;
+  }
+
   int i; //TODO
   for(i = 0; i < 4; i++)
   {
-    if(root_node_->getChild(i) != nullptr)
-      root_node_->getChild(i)->remove();
+    if(node->getChild(i) != nullptr)
+      node->getChild(i)->remove();
   }
 }
 
@@ -166,7 +180,8 @@ int PathTree::getPathLength()
 }
 
 std::string PathTree::reconstructMoves(
-        std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero)
+        std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero,
+        std::vector<int> &counter_tiles_to_zero_start_values)
 {
   std::string fast_move_string;
 
@@ -183,6 +198,7 @@ std::string PathTree::reconstructMoves(
 
     fast_move_string += static_cast<char>(node->getParentDirection());
 
+    int i = 0;
     for(auto counter_tile_to_zero : counter_tiles_to_zero)
     {
       Vector2d pos = node->getTile()->getPosition() +
@@ -191,7 +207,7 @@ std::string PathTree::reconstructMoves(
       if(pos == counter_tile_to_zero->getPosition())
       {
         // bring this counter to zero
-        int counter_value = counter_tile_to_zero->toChar(true) - '0';
+        int counter_value = counter_tiles_to_zero_start_values[i];
 
         // TODO andere richtungen checken
         for(; counter_value > 0; counter_value--)
@@ -205,6 +221,8 @@ std::string PathTree::reconstructMoves(
 
         break;
       }
+
+      i++;
     }
   }
 

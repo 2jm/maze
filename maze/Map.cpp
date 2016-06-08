@@ -315,16 +315,19 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   // create the path tree with the startTile as root node
   auto tree = std::make_shared<PathTree>(getStartTile());
   std::vector<std::shared_ptr<TileCounter>> counter_tiles;
+  std::vector<int> counter_tiles_start_values;
 
   counter_tiles_to_zero.clear();
+  counter_tiles_to_zero_start_values.clear();
 
-  fillTreeWithAlreadyMovedSteps(*tree, moved_steps);
+  fillTreeWithAlreadyMovedSteps(*tree, moved_steps, counter_tiles,
+                                counter_tiles_start_values);
 
 
   if(DEBUG)
     tree->print();
 
-  findPath(*tree, available_steps, &counter_tiles);
+  findPath(*tree, available_steps, &counter_tiles, &counter_tiles_start_values);
 
   // print the tree
   if(DEBUG)
@@ -349,6 +352,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
     {
       no_new_counter_tile = true;
       int longest_path_length = tree->getDeepestLeave()->getDepth();
+      int i = 0;
 
       for(auto counter_tile : counter_tiles)
       {
@@ -375,18 +379,18 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
         counter_tile->set0();
 
-        // TODO ist es ein Problem dass der auch die vom Spieler gegangenen
-        // Schritte weglöscht?
         tree->cut();  // retry from the beginning
 
         dontResetCounterTiles = true;
-        findPath(*tree, available_steps, nullptr);
+        findPath(*tree, available_steps);
         dontResetCounterTiles = false;
 
         if(tree->getFinishNode() != nullptr)
         {
           finished = true;
           counter_tiles_to_zero.push_back(counter_tile);
+          counter_tiles_to_zero_start_values.push_back
+                  (counter_tiles_start_values[i]);
           break;
         }
 
@@ -398,9 +402,15 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
           counter_tile->reset();
         }
         else
+        {
           counter_tiles_to_zero.push_back(counter_tile);
+          counter_tiles_to_zero_start_values.push_back
+                  (counter_tiles_start_values[i]);
+        }
 
         already_checked_counter_tiles.push_back(counter_tile);
+
+        i++;
       }
 
       if(finished)
@@ -455,9 +465,11 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   // add moves to zero the counter tiles that must be walls
   std::string fastmove_string =
-          finish_path->reconstructMoves(counter_tiles_to_zero);
+          finish_path->reconstructMoves(counter_tiles_to_zero,
+                                        counter_tiles_to_zero_start_values);
 
   counter_tiles_to_zero.clear();
+  counter_tiles_to_zero_start_values.clear();
   reset();
 
   if(DEBUG)
@@ -493,7 +505,7 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
       if(DEBUG)
         leave_tree->print();
 
-      findPath(*leave_tree, available_steps, nullptr);
+      findPath(*leave_tree, available_steps);
 
       if(leave_tree->getFinishNode() != nullptr)
       {
@@ -524,9 +536,11 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
 
 
 
-void Map::fillTreeWithAlreadyMovedSteps(PathTree &tree,
-                                        const std::vector<Direction>
-                                        moved_steps)
+void Map::fillTreeWithAlreadyMovedSteps(
+        PathTree &tree,
+        const std::vector<Direction> moved_steps,
+        std::vector<std::shared_ptr<TileCounter>> &counter_tiles,
+        std::vector<int> &counter_tiles_start_values)
 {
   PathTree::Node *node = tree.getRootNode();
   Vector2d origin;
@@ -547,6 +561,15 @@ void Map::fillTreeWithAlreadyMovedSteps(PathTree &tree,
     // until here is stolen from Player::move()
 
     node = node->addBranch(matrix_[origin], direction, true);
+
+    if(std::dynamic_pointer_cast<TileCounter>(node->getTile()))
+    {
+      auto counter_tile =
+              std::dynamic_pointer_cast<TileCounter>(node->getTile());
+
+      counter_tiles.push_back(counter_tile);
+      counter_tiles_start_values.push_back(counter_tile->getValue() + 1);
+    }
   }
 }
 
@@ -555,7 +578,8 @@ void Map::fillTreeWithAlreadyMovedSteps(PathTree &tree,
 
 // fills the tree
 bool Map::findPath(PathTree &tree, int available_steps,
-        std::vector<std::shared_ptr<TileCounter>> *counter_tiles)
+        std::vector<std::shared_ptr<TileCounter>> *counter_tiles,
+        std::vector<int> *counter_tiles_start_values)
 {
   int time = 0; // in the first step the time is equal to the steps
 
@@ -736,10 +760,12 @@ bool Map::findPath(PathTree &tree, int available_steps,
 
       if(counter_tiles)   // not nullptr
       {
-        if(std::dynamic_pointer_cast<TileCounter>(new_node->getTile()))
+        auto counter_tile =
+                std::dynamic_pointer_cast<TileCounter>(new_node->getTile());
+        if(counter_tile)
         {
-          counter_tiles->push_back(
-                  std::dynamic_pointer_cast<TileCounter>(new_node->getTile()));
+          counter_tiles->push_back(counter_tile);
+          counter_tiles_start_values->push_back(counter_tile->getValue() + 1);
         }
       }
     }

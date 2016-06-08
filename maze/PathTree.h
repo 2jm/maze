@@ -84,7 +84,8 @@ class PathTree
     int getPathLength();
 
     std::string reconstructMoves(
-            std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero);
+            std::vector<std::shared_ptr<TileCounter>> &counter_tiles,
+            std::vector<int> &counter_tiles_start_values);
 
     bool checkStepCount(int available_steps);
 };

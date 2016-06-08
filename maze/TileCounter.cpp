@@ -53,4 +53,11 @@ void TileCounter::set0()
   counter_value_ = 0;
 }
 
+int TileCounter::getValue()
+{
+  return counter_value_;
+}
+
+
+
 

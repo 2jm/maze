@@ -53,6 +53,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     // at the end of a solve moves will be added to set this counters to zero
     bool dontResetCounterTiles;
     std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
+    std::vector<int> counter_tiles_to_zero_start_values;
 
     //--------------------------------------------------------------------------
     // Reference to this class to be able to use the [] operator more easily
@@ -96,14 +97,17 @@ class Map : public Matrix<std::shared_ptr<Tile>>
                              int recursion_depth, int available_steps);
 
     // TODO
-    void fillTreeWithAlreadyMovedSteps(PathTree &tree,
-                                       const std::vector<Direction>
-                                       moved_steps);
+    void fillTreeWithAlreadyMovedSteps(
+            PathTree &tree,
+            const std::vector<Direction> moved_steps,
+            std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero,
+            std::vector<int> &counter_tiles_to_zero_start_values);
 
     // TODO
     bool findPath(PathTree &tree, int available_steps,
                   std::vector<std::shared_ptr<TileCounter>> *counter_tiles =
-                  nullptr);
+                  nullptr,
+                  std::vector<int> *counter_tiles_start_values = nullptr);
 
     // TODO
     void resetReachTimes();
