@@ -301,7 +301,7 @@ std::shared_ptr<Tile> Map::getStartTile() const
 }
 
 // TODO remove if debugging was finished
-static bool DEBUG = false;
+static bool DEBUG = true;
 
 std::string Map::solve(const std::vector<Direction> moved_steps,
                        int available_steps)
@@ -604,10 +604,8 @@ bool Map::findPath(PathTree &tree, int available_steps,
     }
   }
 
-
   // run until no moves are possible anymore
-  while((movesPossible && bonus_or_quicksand_on_map) ||
-        (!endReached && !bonus_or_quicksand_on_map))
+  while(!(!movesPossible || (endReached && !bonus_or_quicksand_on_map)))
   {
     movesPossible = false;
 
