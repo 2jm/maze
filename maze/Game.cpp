@@ -300,32 +300,38 @@ Message::Code Game::solve(const bool silent)
   if(game_state_ == State::WON)
     return Message::MAZE_ALREADY_SOLVED;
 
-  std::string path = map_->solve(move_history_, available_steps_);
-  // solve decrements remaining steps with every move it tries, so reset it
-  // to it's starting count
-  *remaining_steps_ = available_steps_;
+  int steps_at_the_beginning = *remaining_steps_;
 
+  std::string path = map_->solve(move_history_, available_steps_);
+
+  reset();
   switchState(State::PLAYING);
+
+  CommandFastMove command_fast_move;
+  std::vector<std::string> command_fast_move_params;
+
+  auto saved_move_history = move_history_;
+
+  std::string fastmove_path;
+  for(auto move : move_history_)
+    fastmove_path += static_cast<char>(move);
+
+  command_fast_move_params.push_back(fastmove_path);
+  command_fast_move.execute(*this, command_fast_move_params);
+
+  move_history_ = saved_move_history;
 
   if(path == "")
     return Message::NO_PATH_FOUND;
 
-  CommandFastMove command_fast_move;
-  std::vector<std::string> command_fast_move_params;
-  command_fast_move_params.push_back(path);
 
-  std::string fastmove_path;
-
-  for(auto move : move_history_)
-    fastmove_path += static_cast<char>(move);
-  fastmove_path += path;
-
+  command_fast_move_params[0] = path;
   command_fast_move.execute(*this, command_fast_move_params);
 
-  saveFile(loaded_file_name_ + "Solved"); //, fastmove_path);
+  saveFile(loaded_file_name_ + "Solved");
 
-  std::cout << "The maze was solved in " << available_steps_ - *remaining_steps_
-            << " steps.\n";
+  std::cout << "The maze was solved in " <<
+                steps_at_the_beginning - *remaining_steps_ << " steps.\n";
 
   //TODO remove (only for debugging)
   solve_path = path;

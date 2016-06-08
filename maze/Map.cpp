@@ -458,6 +458,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
           finish_path->reconstructMoves(counter_tiles_to_zero);
 
   counter_tiles_to_zero.clear();
+  reset();
 
   if(DEBUG)
     std::cout << "It took me " << Stopwatch::getElapsedTime().count() <<
