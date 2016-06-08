@@ -311,7 +311,22 @@ TEST(SolveTest, heavy6)
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
-  ASSERT_EQ("rd" ,game.solve_path);
-  ASSERT_EQ(2, game.solve_steps);
+  ASSERT_EQ("lrd" ,game.solve_path);
+  ASSERT_EQ(3, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, heavy7)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"heavy7.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("rrrrr" ,game.solve_path);
+  ASSERT_EQ(4, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
