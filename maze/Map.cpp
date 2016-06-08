@@ -568,7 +568,7 @@ void Map::fillTreeWithAlreadyMovedSteps(
               std::dynamic_pointer_cast<TileCounter>(node->getTile());
 
       counter_tiles.push_back(counter_tile);
-      counter_tiles_start_values.push_back(counter_tile->getValue() + 1);
+      counter_tiles_start_values.push_back(counter_tile->getValue());
     }
   }
 }

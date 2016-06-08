@@ -15,7 +15,7 @@ TEST(SolveTest, fastmove_string)
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("rrr" , game.solve_path);
-  ASSERT_EQ(10, game.solve_steps);
+  ASSERT_EQ(3, game.solve_steps);
 
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
@@ -312,7 +312,7 @@ TEST(SolveTest, heavy6)
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("lrd" ,game.solve_path);
-  ASSERT_EQ(4, game.solve_steps);
+  ASSERT_EQ(3, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
 
@@ -327,7 +327,7 @@ TEST(SolveTest, heavy7)
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("rrrrr" ,game.solve_path);
-  ASSERT_EQ(2, game.solve_steps);
+  ASSERT_EQ(5, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
 

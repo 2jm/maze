@@ -340,7 +340,7 @@ Message::Code Game::solve(const bool silent)
   //TODO remove (only for debugging)
   solve_path = path;
   //TODO remove (only for debugging)
-  solve_steps = available_steps_ - *remaining_steps_;
+  solve_steps = steps_at_the_beginning - *remaining_steps_;
 
   if(!silent)
     std::cout << "Found path: " << path << "\n";
