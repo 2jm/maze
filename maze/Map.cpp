@@ -495,8 +495,11 @@ void Map::solveFromBonusTiles(PathTree &tree, int &path_length,
         }
 
         if(recursion_depth < MAX_SOLVE_RECURSION_DEPTH)
+        {
+          leave_tree->trim();
           solveFromBonusTiles(*leave_tree, path_length, path_tree,
                               recursion_depth + 1, available_steps);
+        }
       }
     }
   }
@@ -571,9 +574,13 @@ bool Map::findPath(PathTree &tree, int available_steps,
         ((next_node = node->getChild(Direction::DOWN))  != nullptr) ||
         ((next_node = node->getChild(Direction::LEFT))  != nullptr))
   {
+    Vector2d origin = node->getTile()->getPosition();
+
     node = next_node;
 
-    Vector2d origin = node->getTile()->getPosition();
+    if(DEBUG)
+      std::cout << origin.getX() << " " << origin.getY() << std::endl;
+
     Vector2d direction = node->getParentDirection();
 
     while((matrix_[origin + direction]->enter(origin)) ==

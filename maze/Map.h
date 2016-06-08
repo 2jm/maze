@@ -47,7 +47,7 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     const static int SIZE_OF_ALPHABET = 26;
 
     // TODO
-    const static int MAX_SOLVE_RECURSION_DEPTH = 5;
+    const static int MAX_SOLVE_RECURSION_DEPTH = 3;
 
     // TODO
     // at the end of a solve moves will be added to set this counters to zero
