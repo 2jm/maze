@@ -302,8 +302,6 @@ Message::Code Game::solve(const bool silent)
   if(game_state_ == State::WON)
     return Message::MAZE_ALREADY_SOLVED;
 
-  int steps_at_the_beginning = *remaining_steps_;
-
   std::string path = map_->solve(move_history_, available_steps_);
 
   reset();
@@ -328,6 +326,7 @@ Message::Code Game::solve(const bool silent)
   if(path == "")
     return Message::NO_PATH_FOUND;
 
+  int steps_at_the_beginning = *remaining_steps_;
 
   command_fast_move_params[0] = path;
   command_fast_move.execute(*this, command_fast_move_params);

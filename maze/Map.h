@@ -104,10 +104,14 @@ class Map : public Matrix<std::shared_ptr<Tile>>
             std::vector<int> &counter_tiles_to_zero_start_values);
 
     // TODO
-    bool findPath(PathTree &tree, int available_steps,
+    bool findPath(PathTree &tree, std::shared_ptr<Tile> target,
+                  int available_steps,
                   std::vector<std::shared_ptr<TileCounter>> *counter_tiles =
                   nullptr,
                   std::vector<int> *counter_tiles_start_values = nullptr);
+
+    // TODO
+    std::string reconstructMoves(PathTree &tree);
 
     // TODO
     void resetReachTimes();

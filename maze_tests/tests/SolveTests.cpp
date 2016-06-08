@@ -206,7 +206,7 @@ TEST(SolveTest, heavy_5)
   result = game.solve(true);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
-  ASSERT_EQ("uurlrlrlrlrlrddddddrllruuuudrluu", game.solve_path);
+  ASSERT_EQ("uurlrlrlrlrlrdddrluddddrllruuuuu", game.solve_path);
   ASSERT_EQ(12, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
@@ -338,7 +338,7 @@ TEST(SolveTest, heavy8)
   ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
   std::string file_path = TEST_FILES_PATH"heavy8.txt";
   ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
-  result = game.solve(true);
+  result = game.solve(false);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("lrlrd" ,game.solve_path);
@@ -353,7 +353,7 @@ TEST(SolveTest, heavy9)
   ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
   std::string file_path = TEST_FILES_PATH"heavy9.txt";
   ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
-  result = game.solve(true);
+  result = game.solve(false);
   ASSERT_EQ(result, Message::Code::SUCCESS);
 
   ASSERT_EQ("rlrd" ,game.solve_path);

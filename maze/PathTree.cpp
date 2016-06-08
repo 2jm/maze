@@ -9,9 +9,10 @@
 #include "Direction.h"
 
 
-PathTree::PathTree(std::shared_ptr<Tile> tile) :
+PathTree::PathTree(std::shared_ptr<Tile> tile, Tile* target) :
         root_node_(std::make_shared<Node>(tile, *this)),
-        finish_node_(nullptr)
+        target_(target),
+        target_node_(nullptr)
 {
   leaves_.push_back(root_node_.get());
 }
@@ -37,11 +38,9 @@ void PathTree::cut()
         ((next_node = node->getChild(Direction::DOWN)) != nullptr) ||
         ((next_node = node->getChild(Direction::LEFT)) != nullptr))
   {
-    if(!node->isUserMoved())
-    {
-      node = next_node;
+    if(!next_node->isUserMoved())
       break;
-    }
+
     node = next_node;
   }
 
@@ -64,7 +63,7 @@ void PathTree::trim()
     if(node == root_node_.get())
       continue;
 
-    if(*(node->getTile()) != 'x')
+    if(node != target_node_)
     {
       if(node->getTile()->getStepChange() <= 0)
       {
@@ -74,35 +73,13 @@ void PathTree::trim()
     }
     else
     {
-      if(finish_node_ != nullptr && node != finish_node_)
+      if(target_node_ != nullptr && node != target_node_)
       {
         node->remove();
         i--;
       }
     }
   }
-
-  // remove all finish leaves that are not the fastest_finish_path
-  /*for(i = 0; i < leaves_.size(); i++)
-  {
-    Node *node = leaves_[i];
-    if(*(node->getTile()) == 'x')
-    {
-      if(node != fastest_finish_path)
-      {
-        node->remove();
-        i--;
-      }
-    }
-    else
-    {
-      if(node->getTile()->getStepChange() <= 0)
-      {
-        node->remove();
-        i--;
-      }
-    }
-  }*/
 }
 
 void PathTree::addLeave(Node *node)
@@ -154,24 +131,30 @@ std::vector<PathTree::Node *> &PathTree::getLeaves()
   return leaves_;
 }
 
-void PathTree::addFinishNode(Node *node)
+void PathTree::addTargetNode(Node *node)
 {
-  if(finish_node_ == nullptr ||
-          (node->getDepth() - node->getBonusSteps() <
-          finish_node_->getDepth() - finish_node_->getBonusSteps()))
+  if(node->getTile().get() == target_)
   {
-    finish_node_ = node;
+    if(target_node_ == nullptr)
+    {
+      target_node_ = node;
+    }
+    else if((node->getDepth() - node->getBonusSteps() <
+        target_node_->getDepth() - target_node_->getBonusSteps()))
+    {
+      target_node_ = node;
+    }
   }
 }
 
-PathTree::Node *PathTree::getFinishNode()
+PathTree::Node *PathTree::getTargetNode()
 {
-  return finish_node_;
+  return target_node_;
 }
 
 int PathTree::getPathLength()
 {
-  PathTree::Node *leave = getFinishNode();
+  PathTree::Node *leave = getTargetNode();
 
   if(leave != nullptr)
     return leave->getDepth() - leave->getBonusSteps();
@@ -179,55 +162,6 @@ int PathTree::getPathLength()
   return std::numeric_limits<int>::max();
 }
 
-std::string PathTree::reconstructMoves(
-        std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero,
-        std::vector<int> &counter_tiles_to_zero_start_values)
-{
-  std::string fast_move_string;
-
-  Node *node = getRootNode(), *next_node;
-  while(((next_node = node->getChild(Direction::UP)) != nullptr) ||
-        ((next_node = node->getChild(Direction::RIGHT)) != nullptr) ||
-        ((next_node = node->getChild(Direction::DOWN)) != nullptr) ||
-        ((next_node = node->getChild(Direction::LEFT)) != nullptr))
-  {
-    node = next_node;
-
-    if(node->isUserMoved())
-      continue;
-
-    fast_move_string += static_cast<char>(node->getParentDirection());
-
-    int i = 0;
-    for(auto counter_tile_to_zero : counter_tiles_to_zero)
-    {
-      Vector2d pos = node->getTile()->getPosition() +
-                     Vector2d(node->getParentDirection());
-
-      if(pos == counter_tile_to_zero->getPosition())
-      {
-        // bring this counter to zero
-        int counter_value = counter_tiles_to_zero_start_values[i];
-
-        // TODO andere richtungen checken
-        for(; counter_value > 0; counter_value--)
-        {
-          fast_move_string +=
-                  static_cast<char>(static_cast<Direction>(
-                          Vector2d(node->getParentDirection()) * -1));
-
-          fast_move_string += static_cast<char>(node->getParentDirection());
-        }
-
-        break;
-      }
-
-      i++;
-    }
-  }
-
-  return fast_move_string;
-}
 
 bool PathTree::checkStepCount(int available_steps)
 {
@@ -263,6 +197,20 @@ PathTree::Node *PathTree::getDeepestLeave()
   return deepestLeave;
 }
 
+void PathTree::setTarget(Tile *target)
+{
+  target_ = target;
+}
+
+Tile *PathTree::getTarget()
+{
+  return target_;
+}
+
+
+
+
+
 
 
 
@@ -278,32 +226,35 @@ PathTree::Node *PathTree::getDeepestLeave()
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree::Node *parent,
                      Direction direction, int bonusPath, PathTree &tree, int
-                     depth, bool user_moved) :
+                     depth, int counter_value, bool user_moved) :
         tree_(tree),
         tile_(tile),
         parent_(parent),
         parent_direction_(direction),
         bonus_path_(bonusPath),
         depth_(depth),
-        user_moved_(user_moved)
+        user_moved_(user_moved),
+        counter_value_(counter_value)
 {
 }
 
 PathTree::Node::Node(std::shared_ptr<Tile> tile, PathTree &tree,
-                     bool user_moved) :
+                     int counter_value, bool user_moved) :
         tree_(tree),
         tile_(tile),
         parent_(nullptr),
         parent_direction_(Direction::OTHER),
         bonus_path_(0),
         depth_(0),
-        user_moved_(user_moved)
+        user_moved_(user_moved),
+        counter_value_(counter_value)
 {
 
 }
 
 PathTree::Node *PathTree::Node::addBranch(
-        std::shared_ptr<Tile> tile, Direction direction, bool user_moved)
+        std::shared_ptr<Tile> tile, Direction direction, int counter_value,
+        bool user_moved)
 {
   int bonus_path = bonus_path_;
 
@@ -320,12 +271,9 @@ PathTree::Node *PathTree::Node::addBranch(
 
   std::shared_ptr<Node> new_node =
           std::make_shared<Node>(tile, this, direction, bonus_path, tree_,
-                                 depth_ + 1, user_moved);
+                                 depth_ + 1, counter_value, user_moved);
 
-  if(tile->toChar(true) == 'x')
-  {
-    tree_.addFinishNode(new_node.get());
-  }
+  tree_.addTargetNode(new_node.get());
 
   tree_.addLeave(new_node.get());
   childs_[array_index] = new_node;
@@ -415,7 +363,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
   {
     new_line = false;
 
-    for(i = 0; i < print_depth * 15; i++)
+    for(i = 0; i < print_depth * 17; i++)
     {
       std::cout << " ";
     }
@@ -436,7 +384,7 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
   std::cout << static_cast<char>(parent_direction_) << " " << bracketL
   << std::setw(2) << tile_->getPosition().getX() << "/"
   << std::setw(2) << tile_->getPosition().getY() << bracketR
-  << std::setw(2) << bonus_path_ << " " <<
+  << std::setw(2) << bonus_path_ << " " << counter_value_ << " " <<
   tile_->toChar(true);
 
   print_depth++;
@@ -484,7 +432,8 @@ bool PathTree::Node::operator<(Node *node2)
 std::shared_ptr<PathTree> PathTree::Node::getTreeToNode()
 {
   std::shared_ptr<PathTree> new_tree =
-          std::make_shared<PathTree>(tree_.getRootNode()->getTile());
+          std::make_shared<PathTree>(tree_.getRootNode()->getTile(),
+                                     tree_.getTarget());
 
   std::vector<Direction> path;
 
@@ -502,6 +451,7 @@ std::shared_ptr<PathTree> PathTree::Node::getTreeToNode()
   {
     node = node->getChild(*direction);
     new_node = new_node->addBranch(node->getTile(), *direction,
+                                   node->getCounterValue(),
                                    node->isUserMoved());
   }
 
@@ -528,6 +478,36 @@ bool PathTree::Node::isTileInPath(const Tile &tile)
   }
   return false;
 }
+
+void PathTree::Node::setCounterValue(int counter_value)
+{
+  counter_value_ = counter_value;
+}
+
+int PathTree::Node::getCounterValue()
+{
+  return counter_value_;
+}
+
+PathTree::Node *PathTree::Node::getNodeInPath(const Tile &tile)
+{
+  Node *node = this;
+  while((node = node->getParent()) != nullptr)
+  {
+    if(node->getTile()->getPosition() == tile.getPosition())
+      return node;
+  }
+  return nullptr;
+}
+
+
+
+
+
+
+
+
+
 
 
 

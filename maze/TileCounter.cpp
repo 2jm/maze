@@ -6,7 +6,8 @@
 
 TileCounter::TileCounter(Vector2d position, char character) :
         Tile(position, character),
-        counter_value_(character - '0')
+        counter_value_(character - '0'),
+        stay_0_(false)
 {
 
 }
@@ -33,7 +34,8 @@ bool TileCounter::leave(const Direction move_direction)
 //------------------------------------------------------------------------------
 void TileCounter::reset()
 {
-  counter_value_ = character_ - '0';
+  if(!stay_0_)
+    counter_value_ = character_ - '0';
 }
 
 //------------------------------------------------------------------------------
@@ -51,12 +53,29 @@ char TileCounter::toChar(bool original)
 void TileCounter::set0()
 {
   counter_value_ = 0;
+  stay_0_ = true;
+}
+
+void TileCounter::hardReset()
+{
+  stay_0_ = false;
+  reset();
 }
 
 int TileCounter::getValue()
 {
   return counter_value_;
 }
+
+void TileCounter::setValue(int counter_value)
+{
+  if(!stay_0_)
+    counter_value_ = counter_value;
+}
+
+
+
+
 
 
 

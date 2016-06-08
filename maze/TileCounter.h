@@ -37,6 +37,8 @@ class TileCounter : public Tile
     //
     int counter_value_;
 
+    bool stay_0_;
+
 
   public:
     //--------------------------------------------------------------------------
@@ -81,7 +83,11 @@ class TileCounter : public Tile
     // TODO
     void set0();
 
+    void hardReset();
+
     int getValue();
+
+    void setValue(int counter_value);
 };
 
 

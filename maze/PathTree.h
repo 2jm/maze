@@ -24,19 +24,19 @@ class PathTree
         int bonus_path_;
         int depth_;
         bool user_moved_;
+        int counter_value_;
 
         int directionToArrayIndex(Direction direction);
-        bool isTileInPath(const Tile &tile);
 
       public:
         Node(std::shared_ptr<Tile> tile, Node *parent, Direction direction,
-             int bonusPath, PathTree &tree, int depth,
+             int bonusPath, PathTree &tree, int depth, int counter_value,
              bool user_moved = false);
         Node(std::shared_ptr<Tile> tile, PathTree &tree,
-             bool user_moved = false);
+             int counter_value = 0, bool user_moved = false);
 
         Node* addBranch(std::shared_ptr<Tile> tile, Direction direction,
-                        bool user_moved = false);
+                        int counter_value = 0, bool user_moved = false);
 
         std::shared_ptr<Tile> getTile();
         Node *getChild(Direction direction);
@@ -49,6 +49,10 @@ class PathTree
         int getDepth();
         bool isUserMoved();
         void setUserMoved(bool user_moved);
+        void setCounterValue(int counter_value);
+        int getCounterValue();
+        bool isTileInPath(const Tile &tile);
+        Node *getNodeInPath(const Tile &tile);
 
         void recursivePrint(int &print_depth, bool &new_line);
 
@@ -60,10 +64,11 @@ class PathTree
   private:
     std::shared_ptr<Node> root_node_;
     std::vector<Node*> leaves_;
-    Node* finish_node_;
+    Tile* target_;
+    Node* target_node_;
 
   public:
-    PathTree(std::shared_ptr<Tile> tile);
+    PathTree(std::shared_ptr<Tile> tile, Tile* target);
 
     Node* getRootNode();
 
@@ -77,15 +82,17 @@ class PathTree
     void sortLeaves();
     void printLeaves();
     std::vector<Node*> &getLeaves();
-    void addFinishNode(Node* node);
-    Node* getFinishNode();
+    void addTargetNode(Node *node);
+    Node* getTargetNode();
     Node* getDeepestLeave();
+    void setTarget(Tile* target);
+    Tile* getTarget();
 
     int getPathLength();
 
-    std::string reconstructMoves(
+    /*std::string reconstructMoves(
             std::vector<std::shared_ptr<TileCounter>> &counter_tiles,
-            std::vector<int> &counter_tiles_start_values);
+            std::vector<int> &counter_tiles_start_values);*/
 
     bool checkStepCount(int available_steps);
 };
