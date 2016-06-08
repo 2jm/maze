@@ -29,8 +29,9 @@
 using std::string;
 
 //------------------------------------------------------------------------------
-Map::Map() : matrix_(*this),
-             dontResetCounterTiles(false)
+Map::Map() : dontResetCounterTiles(false),
+             matrix_(*this)
+
 {
 
 }
@@ -46,6 +47,8 @@ bool Map::loadFromString(string map_string, Game &game)
   start_once_ = -1;
   end_once_ = -1;
 
+  //auto start = Stopwatch::getElapsedTime();
+
   std::vector<std::shared_ptr<TileHole>> hole_tiles;
   std::vector<std::shared_ptr<TileTeleport>> tiles_teleport(SIZE_OF_ALPHABET);
 
@@ -55,12 +58,8 @@ bool Map::loadFromString(string map_string, Game &game)
 
   clear();
 
-  unsigned int map_width = static_cast<unsigned int>(
-                        map_string.substr(0, map_string.find('\n')).length());
-  unsigned int map_height =
-          static_cast<unsigned int>(map_string.length() / map_width);
-
-  resize(map_width, map_height);
+  resize(static_cast<unsigned int>(
+                 map_string.substr(0, map_string.find('\n')).length()), 1);
 
   while(map_string[string_position])
   {
@@ -170,6 +169,11 @@ bool Map::loadFromString(string map_string, Game &game)
 
   for(auto hole_tile : hole_tiles)
     hole_tile->setStartTile(start_tile_.get());
+
+
+  //auto end = Stopwatch::getElapsedTime();
+  //std::cout << "It took me " << (end-start).count() << " microseconds." <<
+  //        std::endl;
 
   return isValidMap();
 }
@@ -602,8 +606,8 @@ bool Map::findPath(PathTree &tree, int available_steps,
 
 
   // run until no moves are possible anymore
-  while(movesPossible && bonus_or_quicksand_on_map ||
-          !endReached && !bonus_or_quicksand_on_map)
+  while((movesPossible && bonus_or_quicksand_on_map) ||
+        (!endReached && !bonus_or_quicksand_on_map))
   {
     movesPossible = false;
 
@@ -632,8 +636,7 @@ bool Map::findPath(PathTree &tree, int available_steps,
 
         Vector2d origin = node->getTile()->getPosition();
 
-        if(!matrix_[origin]->leave(direction))
-          continue;
+        if(!matrix_[origin]->leave(direction))          continue;
 
         while((enter_result = matrix_[origin + direction]->enter(origin)) ==
               Tile::MOVE_AGAIN && matrix_[origin]->leave(direction))
