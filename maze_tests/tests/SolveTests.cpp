@@ -256,6 +256,21 @@ TEST(SolveTest, bonus_not_reachable_counter)
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
 
+TEST(SolveTest, bonus_not_reachable_counter2)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"bonusNotReachableCounter2.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("rrr" ,game.solve_path);
+  ASSERT_EQ(3, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
 TEST(SolveTest, teleporter_surrounded_by_wall)
 {
   Game game;
