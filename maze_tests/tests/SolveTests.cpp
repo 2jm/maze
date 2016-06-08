@@ -140,6 +140,21 @@ TEST(SolveTest, step_exact)
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
 
+TEST(SolveTest, step_exact_bonus)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"stepExactBonus.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("urrrrrrd" ,game.solve_path);
+  ASSERT_EQ(2, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
 TEST(SolveTest, step_few)
 {
   Game game;
@@ -163,5 +178,80 @@ TEST(SolveTest, step_more)
 
   ASSERT_EQ("rrrrrr" ,game.solve_path);
   ASSERT_EQ(6, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, heavy_4)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"heavy4.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("urrruur" ,game.solve_path);
+  ASSERT_EQ(7, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, heavy_5)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"heavy5.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("uurlrlrlrlrlrdddrluddddrllruuuuu" ,game.solve_path);
+  ASSERT_EQ(12, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, teleporter_multiple)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"teleporterMultiple.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("rrdl" ,game.solve_path);
+  ASSERT_EQ(4, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, bonus_not_reachable)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"bonusNotReachable.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("rrrrrrdddd" ,game.solve_path);
+  ASSERT_EQ(10, game.solve_steps);
+  ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
+}
+
+TEST(SolveTest, teleporter_surrounded_by_wall)
+{
+  Game game;
+  Message::Code result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::NO_MAZE_LOADED);
+  std::string file_path = TEST_FILES_PATH"teleporterSurroundedByWall.txt";
+  ASSERT_EQ(game.loadFile(file_path), Message::SUCCESS);
+  result = game.solve(true);
+  ASSERT_EQ(result, Message::Code::SUCCESS);
+
+  ASSERT_EQ("dddrrrrrrudl" ,game.solve_path);
+  ASSERT_EQ(7, game.solve_steps);
   ASSERT_EQ(remove((file_path + "Solved").c_str()), 0);
 }
