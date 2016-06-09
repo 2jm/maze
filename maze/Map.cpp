@@ -526,11 +526,14 @@ void Map::solveFromBonusTiles(PathTree &tree,
           std::cout << std::endl << std::endl << "CUT THE PATH" << std::endl;
 
         leave_tree = leave->getTreeToNode();
-        leave_tree->getDeepestLeave()->remove();
-        leave_tree->trim();
 
-        solveFromBonusTiles(*leave_tree, path_length, path_tree,
-                            recursion_depth, available_steps);
+        if(leave_tree->getDeepestLeave()->getDepth() > 1)
+        {
+          leave_tree->getDeepestLeave()->remove();
+
+          solveFromBonusTiles(*leave_tree, path_length, path_tree,
+                              recursion_depth, available_steps);
+        }
       }
 
       if(leave_tree->getTargetNode() != nullptr)

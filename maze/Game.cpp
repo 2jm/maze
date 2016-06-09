@@ -340,6 +340,9 @@ Message::Code Game::solve(const bool silent)
   saveFile(loaded_file_name_ + "Solved");
   loadFile(loaded_file_name_ + "Solved");
 
+  if(game_state_ != State::WON)
+    std::remove((loaded_file_name_ + "Solved").c_str());
+
   std::cout << "The maze was solved in " <<
                 steps_at_the_beginning - *remaining_steps_ << " steps.\n";
 
