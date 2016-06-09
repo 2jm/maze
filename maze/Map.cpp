@@ -328,7 +328,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
   if(DEBUG)
     tree->print();
 
-  findPath(*tree, getEndTile(), available_steps, &counter_tiles,
+  findPath(*tree, getEndTile(), 100000, &counter_tiles,
            &counter_tiles_start_values);
 
   // print the tree
@@ -387,7 +387,7 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
           tree->print();
 
         dontResetCounterTiles = true;
-        findPath(*tree, getEndTile(), std::numeric_limits<int>::max());
+        findPath(*tree, getEndTile(), 100000);
         dontResetCounterTiles = false;
 
         if(tree->getTargetNode() != nullptr)
@@ -464,6 +464,11 @@ std::string Map::solve(const std::vector<Direction> moved_steps,
 
   auto finish_path = shortest_path->getTargetNode()->getTreeToNode();
 
+  if(!finish_path->checkStepCount(available_steps))
+  {
+    return "";
+  }
+
   if(DEBUG)
     finish_path->print();
 
@@ -515,14 +520,29 @@ void Map::solveFromBonusTiles(PathTree &tree,
 
       findPath(*leave_tree, getEndTile(), available_steps);
 
+      if(leave_tree->getTargetNode() == nullptr)
+      {
+        if(DEBUG)
+          std::cout << std::endl << std::endl << "CUT THE PATH" << std::endl;
+
+        leave_tree = leave->getTreeToNode();
+        leave_tree->getDeepestLeave()->remove();
+        leave_tree->trim();
+
+        solveFromBonusTiles(*leave_tree, path_length, path_tree,
+                            recursion_depth, available_steps);
+      }
+
       if(leave_tree->getTargetNode() != nullptr)
       {
-        //leave_tree->print();
-
         int this_path_length = leave_tree->getPathLength();
         if(this_path_length < path_length)
         {
-          auto finish_path = path_tree->getTargetNode()->getTreeToNode();
+          auto finish_path = leave_tree->getTargetNode()->getTreeToNode();
+
+          if(DEBUG)
+            finish_path->print();
+
           if(finish_path->checkStepCount(available_steps))
           {
             path_length = this_path_length;

@@ -24,7 +24,8 @@ Game::Game() : map_(&play_map_),
                player_(&play_player_),
                game_state_(State::NO_MAZE_LOADED),
                fast_moving_(false),
-               dont_show_map_after_fastmove(false)
+               dont_show_map_after_fastmove(false),
+               dont_show_win_message(false)
 {
 
 }
@@ -213,7 +214,8 @@ void Game::completeFastMove()
 
   if(player_->getPosition() == map_->getEndTile()->getPosition())
   {
-    if(game_state_ != State::LOADING && game_state_ != State::TESTING_MAP)
+    if(game_state_ != State::LOADING && game_state_ != State::TESTING_MAP &&
+            !dont_show_win_message)
       Message::print(Message::WON);
 
     wonGame();
@@ -329,9 +331,14 @@ Message::Code Game::solve(const bool silent)
   int steps_at_the_beginning = *remaining_steps_;
 
   command_fast_move_params[0] = path;
+  dont_show_win_message = true;
+  dont_show_map_after_fastmove = true;
   command_fast_move.execute(*this, command_fast_move_params);
+  dont_show_win_message = false;
+  dont_show_map_after_fastmove = false;
 
   saveFile(loaded_file_name_ + "Solved");
+  loadFile(loaded_file_name_ + "Solved");
 
   std::cout << "The maze was solved in " <<
                 steps_at_the_beginning - *remaining_steps_ << " steps.\n";

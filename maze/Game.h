@@ -113,6 +113,7 @@ class Game
     // TODO
     std::string loaded_file_name_;
     bool dont_show_map_after_fastmove;
+    bool dont_show_win_message;
 
     //--------------------------------------------------------------------------
     // Constant the method loadAvailableSteps(std::ifstream &input_file) can

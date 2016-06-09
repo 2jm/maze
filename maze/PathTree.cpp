@@ -175,6 +175,7 @@ bool PathTree::checkStepCount(int available_steps)
       return false;
 
     node = next_node;
+
     available_steps--;
     available_steps += node->getBonusSteps() -
                        node->getParent()->getBonusSteps();
