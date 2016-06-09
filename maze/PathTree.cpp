@@ -133,7 +133,7 @@ std::vector<PathTree::Node *> &PathTree::getLeaves()
 
 void PathTree::addTargetNode(Node *node)
 {
-  if(node->getTile().get() == target_)
+  if(node->getTile().get() == target_ && !node->isUserMoved())
   {
     if(target_node_ == nullptr)
     {
