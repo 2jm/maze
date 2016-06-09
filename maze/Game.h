@@ -110,10 +110,15 @@ class Game
     //
     bool fast_moving_;
 
-    // TODO
+    //--------------------------------------------------------------------------
+    // Contains the name of the loaded file
+    //
     std::string loaded_file_name_;
+
+    //--------------------------------------------------------------------------
+    // If true the map is not shown after a fastmove was executed
+    //
     bool dont_show_map_after_fastmove;
-    bool dont_show_win_message;
 
     //--------------------------------------------------------------------------
     // Constant the method loadAvailableSteps(std::ifstream &input_file) can
@@ -285,11 +290,6 @@ class Game
     // @param amount The amount to decrement the steps left
     //
     void decrementRemainingSteps(int amount);
-
-    //TODO remove (only for debugging)
-    std::string solve_path;
-    //TODO remove (only for debugging)
-    int solve_steps;
 };
 
 

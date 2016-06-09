@@ -46,14 +46,26 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     const static int SIZE_OF_ALPHABET = 26;
 
-    // TODO
+    //--------------------------------------------------------------------------
+    // Depth of the find with bonus tiles recursion
+    //
     const static int MAX_SOLVE_RECURSION_DEPTH = 2;
 
-    // TODO
-    // at the end of a solve moves will be added to set this counters to zero
-    bool dontResetCounterTiles;
-    std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero;
-    std::vector<int> counter_tiles_to_zero_start_values;
+    //--------------------------------------------------------------------------
+    // If true, the counter tiles are not reset on a reset
+    //
+    bool dont_reset_counter_tiles_;
+
+    //--------------------------------------------------------------------------
+    // Vector containing all counter tiles that must be zero in order that the
+    // maze is solveable
+    //
+    std::vector<std::shared_ptr<TileCounter>> counter_tiles_to_zero_;
+
+    //--------------------------------------------------------------------------
+    // Vector containing the start values of the above counters
+    //
+    std::vector<int> counter_tiles_to_zero_start_values_;
 
     //--------------------------------------------------------------------------
     // Reference to this class to be able to use the [] operator more easily
@@ -82,6 +94,9 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     int teleporter_pair_[SIZE_OF_ALPHABET];
 
+    //--------------------------------------------------------------------------
+    // True if there is at least one bonus or quicksand field on the map
+    //
     bool bonus_or_quicksand_on_map;
 
     //--------------------------------------------------------------------------
@@ -91,31 +106,74 @@ class Map : public Matrix<std::shared_ptr<Tile>>
     //
     bool isValidMap();
 
-    // TODO
+    //--------------------------------------------------------------------------
+    // Solve From Bonus Tiles Method
+    // Tries to solve the maze from an path with bonus tiles recursively to
+    // find the best path
+    //
+    // @param tree The path tree that has been already walked
+    // @param path_length The length of the shortest possible path
+    // @param path_tree The path tree that will perhaps contain the shortest
+    //                  path if one is found
+    // @param recursion_depth The depth of the recursion
+    // @param available_steps The steps that are available
+    //
     void solveFromBonusTiles(PathTree &tree, int &path_length,
                              std::shared_ptr<PathTree> &path_tree,
                              int recursion_depth, int available_steps);
 
-    // TODO
+    //--------------------------------------------------------------------------
+    // Fill Tree With Already Moved Steps Method
+    // Fill the provided tree with the user moved steps
+    //
+    // @param tree The tree to fill
+    // @param moved_steps The user moved_steps
+    // @param counter_tiles This vector is filled with the counter tiles on
+    //        the path
+    // @param counter_tiles_start_values The values of the counter tiles
+    //
     void fillTreeWithAlreadyMovedSteps(
             PathTree &tree,
             const std::vector<Direction> moved_steps,
-            std::vector<std::shared_ptr<TileCounter>> &counter_tiles_to_zero,
-            std::vector<int> &counter_tiles_to_zero_start_values);
+            std::vector<std::shared_ptr<TileCounter>> &counter_tiles,
+            std::vector<int> &counter_tiles_start_values);
 
-    // TODO
-    bool findPath(PathTree &tree, std::shared_ptr<Tile> target,
+    //--------------------------------------------------------------------------
+    // Find Path Method
+    // Tries to find the path from the leave from tree to the target tile
+    //
+    // @param tree The tree to use
+    // @param target The tile that should be find the path to
+    // @param available_steps The steps that are available
+    // @param counter_tiles This vector is filled with the counter tiles on
+    //        the path
+    // @param counter_tiles_start_values The values of the counter tiles
+    //
+    void findPath(PathTree &tree, std::shared_ptr<Tile> target,
                   int available_steps,
                   std::vector<std::shared_ptr<TileCounter>> *counter_tiles =
                   nullptr,
                   std::vector<int> *counter_tiles_start_values = nullptr);
 
-    // TODO
+    //--------------------------------------------------------------------------
+    // Reconstruct Moves Method
+    // Reconstructs the fastmove string from the tree and adds extra moves to
+    // bring counter tiles that must be walls to zero
+    //
+    // @param tree The path tree to reconstruct
+    //
     std::string reconstructMoves(PathTree &tree);
 
-    // TODO
+    //--------------------------------------------------------------------------
+    // Reset Reach Times Method
+    // Resets the reach times of all tiles
+    //
     void resetReachTimes();
 
+    //--------------------------------------------------------------------------
+    // Get Counter Tiles Method
+    // Return all counter tiles that are in the map
+    //
     std::vector<std::shared_ptr<TileCounter>> getCounterTiles();
 
   public:
@@ -173,8 +231,13 @@ class Map : public Matrix<std::shared_ptr<Tile>>
 
     std::shared_ptr<Tile> getStartTile() const;
 
-    // TODO
-    // returns the fastmove string
+    //--------------------------------------------------------------------------
+    // Solve Method
+    // Tries to solve the maze from the current position of the player
+    //
+    // @return The found fastmove string to solve the maze or an empty string
+    //         if no path was found
+    //
     std::string solve(const std::vector<Direction> moved_steps,
                       int available_steps);
 };

@@ -44,7 +44,7 @@ void PathTree::cut()
     node = next_node;
   }
 
-  int i; //TODO
+  int i;
   for(i = 0; i < 4; i++)
   {
     if(node->getChild(i) != nullptr)
@@ -55,7 +55,7 @@ void PathTree::cut()
 
 void PathTree::trim()
 {
-  unsigned int i;  // TODO
+  unsigned int i;
   for(i = 0; i < leaves_.size(); i++)
   {
     Node *node = leaves_[i];
@@ -86,7 +86,7 @@ void PathTree::addLeave(Node *node)
 {
   if(node->getParent() != nullptr && node->getParent()->isLeave())
   {
-    unsigned int i; // TODO
+    unsigned int i;
     for(i = 0; i < leaves_.size(); i++)
     {
       if(node->getParent() == leaves_[i])
@@ -102,7 +102,7 @@ void PathTree::addLeave(Node *node)
 
 void PathTree::removeLeave(Node *node)
 {
-  unsigned int i; // TODO
+  unsigned int i;
   for(i = 0; i < leaves_.size(); i++)
   {
     if(node == leaves_[i])
@@ -120,7 +120,7 @@ void PathTree::sortLeaves()
 
 void PathTree::printLeaves()
 {
-  unsigned int i;  // TODO
+  unsigned int i;
   for(i = 0; i < leaves_.size(); i++)
     std::cout << "leave: " << leaves_[i]->getTile()->getPosition().getX() <<
     " " << leaves_[i]->getTile()->getPosition().getY() << std::endl;
@@ -293,7 +293,7 @@ int PathTree::Node::directionToArrayIndex(Direction direction)
   else if(direction == Direction::LEFT)
     return 3;
   else
-    return 4;  // TODO
+    return 4;
 }
 
 
@@ -335,8 +335,8 @@ PathTree::Node *PathTree::Node::remove()
   if(parent_ == nullptr)
     return nullptr;
 
-  int i; //TODO
-  for(i = 0; i < 4; i++)  // TODO 4 -> richtungsanzahl oder so
+  int i;
+  for(i = 0; i < 4; i++)
   {
     if(childs_[i] != nullptr)
       childs_[i]->remove();
@@ -358,7 +358,7 @@ PathTree::Node *PathTree::Node::remove()
 void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
 {
   bool is_leave = true;
-  int i; //TODO
+  int i;
 
   if(new_line)
   {
@@ -410,8 +410,8 @@ void PathTree::Node::recursivePrint(int &print_depth, bool &new_line)
 
 bool PathTree::Node::isLeave()
 {
-  int i; //TODO
-  for(i = 0; i < 4; i++)  // TODO 4 -> richtungsanzahl oder so
+  int i;
+  for(i = 0; i < 4; i++)
   {
     if(childs_[i] != nullptr)
       return false;

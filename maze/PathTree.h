@@ -10,9 +10,19 @@
 #include "Tile.h"
 #include "TileCounter.h"
 
+//------------------------------------------------------------------------------
+// PathTree class
+//
+// This class represents paths as a tree. All this paths share one root.
+//
 class PathTree
 {
   public:
+    //--------------------------------------------------------------------------
+    // Node class
+    //
+    // This class represents a node in the tree.
+    //
     class Node
     {
       private:
@@ -89,11 +99,6 @@ class PathTree
     Tile* getTarget();
 
     int getPathLength();
-
-    /*std::string reconstructMoves(
-            std::vector<std::shared_ptr<TileCounter>> &counter_tiles,
-            std::vector<int> &counter_tiles_start_values);*/
-
     bool checkStepCount(int available_steps);
 };
 
