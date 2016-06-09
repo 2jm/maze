@@ -579,10 +579,6 @@ void Map::findPath(PathTree &tree, std::shared_ptr<Tile> target,
 
     node = next_node;
 
-    //auto counter_tile = std::dynamic_pointer_cast<TileCounter>(node->getTile());
-    //if(counter_tile)
-    //  node->setCounterValue(counter_tile->getValue());
-
     Vector2d direction = node->getParentDirection();
 
     while((matrix_[origin + direction]->enter(origin)) ==
@@ -835,25 +831,39 @@ std::string Map::reconstructMoves(PathTree &tree)
         int counter_value = counter_tiles_to_zero_start_values_[i];
 
         int run_times = new_node->getCounterValue();
-        //for(run_times = new_node->getCounterValue()+1; run_times >= 0;
-        //    run_times--)
+
+        std::vector<std::shared_ptr<PathTree>> trees;
+
+        // move in all 4 directions from this node
+        //for(auto direction : directions)
+        Direction direction = (Vector2d(node->getParentDirection()) * -1);
         {
-          //if(DEBUG)
-          //  std::cout << "run time " << run_times << std::endl;
+          // the next lines are stolen from Player::move()
+          bool valid_move = false;
+          Tile::EnterResult enter_result;
 
-          std::vector<std::shared_ptr<PathTree>> trees;
-
-          // move in all 4 directions from this node
-          //for(auto direction : directions)
-          Direction direction = (Vector2d(node->getParentDirection()) * -1);
+          // if the tile that will be entered is a counter tile set its counter
+          // value
+          auto counter_tile = std::dynamic_pointer_cast<TileCounter>(
+                  matrix_[origin + direction]);
+          if(counter_tile)
           {
-            // the next lines are stolen from Player::move()
-            bool valid_move = false;
-            Tile::EnterResult enter_result;
+            auto counter_node = node->getNodeInPath(*counter_tile);
+            if(counter_node)
+              counter_tile->setValue(counter_node->getCounterValue());
+            else
+              counter_tile->reset();
+          }
+
+          while((enter_result = matrix_[origin + direction]->enter(origin)) ==
+                Tile::MOVE_AGAIN && matrix_[origin]->leave(direction))
+          {
+            if(enter_result != Tile::INVALID_MOVE)
+              valid_move = true;
 
             // if the tile that will be entered is a counter tile set its counter
             // value
-            auto counter_tile = std::dynamic_pointer_cast<TileCounter>(
+            counter_tile = std::dynamic_pointer_cast<TileCounter>(
                     matrix_[origin + direction]);
             if(counter_tile)
             {
@@ -863,100 +873,81 @@ std::string Map::reconstructMoves(PathTree &tree)
               else
                 counter_tile->reset();
             }
-
-            while((enter_result = matrix_[origin + direction]->enter(origin)) ==
-                  Tile::MOVE_AGAIN && matrix_[origin]->leave(direction))
-            {
-              if(enter_result != Tile::INVALID_MOVE)
-                valid_move = true;
-
-              // if the tile that will be entered is a counter tile set its counter
-              // value
-              counter_tile = std::dynamic_pointer_cast<TileCounter>(
-                      matrix_[origin + direction]);
-              if(counter_tile)
-              {
-                auto counter_node = node->getNodeInPath(*counter_tile);
-                if(counter_node)
-                  counter_tile->setValue(counter_node->getCounterValue());
-                else
-                  counter_tile->reset();
-              }
-            }
-            if(enter_result != Tile::INVALID_MOVE)
-              valid_move = true;
-            // until here is stolen from Player::move()
-
-            // the player moved
-            if(valid_move)
-            {
-              auto new_origin_tree = new_node->getTreeToNode();
-              auto new_new_node = new_origin_tree->getDeepestLeave()
-                      ->addBranch(matrix_[origin], direction);
-
-              counter_tile = std::dynamic_pointer_cast<TileCounter>(
-                              new_new_node->getTile());
-              if(counter_tile)
-              {
-                counter_node = new_new_node->getNodeInPath(*counter_tile);
-                if(counter_node)
-                  new_new_node->setCounterValue(
-                          counter_node->getCounterValue() - 1);
-                else
-                  new_new_node->setCounterValue(
-                          counter_tile->getValue() - 1);
-              }
-
-              // the player moved away from the counter tile know search a
-              // way back
-              trees.push_back(new_origin_tree);
-
-              if(new_node->getCounterValue() > 0) //test
-              {
-                trees.back()->setTarget(counter_tile_to_zero.get());
-                findPath(*trees.back(), counter_tile_to_zero,
-                         std::numeric_limits<int>::max());
-              }
-                else
-              {
-                // on the last run don't find the counter_tile_to_zero but the
-                // one next to it
-                trees.back()->setTarget(node->getTile().get());
-                findPath(*trees.back(), node->getTile(),
-                         std::numeric_limits<int>::max());
-              }
-            }
           }
+          if(enter_result != Tile::INVALID_MOVE)
+            valid_move = true;
+          // until here is stolen from Player::move()
 
-          int shortest_tree_index = 0, index;
-          for(index = 1; index < trees.size(); index++)
+          // the player moved
+          if(valid_move)
           {
-            if(trees[index]->getPathLength() <
-                  trees[shortest_tree_index]->getPathLength())
-              shortest_tree_index = index;
-          }
+            auto new_origin_tree = new_node->getTreeToNode();
+            auto new_new_node = new_origin_tree->getDeepestLeave()
+                    ->addBranch(matrix_[origin], direction);
 
-          std::string reversed_fastmove_string;
-
-          auto node = trees[shortest_tree_index]->getTargetNode();
-          if(node)
-          {
-            do
+            counter_tile = std::dynamic_pointer_cast<TileCounter>(
+                            new_new_node->getTile());
+            if(counter_tile)
             {
-              reversed_fastmove_string +=
-                      static_cast<char>(node->getParentDirection());
-              node = node->getParent();
+              counter_node = new_new_node->getNodeInPath(*counter_tile);
+              if(counter_node)
+                new_new_node->setCounterValue(
+                        counter_node->getCounterValue() - 1);
+              else
+                new_new_node->setCounterValue(
+                        counter_tile->getValue() - 1);
             }
-            while(node && !(node->getTile()->getPosition() ==
-                            counter_tile_to_zero->getPosition()));
+
+            // the player moved away from the counter tile know search a
+            // way back
+            trees.push_back(new_origin_tree);
+
+            if(new_node->getCounterValue() > 0) //test
+            {
+              trees.back()->setTarget(counter_tile_to_zero.get());
+              findPath(*trees.back(), counter_tile_to_zero,
+                       std::numeric_limits<int>::max());
+            }
+              else
+            {
+              // on the last run don't find the counter_tile_to_zero but the
+              // one next to it
+              trees.back()->setTarget(node->getTile().get());
+              findPath(*trees.back(), node->getTile(),
+                       std::numeric_limits<int>::max());
+            }
           }
-
-          std::reverse(reversed_fastmove_string.begin(),
-                       reversed_fastmove_string.end());
-
-          for(; run_times >= 0; run_times--)
-            fast_move_string += reversed_fastmove_string;
         }
+
+        int shortest_tree_index = 0, index;
+        for(index = 1; index < trees.size(); index++)
+        {
+          if(trees[index]->getPathLength() <
+                trees[shortest_tree_index]->getPathLength())
+            shortest_tree_index = index;
+        }
+
+        std::string reversed_fastmove_string;
+
+        auto node = trees[shortest_tree_index]->getTargetNode();
+        if(node)
+        {
+          do
+          {
+            reversed_fastmove_string +=
+                    static_cast<char>(node->getParentDirection());
+            node = node->getParent();
+          }
+          while(node && !(node->getTile()->getPosition() ==
+                          counter_tile_to_zero->getPosition()));
+        }
+
+        std::reverse(reversed_fastmove_string.begin(),
+                     reversed_fastmove_string.end());
+
+        for(; run_times >= 0; run_times--)
+          fast_move_string += reversed_fastmove_string;
+
 
         break;
       }
