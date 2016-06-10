@@ -6,6 +6,7 @@
 #include "gtest/gtest.h"
 
 #define TEST_FILES_PATH "../tests/testFiles/"
+/*
 
 /*
 TEST(TileTest, test_ice_then_teleporter)
